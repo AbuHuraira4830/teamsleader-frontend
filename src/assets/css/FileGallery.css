@@ -1,0 +1,65 @@
+.file_galleryH {
+  font-weight: 600;
+}
+.file_gallery:hover {
+  border: 1px solid #00854d !important;
+}
+.file_gallery {
+  position: initial !important;
+  border: 1px solid var(--border-color) !important;
+}
+.empty_fileGallery .file_gallery {
+  transform: matrix();
+}
+.gallery_header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.actionBtns:hover {
+}
+.actionBtns {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: var(--text-color) !important;
+  background-color: transparent !important;
+  border: 1px solid var(--border-color) !important;
+}
+.activeBtn {
+  background-color: var(--selected-background-color) !important ;
+  border: 1px solid #00854d !important;
+}
+.btn_grid {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.btn_list {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
+.dropZone {
+  outline: none;
+}
+.cursor-move {
+  cursor: move;
+}
+.titleInput:focus {
+  outline: 1px solid var(--primary-green) !important;
+}
+.titleInput {
+  font-weight: 600 !important;
+  color: var(--text-color) !important;
+}
+.gallery_action {
+  color: var(--text-color) !important;
+  background-color: var(--sidebar-background-color) !important;
+}
+
+.dynamicBG {
+  background-color: var(--dropdown-bgColor) !important;
+}
+ 

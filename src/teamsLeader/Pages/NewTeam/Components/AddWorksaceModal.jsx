@@ -30,7 +30,7 @@ const AddWorkspaceModal = ({ handleClose, show, setWorkspaces }) => {
       privacy: privacyValue,
     };
 
-    postAPI("/api/workspace/store", data)
+    postAPI("/api/workspace/store", data) 
       .then((response) => {
         setIsLoading(false);
         setWorkspaces(response.data.workspaces);

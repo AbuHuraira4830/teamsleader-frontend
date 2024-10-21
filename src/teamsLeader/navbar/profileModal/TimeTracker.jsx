@@ -106,7 +106,7 @@ const TimeTracker = () => {
       const checkInTime = new Date(`1970/01/01 ${checkInEvent.time}`);
       const checkOutTime = new Date(`1970/01/01 ${checkOutEvent.time}`);
       const totalMinutes = (checkOutTime - checkInTime) / (1000 * 60);
-      const workMinutes = totalMinutes-breakTimeInMinutes()
+      const workMinutes = totalMinutes - breakTimeInMinutes();
       const hours = Math.floor(workMinutes / 60);
       const minutes = workMinutes % 60;
       return `${hours} hrs ${minutes} mins`;
@@ -338,12 +338,12 @@ const TimeTracker = () => {
     <div style={{ padding: "20px", color: "var(--text-color)" }}>
       <p style={{ fontWeight: "600", fontSize: "20px" }}>Time Tracker</p>
 
-      <div style={{ marginTop: "20px" }}>
+      {/* <div style={{ marginTop: "20px" }}>
         <p className="mb-3 " style={{ fontSize: "18px" }}>
           Elapsed Time: <strong>{formatTime(elapsedTime)}</strong>
         </p>
-      </div>
-      <div className="mb-3 ">
+      </div> */}
+      <div className="mb-3 " style={{ marginTop: "20px" }}>
         <Button
           className={`timeTrackerBtns fs_14 ${
             !isCheckingIn

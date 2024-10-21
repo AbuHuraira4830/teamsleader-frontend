@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --table-shadow-color: #619ef5;
+  --table-border-color: #619ef5; /* Fallback border color */
+}

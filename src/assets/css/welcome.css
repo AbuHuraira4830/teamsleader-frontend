@@ -1,0 +1,43 @@
+.recentCard {
+  border: 1px solid var(--border-color);
+  padding: 8px;
+}
+.updateFeed,
+.homeWorkspace {
+  border: 1px solid var(--border-color);
+}
+.inviteTeamMate {
+  background-color: var(--gray-hover-color);
+}
+.updateFeedChild:hover {
+  background-color: var(--border-color);
+}
+.welcomHeader{
+  border-bottom: 1px solid var(--border-color);
+}
+.homeSaperator {
+  margin-bottom: 1px solid var(--border-color);
+}
+.profileCompletion {
+  box-shadow: 0px 3px 12px var(--box-shadow);
+  border-radius: 8px;
+  width: 300px;
+  height: 260px;
+  background-color: var(--dropdown-bgColor);
+}
+.checkIcon {
+  border: 3px solid var(--border-color);
+  width: 13px;
+  height: 13px;
+}
+.cProfile:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.borderTop {
+  border-top: 1px solid var(--border-color);
+}
+.homeWorkspace:hover {
+  box-shadow: 0px 6px 20px var(--workspaces-shadow);
+  border: 0;
+}

@@ -1,0 +1,15 @@
+.ant-modal-content {
+    padding: 0px !important;
+}
+
+.chat-textarea-quill .ql-toolbar.ql-snow{
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+.chat-textarea-quill .ql-container {
+    /* border-bottom-left-radius: 10px  !important;
+    border-bottom-right-radius: 10px ; */
+
+    border-bottom: 0 !important;
+}
+

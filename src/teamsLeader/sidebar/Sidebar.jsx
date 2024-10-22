@@ -244,7 +244,6 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
         const teams = response.data.workspaces[0].teams;
         setSelectedTeam(teams[0]);
         setTeamTasks(teams[0]);
-        console.log(teams[0]);
         setAllDocuments(response.data.workspaces[0].documents);
       })
       .catch((err) => {

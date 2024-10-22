@@ -287,6 +287,8 @@ export const NewTeam = () => {
         title: newItemInput,
         tableID: id,
         firstTaskID: firstTask,
+        ownerColor: thisUser.profileColor,
+        ownerPicture: thisUser.picture,
       };
       postAPI("/api/tasks/store", data)
         .then((response) => {
@@ -426,8 +428,6 @@ export const NewTeam = () => {
     // // console.log(updatedTableData, "updatedTableData");
     // setSelectedDropdownOption(updatedTableData);
   };
-
-  console.log(selectedDropdownOption);
 
   const handleDropdownSelect = (item) => {
     const data = { name: item.option, active: item.option, key: item.option };
@@ -821,12 +821,12 @@ export const NewTeam = () => {
               className=" teamInvite_btn bgHover align-middle me-1"
               onClick={showModal}
             >
-              <FaRegUser className="text-base mx-2 text-[#676879] " />
-              <span className="text-sm mt-1 text-[#676879]"> Invite / 1</span>
+              <FaRegUser className="text-base mx-2  " />
+              <span className="text-sm mt-1 "> Invite / 1</span>
             </button>
           </Link>
           <Button
-            className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle"
+            className="ms-1 px-1 fs-4 workspace-dropdown-button bgHover align-middle"
             style={{ display: "flex" }}
           >
             <BsThreeDots className=" fs-5 " />
@@ -834,7 +834,7 @@ export const NewTeam = () => {
         </div>
       </div>
       <div className=" main_tableBtnDiv mb-3 d-flex">
-        <span className=" d-flex" onClick={() => setActiveTab("Main Table")}>
+        {/* <span className=" d-flex" onClick={() => setActiveTab("Main Table")}>
           <span
             style={{
               borderBottom:
@@ -854,7 +854,7 @@ export const NewTeam = () => {
             </Button>
           </span>
           <div className="vr mx-1 nav_splitter align-self-center"></div>
-        </span>
+        </span> */}
 
         {selectedDropdownOption?.map((option) => (
           <span
@@ -876,7 +876,7 @@ export const NewTeam = () => {
             >
               <Button
                 className="d-flex workspace-dropdown-button align-self-center py-1  px-2 "
-                style={{ display: "flex" }}
+                style={{ display: "flex", height: "33px" }}
               >
                 {/* <Button className="workspace-dropdown-button workspace-dropdownBtn align-self-center py-1  px-2 flex"> */}
                 {/* {option.icon} */}
@@ -955,7 +955,7 @@ export const NewTeam = () => {
         ))}
         <span>
           <Dropdown>
-            <Dropdown.Toggle className="p-2 workspace_menuBtn bgHover align-middle">
+            <Dropdown.Toggle className="p-2 workspace-dropdown-button bgHover align-middle">
               <FiPlus />
             </Dropdown.Toggle>
             <Dropdown.Menu className="border-0">
@@ -979,18 +979,20 @@ export const NewTeam = () => {
           </Dropdown>
         </span>
       </div>
-      {activeTab !== "Calendar" && activeTab !== "Social Planner" && (
-        <>
-          <div className="d-flex items-center newTeam_nav mb-5">
-            <Button
-              onClick={addTodoList}
-              type="button"
-              className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
-              style={{ backgroundColor: "#025231", fontSize: "14px" }}
-            >
-              New Item
-            </Button>
-            {/* <ButtonGroup className=" me-4">
+      {activeTab !== "Calendar" &&
+        activeTab !== "Social Planner" &&
+        activeTab !== "Files Gallery" && (
+          <>
+            <div className="d-flex items-center newTeam_nav mb-5">
+              <Button
+                onClick={addTodoList}
+                type="button"
+                className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
+                style={{ backgroundColor: "#025231", fontSize: "14px" }}
+              >
+                New Item
+              </Button>
+              {/* <ButtonGroup className=" me-4">
               <Button className=" py-0    workspace_addBtn  border-0 rounded-1   ">
                 Add Table
               </Button>
@@ -1044,7 +1046,7 @@ export const NewTeam = () => {
               </Dropdown>
             </ButtonGroup> */}
 
-            {/* <Button
+              {/* <Button
               className=" fs-6 workspace-dropdown-button workspace-dropdownBtn align-middle  text-start py-1 me-2 px-2"
               style={{ display: "flex" }}
             >
@@ -1109,9 +1111,9 @@ export const NewTeam = () => {
             >
               <BsThreeDots className=" fs-5 " />
             </Button> */}
-          </div>
-        </>
-      )}
+            </div>
+          </>
+        )}
 
       <OffcanvasComponent show={showCanvas} handleClose={closeCanvas} />
 

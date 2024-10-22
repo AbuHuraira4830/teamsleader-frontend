@@ -403,9 +403,15 @@ video {
   font-size: 12px !important;
 }
 
-.newTeam-table td,
-th {
+.newTeam-table td {
   background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+  text-align: center !important;
+  white-space: nowrap;
+  padding: 0px;
+}
+.newTeam-table th {
+  /* background-color: var(--dropdown-bgColor) !important; */
   color: var(--text-color) !important;
   text-align: center !important;
   white-space: nowrap;
@@ -730,9 +736,10 @@ input::-webkit-inner-spin-button {
   font-size: 16px;
 }
 .pwsswordPopup {
-  width: 300px !important;
+  min-width: 300px !important;
   height: 50px;
   border-radius: 4px;
+  width: fit-content !important;
 }
 .pwsswordPopup .modal-body {
   padding: 9px 13px;
@@ -757,6 +764,7 @@ input::-webkit-inner-spin-button {
 }
 .scheduleModal {
   min-width: 830px !important;
+  z-index: 9999 !important;
 }
 .scheduleModal .modal-body {
   padding: 0px;

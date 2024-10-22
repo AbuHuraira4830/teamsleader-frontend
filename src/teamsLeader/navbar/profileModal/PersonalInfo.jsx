@@ -13,19 +13,19 @@ import AccountScheduleModal from "./AccountScheduleModal";
 import { DatePicker, Space } from "antd";
 import dayjs from "dayjs";
 
-const PersonalInfo = () => {
+const PersonalInfo = ({ setSelectedOption }) => {
   const { thisUser, setThisUser } = useStateContext();
-  const [selectedImage, setSelectedImage] = useState(thisUser?.picture);
-  const [jobTitle, setJobTitle] = useState(thisUser?.jobTitle);
-  const [phone, setPhone] = useState(thisUser?.phone || "");
-  const [mPhone, setMPhone] = useState(thisUser?.mPhone || "");
-  const [location, setLocation] = useState(thisUser?.location || "");
+  const [selectedImage, setSelectedImage] = useState(thisUser.picture);
+  const [jobTitle, setJobTitle] = useState(thisUser.jobTitle);
+  const [phone, setPhone] = useState(thisUser.phone || "");
+  const [mPhone, setMPhone] = useState(thisUser.mPhone || "");
+  const [location, setLocation] = useState(thisUser.location || "");
   const [editImage, setEditImage] = useState(false);
   const [emailModal, setEmailModal] = useState(false);
   const [scheduleModal, setScheduleModal] = useState(false);
-  const [birthday, setBirthday] = useState(thisUser?.birthday);
+  const [birthday, setBirthday] = useState(thisUser.birthday);
   const [workAnniversary, setWorkAnniversary] = useState(
-    thisUser?.workAnniversary
+    thisUser.workAnniversary
   );
   const [birthdayActive, setBirthdayActive] = useState(false);
   const [workActive, setWorkActive] = useState(false);
@@ -58,7 +58,7 @@ const PersonalInfo = () => {
 
   // Only run on mount
   useEffect(() => {
-    console.log(selectedImage);
+    // console.log(selectedImage);
     updateUser();
   }, [selectedImage, workAnniversary]);
 
@@ -85,7 +85,7 @@ const PersonalInfo = () => {
         />
       ),
       name: "Email",
-      data: thisUser?.emailAddress,
+      data: thisUser.emailAddress,
     },
     {
       icon: (
@@ -202,8 +202,8 @@ const PersonalInfo = () => {
 
         <div style={{ padding: "0px 24px" }}>
           <Form.Control
-            className="workspace_searchInput rounded-1 shadow-none bg-transparent fw-bold table-title-color border-0 fs_32 py-0 px-1"
-            value={thisUser?.emailAddress}
+            className="workspace_searchInput rounded-1 shadow-none bg-transparent fw-bold  border-0 fs_32 py-0 px-1 no_cursor"
+            value={thisUser.fullName}
           />
           <Form.Control
             className="workspace_searchInput fs_14 rounded-1 shadow-none bg-transparent fw-bold  border-0 p-0 mb-3"
@@ -223,13 +223,13 @@ const PersonalInfo = () => {
             className="fs_15 mb-2"
             style={{ fontWeight: "600", marginTop: "70px" }}
           >
-            Your work Schedules:
+            Holidays & sick days:
           </p>
           <span
             className="fs_14 px-2 selected_bg rounded-1 cursor_pointer"
-            onClick={() => setScheduleModal(true)}
+            onClick={() => setSelectedOption("Schedule holiday")}
           >
-            Account Schedule
+            Schedule Your Holidays & Sick days
           </span>
         </div>
         <div className="ms-auto">
@@ -343,10 +343,11 @@ const PersonalInfo = () => {
         </Col>
       </Row>
       <EmailUpdateModal emailModal={emailModal} closeModal={closeModal} />
-      <AccountScheduleModal
+      {/* <AccountScheduleModal
         scheduleModal={scheduleModal}
+        setScheduleModal={setScheduleModal}
         closeModal={closeScheduleModal}
-      />
+      /> */}
     </div>
   );
 };

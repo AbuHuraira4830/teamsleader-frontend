@@ -35,8 +35,8 @@ const WorkingStatus = () => {
       </p>
       <p>Let everyone know your status</p>
       <Row className="mt-3">
-        {status.map((option) => (
-          <Col lg={3} className="centerIt mb-3">
+        {status.map((option, index) => (
+          <Col lg={3} className="centerIt mb-3" key={index}>
             <Form.Check
               className="cursor_pointer text-nowrap"
               type="radio"

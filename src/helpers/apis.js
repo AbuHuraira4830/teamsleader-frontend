@@ -7,7 +7,7 @@ axios.defaults.headers.common["Authorization"] =
   localStorage.getItem("token") || "";
 
 export const postAPI = async (url, data) => {
-  let response = await axios.post(url, data);
+  let response = await axios.post(url, data); 
   return response;
 };
 

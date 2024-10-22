@@ -160,6 +160,7 @@ import DocEditor from "../Pages/DocCreater/DocEditor";
 import PasswordTable from "../Pages/PasswordsTable/PasswordTable";
 import PasswordTableWrapper from "../Pages/PasswordsTable/PasswordTable";
 import WelcomePage from "../Pages/welcomPage/WelcomePage";
+import ExtraNote from "../navbar/profileModal/ExtraNote";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -326,26 +327,6 @@ const Home = () => {
                   (doc) =>
                     selectedDocument._id === doc._id && (
                       <DocEditor doc={doc} key={doc._id} />
-                      // <div className="h-full  bg-green-500 flex flex-col">
-                      //   <div className="h-20 bg-red-500"></div>
-                      //   <div className="flex-1 bg-yellow-500 overflow-y-scroll">
-                      //     Lorem ipsum, dolor sit amet consectetur adipisicing
-                      //     elit. Ad quas soluta debitis consequuntur adipisci,
-                      //     maxime, voluptatibus sapiente commodi porro dolorem
-                      //     vel tempora! Iusto, numquam reprehenderit magni
-                      //     incidunt assumenda, obcaecati quidem enim suscipit
-                      //     ducimus, nulla voluptas quam animi accusantium est
-                      //     eligendi aut ex ab dicta quo eos voluptatibus.
-                      //     Cupiditate atque illum possimus cumque accusantium qui
-                      //     aspernatur eius consequuntur dicta velit quas
-                      //     recusandae dolor natus error illo facere aut, voluptas
-                      //     unde sunt eum exercitationem officia! Aliquam ipsum
-                      //     pariatur velit commodi, obcaecati maiores
-                      //     reprehenderit corrupti enim perspiciatis quibusdam
-                      //     fuga accusantium similique nostrum dolore vitae odio
-                      //     eum quas, sed nulla sapiente quasi eaque tempora.
-                      //   </div>
-                      // </div>
                     )
                 )
               ) : componentToShow === "newTeam" ? (
@@ -358,6 +339,7 @@ const Home = () => {
                 ""
               )}
               {/* <EmailVerificationModal /> */}
+              {/* <ExtraNote /> */}
             </div>
           </div>
         </div>

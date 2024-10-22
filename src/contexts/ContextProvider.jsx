@@ -15,7 +15,12 @@ import { BsArrowUp } from "react-icons/bs";
 import { ImFilesEmpty } from "react-icons/im";
 import { PiTextTBold } from "react-icons/pi";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { getAPI } from "../helpers/apis";
+import { getAPI, postAPI } from "../helpers/apis";
+import {
+  holidayInput,
+  userProfile,
+} from "../teamsLeader/navbar/profileModal/ManageHolidays";
+import axios from "axios";
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   let userId = 0; // Initial ID
@@ -557,6 +562,8 @@ export const ContextProvider = ({ children }) => {
     // },
     // ... other rows
   ]);
+  const [thisUser, setThisUser] = useState(null);
+  const [days, setDays] = useState([]);
   const [rowsQuotes, setRowsQuotes] = useState([
     {
       id: uuidv4().replace(/[^\d]/g, ""),
@@ -673,53 +680,196 @@ export const ContextProvider = ({ children }) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(modalShow?.file);
   const [commentsArray, setCommentsArray] = useState([]);
   const [repliesArray, setRepliesArray] = useState([]);
-  const [thisUser, setThisUser] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("Personal info");
+  const [users, setUsers] = useState();
+  const [members, setMembers] = useState(null);
+  const [employeeSummary, setEmployeeSummary] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
+  useEffect(() => {
+    getAPI("/api/user")
+      .then((res) => {
+        setDays(res.data.user.workingDaysAndHours);
+        setThisUser(res.data.user);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user data:", error);
+      });
 
-  // useEffect(() => {
-  //   getAPI("/api/user").then((res) => {
-  //     // console.log(res.data.user);
-  //     setThisUser(res.data.user);
-  //   });
-  //   fetch("http://localhost:8888/api/events")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setModalDataCalendar(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to fetch events:", error);
-  //     });
-  // }, [modalDataCalendar]);
+    getAPI("/api/single-member/holidays-list")
+      .then((res) => {
+        setUserHolidays(res.data.holidays.holidays);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user data:", error);
+      });
+
+    // fetch("http://localhost:8888/api/events")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setModalDataCalendar(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Failed to fetch events:", error);
+    //   });
+  }, []);
+  const fetchTeamMembersAndHolidays = async () => {
+    try {
+      const response = await getAPI("/api/workspace/team-members");
+      setMembers(response.data);
+
+      const adminEmails = response.data.admins.map((admin) => admin.email);
+      const employeeEmails = response.data.employees.map(
+        (employee) => employee.email
+      );
+      const emails = [...adminEmails, ...employeeEmails];
+
+      const userHolidays = await membersHolidaysList(emails);
+      handleUsers(response.data, userHolidays);
+    } catch (error) {
+      console.error("Failed to fetch team members:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTeamMembersAndHolidays();
+  }, [thisUser]);
+
+  const membersHolidaysList = async (emailAddresses) => {
+    // if (!emailAddresses || emailAddresses.length === 0) return [];
+    try {
+      const res = await postAPI("/api/members/holidays-list", {
+        emailAddresses,
+      });
+      return res.data.holidays;
+    } catch (error) {
+      console.error("Failed to fetch members holidays:", error);
+      return [];
+    }
+  };
+  const fetchHolidayHistory = async (emailAddress) => {
+    try {
+      const res = await getAPI(
+        `/api/user/holiday-history?emailAddress=${encodeURIComponent(
+          emailAddress
+        )}`
+      );
+      return res.data.holidayHistory || [];
+    } catch (error) {
+      console.error("Error fetching holiday history:", error);
+      return []; // Fallback to an empty array in case of an error
+    }
+  };
+
+  const handleUsers = async (data, holidays) => {
+    const getUserHolidays = (email) => {
+      const userHolidayData = holidays.find(
+        (holiday) => holiday.emailAddress === email
+      );
+      return userHolidayData ? userHolidayData.holidays : [];
+    };
+
+    // Use Promise.all to resolve all holiday history promises
+    const admins = await Promise.all(
+      data.admins.map(async (admin, index) => ({
+        key: `${index + 1}`,
+        name: admin.name,
+        email: admin?.email,
+        holidays: getUserHolidays(admin?.email),
+        holidayHistory: await fetchHolidayHistory(admin?.email), // Await the result
+        user: userProfile(
+          admin.name,
+          admin?.picture,
+          setSelectedOption,
+          setSelectedEmployee,
+          admin?.email
+        ),
+        ...mapUserHolidays(getUserHolidays(admin?.email), admin?.email),
+      }))
+    );
+
+    const employees = await Promise.all(
+      data.employees.map(async (employee, index) => ({
+        key: `${index + admins.length + 1}`,
+        name: employee.name,
+        email: employee.email,
+        holidays: getUserHolidays(employee?.email),
+        holidayHistory: await fetchHolidayHistory(employee?.email), // Await the result
+        user: userProfile(
+          employee.name,
+          employee?.picture,
+          setSelectedOption,
+          setSelectedEmployee,
+          employee?.email
+        ),
+        ...mapUserHolidays(getUserHolidays(employee?.email), employee?.email),
+      }))
+    );
+
+    // Once all the promises are resolved, update the state
+    setUsers([...admins, ...employees]);
+  };
+
   const colors = [
-    "#9cbdf1", // even lighter version of #6a89d8
-    "#74a1d1", // even lighter version of #3a79ad
-    "#8bc1c5", // even lighter version of #5b9fa1
-    "#9cc0db", // even lighter version of #6a9fc1
-    "#72b79b", // even lighter version of #3b7f67
-    "#71c0a1", // even lighter version of #3a997a
-    "#afc47d", // even lighter version of #86a352
-    "#c1b58c", // even lighter version of #9a8d5e
-    "#d8b86d", // even lighter version of #b59a3b
-    "#d6b89a", // even lighter version of #b28a65
-    "#d6938e", // even lighter version of #b26860
-    "#d6b9c1", // even lighter version of #b28a99
-    "#d693a3", // even lighter version of #b26b79
-    "#c4848e", // even lighter version of #a65973
-    "#b97887", // even lighter version of #8f506c
-    "#d785a4", // even lighter version of #b25689
-    "#d79bba", // even lighter version of #b278a2
-    "#d3b9d6", // even lighter version of #b38fb3
-    "#a489d6", // even lighter version of #8665b3
-    "#9981d0", // even lighter version of #745ea8
-    "#9a7dbf", // even lighter version of #755296
-    "#7e6bc3", // even lighter version of #563a91
-    "#8990d6", // even lighter version of #6166b8
-    "#7189c0", // even lighter version of #485b91
-    "#92a4b8", // even lighter version of #68829f
-    "#c8c9cc", // even lighter version of #a2a3a7
-    "#a4a5ad", // even lighter version of #797a8a
-    "#a498a0", // even lighter version of #796064
+    "#395d9b",
+    "#0e527e",
+    "#357580",
+    "#41759d",
+    "#0f4f43",
+    "#0e7358",
+    "#5c7930",
+    "#736a3e",
+    "#8d751e",
+    "#8c653c",
+    "#8d4134",
+    "#8d6674",
+    "#8d4a58",
+    "#7f314b",
+    "#6b2947",
+    "#8d1a62",
+    "#8d3c7f",
+    "#8b6096",
+    "#5f3e8b",
+    "#4a3586",
+    "#4d2d62",
+    "#2e1b67",
+    "#383c8d",
+    "#1f3866",
+
+    "#42607c",
+    "#70717f",
+    "#4e505e",
+    "#4d3941",
   ];
 
+  const [userHolidays, setUserHolidays] = useState([]);
+  const toCamelCase = (str) => {
+    return str
+      .toLowerCase()
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
+        index === 0 ? word.toLowerCase() : word.toUpperCase()
+      )
+      .replace(/\s+/g, "");
+  };
+
+  // Function to map userHolidays to user properties
+  const mapUserHolidays = (holidays, email) => {
+    if (holidays.length === 0) return {};
+    return holidays?.reduce((acc, holiday) => {
+      const propertyName = toCamelCase(holiday.type);
+      acc[propertyName] = holidayInput(
+        holiday.value,
+        holiday.type,
+        email,
+        fetchTeamMembersAndHolidays,
+        thisUser?.fullName
+      );
+      return acc;
+    }, {});
+  };
+  // useEffect(() => {
+  //   mapUserHolidays();
+  // }, [userHolidays]);
+
+  const [holidayRequestsData, setHolidayRequestsData] = useState([]);
   const [selectedPasswordRow, setSelectedPasswordRow] = useState(null);
   const [passwordTableID, setPasswordTableID] = useState(null);
 
@@ -750,10 +900,33 @@ export const ContextProvider = ({ children }) => {
       );
     }
   }, [selectedDocument?._id]);
+  const [holidayHistory, setHolidayHistory] = useState(
+    thisUser?.holidayHistory || []
+  );
 
   return (
     <StateContext.Provider
       value={{
+        selectedEmployee,
+        setSelectedEmployee,
+        employeeSummary,
+        setEmployeeSummary,
+        fetchTeamMembersAndHolidays,
+        setMembers,
+        members,
+        holidayHistory,
+        setHolidayHistory,
+        selectedOption,
+        setSelectedOption,
+        users,
+        mapUserHolidays,
+        setUsers,
+        holidayRequestsData,
+        setHolidayRequestsData,
+        userHolidays,
+        setUserHolidays,
+        days,
+        setDays,
         memberInvitationPopup,
         setMemberInvitationPopup,
         colors,

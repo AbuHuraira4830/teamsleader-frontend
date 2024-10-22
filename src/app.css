@@ -31,7 +31,7 @@ button {
 * {
   /* background-color: var(--navbar-background-color); */
   font-family: Noto Kufi Arabic, sans-serif, "Segoe UI Emoji",
-    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI", "Arial";
+    "Apple Color Emoji", "Noto Color Emoji", "Segoe UI", "Arial" !important;
   /* width: 330vh;
   height: 338vh; */
 
@@ -91,6 +91,7 @@ li {
   --secondary-color: #676879;
   --docs-blue-lines: ;
   --placeholder-color: #676879;
+  --light-gray: #f5f6f8;
 }
 .dark_theme {
   --dropdown-bgColor: #30324e;
@@ -108,6 +109,7 @@ li {
   --docs-blue-lines: rgba(151, 179, 197, 0.4);
   --secondary-color: #9699a6;
   --placeholder-color: #c3c6d4;
+  --light-gray: #33354b;
 }
 .night_theme {
   --dropdown-bgColor: #2c2c2c;
@@ -125,6 +127,7 @@ li {
   --docs-blue-lines: rgba(151, 179, 197, 0.4);
   --secondary-color: #9699a6;
   --placeholder-color: #aaaaaa;
+  --light-gray: #272729;
 }
 
 /* .app-container {
@@ -707,4 +710,222 @@ input::placeholder {
 }
 .hoverBorder:hover {
   outline: 1px solid var(--border-color) !important;
+}
+.Check input {
+  width: 18px !important;
+  height: 18px !important;
+}
+.Check input {
+  margin: 0;
+}
+.holiday-time::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.work-daysP .work-days:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+.rmdp-day-picker > div {
+  margin: 0px 16px !important;
+}
+.rmdp-week-day,
+.rmdp-day,
+.rmdp-week {
+  margin: 0px !important;
+}
+.rmdp-calendar {
+  padding: 20px !important;
+}
+.rmdp-border {
+  border: 0 !important;
+}
+.rmdp-header-values {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.holiday-tab .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(
+    --icon-green-color
+  ) !important; /* Change this to your desired color */
+}
+
+/* Optional: Change the color of the tab text when not active */
+.holiday-tab .ant-tabs-tab-btn {
+  color: var(--text-color); /* Change this to your desired color */
+}
+.holiday-tab .ant-tabs-tab-btn:hover {
+  color: var(
+    --icon-green-color
+  ) !important; /* Change this to your desired color */
+}
+.playPauseBtn {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+  background-color: var(--light-gray) !important;
+}
+
+.playPauseBtn:hover {
+  border-color: #00854d !important;
+  color: #00854d !important;
+  background-color: var(--light-gray) !important;
+}
+.three-dots {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.ant-table-row:hover .three-dots {
+  visibility: visible;
+}
+.ant-table-thead .ant-table-cell {
+  white-space: nowrap;
+}
+.holidayDatepicker .rmdp-input {
+  padding: 15px 10px;
+  width: 196px;
+  height: 30px !important;
+  border-color: var(--border-color);
+}
+.holidayDatepicker .rmdp-wrapper {
+}
+
+.timeSheetModal {
+  z-index: 9999 !important;
+}
+/* .timeSheetModalMask {     
+  z-index: 9999;
+} */
+.timeSheetInput {
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  width: 100% !important;
+}
+.timeSheetModal .rmdp-container {
+  width: 100%;
+}
+.ScheduleModal {
+  z-index: 9999 !important;
+}
+
+.range-container.rmdp-wrapper {
+  background-color: transparent; /* or any other color you prefer */
+}
+
+.range-container.rmdp-wrapper .rmdp-day {
+  color: var(--text-color); /* or any other text color you prefer */
+}
+
+.range-container .rmdp-header-values {
+  color: var(--text-color); /* or any other year text color you prefer */
+}
+
+.timeTrackerBtns {
+  /* color: var(--text-color) !important; */
+  border: 1px solid var(--border-color) !important;
+}
+.text-color .holiday-table tr {
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--dropdown-bgColor) !important;
+}
+
+.holiday-table td {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.holiday-table th {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+
+.ant-tabs-tab-active {
+  background-color: var(--sidebar-background-color) !important;
+}
+
+.graytext {
+  color: var(--placeholder-color);
+}
+.ant-breadcrumb-separator {
+  color: var(--text-color) !important;
+}
+.whiteText {
+  color: var(--text-color);
+}
+.hoiday-history {
+  border-radius: 8px;
+  border-color: var(--border-color);
+}
+.hoiday-history .ant-collapse-header {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+  /* border-radius: 0; */
+  border-radius: 8px !important;
+  font-size: 20px;
+  font-weight: 700;
+  align-items: center !important;
+}
+.hoiday-history .ant-collapse-header-text {
+  font-size: 20px;
+  font-weight: 700;
+}
+.hoiday-history .ant-collapse-arrow {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+.hoiday-history .ant-collapse-content {
+  background-color: var(--sidebar-background-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+.holidayName {
+  border-color: var(--border-color) !important;
+  font-size: 14px !important;
+}
+.holidayName:hover {
+  border: 1px solid var(--border-color) !important;
+}
+.holidayName:focus {
+  border: 1px solid var(--primary-green) !important;
+}
+
+.special_tag {
+  font-size: 13px;
+  height: 20px;
+  padding: 0px 5px;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.addHolidayDatepicker .rmdp-container {
+  width: 100%;
+}
+.addHolidayDatepicker input {
+  border-color: var(--border-color) !important;
+  border-width: 1px;
+  width: 100%;
+  height: 37px;
+}
+
+.addHolidayDatepicker input:focus {
+  border-color: var(--primary-green) !important;
+}
+.addHolidayDatepicker input:hover {
+  border-color: var(--primary-green) !important;
+}
+.employeeCheckBoxes .ant-checkbox-wrapper {
+  align-items: center !important;
+  margin-bottom: 5px;
+}
+.EmployeeModalBackdrop {
+  z-index: 1055 !important;
+}
+.EmployeeModalDialog {
+  z-index: 9999 !important;
+  width: 480px !important ;
+}
+.holiday-spinner {
+  border: 3.5px solid #0000005c !important;
+  border-right-color: transparent !important;
+}
+.members-list .ant-checkbox-group {
+  flex-direction: column !important;           
 }

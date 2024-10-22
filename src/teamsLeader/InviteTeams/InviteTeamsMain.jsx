@@ -12,7 +12,6 @@ import InviteTeamsInner from "./InviteTeamsInner";
 const InviteTeamsMain = () => {
   const { theme, setTheme, isSidebarVisible, setIsSidebarVisible } =
     useStateContext();
-
   useEffect(() => {
     document.body.className = theme;
     var pathname = window.location.pathname;

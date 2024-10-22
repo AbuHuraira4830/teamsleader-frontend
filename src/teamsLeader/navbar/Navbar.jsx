@@ -66,7 +66,6 @@ const Navbar = ({ user }) => {
     getAPI("/api/user/get-user-from-token")
       .then((response) => {
         if (response.status === 200 && response.data?._doc?.isEmailVerified) {
-          console.log(response);
           setIsEmailVerified(true);
         } else {
           // toast.error(response.data.message);
@@ -220,7 +219,7 @@ const Navbar = ({ user }) => {
                 cursor: "pointer",
               }}
             >
-              {thisUser?.fullName[0].toUpperCase()}
+              {thisUser?.fullName[0]?.toUpperCase()}
             </div>
           )}
 

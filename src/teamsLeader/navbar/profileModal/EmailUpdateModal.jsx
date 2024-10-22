@@ -20,7 +20,7 @@ const EmailUpdateModal = ({ closeModal, emailModal }) => {
   const updateEmail = async () => {
     try {
       const response = await postAPI("/api/user/change-email", {
-        emailAddress: thisUser?.emailAddress, // Replace with actual email
+        emailAddress: thisUser.emailAddress, // Replace with actual email
         currentPassword: password,
         newEmailAddress: newEmail,
       });
@@ -61,7 +61,7 @@ const EmailUpdateModal = ({ closeModal, emailModal }) => {
           <p className="text-nowrap pe-3  me-3" style={{ width: "150px" }}>
             Current email
           </p>{" "}
-          <p>{thisUser?.emailAddress}</p>
+          <p>{thisUser.emailAddress}</p>
         </div>
         <div className="centerIt justify-content-between mb-3">
           <p className="text-nowrap pe-3  me-3" style={{ width: "168px" }}>

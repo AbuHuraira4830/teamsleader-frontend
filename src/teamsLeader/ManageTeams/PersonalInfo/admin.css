@@ -1,6 +1,10 @@
 .active-button {
   background-color: var(--selected-background-color) !important;
 }
+:where(.css-dev-only-do-not-override-3rel02).ant-checkbox-indeterminate
+  .ant-checkbox-inner:after {
+  background-color: var(--primary-green) !important;
+}
 .ant-checkbox-checked .ant-checkbox-inner:hover {
   background-color: var(--primary-hover-green) !important;
   border-color: var(--primary-hover-green) !important;
@@ -57,10 +61,10 @@
     border-radius: 8px !important;
   } */
 .special_tag {
-  font-size: 13px;
+  /* font-size: 13px;
   height: 17px;
-  padding: 0px 5px;
-  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  padding: 0px 5px; */
+  /* box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1); */
 }
 .copyMsg {
   background-color: #323232;

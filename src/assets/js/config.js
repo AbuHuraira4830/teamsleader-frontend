@@ -75,7 +75,7 @@ export const convertToRowsFormat = (initialData) => {
   const taskIds = Object.keys(initialData.tasks);
 
   taskIds.forEach((taskId) => {
-    console.log(taskId);
+    console.log(taskId)
     const task = initialData.tasks[taskId];
     const status = task.status || {};
 

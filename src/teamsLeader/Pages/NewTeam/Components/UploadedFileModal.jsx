@@ -33,7 +33,7 @@ import Froalaeditor from "froala-editor";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 import { getAPI, postAPI } from "../../../../helpers/apis";
 
-const UploadedFileModal = ({ handleClose }) => {
+const UploadedFileModal = () => {
   const {
     modalShow,
     uploadedFiles,
@@ -167,7 +167,7 @@ const UploadedFileModal = ({ handleClose }) => {
                 type="button"
                 className="px-1 py-0 workspace-dropdown-button border-0 centerIt"
                 style={{ fontSize: "14px" }}
-                onClick={() => handleClose}
+                // onClick={() => handleClose}
               >
                 <FiSidebar className="me-1" /> Team Name
               </Button>

@@ -203,7 +203,11 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
           setSelectedDocument(null);
           setSelectedTeam(team);
           setTeamTasks(response.data._doc);
-          navigate(`/workspace/${workspaceID}/team/${teamID}`);
+          navigate(
+            `/workspace/${
+              workspaceID || selectedDocument?.workspaceID
+            }/team/${teamID}`
+          );
         } else {
           console.log(response.data.message);
         }
@@ -287,20 +291,23 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
   const hideDocModal = () => {
     setDocModal(false);
   };
+  // const getDocument = (doc) => {
+  //   getAPI(`/api/doc/${doc._id}`)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         setSelectedTeam(null);
+  //         setComponentToShow("docCreator");
+  //         setSelectedDocument(doc);
+  //       } else {
+  //         console.log(response.data.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const getDocument = (doc) => {
-    getAPI(`/api/doc/${doc._id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          setSelectedTeam(null);
-          setComponentToShow("docCreator");
-          setSelectedDocument(doc);
-        } else {
-          console.log(response.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    navigate(`/docs/${doc?._id}`);
   };
   const deleteDoc = (docID) => {
     postAPI("/api/doc/delete", {

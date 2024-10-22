@@ -45,6 +45,35 @@ button {
 
   --icon-green-color: #00ca72;
 }
+.ck-content {
+  font-family: inherit !important; /* Ensure CKEditor controls font family */
+}
+strong,
+em,
+u,
+b,
+i,
+s,
+mark,
+del,
+ins,
+sup,
+sub,
+small,
+code,
+kbd,
+samp,
+var,
+ol,
+ul,
+li {
+  font-family: inherit !important;
+}
+.ck-dropdown__panel .ck-list {
+  max-height: 400px; /* Adjust this to control the scrollable height */
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
 .light_theme {
   --dropdown-bgColor: #ffffff;
   --sidebar-background-color: #ffffff;

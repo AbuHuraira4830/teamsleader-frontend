@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Popover, Tooltip } from "antd";
+import { Popover } from "antd";
 import { PiCrownSimpleFill } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
 import { BsEnvelope } from "react-icons/bs";
@@ -15,33 +15,26 @@ import { message } from "antd";
 const ShareModal = ({ handleClose, show }) => {
   const { selectedDocument, isDocumentChange, setIsDocumentChange } =
     useStateContext();
+  console.log({ selectedDocument, isDocumentChange });
   const [members, setMembers] = useState([]);
 
-  // const defaultMember = {
-  //   name: "Usman Haider",
-  //   email: "usmanHaider1234@gmail.com",
-  //   isAdmin: true,
-  //   owner: true,
-  // };
-
-  // const [addedMember, setAddedMember] = useState(() => {
-  //   // If selectedDocument.sharedWith exists and is an array, prepend the defaultMember
-  //   if (Array.isArray(selectedDocument?.sharedWith)) {
-  //     return [defaultMember, ...selectedDocument.sharedWith];
-  //   }
-  //   // Otherwise, just return an array with the defaultMember
-  //   return [defaultMember];
-  // });
+  const defaultMember = {
+    name: "Usman Haider",
+    email: "usmanHaider1234@gmail.com",
+    isAdmin: true,
+    owner: true,
+  };
 
   const [addedMember, setAddedMember] = useState(() => {
-    // If selectedDocument.sharedWith exists and is an array, return it as is
+    // If selectedDocument.sharedWith exists and is an array, prepend the defaultMember
     if (Array.isArray(selectedDocument?.sharedWith)) {
-      return [...selectedDocument.sharedWith];
+      return [defaultMember, ...selectedDocument.sharedWith];
     }
-    // Otherwise, return an empty array if no sharedWith array exists
-    return [];
+    // Otherwise, just return an array with the defaultMember
+    return [defaultMember];
   });
 
+  console.log({ members, addedMember });
   const [open, setOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState(
     selectedDocument?.permission === "view"
@@ -70,49 +63,24 @@ const ShareModal = ({ handleClose, show }) => {
   };
 
   const addMember = async (item) => {
+    console.log({ item });
     setAddedMember([...addedMember, item]);
-    const updatedMembers = members.filter(
-      (member) => member.email !== item.email
-    );
-    setMembers(updatedMembers);
+    setMembers(members.filter((member) => member.email !== item.email));
     setOpen(false);
     // Prepare data to send to the API
-    handleUpdateDocument([...addedMember, item]);
+    handleUpdateDocument(item?.email);
   };
 
   const deleteMember = (memberIdToDelete) => {
     const memberToDelete = addedMember.find(
       (member) => member.email === memberIdToDelete
     );
-    // Filter out the deleted member from the addedMember array
-    const updatedAddedMembers = addedMember.filter(
-      (member) => member.email !== memberIdToDelete
+    setAddedMember(
+      addedMember.filter((member) => member.email !== memberIdToDelete)
     );
-
-    // Update the addedMember state
-    setAddedMember(updatedAddedMembers);
     if (memberToDelete && !memberToDelete.owner) {
       setMembers([...members, memberToDelete]);
     }
-    handleUpdateDocument(updatedAddedMembers);
-  };
-  const toggleAdminStatus = (memberEmail) => {
-    // Map through the addedMember array and toggle isAdmin for the matching email
-    const updatedMembers = addedMember.map((member) => {
-      if (member.email === memberEmail) {
-        return {
-          ...member,
-          isAdmin: !member.isAdmin, // Toggle the isAdmin field
-        };
-      }
-      return member; // Leave other members unchanged
-    });
-
-    // Update the state with the new array
-    setAddedMember(updatedMembers);
-
-    // Pass the updated array to handleUpdateDocument
-    handleUpdateDocument(updatedMembers);
   };
 
   const handleGetMembers = async () => {
@@ -143,11 +111,12 @@ const ShareModal = ({ handleClose, show }) => {
   }, [selectedRole]);
 
   const handleRadioChange = (e) => {
+    console.log("call radio");
     setSelectedRole(e.target.value); // Update the selectedRole state with the selected value
-    handleUpdateDocument(addedMember, e.target.value);
+    handleUpdateDocument(null, e.target.value);
     setIsDocumentChange(!isDocumentChange);
   };
-
+  console.log({ selectedRole });
   const handleInvite = () => {
     if (isEmailValid(email)) {
       const newMember = {
@@ -170,14 +139,17 @@ const ShareModal = ({ handleClose, show }) => {
         email: email,
       };
       const response = postAPI("/api/docs/invite-people", { data });
+      console.log({ response });
     }
   };
-  const handleUpdateDocument = async (membersArray, role, isPublic) => {
+  // console.log({ invitedMembers });
+  const handleUpdateDocument = async (email, role) => {
     const data = {
       docID: docId,
-      isPublic: isPublic,
+      email: email || null,
+      isAdmin: true,
+      isPublic: isPublicDoc,
       permission: role === "doc-owners" ? "view" : "edit",
-      sharedWith: membersArray,
     };
 
     try {
@@ -188,15 +160,15 @@ const ShareModal = ({ handleClose, show }) => {
       console.error("Error update member:", error);
     }
   };
-  const filteredMembers = members?.filter(
+  const filteredMembers = members.filter(
     (member) =>
-      member?.name?.toLowerCase().includes(searchText?.toLowerCase()) ||
-      member?.email?.toLowerCase().includes(searchText?.toLowerCase())
+      member.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      member.email.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleSwitchChange = (e) => {
     setIsPublicDoc(e.target.checked);
-    handleUpdateDocument(addedMember, selectedRole, e.target.checked);
+    handleUpdateDocument();
   };
   return (
     <div>
@@ -327,30 +299,6 @@ const ShareModal = ({ handleClose, show }) => {
             </p>
           </div>
           <div className=" mb-5 pb-3 ">
-            <div className="centerIt justify-content-between mb-3">
-              <div className="flex">
-                <span className="person-avatar rounded-circle centerIt  text-white px-1   me-3">
-                  {"adminwork@gmail.com"?.substring(0, 2).toUpperCase()}
-                </span>
-                <p className="m-0 centerIt fs_15">adminwork@gmail.com</p>
-              </div>
-
-              <span className="d-flex">
-                <span className="centerIt">
-                  <div className="icon-crown centerIt justify-content-center text-white ">
-                    <PiCrownSimpleFill style={{ fontSize: "12px" }} />{" "}
-                  </div>
-                </span>
-
-                <Button
-                  className="px-2 py-1 workspace-dropdown-button ms-3"
-                  disabled
-                  style={{ fontSize: "14px" }}
-                >
-                  <RxCross2 style={{ fontSize: "16px" }} />
-                </Button>
-              </span>
-            </div>
             {addedMember.map((member) => (
               <div
                 className="centerIt justify-content-between mb-3"
@@ -369,25 +317,15 @@ const ShareModal = ({ handleClose, show }) => {
                 <span className="d-flex">
                   {member.isAdmin ? (
                     <span className="centerIt">
-                      <Tooltip title="Remove as admin">
-                        <div
-                          className="icon-crown centerIt justify-content-center text-white cursor-pointer"
-                          onClick={() => toggleAdminStatus(member.email)}
-                        >
-                          <PiCrownSimpleFill style={{ fontSize: "12px" }} />{" "}
-                        </div>
-                      </Tooltip>
+                      <div className="icon-crown centerIt justify-content-center text-white ">
+                        <PiCrownSimpleFill style={{ fontSize: "12px" }} />{" "}
+                      </div>
                     </span>
                   ) : (
                     <span className="centerIt">
-                      <Tooltip title="Make as admin">
-                        <div
-                          className="icon-crown-gray centerIt flex items-center justify-content-center text-white cursor-pointer "
-                          onClick={() => toggleAdminStatus(member.email)}
-                        >
-                          <PiCrownSimpleFill style={{ fontSize: "12px" }} />{" "}
-                        </div>
-                      </Tooltip>
+                      <div className="icon-crown-gray centerIt flex items-center justify-content-center text-white cursor-pointer ">
+                        <PiCrownSimpleFill style={{ fontSize: "12px" }} />{" "}
+                      </div>
                     </span>
                   )}
 
@@ -471,7 +409,7 @@ const ShareModal = ({ handleClose, show }) => {
             </div>
           </div>
         </Modal.Body>
-        <div className="px-3">
+        <Modal.Footer>
           <div className=" pb-4 ">
             <div className="centerIt justify-content-between">
               <h5 className="share-headings">Share Doc publicly</h5>
@@ -480,23 +418,28 @@ const ShareModal = ({ handleClose, show }) => {
                 type="switch"
                 aria-label="radio 1"
                 name="role"
-                checked={selectedDocument?.isPublic || isPublicDoc}
+                checked={isPublicDoc}
                 onChange={handleSwitchChange}
               />
             </div>
             <div className="mt-3">
-              {selectedDocument?.isPublic || isPublicDoc ? (
+              {isPublicDoc ? (
                 <CopyToClipboard
                   text={selectedDocument?.publicURL}
                   onCopy={() => {
                     message.success("URL Copied!");
                   }}
                 >
-                  <Tooltip title="click to copy">
-                    <span className="cursor-pointer hover:font-bold px-2 py-1 rounded bg-gray-100 text-black text-sm mt-3 text-break">
-                      {selectedDocument?.publicURL || "No URL available"}
-                    </span>
-                  </Tooltip>
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      color: "blue",
+                      textDecoration: "underline",
+                    }}
+                    className="bg-gray-100 text-black mt-3 text-break"
+                  >
+                    {selectedDocument?.publicURL || "No URL available"}
+                  </span>
                 </CopyToClipboard>
               ) : (
                 <p className="fs_14">
@@ -507,7 +450,7 @@ const ShareModal = ({ handleClose, show }) => {
               )}
             </div>
           </div>
-        </div>
+        </Modal.Footer>
       </Modal>
     </div>
   );

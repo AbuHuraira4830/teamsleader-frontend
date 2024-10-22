@@ -1,8 +1,8 @@
 import axios from "axios";
 
-axios.defaults.baseURL="http://localhost:8888";
+axios.defaults.baseURL = "http://localhost:8888";
 // axios.defaults.baseURL =
-//   "https://miketeamsleaderbackend-554bc9bdf5c9.herokuapp.com/"; 
+//   "https://miketeamsleaderbackend-554bc9bdf5c9.herokuapp.com/";
 axios.defaults.headers.common["Authorization"] =
   localStorage.getItem("token") || "";
 

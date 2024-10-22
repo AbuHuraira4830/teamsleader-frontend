@@ -558,15 +558,15 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
             <Modal
               className="team_modal"
               show={show}
-              onHide={handleClose}
+              onHide={handleClose}           
               animation={true}
             >
               <form onSubmit={newTeamHandler}>
                 <Modal.Header closeButton className="border-0 px-0 pb-0">
-                  <h2>Create Team</h2>
+                  <h1 className="text-[22px] font-[800]">Create Team</h1>
                 </Modal.Header>
-                <Modal.Body className="px-0 ">
-                  <span>
+                <Modal.Body className="px-0 pb-0">
+                  <div className="mt-4">
                     <p className="fs_14 p-0 mb-2">Team name</p>
                     <Form.Control
                       type="text"
@@ -576,11 +576,11 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       className=" py-2  mb-3 shadow-none workspace_searchInput transparent_bg"
                       required={true}
                     />
-                  </span>
-                  <div className="">
+                  </div>
+                  <div className=" mt-4">           
                     <p className="fs_14 p-0">Privacy</p>
 
-                    <div className="mt-2 pb-4 border-bottom  d-flex ">
+                    <div className="mt-2 pb-4   d-flex ">
                       <Form.Check
                         className=".fs_15"
                         inline
@@ -600,7 +600,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                           label={
                             <span className="d-flex">
                               <BiLockAlt className="me-1 mb-1 fs-5" />
-                              Only client can see this
+                              Private
                             </span>
                           }
                           name="privacy"
@@ -609,7 +609,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 ">
+                  {/* <div className="mt-4 ">
                     <p className="fs_16 p-0">
                       Select what you're managing in this team
                     </p>
@@ -687,7 +687,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                         />
                       </Col>
                     </Row>
-                  </div>
+                  </div> */}
                 </Modal.Body>
                 <Modal.Footer className="border-0">
                   <Button

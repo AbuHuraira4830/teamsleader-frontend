@@ -20,7 +20,7 @@ const Password = () => {
   const handlePasswordChange = async () => {
     try {
       const response = await postAPI("/api/user/change-password", {
-        emailAddress: thisUser.emailAddress, // Replace with actual email
+        emailAddress: thisUser?.emailAddress, // Replace with actual email
         currentPassword,
         newPassword,
       });

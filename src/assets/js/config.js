@@ -129,38 +129,36 @@ export const colorsArray = [
 const BASE_URL = "http://localhost:8888/api";
 
 export const sendRequest = async (
-    url,
-    method,
-    body = null,
-    authToken = null,
-    headers = {},
-    
+  url,
+  method,
+  body = null,
+  authToken = null,
+  headers = {}
 ) => {
-    const requestOptions = {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            ...headers,
-        },
-        body: body ? JSON.stringify(body) : null,
-    };
+  const requestOptions = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    body: body ? JSON.stringify(body) : null,
+  };
 
-    if (authToken) {
-        requestOptions.headers["auth-token"] = authToken;
+  if (authToken) {
+    requestOptions.headers["auth-token"] = authToken;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/${url}`, requestOptions);
+    const data = await response.json();
+
+    if (!response.ok) {
+      return data;
     }
-    
 
-    try {
-        const response = await fetch(`${BASE_URL}/${url}`, requestOptions);
-        const data = await response.json();
-
-        if (!response.ok) {
-            return data;
-        }
-
-        return data;
-    } catch (error) {
-        console.error("API Error:", error.message);
-        return error;
-    }
+    return data;
+  } catch (error) {
+    console.error("API Error:", error.message);
+    return error;
+  }
 };

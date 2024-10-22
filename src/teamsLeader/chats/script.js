@@ -13,10 +13,10 @@ export function formatDate(dateString) {
 
 export function extractEmails(arr) {
   // Map over the array and extract the "text" property from each object
-  const emails = arr.map(obj => obj.text);
+  const emails = arr.map((obj) => obj.text);
 
   // Filter out empty strings
-  return emails.filter(email => email.trim() !== '');
+  return emails.filter((email) => email.trim() !== "");
 }
 export function getEmailFirstPart(email) {
   const atIndex = email?.indexOf("@");
@@ -58,7 +58,7 @@ export const uploadImagesAndCalculateRealTimePercentage = (
         console.log("Upload completed!");
         console.log("Response data:", responseData);
         // Update uploadedFiles state with API response
-    setUploadedFiles((prevFiles) => [...prevFiles, ...responseData]);
+        setUploadedFiles((prevFiles) => [...prevFiles, ...responseData]);
         setSelectedFiles([]); // Clear selected files array
       } else {
         console.error("Error uploading images:", xhr.statusText);

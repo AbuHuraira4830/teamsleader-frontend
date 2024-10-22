@@ -6,7 +6,7 @@ import {
   baloonDropdown1,
   ActionDropdown,
 } from "./CustomPlugins";
-import ClassicEditor, { parseEditorData } from "./ckeditorConfig";
+import ClassicEditor from "./ckeditorConfig";
 import DocSidebar from "./DocSidebar";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { ButtonView } from "@ckeditor/ckeditor5-ui";
@@ -361,103 +361,79 @@ const ckEditor = ({ doc }) => {
     if (docInfo) marginTop += 100; // Add 100px for docInfo
     return `${marginTop}px`;
   };
-  const [draggedElement, setDraggedElement] = useState(null);
-  const [initialY, setInitialY] = useState(0);
-  console.log({
-    draggedElement,
-    initialY,
-    editorData,
-    arrayData: parseEditorData(editorData),
-  });
-  // Handlers for drag events
-  const handleDragStart = (event, element) => {
-    setDraggedElement(element);
-    setInitialY(event.clientY);
+  useEffect(() => {
+    const dropArea = dropAreaRef.current;
 
-    // Adding visual feedback during drag
-    event.dataTransfer.setData("text/plain", element.id);
-    element.classList.add("dragging");
-  };
+    let draggedElement = null; // Track the dragged element
+    let initialY = 0; // Initial Y position of the dragged element
 
-  const handleDrag = (event) => {
-    event.preventDefault();
-    if (!draggedElement) return;
+    // Function to start dragging
+    // const handleDragStart = (event, element) => {
+    //   draggedElement = element; // Save the reference to the dragged element
+    //   initialY = event.clientY; // Store the initial Y position
+    //   event.dataTransfer.effectAllowed = "move"; // Set the effect to "move"
+    //   element.classList.add("dragging"); // Add visual feedback (optional)
+    // };
 
-    // Calculate delta and update Y
-    const deltaY = event.clientY - initialY;
-    setInitialY(event.clientY);
+    // Function to handle the drag event
+    const handleDrag = (event) => {
+      if (!draggedElement) return;
 
-    // Move the dragged element visually
-    draggedElement.style.transform = `translateY(${deltaY}px)`;
-  };
+      // Calculate how far the element has been dragged
+      const deltaY = event.clientY - initialY;
+      initialY = event.clientY; // Update the Y position
 
-  const handleDragEnd = (event) => {
-    if (draggedElement) {
-      draggedElement.style.transform = ""; // Reset transform
-      draggedElement.classList.remove("dragging"); // Remove feedback
-    }
+      // Move the element by updating its transform property
+      draggedElement.style.transform = `translateY(${deltaY}px)`;
 
-    // Reset dragged element and position
-    setDraggedElement(null);
-    setInitialY(0);
-  };
-  // useEffect(() => {
-  //   const dropArea = dropAreaRef.current;
-  //   let draggedElement = null;
-  //   let initialY = 0;
+      // Find the corresponding icon and move it with the element
+      const icon = document.querySelector(".icon-class");
+      if (icon) {
+        icon.style.transform = `translateY(${deltaY}px)`; // Move the icon as well
+      }
+    };
 
-  //   // Handle drag start
-  //   const handleDragStart = (event, element) => {
-  //     draggedElement = element;
-  //     initialY = event.clientY;
-  //     event.dataTransfer.effectAllowed = "move";
-  //     element.classList.add("dragging"); // Add class for styling while dragging
-  //   };
+    // Function to handle the end of the drag event
+    const handleDragEnd = (event) => {
+      if (draggedElement) {
+        draggedElement.style.transform = ""; // Reset the transform property
+        draggedElement.classList.remove("dragging"); // Remove visual feedback (optional)
+      }
 
-  //   const handleDrag = (event) => {
-  //     if (!draggedElement) return;
+      draggedElement = null; // Clear the dragged element reference
+      initialY = 0; // Reset Y tracking
+    };
 
-  //     const deltaY = event.clientY - initialY;
-  //     initialY = event.clientY;
-  //     draggedElement.style.transform = `translateY(${deltaY}px)`;
-  //   };
+    // Add drag event listeners to the drop area
+    dropArea.addEventListener("dragover", (event) => {
+      event.preventDefault(); // Allow the drop
+      dropArea.classList.add("drag-over"); // Add visual feedback (optional)
+    });
 
-  //   const handleDragEnd = () => {
-  //     if (draggedElement) {
-  //       draggedElement.style.transform = "";
-  //       draggedElement.classList.remove("dragging");
-  //     }
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.classList.remove("drag-over"); // Remove visual feedback (optional)
+    });
 
-  //     draggedElement = null;
-  //     initialY = 0;
-  //   };
+    dropArea.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropArea.classList.remove("drag-over"); // Remove visual feedback (optional)
 
-  //   dropArea.addEventListener("dragover", (event) => {
-  //     event.preventDefault();
-  //     dropArea.classList.add("drag-over");
-  //   });
+      // Handle the final placement of the dragged element
+      const draggedElementId = event.dataTransfer.getData("text/plain");
+      const element = document.getElementById(draggedElementId);
+      if (element) {
+        dropArea.appendChild(element); // Append the element to its new location
+      }
+    });
 
-  //   dropArea.addEventListener("dragleave", () => {
-  //     dropArea.classList.remove("drag-over");
-  //   });
+    // Cleanup the event listeners on unmount
+    return () => {
+      dropArea.removeEventListener("dragover", handleDrag);
+      dropArea.removeEventListener("dragleave", handleDrag);
+      dropArea.removeEventListener("drop", handleDragEnd);
+    };
+  }, []);
 
-  //   dropArea.addEventListener("drop", (event) => {
-  //     event.preventDefault();
-  //     dropArea.classList.remove("drag-over");
-
-  //     const draggedElementId = event.dataTransfer.getData("text/plain");
-  //     const element = document.getElementById(draggedElementId);
-  //     if (element) {
-  //       dropArea.appendChild(element);
-  //     }
-  //   });
-
-  //   return () => {
-  //     dropArea.removeEventListener("dragover", handleDrag);
-  //     dropArea.removeEventListener("dragleave", handleDrag);
-  //     dropArea.removeEventListener("drop", handleDragEnd);
-  //   };
-  // }, []);
   const [hoveredElement, setHoveredElement] = useState(null);
   console.log({ hoveredElement });
   const updateHoverEffect = (editor) => {
@@ -600,24 +576,27 @@ const ckEditor = ({ doc }) => {
           data={editorData}
           onReady={(editor) => {
             editorRef.current = editor;
-            updateHoverEffect(editor);
+            updateHoverEffect(editor); // Ensure hover effect is set after editor is ready
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
+            applyStyle();
             handleEditorChange(data);
           }}
+          onFocus={applyStyle}
         />
 
+        {/* Conditionally render the hover icon before the hovered element */}
         {hoveredElement && (
           <Tooltip title="Drag to reorder">
             <div
-              draggable="true"
-              onDragStart={(e) => handleDragStart(e, hoveredElement)}
-              onDrag={(e) => handleDrag(e)}
-              onDragEnd={(e) => handleDragEnd(e)}
+              // draggable="true"
+              // onDragStart={(e) => handleDragStart(e, hoveredElement)} // Start dragging the element
+              // onDrag={(e) => handleDrag(e)} // Update position during drag
+              // onDragEnd={(e) => handleDragEnd(e)} // Handle drop/end of drag
               style={{
-                position: "absolute",
-                left: `200px`,
+                position: "absolute", // Ensure the icon is absolutely positioned
+                left: `200px`, // Position to the left of the element
                 top: `${
                   hoveredElement.getBoundingClientRect().top +
                   window.scrollY -
@@ -626,18 +605,21 @@ const ckEditor = ({ doc }) => {
                 display: "flex",
                 alignItems: "center",
                 color: "black",
-                cursor: "grab",
+                cursor: "grab", // Make the cursor indicate draggable behavior
               }}
             >
               <PiDotsSixVerticalBold
                 className="font-bold text-xl"
                 fontSize="large"
-                style={{ cursor: "grab" }}
+                style={{
+                  cursor: "grab", // Set cursor for drag interaction
+                }}
               />
             </div>
           </Tooltip>
         )}
       </div>
+
       {selectedDocument?.headers?.tableOfContent && (
         <Tooltip
           title={showHeadings ? "Hide Doc's Outline" : "Show Doc's Outline"}

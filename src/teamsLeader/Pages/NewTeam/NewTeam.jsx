@@ -90,7 +90,9 @@ import TextCell from "./Components/Table components/TextCell";
 import NumberCell from "./Components/Table components/NumberCell";
 import Gallery from "../fileGallery/Gallery";
 import { BiCalendar } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
+
 import { FaRegUser } from "react-icons/fa";
 import SocialButtons from "../../SocialMediaPlanner/PlannerHeader/SocialButtons";
 import PlannerWrapper from "../../SocialMediaPlanner/PlannerWrapper";
@@ -128,11 +130,11 @@ export const NewTeam = () => {
     passwordTables,
     setPasswordTables,
     rowOptionMenu,
-    workspaceID,
-    teamID,
+    // workspaceID,
+    // teamID,
     user,
-    thisUser,
   } = useStateContext();
+  const { workspaceID, teamID } = useParams();
 
   const [hoveredRow, setHoveredRow] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);

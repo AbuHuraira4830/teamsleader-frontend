@@ -9,6 +9,7 @@ import { PiUsersThree } from "react-icons/pi";
 import { PiUsersFourLight } from "react-icons/pi";
 import InviteEmployee from "./InviteEmployee";
 import InviteClient from "./InviteClient";
+import { useParams } from "react-router-dom";
 
 const teamMembers = [
   {

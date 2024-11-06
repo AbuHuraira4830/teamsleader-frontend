@@ -11,11 +11,11 @@ import { getAPI } from "../../../helpers/apis";
 // import Draggable from "react-draggable";
 
 const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
-  const { setPreviewModalFiles, setModalShow, setCurrentItemIndex } =
+  const { setPreviewModalFiles, setModalShow, setCurrentItemIndex, thisUser } =
     useStateContext();
   // const handleDownload = (file) => {
   //   const link = document.createElement("a");
-  //   link.href = file.url;
+  //   link.href = file.url;          
   //   link.setAttribute("download", file.name);
   //   document.body.appendChild(link);
   //   link.click();
@@ -131,11 +131,37 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
                   Files Gallery
                 </Button>
               </div>
-              <span>
-                <span className="nav-avatar rounded-circle align-self-center px-1  border-0 me-2">
-                  UH
-                </span>
+
+              <span className="centerIt">
+                {thisUser?.picture ? (
+                  <div
+                    style={{ width: "30px", height: "30px", cursor: "pointer" }}
+                    
+                  >
+                    <img
+                      src={thisUser.picture}
+                      alt=""
+                      className="rounded-circle w-100 h-100"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className=" rounded-circle  centerIt justify-content-center "
+                    style={{
+                      backgroundColor: thisUser?.profileColor,
+                      width: "32px",
+                      height: "32px",
+                      color: "white",
+                      cursor: "pointer",   
+                    }}
+                  >
+                    {thisUser?.fullName[0]?.toUpperCase()}
+                  </div>
+                )}
+                <p className="ms-1">
+
                 17 Oct, 2023
+                </p>
               </span>
               <div></div>
             </div>
@@ -143,7 +169,7 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
           <div className="flex-column d-flex  ">
             <Dropdown>
               <Dropdown.Toggle
-                className="px-2 py-1 workspace-dropdown-button"
+                className="px-2 py-2 workspace-dropdown-button"
                 style={{ fontSize: "14px" }}
               >
                 <BsThreeDots />

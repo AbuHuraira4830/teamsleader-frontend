@@ -390,7 +390,7 @@ const TimeTracker = () => {
           >
             Session History:&nbsp;
           </Title>
-          <div className="hover:outline outline-1 outline-gray-300 rounded-1 p-1">
+          <div className="timeTrackerCalender hover:outline outline-1 outline-gray-300 rounded-1 p-1">
             {/* {currentDate} */}
             <DatePicker
               className={`green ${
@@ -398,6 +398,7 @@ const TimeTracker = () => {
               }`}
               inputClass=" border-0 outline-0 w-[90px]"
               // shadow={false}
+              
               highlightToday={false}
               onChange={(value) => setDatepickerValue(formatDate(value))}
               value={datepickerValue}

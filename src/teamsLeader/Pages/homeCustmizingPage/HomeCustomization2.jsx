@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IMAGES from "../../../assets/images/Images";
 import { Button, Form, Table } from "react-bootstrap";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
@@ -8,19 +8,13 @@ import { FaPlus } from "react-icons/fa";
 import { RxAvatar, RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { postAPI } from "../../../helpers/apis";
 
 const HomeCustomization2 = () => {
   const navigate = useNavigate();
-  const { tableTeamName, setRows } = useStateContext();
-  const [inputValue, setInputValue] = useState("");
-  const handleChange = (e, taskId) => {
-    setInputValue(e.target.value);
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row.id === taskId ? { ...row, task: e.target.value } : row
-      )
-    );
-  };
+  const { tableTeamName, setRows, userEmail } = useStateContext();
+  const [tasks, setTasks] = useState([]);
+  // const userEmail = "ali1239@gmail.com";
   const line = () => {
     return (
       <div className="  py-2 d-flex">
@@ -39,6 +33,48 @@ const HomeCustomization2 = () => {
 
   const tableContent = [];
   const rows = [{ task: "task 1" }, { task: "task 2" }, { task: "task 3" }];
+
+  // Fetch tasks from backend on component mount
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await postAPI("/api/initial/task-list", { userEmail }); // Replace with actual endpoint
+        // console.log(res.data);
+        setTasks(res.data.tasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+    fetchTasks();
+  }, []);
+
+  // Handle task title change
+  const handleChange = (e, taskId) => {
+    const updatedTasks = tasks.map((task) =>
+      task._id === taskId ? { ...task, title: e.target.value } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  // Handle saving changes to backend
+  const handleContinue = async () => {
+    if (!tasks || tasks.length === 0) {
+      window.location.replace("/");
+      return
+    }
+    try {
+      await postAPI("/api/update/tasks-titles", { userEmail, tasks });
+      console.log("Tasks updated successfully");
+      window.location.replace("/");
+    } catch (error) {
+      console.error("Error updating tasks:", error);
+    }
+  };
+  const status = [
+    { color: "#fdab3d", text: "Working on it" },
+    { color: "#00c875", text: "Done" },
+    { color: "#e2445c", text: "Stuck" },
+  ];
   return (
     <div>
       <div className="customization_page">
@@ -65,13 +101,13 @@ const HomeCustomization2 = () => {
               >
                 List your tasks
               </p>
-              {rows.map((row) => (
+              {tasks?.map((row) => (
                 <div>
                   <Form.Control
                     className="rounded-1 shadow-none workspace_searchInput fs_14 transparent_bg w-100 mb-4"
                     placeholder=""
-                    value={row.task || ""}
-                    onChange={(e) => handleChange(e, row.id)}
+                    value={row.title || ""}
+                    onChange={(e) => handleChange(e, row._id)}
                     type="text"
                     style={{ height: "40px" }}
                   />
@@ -89,7 +125,7 @@ const HomeCustomization2 = () => {
                   Back
                 </Button>
                 <Button
-                  onClick={() => navigate("/")}
+                  onClick={handleContinue}
                   type="button"
                   className="rounded-1 d-flex  justify-content-end mt-4 align-items-center green_btn border-0  "
                   style={{ width: "126px" }}
@@ -121,7 +157,7 @@ const HomeCustomization2 = () => {
                   width: "40px",
                   height: "40px",
                 }}
-                onClick={() => navigate("/")}
+                onClick={() => window.location.replace("/")}
               >
                 <RxCross2 />
               </Button>
@@ -162,8 +198,13 @@ const HomeCustomization2 = () => {
                 ></span>
               </div>
               <div>
-                <Table responsive bordered className="border-bottom-0">
-                  <thead className="rounded-top rounded-2 overflow-hidden">
+                <Table
+                  responsive
+                  bordered
+                  className="border-bottom-0 "
+                  style={{ borderColor: "var(--border-color) !important" }}
+                >
+                  <thead className="rounded-top rounded-2 overflow-hidden text-center">
                     <tr>
                       <th>Task</th>
                       <th>Owner</th>
@@ -183,23 +224,32 @@ const HomeCustomization2 = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {rows.map(
-                      (row, index) => (
-                        // <tr key={index}>
-                        <tr key={index} className="text-center fs_14">
-                          <td>{row.task || "Task"}</td>
-                          <td className="d-flex justify-content-center ">
-                            <RxAvatar className=" fs-5" />
-                          </td>
-                          <td className="gray_bg"></td>
+                    {tasks.map((row, index) => {
+                      // Calculate the status to use in sequence
+                      const currentStatus = status[index % status.length];
 
+                      return (
+                        <tr key={index} className="text-center fs_14">
+                          <td>{row.title || "Task"}</td>
+                          <td className="d-flex justify-content-center">
+                            <RxAvatar className="fs-5" />
+                          </td>
+                          <td className="text-center p-0  ">
+                            <span
+                              className="centerIt h-10 text-white justify-center"
+                              style={{
+                                backgroundColor: currentStatus.color,
+                              }}
+                            >
+                              {currentStatus.text}
+                            </span>
+                          </td>
+                          {/* <td className="gray_bg"></td> */}
                           <td>22 Dec</td>
                           <td></td>
                         </tr>
-                      )
-
-                      // </tr>
-                    )}
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>
@@ -215,8 +265,13 @@ const HomeCustomization2 = () => {
                 ></span>
               </div>
               <div>
-                <Table responsive bordered className="border-bottom-0">
-                  <thead className="rounded-top rounded-2 overflow-hidden">
+                <Table
+                  responsive
+                  bordered
+                  className="border-bottom-0"
+                  style={{ borderColor: "var(--border-color) !important" }}
+                >
+                  <thead className="rounded-top rounded-2 overflow-hidden text-center">
                     <tr>
                       <th>Task</th>
                       <th>Owner</th>

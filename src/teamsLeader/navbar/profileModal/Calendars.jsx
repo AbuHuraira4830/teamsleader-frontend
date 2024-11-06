@@ -215,7 +215,7 @@ const Calendars = ({ setMyHolidayRequests }) => {
   };
 
   return (
-    <div className="relative" ref={calendarRef}>
+    <div className="relative holidayRequest" ref={calendarRef}>
       <Calendar
         className={`green ${theme === "light_theme" ? "" : "range-container"}`}
         shadow={false}

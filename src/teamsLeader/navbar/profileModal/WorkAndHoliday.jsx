@@ -14,6 +14,7 @@ const { TabPane } = Tabs;
 const WorkAndHoliday = ({ setSelectedOption }) => {
   const { days, setDays, theme, thisUser, setThisUser, users } =
     useStateContext();
+  console.log(thisUser.teamWorkingDays, "days", days);
   const [usersTotalWorkingHours, setUsersTotalWorkingHours] = useState({});
   const isFirstRender = useRef(true);
 
@@ -138,14 +139,11 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
       });
   };
   const userProfile = (name, picture) => {
-               
     return (
-      <div
-        className="centerIt employee_profile "
-      >
+      <div className="centerIt employee_profile ">
         <img
           src={IMAGES.PAUL}
-          width={30}           
+          width={30}
           alt=""
           className="align-self-center me-2"
         />
@@ -154,6 +152,7 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
       </div>
     );
   };
+
   return (
     <div className="w-100 fs_14" style={{ padding: "24px" }}>
       <p className="mb-4" style={{ fontSize: "32px", fontWeight: "500" }}>
@@ -193,7 +192,10 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
                   backgroundColor: "var(--toggle-btnBg)",
                 }}
               >
-                {(thisUser.teamWorkingDays || days)?.map((day, index) => (
+                {(thisUser.teamWorkingDays.length > 0
+                  ? thisUser.teamWorkingDays
+                  : days
+                )?.map((day, index) => (
                   <div key={index} className="centerIt py-3 work-days">
                     <Form.Check
                       checked={day.checked}
@@ -250,7 +252,7 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
                   {users.map((user, index) => (
                     <div key={index} className="centerIt pb-2">
                       <div style={{ width: "175px" }}>
-                        {userProfile(user.name, user?.picture)}            
+                        {userProfile(user.name, user?.picture)}
                       </div>
                       <Form.Control
                         className="holiday-time ms-3 Border shadow-none text-center"

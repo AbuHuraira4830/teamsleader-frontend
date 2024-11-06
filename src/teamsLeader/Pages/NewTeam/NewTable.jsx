@@ -357,6 +357,7 @@ const NewTable = ({
         console.log(err);
       });
   };
+  
   const handleActiveMember = (email, task) => {
     postAPI("/api/set-task-member-active", {
       email,
@@ -384,6 +385,7 @@ const NewTable = ({
         console.log(err);
       });
   };
+  console.log(tasks);
   return (
     <>
       {tableHidden && (

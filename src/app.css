@@ -215,10 +215,10 @@ button {
   margin-left: 3rem;
   width: 93.1rem;
 }
+/* ----------------------------Sidebar----------- */
 .top88 {
   top: 88px !important;
 }
-/* ----------------------------Sidebar----------- */
 .sidebar {
   transition: width 0.3s ease;
   width: 16rem;
@@ -779,11 +779,28 @@ input::placeholder {
 .ScheduleModal {
   z-index: 9999 !important;
 }
-
-.range-container.rmdp-wrapper {
+.rmdp-ep-arrow[direction="bottom"],
+.rmdp-ep-arrow[direction="top"] {
+  border: 0 !important;
+  margin: 0 !important;
+}
+.rmdp-ep-arrow:after {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.timeTrackerCalender .range-container.rmdp-wrapper,
+.addHolidayDatepicker .range-container.rmdp-wrapper {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.rmdp-ep-arrow {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.holidayRequest .range-container.rmdp-wrapper,
+.timeSheetModal .range-container.rmdp-wrapper {
   background-color: transparent; /* or any other color you prefer */
 }
-
+.rmdp-container input {
+  background-color: transparent;
+}
 .range-container.rmdp-wrapper .rmdp-day {
   color: var(--text-color); /* or any other text color you prefer */
 }
@@ -889,6 +906,24 @@ input::placeholder {
 .EmployeeModalBackdrop {
   z-index: 1055 !important;
 }
+.addHolidaySection
+  :where(.css-dev-only-do-not-override-3rel02).ant-checkbox-wrapper:not(
+    .ant-checkbox-wrapper-disabled
+  ):hover
+  .ant-checkbox-inner,
+:where(.css-dev-only-do-not-override-3rel02).ant-checkbox:not(
+    .ant-checkbox-disabled
+  ):hover
+  .ant-checkbox-inner {
+  border-color: var(--primary-green) !important;
+}
+.addHolidaySection .ant-checkbox-inner {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.EmployeeModalDialog .modal-content {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
 .EmployeeModalDialog {
   z-index: 9999 !important;
   width: 480px !important ;
@@ -898,5 +933,5 @@ input::placeholder {
   border-right-color: transparent !important;
 }
 .members-list .ant-checkbox-group {
-  flex-direction: column !important;           
+  flex-direction: column !important;
 }

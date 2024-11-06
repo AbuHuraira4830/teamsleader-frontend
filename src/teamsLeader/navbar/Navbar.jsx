@@ -117,7 +117,7 @@ const Navbar = ({ user }) => {
   console.log();
   return (
     <>
-      {isEmailVerified ? null : (
+      {thisUser?.isEmailVerified ? null : (
         <Alert
           className="email-verify-message"
           message={
@@ -181,7 +181,7 @@ const Navbar = ({ user }) => {
           </Button>
 
           <Button
-            className="p-0 workspace_menuBtn bgHover align-middle me-1"
+            className="p-0 workspace_menuBtn bgHover centerIt justify-center me-1"
             onClick={showModal}
           >
             <AiOutlineUserAdd />
@@ -205,7 +205,11 @@ const Navbar = ({ user }) => {
               style={{ width: "30px", height: "30px", cursor: "pointer" }}
               onClick={handleShow}
             >
-              <img src={thisUser.picture} alt="" className="rounded-circle w-100 h-100" />
+              <img
+                src={thisUser.picture}
+                alt=""
+                className="rounded-circle w-100 h-100"
+              />
             </div>
           ) : (
             <div

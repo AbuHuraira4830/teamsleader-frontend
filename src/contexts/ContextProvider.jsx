@@ -688,6 +688,7 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     getAPI("/api/user")
       .then((res) => {
+        
         setDays(res.data.user.workingDaysAndHours);
         setThisUser(res.data.user);
       })
@@ -873,7 +874,9 @@ export const ContextProvider = ({ children }) => {
   const [selectedPasswordRow, setSelectedPasswordRow] = useState(null);
   const [passwordTableID, setPasswordTableID] = useState(null);
 
-  const [signupData, setSignupData] = useState({});
+  const [signupData, setSignupData] = useState({
+    profileColor: colors[Math.floor(Math.random() * colors.length)],
+  });
   const [postContent, setPostContent] = useState("");
   const [imgSrc, setImgSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
@@ -889,10 +892,12 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-
+  const [userEmail, setUserEmail] = useState(""); 
   return (
     <StateContext.Provider
       value={{
+        userEmail,
+        setUserEmail,
         selectedEmployee,
         setSelectedEmployee,
         employeeSummary,
@@ -1087,3 +1092,4 @@ export const ContextProvider = ({ children }) => {
 };
 
 export const useStateContext = () => useContext(StateContext);
+

@@ -13,7 +13,7 @@ const Signup6 = ({ setActiveView }) => {
   const [data, setData] = useState();
   const [option, setOption] = useState(null);
   const navigate = useNavigate();
-  const { signupData, setSignupData,colors } = useStateContext();
+  const { signupData, setSignupData, colors } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const options = [
@@ -36,7 +36,6 @@ const Signup6 = ({ setActiveView }) => {
       setSignupData((prevData) => ({
         ...prevData,
         hearFrom: item,
-        profileColor:colors[Math.floor(Math.random() * colors.length)]
       }));
       radio.click();
     }
@@ -45,14 +44,36 @@ const Signup6 = ({ setActiveView }) => {
     setIsLoading(true);
     console.log(signupData);
     postAPI("/api/user/signup", signupData)
-      .then((re) => {
+      .then((res) => {
         setIsLoading(false);
-        navigate("/invite-team");
-        localStorage.setItem("token", response.data.token);
+        navigate("/home-customization");
+        localStorage.setItem("token", res.data.token);
       })
       .catch((err) => {
         setIsLoading(false);
       });
+  };
+
+  const login = async () => {
+    const data = {
+      emailAddress: signupData.email,
+      password: signupData.password,
+    };
+    try {
+      const response = await postAPI("/api/user/login", data);
+
+      // if (response.status === 200)
+      // setIsLoading(false);
+      // Perform any additional actions on successful login
+      localStorage.setItem("token", response.data.token.token);
+      // navigate("/");
+    } catch (error) {
+      console.error("Error during login:", error);
+      // setIsLoading(false);
+      // setShowError(true);
+      // setErrorMessage(error.response?.data?.message);
+      // console.log(errorMessage);
+    }
   };
   return (
     <div className="signup_form w-100">
@@ -64,7 +85,7 @@ const Signup6 = ({ setActiveView }) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            One last question, how did you hear about us?
+            One last question, how did you hear about us.
           </p>
         </div>
 

@@ -176,6 +176,11 @@ const Home = () => {
     allDocuments,
     selectedTeam,
     selectedWorkspace,
+    setSelectedDocument,
+    setSelectedTeam,
+    setComponentToShow,
+    isDocumentChange,
+    setShowDocSidebar,
   } = useStateContext();
   // console.log({ selectedWorkspace, selectedTeam });
   const { workspaceID, teamID } = useParams();
@@ -268,7 +273,26 @@ const Home = () => {
       : selectedTeam?.role === "client"
       ? "navbar-red"
       : "";
-
+  const { docId } = useParams();
+  const handleGetDocumentDetials = () => {
+    getAPI(`/api/doc/${docId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setSelectedTeam(null);
+          setComponentToShow("docCreator");
+          setSelectedDocument(response?.data?.doc);
+          setShowDocSidebar(false);
+        } else {
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    docId && handleGetDocumentDetials();
+  }, [docId, isDocumentChange]);
   return (
     user && (
       <div>

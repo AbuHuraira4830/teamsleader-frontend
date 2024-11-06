@@ -36,13 +36,16 @@ import Main from "./teamsLeader/Pages/NewTeam/Components/Kanban Components/Main.
 import PasswordTable from "./teamsLeader/Pages/PasswordsTable/PasswordTable.jsx";
 import Proposals from "./teamsLeader/Pages/proposals/Proposals.jsx";
 import TestCkEditor from "./teamsLeader/proposals/components/DropableComponents/TestCkEditor.jsx";
+import ReactDND from "./teamsLeader/Pages/DocCreater/ReactDND.jsx";
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/dragdrop" element={<ReactDND />} />
         <Route path="/workspace/:workspaceID/team/:teamID" element={<Home />} />
         <Route path="/workspace/:workspaceID" element={<Home />} />
+        <Route path="/docs/:docId" element={<Home />} />
         <Route path="/verify-email/:id" element={<EmailVerification />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -71,6 +74,10 @@ const App = () => {
         <Route path="/teams-invites" element={<InviteTeamsMain />} />
         <Route path="/new-post" element={<PostEditorWrapper />} />
         <Route path="/test-ckeditor" element={<TestCkEditor />} />
+        <Route
+          path="/workspace/:workspaceID/team/:teamID/teams-invites"
+          element={<InviteTeamsMain />}
+        />
         {/* <Route path="/calendar" element={<CalendarWrapper />} /> */}
       </Routes>
     </Router>

@@ -889,6 +889,20 @@ export const ContextProvider = ({ children }) => {
   const [newTeam, setNewTeam] = useState([]);
   const [profileModal, setProfileModal] = useState(false);
   const [memberInvitationPopup, setMemberInvitationPopup] = useState(false);
+  const [isDocumentChange, setIsDocumentChange] = useState(false);
+  const [isToggleFontFamily, setIsToggleFontFamily] = useState(false);
+  const [isToggleFontSize, setIsToggleFontSize] = useState(false);
+  useEffect(() => {
+    if (selectedDocument?._id) {
+      // Update the states based on the backend response
+      setIsToggleFontFamily(
+        selectedDocument?.applyFontFamilyToSelectedText || false
+      );
+      setIsToggleFontSize(
+        selectedDocument?.applyFontSizeToSelectedText || false
+      );
+    }
+  }, [selectedDocument?._id]);
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
@@ -1084,6 +1098,12 @@ export const ContextProvider = ({ children }) => {
         validationErrors,
         tableTeamName,
         setTableTeamName,
+        isDocumentChange,
+        setIsDocumentChange,
+        isToggleFontFamily,
+        setIsToggleFontFamily,
+        isToggleFontSize,
+        setIsToggleFontSize,
       }}
     >
       {children}

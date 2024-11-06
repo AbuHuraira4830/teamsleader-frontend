@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700;8..60,800;8..60,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Acme&family=Futura&family=Lato&display=swap");
 
 .ql-toolbar :where(.css-dev-only-do-not-override-gzal6t).ant-divider-vertical {
   height: 1.5em;
@@ -68,6 +67,7 @@ th {
   background-repeat: repeat, repeat-y;
   background-size: 24px 24px;
 }
+
 .docCreater .ck-content.stickyNote {
   background-image: linear-gradient(
     0deg,
@@ -205,12 +205,7 @@ th {
   background-color: #0073ea;
   border-radius: 10px;
 }
-.icon-crown-gray {
-  width: 20px;
-  height: 20px;
-  background-color: lightgray;
-  border-radius: 10px;
-}
+
 .person-avatar {
   background-color: #ff642a;
   width: 30px;
@@ -249,45 +244,6 @@ th {
   height: 40px;
   border: 1px solid var(--border-color);
 }
-/* Hover class that is added dynamically */
-.hover-effect {
-  position: relative;
-  padding-left: 30px; /* Space for the icon */
-}
 
-.hover-effect::before {
-  content: "\f3c9"; /* FontAwesome icon or use your own */
-  font-family: "FontAwesome";
-  color: blue;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-/* Add this CSS globally or to the hovered elements */
-/* p,
-span,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-img {
-  background-color: rgb(87, 75, 190);
-} */
 
-/* Target inline tags inside text elements */
-p strong,
-p i,
-h1 strong,
-h1 i,
-h2 strong,
-h2 i,
-h3 strong,
-h3 i {
-  display: inline-block; /* Force them to behave more like block elements */
-  line-height: inherit; /* Ensure they follow the same line-height as the parent */
-  padding: inherit;
-  margin: inherit;
-}
+

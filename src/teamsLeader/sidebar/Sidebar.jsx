@@ -204,7 +204,11 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
           setSelectedDocument(null);
           setSelectedTeam(team);
           setTeamTasks(response.data._doc);
-          navigate(`/workspace/${workspaceID}/team/${teamID}`);
+          navigate(
+            `/workspace/${
+              workspaceID || selectedDocument?.workspaceID
+            }/team/${teamID}`
+          );
         } else {
           console.log(response.data.message);
         }
@@ -288,20 +292,23 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
   const hideDocModal = () => {
     setDocModal(false);
   };
+  // const getDocument = (doc) => {
+  //   getAPI(`/api/doc/${doc._id}`)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         setSelectedTeam(null);
+  //         setComponentToShow("docCreator");
+  //         setSelectedDocument(doc);
+  //       } else {
+  //         console.log(response.data.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const getDocument = (doc) => {
-    getAPI(`/api/doc/${doc._id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          setSelectedTeam(null);
-          setComponentToShow("docCreator");
-          setSelectedDocument(doc);
-        } else {
-          console.log(response.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    navigate(`/docs/${doc?._id}`);
   };
   const deleteDoc = (docID) => {
     postAPI("/api/doc/delete", {
@@ -466,9 +473,9 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       className=" py-0 shadow-none workspace_searchInput dynamicBG rounded-0  w-100 text-start "
                     />
                   ) : selectedWorkspace?.name.length > 10 ? (
-                    selectedWorkspace?.name.slice(0, 10) + " ..."         
-                  ) : (  
-                    selectedWorkspace?.name   
+                    selectedWorkspace?.name.slice(0, 10) + " ..."
+                  ) : (
+                    selectedWorkspace?.name
                   )}
                 </span>
                 {!workspaceEditing && (
@@ -603,7 +610,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
             >
               <form onSubmit={newTeamHandler}>
                 <Modal.Header closeButton className="border-0 px-0 pb-0">
-                  <h2>Create Team</h2>
+                  <h1 className="text-[22px] font-[800]">Create Team</h1>
                 </Modal.Header>
                 <Modal.Body className="px-0 pb-0">
                   <span>
@@ -617,7 +624,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       required={true}
                     />
                   </span>
-                  <div className="">
+                  <div className=" mt-4">
                     <p className="fs_14 p-0">Privacy</p>
 
                     <div className="mt-2 pb-4   d-flex ">

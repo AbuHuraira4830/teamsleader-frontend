@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap');
+.font_arial{
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 400 !important;
+}
+.shadow-sm, .shadow-xl {
+    box-shadow: 0 0 #0000,0 0 #0000,0 0 #0000,0 0 #0000,0 1px 2px 0 #0000000d;
+}
+.text-revenues {
+    --tw-text-opacity: 1;
+    color: rgb(130 225 185/var(--tw-text-opacity));
+}
+
+.border-revenues {
+    --tw-border-opacity: 1;
+    border-color: rgb(130 225 185/var(--tw-border-opacity));
+}
+.bg-revenues {
+    --tw-bg-opacity: 1;
+    background-color: rgb(130 225 185/var(--tw-bg-opacity)) !important;
+}
+.bg-primary-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(114 95 130/var(--tw-bg-opacity)) !important;
+}
+.text-neutral-100 {
+    --tw-text-opacity: 1;
+    color: rgb(234 230 237/var(--tw-text-opacity)) !important;
+}
+.text-primary-700 {
+    --tw-text-opacity: 1;
+    color: rgb(114 95 130/var(--tw-text-opacity)) !important;
+}
+
+
+.css-jsexje-MuiSwitch-thumb{
+    width: 20px !important;
+    height: 20px !important;
+}
+.css-1x2e00o-MuiSwitch-root{
+    height: 24px !important;
+}
+/* .group:hover .group-hover-opacity-100 {
+    opacity: 1 !important;
+    transition: opacity 150ms ease-in-out;
+  } */
+  .custom_borderStyle{
+    border-width: 1px !important;
+  }
+  
+
+.focus\:ring-opacity-25:focus {
+    --tw-ring-opacity: 0.25 !important;
+}
+.focus\:ring-primary-900:focus {
+    --tw-ring-color: rgb(73 49 94/var(--tw-ring-opacity));
+}
+
+.focus\:border-primary-500:focus {
+    --tw-border-opacity: 1;
+    border-color: rgb(154 141 166/var(--tw-border-opacity)) !important;
+}
+
+.border-revenues {
+    --tw-border-opacity: 1;
+    border-color: rgb(130 225 185/var(--tw-border-opacity));
+}
+.ReactModal__Overlay{
+    background-color: rgba(53,26,77, 0.4) !important; 
+}
+.custom_opacity0{
+    opacity: 0 ;
+}
+.custom_opacity1{
+    opacity: 1 !important;
+}
+.text_customBlack{
+    --tw-text-opacity: 0.6;
+    color: rgb(0 0 0/var(--tw-text-opacity));
+}
+.default-border {
+    border: none;
+  }
+  
+  .hover-border {
+    border-width: 1px;
+    border-color: #262626;
+  }
+  .personal_detailsInvoices{
+    text-align: left;
+    border-width: 0px !important;
+  }
+  .personal_detailsInvoices:hover{
+    border-width: 1px !important;
+  }
+  .add_password_wrapper .form-select:focus{
+    border-color: #00854d !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 .25rem rgba(0, 133, 77, .25) !important;
+  }
+  .clientInfo_select .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+  }
+  .text-primary-invoice{
+    /* color: rgb(108, 155, 221); */
+    /* color: rgb(71 137 229); */
+    color: rgb(79 138 223);
+    /* color: #377f61 ; */
+  }
+  /* .clentType_form option:hover{
+    background-color: #00854d !important;
+
+  } */
+  /* Custom CSS */
+
+ 
+  
+  .client-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .client-name p {
+    margin: 0;
+  }
+  
+  .client-vat p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+  
+  .client-item-removing {
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .quantityButton:hover{
+    background-color: #00854d !important;
+    border-color: #00854d !important;
+
+
+  }
+  .custom_switchInvoice input{
+    width: 2.8em !important;
+    height: 1.5em !important;
+    cursor: pointer;
+  }
+  .truncate-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hover\:bg-neutral-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 250 250/var(--tw-bg-opacity));
+}
+.hover\:\!border-neutral:hover {
+  --tw-border-opacity: 1!important;
+  border-color: rgb(212 204 219/var(--tw-border-opacity))!important;
+}
+.hover\:border-\[1\.5px\]:hover {
+  border-width: 1.5px;
+}
+.hover\:rounded-lg:hover {
+  border-radius: .5rem;
+}
+.itemInvoice_blackText{
+  color: #0000 !important;
+  opacity: 0.6 ;
+}
+.group:hover > .custom_opacity0 {
+  opacity: 100 ;
+}
+.invoiceItemsTable table  td{
+  /* text-align: left !important; */
+}
+
+.border-t-primary-100 {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(235 232 237/var(--tw-border-opacity)) !important;
+}
+.editInputHead {
+  width: 100%; /* Make input field take up the entire width of the table header cell */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  margin: 0; /* Remove any default margin */
+  border: 1px solid #ccc; /* Optional: adds a border to the input field */
+  padding: 4px; /* Optional: adds some padding inside the input field */
+}
+
+th {
+  position: relative; /* For absolute positioning of the input */
+}
+
+.editInputHead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: none;
+  padding: 10px; /* Adjust the padding to match your th padding */
+  margin: 0;
+  box-sizing: border-box;
+  text-align: center;
+  /* Additional styles to match your design */
+}
+
+.editInputHead:hover{
+  border-color: #00854d !important;
+  /* outline: none !important; */
+  outline-color: #00854d !important;
+}
+.editInputHead:focus{
+  border-color: #00854d !important;
+  /* outline: none !important; */
+  outline-color: #00854d !important;
+}
+
+/* Add this to your CSS file */
+.th-fixed {
+  width: 164px; /* Set a fixed width for your th elements */
+  min-width: 164px; /* Ensure that width doesn't shrink */
+  max-width: 164px; /* Ensure that width doesn't expand */
+  height: 30px; /* Fixed height for th */
+}
+
+.editInputHead {
+  width: 100%; /* Make input take the full width of the th element */
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+  height: 100%; /* Make input take the full height of the th element */
+  border: 1px solid #ccc; /* Add border to match your design (optional) */
+  padding: 4px; /* Add padding inside the input */
+  margin: 0; /* Remove any default margins */
+}
+.editable-header:hover {
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #c3c6d4; /* or any color of your choice */
+  background-color: #f9f9f9; 
+border-radius: 4px;
+padding: 0 4px;
+  cursor:text;
+}
+.invoice_customCalendar .react-datepicker__input-container,.invoice_customCalendar .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle{
+  display: none !important;
+}
+.schedule_customCalendar .react-datepicker__input-container,.invoice_customCalendar .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle{
+  display: block !important;
+}
+.schedule_customCalendar .react-datepicker-wrapper input{
+  padding-left: 12px !important;
+  width: 160px !important;
+
+}
+
+.schedule_customCalendar .react-datepicker-wrapper input:hover
+{
+border: none !important;
+}
+.invoice_customCalendar  .react-datepicker {
+  background: #fff;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 22px 72px 0 #08125626;
+  font-family: Assistant;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3125rem;
+  overflow: initial;
+  color: #000;
+}
+.invoice_customCalendar .react-datepicker__navigation--previous {
+  /* background-image: url(/static/media/Left.e4ff77763dcd9cc64b78.svg); */
+  background-position: 50%;
+  background-repeat: no-repeat;
+  left: 12px;
+  top: 12px;
+}
+.invoice_customCalendar .react-datepicker__navigation-icon--previous{
+right: 2px;
+}
+.invoice_customCalendar .react-datepicker__navigation-icon--next{
+left: 2px;
+}
+.invoice_customCalendar .react-datepicker__navigation--next {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  right: 12px;
+  top: 12px;
+}
+.invoice_customCalendar .react-datepicker__navigation {
+  border: 1px solid #664b8133;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+}
+.invoice_customCalendar .react-datepicker__header {
+  background: #fff;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.invoice_customCalendar .react-datepicker__current-month {
+  border-bottom: 1px solid #e0dbe6;
+  color: #28004bde;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3125rem;
+  padding: 20px 0;
+}
+.invoice_customCalendar .react-datepicker__day-names {
+  display: flex;
+  justify-content: space-around;
+  margin: 16px 0;
+}
+.invoice_customCalendar .react-datepicker__day-name {
+  color: #28004b40;
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: .9375rem;
+  margin: 0;
+  width: auto;
+}
+.invoice_customCalendar .react-datepicker__day--outside-month {
+  pointer-events: none;
+  visibility: hidden;
+}
+.invoice_customCalendar .react-datepicker__day {
+  background: #0000;
+
+  border-radius: 0;
+  height: 35px;
+  margin: 0;
+  width: 35px;
+  background: #0000;
+  border-radius: 50%;
+  color: #28004bde;
+  font-size: .8rem;
+ 
+
+}
+.invoice_customCalendar .react-datepicker__day:hover{
+  background: #82e1b9;
+  color: #ffffffe6;
+  border-radius: 50%;
+
+}
+.invoice_customCalendar .react-datepicker__day .react-datepicker__day-value {
+  background: #0000;
+  border-radius: 50%;
+  color: #28004bde;
+
+}
+.invoice_customCalendar .react-datepicker__day--selected{
+  background: #82e1b9;
+  color: #ffffffe6;
+  border-radius: 50%;
+  outline: none;
+}
+
+.issuedCalendarInvoice .react-datepicker-popper{
+  transform: translate(-42px, 86px) !important;
+}
+.dueCalendarInvoice .react-datepicker-popper{
+  transform: translate(-42px, 140px) !important;
+}

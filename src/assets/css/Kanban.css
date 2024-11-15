@@ -1,0 +1,95 @@
+body {
+  overflow: hidden;
+}
+
+.MuiTooltip-popper[data-popper-placement*="top"]
+  .css-1k51tf5-MuiTooltip-tooltip {
+  transform-origin: center bottom;
+  margin-bottom: 8px !important;
+  background: black;
+  color: white;
+  font-size: 12px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height:5px;
+
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(216, 216, 216);
+border-radius: 0px;
+
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.kanban__section__bottom {
+  overflow-y:scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent; /* Set the corner background color to transparent */
+}
+.due-date-box:hover .icons-due-date{
+display: flex;
+border: 1px solid lightgray;
+}
+/* .kanban__section__bottom:hover {
+overflow-y:scroll;
+  max-height: 100%; 
+} */
+
+.css-1d3ml05-MuiPopper-root-MuiTooltip-popper[data-popper-placement*="top"]
+  .MuiTooltip-arrow {
+  bottom: 0;
+  color: black;
+  margin-bottom: -0.71em;
+}
+
+.kanbanIcon svg{
+  color: white !important;
+}
+.kanbanIcon:hover svg {
+  color: black !important;
+}
+
+.kanbanTaskIcon:hover svg {
+  color: rgb(0, 89, 255) !important;
+}
+
+
+.custom-datepicker {
+  width: 100% !important;
+  text-align: center;
+  /* Add any other styles you need */
+}
+
+
+.d-flex { 
+  display: flex !important;
+}
+.justify-content-center {
+  justify-content: center;
+}
+/* CustomDatePicker.css */
+
+.custom-date-picker-container {
+  /* position: absolute;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+   */
+   visibility: hidden !important;
+   height: 0;
+   width: 0;
+}
+.custom-date-picker-container .MuiPaper-root {
+  margin-top: -20px !important;
+}

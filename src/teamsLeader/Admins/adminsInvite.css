@@ -1,0 +1,259 @@
+.css-1gjgmky-MuiToggleButtonGroup-root{
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.css-d9c359-MuiButtonBase-root-MuiToggleButton-root.Mui-selected:hover{
+    background-color: #e2f0e7 !important;
+}
+.css-d9c359-MuiButtonBase-root-MuiToggleButton-root.Mui-selected{
+    color: #00854d !important;
+    /* color: #013c29 !important; */
+}
+/* .css-1tk1bks-MuiDivider-root{
+    margin: 1rem 1rem !important;
+    margin-bottom: 0rem !important;
+    border-width: 1px !important;
+    border-color: #cbcdcf !important;
+    
+} */
+.role_divider{
+    margin: 0rem .9rem;
+    margin-bottom: 0;
+    /* border-width: 1px; */
+    height: auto;
+    border-right: 2px solid #00ca72;
+    /* border-right: 1px solid gray; */
+    
+    border-top: 0;
+    opacity: 1;
+    /* opacity: .3; */
+
+}
+.employee_divider{
+    margin: 2rem 1rem;
+    margin-bottom: 0;
+    border-width: 5px;
+    height: auto;
+    border-bottom: 1px solid gray;
+    border-top: 0;
+    opacity: .3;
+
+}
+.newRole_container{
+    display: flex;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    /* justify-content: space-between; */
+    /* grid-template-columns: 300px 100px 200px ; */
+}
+.css-10hburv-MuiTypography-root{
+    font-size: 0.75rem !important;
+}
+.css-jsexje-MuiSwitch-thumb{
+    width: 18px !important;
+    height: 18px;
+}
+
+.event-modal {
+    top: 8rem !important;
+    /* padding: 20px 24px !important; */
+    
+}
+.event-modal .ant-modal-content{
+    padding: 20px 24px !important;
+}
+.admin-modal .ant-modal-content{
+    padding: 20px 24px !important;
+}
+
+
+.admin-modal {
+    top: 51px !important;
+
+}
+.css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback{
+    width: 65% !important;
+    height: 65% !important;
+}
+.css-2s90m6-MuiAvatar-root{
+    width: 30px !important;
+    height: 30px !important;
+}
+.css-1e9lk82-MuiListItemAvatar-root{
+    min-width: 48px !important;
+}
+.css-78trlr-MuiButtonBase-root-MuiIconButton-root{
+    padding: 10px 6px !important;
+ 
+}
+.css-i4bv87-MuiSvgIcon-root{
+    font-size: 1rem !important;
+}
+.pendingText{
+    font-size: 10px;
+    border-radius: 4px;
+background-color: #FF7276;
+
+/* padding: 5px 5px; */
+padding: 3px 5px;
+color: #fff;    
+}
+.css-1k23hlb-MuiButtonBase-root-MuiButton-root{
+    border: 1px solid #00854d !important;
+
+    color: #00854d !important;
+}
+.css-1k23hlb-MuiButtonBase-root-MuiButton-root:hover{
+    background-color: rgba(0, 128, 0, 0.04) !important;
+
+}
+.react-tel-input{
+    margin: 8px !important;
+}
+.react-tel-input .form-control:focus{
+    border-color: #00854d;
+    box-shadow: 0 0 0 1px #00854d;
+}
+/* ========================================================== */
+
+.inviteAdminToggleWrapper .dropdown-menu.show{
+    width: 192px !important;
+    padding: 4px !important;
+    position: absolute !important;
+    inset: 0px auto auto -11px !important;
+    transform: translate(0px, 36px) !important;
+
+}
+.react-tel-input .form-control{
+    width: 80% !important;
+}
+.css-1isisa7-MuiTypography-root{
+    line-height: 1.25 !important;
+}
+
+.inviteTeamInner  .dropdown  .dropdown-menu .employee {
+   
+background-color: #3498db;
+border-color: #3498db;
+border-radius: 4px;
+color: #fff;
+margin-bottom: .5rem;
+transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+}
+.inviteTeamInner  .dropdown  .dropdown-menu .client {
+background-color:#FFD700;
+border-radius: 4px;
+color: rgb(107 77 77);
+transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+margin-bottom: .5rem;
+
+}
+
+.inviteTeamInner  .dropdown  .dropdown-menu .admin {
+background-color:#e3e3e3;
+border-radius: 4px;
+color: rgb(107 77 77);
+transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+}
+.inviteTeamInner .dropdown .dropdown-menu .employee:hover {
+    background-color: #62b3e9 !important;
+    color: #2b2828 !important;
+  }
+  
+  .inviteTeamInner .dropdown .dropdown-menu .client:hover {
+    background-color: #e7d35f !important;    
+    color: #504c4c !important;
+  }
+/* ======================================== */
+.css-i4bv87-MuiSvgIcon-root{
+    height: 1.2em !important;
+    width: 17px !important;
+}
+.css-1xtorts-MuiDivider-root,.css-e9xqye-MuiDivider-root{
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+}
+
+.admin_searchInput {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #c3c6d4;
+    border-radius: 4px;
+    color: #323338;
+    font-size: 0.8rem;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    padding: 0rem 0.3rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .admin_searchInput.focus {
+    border-color: #00854d !important;
+  }
+  
+  .searchInput {
+    width: 100%;
+    border: none;
+    outline: none;
+  }
+  
+  
+  /* ============================================ */
+  .employee-list-item {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .employee-checkbox, .admin-checkbox {
+    display: flex !important;
+    align-items: center !important;
+    margin-right: 12px !important;
+  }
+  
+  .employee-item {
+    flex-grow: 1 !important;
+  }
+  
+  .employee-item:hover .action-dropdown {
+    visibility: visible !important;
+  }
+  
+  /* .action-dropdown {
+    visibility: hidden !important;
+    margin-left: 8px !important;
+  } */
+  /* ================================================== */
+  .hover-row {
+    position: relative;
+  }
+  
+  .hover-row:hover .action-dropdown {
+    display: inline-block;
+  }
+  
+  .action-dropdown,.action-dropdown-admin {
+    display: none;
+    position: absolute;
+    left: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .action-dropdown-admin{
+    left: -45% !important;
+    /* left: -70% !important; */
+}
+.action-dropdown-client{
+    left: -70%;
+}
+
+.action-dropdown-employee{
+    left: -50%;
+}
+.action-dropdown-clientItem
+{
+    left: -60%;
+}

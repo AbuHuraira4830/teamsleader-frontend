@@ -1,0 +1,49 @@
+.file_galleryH {
+  font-weight: 600;
+}
+.file_gallery:hover {
+  border: 1px solid #00854d !important;
+}
+.file_gallery {
+  position: initial !important;
+  /* transform: none !important; */
+}
+.empty_fileGallery .file_gallery {
+  transform: matrix();
+}
+.actionBtns {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: rgb(29, 29, 29) !important;
+  background-color: transparent !important;
+  border: 1px solid #dee2e6 !important;
+}
+.activeBtn {
+  background-color: #e2f0e7 !important ;
+  border: 1px solid #00854d !important;
+}
+.btn_grid {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.btn_list {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
+.dropZone {
+  outline: none;
+}
+.cursor-move {
+  cursor: move;
+}
+.titleInput:focus {
+  outline: 1px solid var(--primary-green) !important;
+}
+.titleInput {
+  font-weight: 600 !important;
+}

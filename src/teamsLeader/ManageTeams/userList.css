@@ -1,0 +1,36 @@
+
+.css-1wsmmwv-MuiPaper-root-MuiTableContainer-root{
+    width: 97% !important;
+}
+/* Add this CSS to your stylesheet */
+.custom-input:focus, .custom-input-focused{
+    border-color: #00854d !important;
+    box-shadow: 0 0 0 2px rgba(0,133,77,0.2) !important;
+    transition: border-color 100ms ease-in !important;
+  }
+  .custom-input:hover {
+    border-color:  #323338!important;
+
+  }
+  .ant-select-focused .ant-select-selector,
+  .ant-select-selector:focus,
+  .ant-select-selector:active
+   {
+    transition: border-color 100ms ease-in !important;
+
+    border-color: #00854d !important;
+    box-shadow: 0 0 0 2px rgba(0,133,77,0.2) !important;
+  }
+  .ant-select-selector:hover{
+    border-color: #323338 !important;
+
+  }
+  /* Optional: Override Ant Design's styles for selected items in the Select component */
+  .ant-select-selection-item {
+    background-color: #c6e9d5 !important; /* Light grey background */
+    color: #323338 !important;  /* Darker text color for contrast */
+  }
+  .custome_uploadBtn:hover{
+    border-color: #00854d !important;
+    color: #00854d !important;
+  }

@@ -550,10 +550,10 @@ input::placeholder {
   cursor: pointer;
 }
 
-.fr-toolbar .fr-command.fr-btn {
-  /* width: 25px; */
-  /* height: 25px;  */
-}
+/* .fr-toolbar .fr-command.fr-btn {
+  width: 25px;
+  height: 25px; 
+} */
 .fr-toolbar .fr-command.fr-btn svg.fr-svg {
   height: 18px;
   /* margin-top: 0px; */
@@ -786,8 +786,8 @@ input::placeholder {
   height: 30px !important;
   border-color: var(--border-color);
 }
-.holidayDatepicker .rmdp-wrapper {
-}
+/* .holidayDatepicker .rmdp-wrapper {
+} */
 
 .timeSheetModal {
   z-index: 9999 !important;
@@ -927,5 +927,5 @@ input::placeholder {
   border-right-color: transparent !important;
 }
 .members-list .ant-checkbox-group {
-  flex-direction: column !important;           
+  flex-direction: column !important;
 }

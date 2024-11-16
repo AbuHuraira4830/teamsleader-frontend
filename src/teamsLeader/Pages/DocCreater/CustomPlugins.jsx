@@ -3,32 +3,78 @@ import {
   createDropdown,
   addListToDropdown,
 } from "@ckeditor/ckeditor5-ui/src/dropdown/utils";
-import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
+// import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
 import Collection from "@ckeditor/ckeditor5-utils/src/collection";
 import Model from "@ckeditor/ckeditor5-ui/src/model";
-import { PiTextTBold } from "react-icons/pi";
-import { BsThreeDots, BsThreeDotsVertical } from "react-icons/bs";
 import { renderToStaticMarkup } from "react-dom/server";
+import { View, ButtonView, InputTextView } from "@ckeditor/ckeditor5-ui";
 
-// const CustomPlugins = () => {};
+// Import icons from react-icons
+import {
+  BsTextParagraph,
+  BsTypeH1,
+  BsTypeH2,
+  BsTypeH3,
+  BsListUl,
+  BsCheckSquare,
+  BsTable,
+  BsImage,
+  BsCameraVideo,
+} from "react-icons/bs";
+import { PiTextTBold } from "react-icons/pi";
+import {
+  BsThreeDots,
+  BsThreeDotsVertical,
+  BsFileEarmarkText,
+  BsListOl,
+  BsQuote,
+  BsCode,
+} from "react-icons/bs";
 
-export function AddDropdown(editor) {
-  editor.ui.componentFactory.add("addDropdown", (locale) => {
+import {
+  BsBorderAll,
+  BsFillPlusSquareFill,
+  BsFillDashSquareFill,
+} from "react-icons/bs";
+import { ToolbarView } from "@ckeditor/ckeditor5-ui";
+
+// Create a custom table dropdown
+export function CustomTableDropdown(editor) {
+  editor.ui.componentFactory.add("tableDropdown", (locale) => {
     const dropdownView = createDropdown(locale);
 
     dropdownView.buttonView.set({
-      label: "+  Add",
+      label: "Table",
       tooltip: true,
       withText: true,
     });
 
     const buttonOptions = [
-      { id: "paragraph", label: "Paragraph" },
-      { label: "Heading 2" },
-      { label: "Bulleted list" },
-      { label: "Checklist" },
-      { label: "Table" },
-      { label: "Image", file: null }, // Optional initial file data (if available)
+      {
+        label: "Insert Row Above",
+        command: "tableInsertRowAbove",
+        icon: <BsFillPlusSquareFill style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "Insert Row Below",
+        command: "tableInsertRowBelow",
+        icon: <BsFillDashSquareFill style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "Insert Column Left",
+        command: "tableInsertColumnLeft",
+        icon: <BsFillPlusSquareFill style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "Insert Column Right",
+        command: "tableInsertColumnRight",
+        icon: <BsFillDashSquareFill style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "Delete Table",
+        command: "deleteTable",
+        icon: <BsBorderAll style={{ fontSize: "10px" }} />,
+      },
     ];
 
     const items = new Collection();
@@ -38,7 +84,9 @@ export function AddDropdown(editor) {
         type: "button",
         model: new Model({
           withText: true,
-          ...option,
+          label: option.label,
+          command: option.command,
+          icon: renderToStaticMarkup(option.icon),
         }),
       });
     });
@@ -46,53 +94,344 @@ export function AddDropdown(editor) {
     addListToDropdown(dropdownView, items);
 
     dropdownView.on("execute", (eventInfo) => {
-      const { label } = eventInfo.source;
-
-      switch (label) {
-        case "Paragraph":
-          editor.execute("paragraph");
-          break;
-        case "Heading 2":
-          editor.execute("heading", { level: 2 });
-          break;
-        case "Bulleted list":
-          editor.execute("bulletedList");
-          break;
-        case "Checklist":
-          editor.execute("todoList");
-          break;
-        case "Table":
-          editor.execute("insertTable");
-          break;
-        case "Image":
-          editor.execute("insertImage");
-          break;
-        // Add more cases as needed
+      const { command } = eventInfo.source;
+      if (command) {
+        editor.execute(command);
       }
     });
 
     return dropdownView;
   });
 }
-// export function MyCustomUploadAdapterPlugin(editor) {
-//   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-//     return {
-//       upload: () => {
-//         return loader.file.then((file) => {
-//           return new Promise((resolve, reject) => {
-//             const reader = new FileReader();
-//             reader.onload = () => {
-//               const base64 = reader.result;
-//               resolve({ default: base64 });
-//             };
-//             reader.onerror = reject;
-//             reader.readAsDataURL(file);
-//           });
-//         });
+
+// // Main dropdown function with icons
+// export function AddDropdown(editor) {
+//   editor.ui.componentFactory.add("addDropdown", (locale) => {
+//     const dropdownView = createDropdown(locale);
+
+//     dropdownView.buttonView.set({
+//       label: "+ Add",
+//       tooltip: true,
+//       withText: true,
+//     });
+
+//     // Define button options with labels, CKEditor commands, and icons
+//     const buttonOptions = [
+//       {
+//         label: "\u00A0\u00A0Normal Text",
+//         command: "paragraph",
+//         icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
 //       },
-//     };
-//   };
+//       {
+//         label: "\u00A0\u00A0Large Title",
+//         command: "heading",
+//         options: { level: 1 },
+//         icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Medium Title",
+//         command: "heading",
+//         options: { level: 2 },
+//         icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Small Title",
+//         command: "heading",
+//         options: { level: 3 },
+//         icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Bulleted List",
+//         command: "bulletedList",
+//         icon: <BsListUl style={{ fontSize: "10px" }} />,
+//       },
+//       // {
+//       //   label: "\u00A0\u00A0Ordered List",
+//       //   command: "numberedList", // Command for ordered list
+//       //   icon: <BsListOl style={{ fontSize: "10px" }} />, // Icon for ordered list
+//       // },
+//       {
+//         label: "\u00A0\u00A0Checklist",
+//         command: "todoList",
+//         icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Table",
+//         command: "insertTable",
+//         icon: <BsTable style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Image",
+//         command: "imageUpload",
+//         icon: <BsImage style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Video",
+//         command: "mediaEmbed",
+//         icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+//       },
+//     ];
+
+//     const items = new Collection();
+
+//     buttonOptions.forEach((option) => {
+//       items.add({
+//         type: "button",
+//         model: new Model({
+//           withText: true,
+//           label: option.label,
+//           command: option.command,
+//           icon: renderToStaticMarkup(option.icon),
+//           options: option.options || {},
+//         }),
+//       });
+//     });
+
+//     addListToDropdown(dropdownView, items);
+
+//     dropdownView.on("execute", (eventInfo) => {
+//       const { command, options } = eventInfo.source;
+//       if (command) {
+//         editor.execute(command, options);
+//       }
+//     });
+
+//     return dropdownView;
+//   });
 // }
+
+// export function AddDropdown(editor) {
+//   editor.ui.componentFactory.add("addDropdown", (locale) => {
+//     const dropdownView = createDropdown(locale);
+
+//     dropdownView.buttonView.set({
+//       label: "+ Add",
+//       tooltip: true,
+//       withText: true,
+//     });
+
+//     const buttonOptions = [
+//       {
+//         label: "\u00A0\u00A0Normal Text",
+//         command: "paragraph",
+//         icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type normal text here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Large Title",
+//         command: "heading",
+//         options: { level: 1 },
+//         icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type large title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Medium Title",
+//         command: "heading",
+//         options: { level: 2 },
+//         icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type medium title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Small Title",
+//         command: "heading",
+//         options: { level: 3 },
+//         icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type small title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Bulleted List",
+//         command: "bulletedList",
+//         icon: <BsListUl style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add bullet points...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Checklist",
+//         command: "todoList",
+//         icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add checklist items...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Table",
+//         command: "insertTable",
+//         icon: <BsTable style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Image",
+//         command: "imageUpload",
+//         icon: <BsImage style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Video",
+//         command: "mediaEmbed",
+//         icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+//       },
+//     ];
+
+//     const items = new Collection();
+
+//     buttonOptions.forEach((option) => {
+//       items.add({
+//         type: "button",
+//         model: new Model({
+//           withText: true,
+//           label: option.label,
+//           command: option.command,
+//           icon: renderToStaticMarkup(option.icon),
+//           options: option.options || {},
+//           placeholderText: option.placeholderText || "", // Add placeholderText to each option
+//         }),
+//       });
+//     });
+
+//     addListToDropdown(dropdownView, items);
+
+//     dropdownView.on("execute", (eventInfo) => {
+//       const { command, options, placeholderText } = eventInfo.source;
+
+//       if (command) {
+//         editor.model.change((writer) => {
+//           // Insert at the end of the editor content
+//           const root = editor.model.document.getRoot();
+//           const endPosition = writer.createPositionAt(root, "end");
+//           const newElement = writer.createElement(command, options);
+
+//           writer.insertText(placeholderText, newElement); // Add placeholder text
+//           writer.insert(newElement, endPosition);
+//           writer.setSelection(newElement, "in"); // Focus on new element
+
+//           // Optional: Add CSS to make placeholder styling visible until edited
+//           newElement.getCustomProperty = () => ({ isPlaceholder: true });
+//         });
+//       }
+//     });
+
+//     return dropdownView;
+//   });
+// }
+export function AddDropdown(editor) {
+  editor.ui.componentFactory.add("addDropdown", (locale) => {
+    const dropdownView = createDropdown(locale);
+
+    dropdownView.buttonView.set({
+      label: "+ Add",
+      tooltip: true,
+      withText: true,
+    });
+
+    const buttonOptions = [
+      {
+        label: "\u00A0\u00A0Normal Text",
+        command: "paragraph",
+        icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+        placeholderText: "Type normal text here...",
+      },
+      {
+        label: "\u00A0\u00A0Large Title",
+        command: "heading",
+        options: { level: 1 },
+        icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+        placeholderText: "Type large title here...",
+      },
+      {
+        label: "\u00A0\u00A0Medium Title",
+        command: "heading",
+        options: { level: 2 },
+        icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+        placeholderText: "Type medium title here...",
+      },
+      {
+        label: "\u00A0\u00A0Small Title",
+        command: "heading",
+        options: { level: 3 },
+        icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+        placeholderText: "Type small title here...",
+      },
+      {
+        label: "\u00A0\u00A0Bulleted List",
+        command: "bulletedList",
+        icon: <BsListUl style={{ fontSize: "10px" }} />,
+        placeholderText: "Add bullet points...",
+      },
+      {
+        label: "\u00A0\u00A0Checklist",
+        command: "todoList",
+        icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+        placeholderText: "Add checklist items...",
+      },
+      {
+        label: "\u00A0\u00A0Table",
+        command: "insertTable",
+        icon: <BsTable style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "\u00A0\u00A0Image",
+        command: "imageUpload",
+        icon: <BsImage style={{ fontSize: "10px" }} />,
+      },
+      {
+        label: "\u00A0\u00A0Video",
+        command: "mediaEmbed",
+        icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+      },
+    ];
+
+    const items = new Collection();
+
+    buttonOptions.forEach((option) => {
+      items.add({
+        type: "button",
+        model: new Model({
+          withText: true,
+          label: option.label,
+          command: option.command,
+          icon: renderToStaticMarkup(option.icon),
+          options: option.options || {},
+          placeholderText: option.placeholderText || "",
+        }),
+      });
+    });
+
+    addListToDropdown(dropdownView, items);
+
+    dropdownView.on("execute", (eventInfo) => {
+      const { command, options, placeholderText } = eventInfo.source;
+
+      if (command) {
+        editor.model.change((writer) => {
+          const root = editor.model.document.getRoot();
+
+          // Check if the command is allowed at the root level
+          if (editor.model.schema.checkChild(root, command)) {
+            const endPosition = writer.createPositionAt(root, "end");
+            const newElement = writer.createElement(command, options);
+
+            writer.insert(newElement, endPosition);
+
+            // Add placeholder text if allowed
+            if (
+              placeholderText &&
+              editor.model.schema.checkChild(newElement, "$text")
+            ) {
+              writer.insertText(
+                placeholderText,
+                { placeholder: true, color: "#a0a0a0" },
+                newElement
+              );
+            }
+
+            writer.setSelection(newElement, 0);
+          } else {
+            console.error(
+              `Cannot insert element of type "${command}" at the root.`
+            );
+          }
+        });
+      }
+    });
+
+    return dropdownView;
+  });
+}
 
 export function MyCustomUploadAdapterPlugin(editor) {
   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
@@ -229,5 +568,280 @@ export function ActionDropdown(editor) {
     });
 
     return dropdownView;
+  });
+}
+
+// export function FontSizeControl(editor) {
+//   editor.ui.componentFactory.add("fontSizeControl", (locale) => {
+//     const toolbarView = new View(locale);
+//     let fontSize = 16;
+
+//     const minusButton = new ButtonView(locale);
+//     minusButton.set({
+//       label: "-",
+//       withText: true,
+//       class: "font-size-control-button",
+//     });
+//     minusButton.extendTemplate({
+//       attributes: {
+//         style: {
+//           width: "30px",
+//           height: "30px",
+//           fontSize: "16px",
+//         },
+//       },
+//     });
+
+//     const inputField = new InputTextView(locale);
+//     inputField.set({
+//       value: fontSize.toString(),
+//       class: "font-size-input",
+//     });
+//     inputField.extendTemplate({
+//       attributes: {
+//         style: {
+//           width: "50px",
+//           height: "30px",
+//           textAlign: "center",
+//           fontSize: "16px",
+//         },
+//       },
+//     });
+
+//     const plusButton = new ButtonView(locale);
+//     plusButton.set({
+//       label: "+",
+//       withText: true,
+//       class: "font-size-control-button",
+//     });
+//     plusButton.extendTemplate({
+//       attributes: {
+//         style: {
+//           width: "30px",
+//           height: "30px",
+//           fontSize: "16px",
+//         },
+//       },
+//     });
+
+//     function applyStyle(size) {
+//       console.log(`Applying font size: ${size}pt`);
+//       editor.execute("fontSize", { value: size + "pt" });
+//     }
+
+//     minusButton.on("execute", () => {
+//       if (fontSize > 8) {
+//         fontSize -= 1;
+//         inputField.value = fontSize.toString();
+//         applyStyle(fontSize);
+//       }
+//     });
+
+//     plusButton.on("execute", () => {
+//       if (fontSize < 28) {
+//         fontSize += 1;
+//         inputField.value = fontSize.toString();
+//         applyStyle(fontSize);
+//       }
+//     });
+
+//     inputField.on("input", () => {
+//       let inputValue = parseInt(inputField.element.value, 10);
+//       if (inputValue < 8) {
+//         inputField.element.value = "8";
+//       } else if (inputValue > 28) {
+//         inputField.element.value = "28";
+//       }
+//     });
+
+//     inputField.on("blur", () => {
+//       let inputValue = parseInt(inputField.element.value, 10);
+//       if (isNaN(inputValue) || inputValue < 8 || inputValue > 28) {
+//         inputValue = Math.min(Math.max(inputValue, 8), 28);
+//       }
+//       fontSize = inputValue;
+//       inputField.value = fontSize.toString();
+//       applyStyle(fontSize);
+//     });
+
+//     // Update font size input field based on selected text's font size
+//     editor.model.document.selection.on("change:range", () => {
+//       const selectedElement =
+//         editor.model.document.selection.getSelectedElement();
+//       let currentFontSize = 16; // Default font size if none is applied
+
+//       if (selectedElement && selectedElement.hasAttribute("fontSize")) {
+//         currentFontSize = parseInt(
+//           selectedElement.getAttribute("fontSize"),
+//           10
+//         );
+//       } else {
+//         const fontSizeAttribute =
+//           editor.model.document.selection.getAttribute("fontSize");
+//         if (fontSizeAttribute) {
+//           currentFontSize = parseInt(fontSizeAttribute, 10);
+//         }
+//       }
+
+//       fontSize = currentFontSize;
+//       inputField.value = fontSize.toString();
+//     });
+
+//     toolbarView.setTemplate({
+//       tag: "div",
+//       attributes: {
+//         class: ["custom-style-toolbar"],
+//         style: {
+//           display: "flex",
+//           alignItems: "center",
+//           gap: "5px",
+//         },
+//       },
+//       children: [minusButton, inputField, plusButton],
+//     });
+
+//     return toolbarView;
+//   });
+// }
+
+export function FontSizeControl(editor) {
+  editor.ui.componentFactory.add("fontSizeControl", (locale) => {
+    const toolbarView = new View(locale);
+    let fontSize = 16;
+
+    const minusButton = new ButtonView(locale);
+    minusButton.set({
+      label: "-",
+      withText: true,
+      class: "font-size-control-button",
+    });
+    minusButton.extendTemplate({
+      attributes: {
+        style: {
+          width: "30px",
+          height: "30px",
+          fontSize: "16px",
+        },
+      },
+    });
+
+    const inputField = new InputTextView(locale);
+    inputField.set({
+      value: fontSize.toString(),
+      class: "font-size-input",
+    });
+    inputField.extendTemplate({
+      attributes: {
+        style: {
+          width: "50px",
+          height: "30px",
+          textAlign: "center",
+          fontSize: "16px",
+        },
+      },
+    });
+
+    const plusButton = new ButtonView(locale);
+    plusButton.set({
+      label: "+",
+      withText: true,
+      class: "font-size-control-button",
+    });
+    plusButton.extendTemplate({
+      attributes: {
+        style: {
+          width: "30px",
+          height: "30px",
+          fontSize: "16px",
+        },
+      },
+    });
+
+    function applyStyle(size) {
+      console.log(`Applying font size: ${size}pt`);
+      editor.execute("fontSize", { value: size + "pt" });
+    }
+
+    minusButton.on("execute", () => {
+      if (fontSize > 8) {
+        fontSize -= 1;
+        inputField.value = fontSize.toString();
+        applyStyle(fontSize);
+      }
+    });
+
+    plusButton.on("execute", () => {
+      if (fontSize < 28) {
+        fontSize += 1;
+        inputField.value = fontSize.toString();
+        applyStyle(fontSize);
+      }
+    });
+
+    inputField.on("input", () => {
+      let inputValue = parseInt(inputField.element.value, 10);
+      if (inputValue < 8) {
+        inputField.element.value = "8";
+      } else if (inputValue > 28) {
+        inputField.element.value = "28";
+      }
+    });
+
+    inputField.on("blur", () => {
+      let inputValue = parseInt(inputField.element.value, 10);
+      if (isNaN(inputValue) || inputValue < 8 || inputValue > 28) {
+        inputValue = Math.min(Math.max(inputValue, 8), 28);
+      }
+      fontSize = inputValue;
+      inputField.value = fontSize.toString();
+      applyStyle(fontSize);
+    });
+
+    // Function to update font size in the input field based on the element at the cursor
+    function updateFontSizeFromElement() {
+      const selection = editor.model.document.selection;
+      const selectedElement = selection.getSelectedElement();
+      let currentFontSize = 16; // Default font size if none is applied
+
+      if (selectedElement && selectedElement.hasAttribute("fontSize")) {
+        currentFontSize = parseInt(
+          selectedElement.getAttribute("fontSize"),
+          10
+        );
+      } else {
+        const fontSizeAttribute = selection.getAttribute("fontSize");
+        if (fontSizeAttribute) {
+          currentFontSize = parseInt(fontSizeAttribute, 10);
+        }
+      }
+
+      fontSize = currentFontSize;
+      inputField.value = fontSize.toString();
+    }
+
+    // Listen to both range and attribute changes to update font size
+    editor.model.document.selection.on(
+      "change:range",
+      updateFontSizeFromElement
+    );
+    editor.model.document.selection.on(
+      "change:attribute",
+      updateFontSizeFromElement
+    );
+
+    toolbarView.setTemplate({
+      tag: "div",
+      attributes: {
+        class: ["custom-style-toolbar"],
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: "5px",
+        },
+      },
+      children: [minusButton, inputField, plusButton],
+    });
+
+    return toolbarView;
   });
 }

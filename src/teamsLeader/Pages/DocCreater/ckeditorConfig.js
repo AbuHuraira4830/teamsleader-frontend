@@ -12,6 +12,7 @@ import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
 import List from "@ckeditor/ckeditor5-list/src/list";
 import TodoList from "@ckeditor/ckeditor5-list/src/todolist";
 import Heading from "@ckeditor/ckeditor5-heading/src/heading";
+
 import {
   Table,
   TableToolbar,
@@ -40,6 +41,7 @@ import PageBreak from "@ckeditor/ckeditor5-page-break/src/pagebreak";
 import { SelectAll } from "@ckeditor/ckeditor5-select-all";
 import FindAndReplace from "@ckeditor/ckeditor5-find-and-replace/src/findandreplace";
 import { createDropdown } from "@ckeditor/ckeditor5-ui/src/dropdown/utils"; // Utility to create dropdown
+import InsertDropdown from "./plugins/InsertDropdown";
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -80,48 +82,26 @@ ClassicEditor.builtinPlugins = [
   TableProperties,
   FindAndReplace,
   SelectAll,
+  InsertDropdown,
 ];
-
-// // Custom dropdown for the "Add" button using CKEditor's createDropdown utility
-// function createAddDropdown(editor) {
-//   editor.ui.componentFactory.add("addDropdown", (locale) => {
-//     const dropdownView = createDropdown(locale); // Create dropdown using utility function
-
-//     dropdownView.buttonView.set({
-//       label: "Add", // Set the dropdown button label
-//       withText: true, // Display text on the button
-//       tooltip: "Add items", // Tooltip for the dropdown
-//     });
-
-//     const items = [
-//       "heading",
-//       "insertTable",
-//       "numberedList",
-//       "bulletedList",
-//       "imageUpload",
-//     ];
-
-//     // Populate the dropdown with toolbar items
-//     items.forEach((item) => {
-//       const button = editor.ui.componentFactory.create(item);
-//       dropdownView.panelView.children.add(button);
-//     });
-
-//     return dropdownView;
-//   });
-// }
 
 ClassicEditor.defaultConfig = {
   toolbar: {
     items: [
+      // "insertDropdown",
+      "insertTableButton",
+      "insertHeading2Button",
+      "insertUnorderedListButton",
+      "insertImageButton",
       "addDropdown", // Custom dropdown here
       "undo",
       "redo",
+      // "tableDropdown",
       "|",
       // "heading",
-      "|",
+      // "|",
       "alignment",
-      // "numberedList",
+      "numberedList",
       // "bulletedList",
       // "todoList",
       // "|",
@@ -144,7 +124,6 @@ ClassicEditor.defaultConfig = {
       "shareButton",
     ],
   },
-  // extraPlugins: [createAddDropdown], // Add the dropdown plugin
 
   fontFamily: {
     options: [

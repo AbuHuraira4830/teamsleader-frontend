@@ -7,6 +7,10 @@ import {
   ActionDropdown,
   CustomTableDropdown,
   FontSizeControl,
+  InsertTableButton,
+  InsertHeading2Button,
+  InsertUnorderedListButton,
+  InsertImageButton,
 } from "./CustomPlugins";
 import ClassicEditor, { parseEditorData } from "./ckeditorConfig";
 import DocSidebar from "./DocSidebar";
@@ -23,6 +27,7 @@ import { uploadImagesAndCalculateRealTimePercentage } from "../../chats/script";
 import { Button, notification } from "antd";
 import DocInfoContainer from "./DocInfoContainer";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
+import InsertDropdown from "./plugins/InsertDropdown";
 
 const ckEditor = ({ doc }) => {
   const {
@@ -739,6 +744,11 @@ const ckEditor = ({ doc }) => {
             MyCustomUploadAdapterPlugin,
             StyleButton,
             AddDropdown,
+            InsertTableButton,
+            InsertDropdown,
+            InsertHeading2Button,
+            InsertUnorderedListButton,
+            InsertImageButton,
             baloonDropdown1,
             ActionDropdown,
             ShareButton,
@@ -755,7 +765,6 @@ const ckEditor = ({ doc }) => {
         data={editorData}
         onReady={(editor) => {
           editorRef.current = editor;
-
           // Select the editable content in the CKEditor
           const editorElements =
             editor.ui.view.editable.element.querySelectorAll("p, img, div");

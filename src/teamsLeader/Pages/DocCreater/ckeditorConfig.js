@@ -89,10 +89,10 @@ ClassicEditor.defaultConfig = {
   toolbar: {
     items: [
       // "insertDropdown",
-      "insertTableButton",
-      "insertHeading2Button",
-      "insertUnorderedListButton",
-      "insertImageButton",
+      // "insertTableButton",
+      // "insertHeading2Button",
+      // "insertUnorderedListButton",
+      // "insertImageButton",
       "addDropdown", // Custom dropdown here
       "undo",
       "redo",
@@ -115,8 +115,8 @@ ClassicEditor.defaultConfig = {
       "underline",
       "strikethrough",
       "|",
-      // "imageUpload",
-      // "mediaEmbed",
+      "imageUpload",
+      "mediaEmbed",
       "styleButton",
       "|",
       "findAndReplace",
@@ -202,6 +202,18 @@ ClassicEditor.defaultConfig = {
   },
   mediaEmbed: {
     previewsInData: true,
+    providers: [
+      {
+        // Support for YouTube, Vimeo, etc.
+        name: "customProvider",
+        url: (url) => {
+          if (url.match(/youtube\.com|vimeo\.com/)) {
+            return url;
+          }
+          return null;
+        },
+      },
+    ],
   },
 };
 

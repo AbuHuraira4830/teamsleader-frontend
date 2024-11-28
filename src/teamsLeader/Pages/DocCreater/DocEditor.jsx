@@ -1,8 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import Collection from "@ckeditor/ckeditor5-utils/src/collection";
+import Model from "@ckeditor/ckeditor5-ui/src/model";
+import { renderToStaticMarkup } from "react-dom/server";
+
+// Import icons from react-icons
+import {
+  BsTextParagraph,
+  BsTypeH1,
+  BsTypeH2,
+  BsTypeH3,
+  BsListUl,
+  BsCheckSquare,
+  BsTable,
+  BsImage,
+  BsCameraVideo,
+} from "react-icons/bs";
+import { PiTextTBold } from "react-icons/pi";
+import {
+  createDropdown,
+  addListToDropdown,
+} from "@ckeditor/ckeditor5-ui/src/dropdown/utils";
 import {
   MyCustomUploadAdapterPlugin,
-  AddDropdown,
+  // AddDropdown,
   baloonDropdown1,
   ActionDropdown,
   CustomTableDropdown,
@@ -10,7 +31,7 @@ import {
   InsertTableButton,
   InsertHeading2Button,
   InsertUnorderedListButton,
-  InsertImageButton,
+  // InsertImageButton,
 } from "./CustomPlugins";
 import ClassicEditor, { parseEditorData } from "./ckeditorConfig";
 import DocSidebar from "./DocSidebar";
@@ -42,7 +63,9 @@ const ckEditor = ({ doc }) => {
   } = useStateContext();
   const [shareModal, setShareModal] = useState(false);
   const [editorData, setEditorData] = useState(
-    doc.data ? doc.data : "<h1><strong>My New Doc</strong></h1>"
+    doc.data
+      ? doc.data
+      : `<img src="https://i.ibb.co/ypt4V0C/DALL-E-2024-11-25-15-33-25-A-modern-and-sleek-logo-design-for-Idea-Hub-Tech-The-design-should-featur.png" alt="Default Image" />`
   );
   const [headings, setHeadings] = useState([]);
   const [showHeadings, setShowHeadings] = useState(true);
@@ -580,9 +603,180 @@ const ckEditor = ({ doc }) => {
       }
     };
   };
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0]; // Get the selected file
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       // Insert the image into the editor when it's loaded
+  //       if (editorRef.current) {
+  //         const editorInstance = editorRef.current.editor;
+  //         if (editorInstance) {
+  //           editorInstance.insertHtml(
+  //             `<img src="${reader.result}" alt="Uploaded Image" />`
+  //           );
+  //         }
+  //       }
+  //     };
+  //     reader.readAsDataURL(file); // Convert the file to a base64 URL
+  //   }
+  // };
+
+  // // Function to trigger the file input click
+  // const triggerFileInput = () => {
+  //   document.getElementById("imageUploadInput").click();
+  // };
+  function AddDropdown(editor) {
+    editor.ui.componentFactory.add("addDropdown", (locale) => {
+      const dropdownView = createDropdown(locale);
+
+      dropdownView.buttonView.set({
+        label: "+ Add",
+        tooltip: true,
+        withText: true,
+      });
+
+      const buttonOptions = [
+        {
+          label: "\u00A0\u00A0Normal Text",
+          command: () => editor.execute("paragraph"),
+          icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+          placeholderText: "Type normal text here...",
+        },
+        {
+          label: "\u00A0\u00A0Large Title",
+          command: () => editor.execute("heading", { options: { level: 1 } }),
+          icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type large title here...",
+        },
+        {
+          label: "\u00A0\u00A0Medium Title",
+          command: () => editor.execute("heading", { options: { level: 2 } }),
+          icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type medium title here...",
+        },
+        {
+          label: "\u00A0\u00A0Small Title",
+          command: () => editor.execute("heading", { options: { level: 3 } }),
+          icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type small title here...",
+        },
+        {
+          label: "\u00A0\u00A0Bulleted List",
+          command: () => editor.execute("bulletedList"),
+          icon: <BsListUl style={{ fontSize: "10px" }} />,
+          placeholderText: "Add bullet points...",
+        },
+        {
+          label: "\u00A0\u00A0Checklist",
+          command: () => editor.execute("todoList"),
+          icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+          placeholderText: "Add checklist items...",
+        },
+        {
+          label: "\u00A0\u00A0Table",
+          command: () => editor.execute("insertTable"),
+          icon: <BsTable style={{ fontSize: "10px" }} />,
+        },
+        {
+          label: "\u00A0\u00A0Image",
+          command: "imageUpload",
+          icon: <BsImage style={{ fontSize: "10px" }} />,
+        },
+        {
+          label: "\u00A0\u00A0Video",
+          command: "mediaEmbed",
+          icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+        },
+      ];
+
+      const items = new Collection();
+
+      buttonOptions.forEach((option) => {
+        items.add({
+          type: "button",
+          model: new Model({
+            withText: true,
+            label: option.label,
+            icon: renderToStaticMarkup(option.icon),
+            command: option.command,
+            placeholderText: option.placeholderText || "",
+          }),
+        });
+      });
+
+      addListToDropdown(dropdownView, items);
+
+      dropdownView.on("execute", (eventInfo) => {
+        const { command } = eventInfo.source;
+        // Handle dynamic commands
+        if (typeof command === "function") {
+          command();
+        } else if (command === "imageUpload") {
+          handleImageUpload(editor);
+        } else if (command === "mediaEmbed") {
+          handleVideoEmbed(editor);
+        }
+      });
+
+      return dropdownView;
+    });
+  }
+  const handleImageUpload = async (editor) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        try {
+          // Convert image file to Base64
+          const toBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+            });
+          };
+
+          const base64Image = await toBase64(file);
+          console.log("Base64 image:", base64Image);
+
+          // Save the Base64 string in a variable
+          const base64ImageVariable = base64Image;
+
+          // Get the current editor data
+          let currentEditorData = editor.getData();
+
+          // Append the image to the editor's data
+          const imageTag = `<img src="${base64ImageVariable}" alt="Uploaded Image" />`;
+          const updatedEditorData = currentEditorData + imageTag;
+
+          // Update the editor's data
+          editor.setData(updatedEditorData);
+
+          console.log("Updated Editor Data:", updatedEditorData);
+        } catch (error) {
+          console.error("Error processing the image:", error);
+        }
+      }
+    });
+
+    input.click();
+  };
 
   return (
     <div className="docCreator h-full flex flex-col">
+      {/* <button onClick={triggerFileInput}>Upload Image</button>
+      <input
+        type="file"
+        id="imageUploadInput"
+        style={{ display: "none" }} // Hide the input
+        accept="image/*" // Accept only images
+        onChange={handleImageUpload} // Handle file selection
+      /> */}
       <style jsx>
         {`
           .ck-editor__top {
@@ -748,7 +942,7 @@ const ckEditor = ({ doc }) => {
             InsertDropdown,
             InsertHeading2Button,
             InsertUnorderedListButton,
-            InsertImageButton,
+            // InsertImageButton,
             baloonDropdown1,
             ActionDropdown,
             ShareButton,
@@ -764,6 +958,10 @@ const ckEditor = ({ doc }) => {
         }}
         data={editorData}
         onReady={(editor) => {
+          // console.log(
+          //   "Loaded plugins:",
+          //   Array.from(editor.plugins).map((p) => p.constructor.pluginName)
+          // );
           editorRef.current = editor;
           // Select the editable content in the CKEditor
           const editorElements =

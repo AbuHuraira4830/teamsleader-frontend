@@ -9,19 +9,19 @@ import Model from "@ckeditor/ckeditor5-ui/src/model";
 import { renderToStaticMarkup } from "react-dom/server";
 import { View, ButtonView, InputTextView } from "@ckeditor/ckeditor5-ui";
 
-// Import icons from react-icons
-import {
-  BsTextParagraph,
-  BsTypeH1,
-  BsTypeH2,
-  BsTypeH3,
-  BsListUl,
-  BsCheckSquare,
-  BsTable,
-  BsImage,
-  BsCameraVideo,
-} from "react-icons/bs";
-import { PiTextTBold } from "react-icons/pi";
+// // Import icons from react-icons
+// import {
+//   BsTextParagraph,
+//   BsTypeH1,
+//   BsTypeH2,
+//   BsTypeH3,
+//   BsListUl,
+//   BsCheckSquare,
+//   BsTable,
+//   BsImage,
+//   BsCameraVideo,
+// } from "react-icons/bs";
+// import { PiTextTBold } from "react-icons/pi";
 import {
   BsThreeDots,
   BsThreeDotsVertical,
@@ -308,29 +308,222 @@ export function CustomTableDropdown(editor) {
 //     return dropdownView;
 //   });
 // }
+// export function AddDropdown(editor) {
+
+//   editor.ui.componentFactory.add("addDropdown", (locale) => {
+//     const dropdownView = createDropdown(locale);
+
+//     dropdownView.buttonView.set({
+//       label: "+ Add",
+//       tooltip: true,
+//       withText: true,
+//     });
+
+//     const buttonOptions = [
+//       {
+//         label: "\u00A0\u00A0Normal Text",
+//         command: "paragraph",
+//         icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type normal text here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Large Title",
+//         command: "heading",
+//         options: { level: 1 },
+//         icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type large title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Medium Title",
+//         command: "heading",
+//         options: { level: 2 },
+//         icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type medium title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Small Title",
+//         command: "heading",
+//         options: { level: 3 },
+//         icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+//         placeholderText: "Type small title here...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Bulleted List",
+//         command: "bulletedList",
+//         icon: <BsListUl style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add bullet points...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Checklist",
+//         command: "todoList",
+//         icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add checklist items...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Table",
+//         command: "insertTable",
+//         icon: <BsTable style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Image",
+//         command: "imageUpload",
+//         icon: <BsImage style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Video",
+//         command: "mediaEmbed",
+//         icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+//       },
+//     ];
+
+//     const items = new Collection();
+
+//     buttonOptions.forEach((option) => {
+//       items.add({
+//         type: "button",
+//         model: new Model({
+//           withText: true,
+//           label: option.label,
+//           command: option.command,
+//           icon: renderToStaticMarkup(option.icon),
+//           options: option.options || {},
+//           placeholderText: option.placeholderText || "",
+//         }),
+//       });
+//     });
+
+//     addListToDropdown(dropdownView, items);
+
+//     dropdownView.on("execute", (eventInfo) => {
+//       const { command, options, placeholderText } = eventInfo.source;
+
+//       if (command) {
+//         editor.model.change((writer) => {
+//           const root = editor.model.document.getRoot();
+
+//           // Check if the command is allowed at the root level
+//           if (editor.model.schema.checkChild(root, command)) {
+//             const endPosition = writer.createPositionAt(root, "end");
+//             const newElement = writer.createElement(command, options);
+
+//             writer.insert(newElement, endPosition);
+
+//             // Add placeholder text if allowed
+//             if (
+//               placeholderText &&
+//               editor.model.schema.checkChild(newElement, "$text")
+//             ) {
+//               writer.insertText(
+//                 placeholderText,
+//                 { placeholder: true, color: "#a0a0a0" },
+//                 newElement
+//               );
+//             }
+
+//             writer.setSelection(newElement, 0);
+//           } else {
+//             console.error(
+//               `Cannot insert element of type "${command}" at the root.`
+//             );
+//           }
+//         });
+//       }
+//     });
+
+//     return dropdownView;
+//   });
+// }
+
+// export function AddDropdown(editor) {
+//   editor.ui.componentFactory.add("addDropdown", (locale) => {
+//     const dropdownView = createDropdown(locale);
+
+//     dropdownView.buttonView.set({
+//       label: "+ Add",
+//       tooltip: true,
+//       withText: true,
+//     });
+
+//     const buttonOptions = [
+//       {
+//         label: "\u00A0\u00A0Normal Text",
+//         command: () => editor.execute("paragraph"),
+//         icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Large Title",
+//         command: () => editor.execute("heading", { options: { level: 1 } }),
+//         icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Medium Title",
+//         command: () => editor.execute("heading", { options: { level: 2 } }),
+//         icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Small Title",
+//         command: () => editor.execute("heading", { options: { level: 3 } }),
+//         icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Bulleted List",
+//         command: () => editor.execute("bulletedList"),
+//         icon: <BsListUl style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add bullet points...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Checklist",
+//         command: () => editor.execute("todoList"),
+//         icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+//         placeholderText: "Add checklist items...",
+//       },
+//       {
+//         label: "\u00A0\u00A0Table",
+//         command: () => editor.execute("insertTable"),
+//         icon: <BsTable style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Image",
+//         command: "imageUpload",
+//         icon: <BsImage style={{ fontSize: "10px" }} />,
+//       },
+//       {
+//         label: "\u00A0\u00A0Video",
+//         command: "mediaEmbed",
+//         icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+//       },
+//     ];
+
+//     const items = new Collection();
+
+//     buttonOptions.forEach((option) => {
+//       items.add({
+//         type: "button",
+//         model: new Model({
+//           withText: true,
+//           label: option.label,
+//           icon: renderToStaticMarkup(option.icon),
+//           command: option.command,
+//         }),
+//       });
+//     });
+
+//     addListToDropdown(dropdownView, items);
+
+//     dropdownView.on("execute", (eventInfo) => {
+//       const { command } = eventInfo.source;
+
+//       if (command === "imageUpload") {
+//         handleImageUpload(editor);
+//       } else if (command === "mediaEmbed") {
+//         handleVideoEmbed(editor);
+//       }
+//     });
+
+//     return dropdownView;
+//   });
+// }
 export function AddDropdown(editor) {
-  // Update schema to allow elements at the root level
-  // editor.model.schema.register("heading", {
-  //   inheritAllFrom: "$block",
-  //   allowAttributes: ["level"],
-  // });
-
-  // editor.model.schema.register("paragraph", {
-  //   inheritAllFrom: "$block",
-  // });
-
-  // editor.model.schema.register("bulletedList", {
-  //   inheritAllFrom: "$block",
-  // });
-
-  // editor.model.schema.register("todoList", {
-  //   inheritAllFrom: "$block",
-  // });
-
-  // editor.model.schema.extend("$root", {
-  //   allow: ["heading", "bulletedList", "todoList"],
-  // });
-
   editor.ui.componentFactory.add("addDropdown", (locale) => {
     const dropdownView = createDropdown(locale);
 
@@ -343,46 +536,43 @@ export function AddDropdown(editor) {
     const buttonOptions = [
       {
         label: "\u00A0\u00A0Normal Text",
-        command: "paragraph",
+        command: () => editor.execute("paragraph"),
         icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
         placeholderText: "Type normal text here...",
       },
       {
         label: "\u00A0\u00A0Large Title",
-        command: "heading",
-        options: { level: 1 },
+        command: () => editor.execute("heading", { options: { level: 1 } }),
         icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
         placeholderText: "Type large title here...",
       },
       {
         label: "\u00A0\u00A0Medium Title",
-        command: "heading",
-        options: { level: 2 },
+        command: () => editor.execute("heading", { options: { level: 2 } }),
         icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
         placeholderText: "Type medium title here...",
       },
       {
         label: "\u00A0\u00A0Small Title",
-        command: "heading",
-        options: { level: 3 },
+        command: () => editor.execute("heading", { options: { level: 3 } }),
         icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
         placeholderText: "Type small title here...",
       },
       {
         label: "\u00A0\u00A0Bulleted List",
-        command: "bulletedList",
+        command: () => editor.execute("bulletedList"),
         icon: <BsListUl style={{ fontSize: "10px" }} />,
         placeholderText: "Add bullet points...",
       },
       {
         label: "\u00A0\u00A0Checklist",
-        command: "todoList",
+        command: () => editor.execute("todoList"),
         icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
         placeholderText: "Add checklist items...",
       },
       {
         label: "\u00A0\u00A0Table",
-        command: "insertTable",
+        command: () => editor.execute("insertTable"),
         icon: <BsTable style={{ fontSize: "10px" }} />,
       },
       {
@@ -405,9 +595,8 @@ export function AddDropdown(editor) {
         model: new Model({
           withText: true,
           label: option.label,
-          command: option.command,
           icon: renderToStaticMarkup(option.icon),
-          options: option.options || {},
+          command: option.command,
           placeholderText: option.placeholderText || "",
         }),
       });
@@ -416,43 +605,291 @@ export function AddDropdown(editor) {
     addListToDropdown(dropdownView, items);
 
     dropdownView.on("execute", (eventInfo) => {
-      const { command, options, placeholderText } = eventInfo.source;
-
-      if (command) {
-        editor.model.change((writer) => {
-          const root = editor.model.document.getRoot();
-
-          // Check if the command is allowed at the root level
-          if (editor.model.schema.checkChild(root, command)) {
-            const endPosition = writer.createPositionAt(root, "end");
-            const newElement = writer.createElement(command, options);
-
-            writer.insert(newElement, endPosition);
-
-            // Add placeholder text if allowed
-            if (
-              placeholderText &&
-              editor.model.schema.checkChild(newElement, "$text")
-            ) {
-              writer.insertText(
-                placeholderText,
-                { placeholder: true, color: "#a0a0a0" },
-                newElement
-              );
-            }
-
-            writer.setSelection(newElement, 0);
-          } else {
-            console.error(
-              `Cannot insert element of type "${command}" at the root.`
-            );
-          }
-        });
+      const { command } = eventInfo.source;
+      // Handle dynamic commands
+      if (typeof command === "function") {
+        command();
+      } else if (command === "imageUpload") {
+        handleImageUpload(editor);
+      } else if (command === "mediaEmbed") {
+        handleVideoEmbed(editor);
       }
     });
 
     return dropdownView;
   });
+}
+
+// Fix for handling image uploads
+// function handleImageUpload(editor) {
+//   const input = document.createElement("input");
+//   input.type = "file";
+//   input.accept = "image/*";
+
+//   input.addEventListener("change", (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+
+//       reader.onload = (e) => {
+//         const imageUrl = e.target.result;
+
+//         editor.model.change((writer) => {
+//           // Check if the schema allows inserting images
+//           if (
+//             !editor.model.schema.checkChild(
+//               editor.model.document.selection.focus.parent,
+//               "image"
+//             )
+//           ) {
+//             console.error(
+//               "The editor does not support images at this position."
+//             );
+//             return;
+//           }
+
+//           const imageElement = writer.createElement("image", {
+//             src: imageUrl,
+//           });
+
+//           editor.model.insertContent(imageElement);
+//         });
+//       };
+
+//       reader.readAsDataURL(file);
+//     }
+//   });
+
+//   input.click();
+// }
+// function handleImageUpload(editor) {
+//   const input = document.createElement("input");
+//   input.type = "file";
+//   input.accept = "image/*";
+
+//   input.addEventListener("change", async (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       const fileName = file.name;
+//       console.log("File selected:", { fileName });
+
+//       try {
+//         const apiKey = "5c23ee874fb2988c39ae9bb09ae0ad49";
+//         const formData = new FormData();
+//         formData.append("image", file);
+
+//         // Upload the image to ImgBB
+//         const response = await fetch(
+//           `https://api.imgbb.com/1/upload?key=${apiKey}`,
+//           {
+//             method: "POST",
+//             body: formData,
+//           }
+//         );
+
+//         if (response.ok) {
+//           const result = await response.json();
+//           const imageUrl = result.data.url; // Get the direct URL of the uploaded image
+//           console.log("Image URL:", imageUrl);
+
+//           // Insert the image into the editor
+//           editor.model.change((writer) => {
+//             const selection = editor.model.document.selection;
+
+//             // Check if the schema supports images in the current position
+//             if (
+//               !editor.model.schema.checkChild(selection.focus.parent, "image")
+//             ) {
+//               console.error(
+//                 "The editor does not support images at this position."
+//               );
+//               return;
+//             }
+
+//             // Create an image element with the retrieved URL
+//             const imageElement = writer.createElement("image", {
+//               src: imageUrl,
+//             });
+
+//             console.log("Inserting image:", imageElement);
+
+//             // Insert the image at the current selection
+//             editor.model.insertContent(imageElement, selection);
+//           });
+//         } else {
+//           console.error("Image upload failed:", response);
+//         }
+//       } catch (error) {
+//         console.error("Error uploading image:", error);
+//       }
+//     }
+//   });
+
+//   input.click();
+// }
+function handleImageUpload(editor) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileName = file.name;
+      console.log("File selected:", { fileName });
+
+      try {
+        const apiKey = "5c23ee874fb2988c39ae9bb09ae0ad49"; // Your API key
+        const formData = new FormData();
+        formData.append("image", file);
+
+        // Upload the image to ImgBB
+        const response = await fetch(
+          `https://api.imgbb.com/1/upload?key=${apiKey}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          const imageUrl = result.data.url; // Get the direct URL of the uploaded image
+          console.log("Image URL:", imageUrl);
+
+          // Insert the image into the editor at the current selection
+          editor.model.change((writer) => {
+            const selection = editor.model.document.selection;
+            console.log("Current selection parent:", selection.focus.parent);
+            console.log(
+              editor.model.schema.checkChild(selection.focus.parent, "image")
+            );
+            if (
+              editor.model.schema.checkChild(selection.focus.parent, "image")
+            ) {
+              console.log(
+                editor.model.schema.checkChild(selection.focus.parent, "image")
+              );
+              console.log("An image can be inserted here.");
+            } else {
+              console.log(
+                editor.model.schema.checkChild(selection.focus.parent, "image")
+              );
+              console.log("An image cannot be inserted here.");
+            }
+            // Check if we can insert an image at the current selection
+            // if (
+            //   editor.model.schema.checkChild(selection.focus.parent, "image") ||
+            //   editor.model.schema.checkChild(
+            //     selection.focus.parent,
+            //     "paragraph"
+            //   )
+            // ) {
+            const imageElement = writer.createElement("image", {
+              src: imageUrl,
+            });
+            console.log({ imageElement });
+            editor.model.insertContent(imageElement, selection);
+            // } else {
+            //   console.error(
+            //     "The editor does not support images at this position."
+            //   );
+            // }
+          });
+        } else {
+          console.error("Image upload failed:", response);
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  });
+
+  input.click();
+}
+// function handleImageUpload(editor) {
+//   const input = document.createElement("input");
+//   input.type = "file";
+//   input.accept = "image/*";
+
+//   input.addEventListener("change", async (event) => {
+//     const file = event.target.files[0];
+
+//     if (file) {
+//       const reader = new FileReader();
+
+//       reader.onload = () => {
+//         const base64String = reader.result; // The Base64 string of the image
+//         console.log({ base64String });
+//         // Insert the image into the editor
+//         editor.model.change((writer) => {
+//           const selection = editor.model.document.selection;
+
+//           // Check if the schema supports images in the current position
+//           // if (
+//           //   !editor.model.schema.checkChild(selection.focus.parent, "image")
+//           // ) {
+//           //   console.error(
+//           //     "The editor does not support images at this position."
+//           //   );
+//           //   return;
+//           // }
+
+//           // Create an image element with the Base64 URL
+//           const imageElement = writer.createElement("image", {
+//             src: base64String,
+//           });
+
+//           console.log("Inserting image:", imageElement);
+
+//           // Insert the image at the current selection
+//           editor.model.insertContent(imageElement, selection);
+//         });
+//       };
+
+//       reader.onerror = (error) => {
+//         console.error("Error reading file as Base64:", error);
+//       };
+
+//       // Read the file as a Base64 string
+//       reader.readAsDataURL(file);
+//     }
+//   });
+
+//   input.click();
+// }
+
+// Fix for handling video embeds
+function handleVideoEmbed(editor) {
+  const input = prompt("Enter the video URL:");
+
+  // Ensure input exists and is a string
+  if (!input || typeof input !== "string") {
+    console.error("Invalid input: No URL provided or input is not a string.");
+    alert("Please provide a valid video URL.");
+    return;
+  }
+
+  const url = input.trim(); // Ensure the URL is trimmed
+
+  if (url === "") {
+    console.error("Empty URL provided after trimming.");
+    alert("The URL cannot be empty.");
+    return;
+  }
+
+  try {
+    // Debugging step: Log the URL
+    console.log("Embedding video with URL:", url);
+
+    // Execute the embed command
+    editor.execute("mediaEmbed", { source: url });
+
+    console.log("Video successfully embedded:", url);
+  } catch (error) {
+    console.error("Error embedding video:", error);
+    alert("Failed to embed video. Please check the URL and try again.");
+  }
 }
 
 export function MyCustomUploadAdapterPlugin(editor) {
@@ -932,6 +1369,8 @@ export class InsertHeading2Button extends Plugin {
 }
 
 export function InsertUnorderedListButton(editor) {
+  console.log("Button function triggered");
+
   editor.ui.componentFactory.add("insertUnorderedListButton", (locale) => {
     const button = new ButtonView(locale); // Create a button view
 
@@ -943,6 +1382,7 @@ export function InsertUnorderedListButton(editor) {
 
     // Add button click listener
     button.on("execute", () => {
+      console.log("Bulleted list command triggered");
       // Execute the `bulletedList` command
       editor.execute("bulletedList");
 
@@ -952,56 +1392,58 @@ export function InsertUnorderedListButton(editor) {
 
     return button;
   });
+
+  console.log("Button setup complete");
 }
 
-export function InsertImageButton(editor) {
-  editor.ui.componentFactory.add("insertImageButton", (locale) => {
-    const button = new ButtonView(locale);
+// export function InsertImageButton(editor) {
+//   editor.ui.componentFactory.add("insertImageButton", (locale) => {
+//     const button = new ButtonView(locale);
 
-    button.set({
-      label: "Insert Image",
-      tooltip: true,
-      withText: true,
-    });
+//     button.set({
+//       label: "Insert Image",
+//       tooltip: true,
+//       withText: true,
+//     });
 
-    button.on("execute", () => {
-      // Create a hidden file input element
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*"; // Allow only image files
+//     button.on("execute", () => {
+//       // Create a hidden file input element
+//       const input = document.createElement("input");
+//       input.type = "file";
+//       input.accept = "image/*"; // Allow only image files
 
-      // Listen for file selection
-      input.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
+//       // Listen for file selection
+//       input.addEventListener("change", (event) => {
+//         const file = event.target.files[0];
+//         if (file) {
+//           const reader = new FileReader();
 
-          // Read the file as a data URL
-          reader.onload = (e) => {
-            const imageUrl = e.target.result;
+//           // Read the file as a data URL
+//           reader.onload = (e) => {
+//             const imageUrl = e.target.result;
 
-            // Insert the image into the editor
-            editor.model.change((writer) => {
-              const imageElement = writer.createElement("image", {
-                src: imageUrl, // Use the file's data URL
-              });
+//             // Insert the image into the editor
+//             editor.model.change((writer) => {
+//               const imageElement = writer.createElement("image", {
+//                 src: imageUrl, // Use the file's data URL
+//               });
 
-              const insertPosition =
-                editor.model.document.selection.getFirstPosition();
-              writer.insert(imageElement, insertPosition);
-            });
+//               const insertPosition =
+//                 editor.model.document.selection.getFirstPosition();
+//               writer.insert(imageElement, insertPosition);
+//             });
 
-            editor.editing.view.focus(); // Refocus the editor
-          };
+//             editor.editing.view.focus(); // Refocus the editor
+//           };
 
-          reader.readAsDataURL(file); // Trigger file read
-        }
-      });
+//           reader.readAsDataURL(file); // Trigger file read
+//         }
+//       });
 
-      // Trigger the file input click
-      input.click();
-    });
+//       // Trigger the file input click
+//       input.click();
+//     });
 
-    return button;
-  });
-}
+//     return button;
+//   });
+// }

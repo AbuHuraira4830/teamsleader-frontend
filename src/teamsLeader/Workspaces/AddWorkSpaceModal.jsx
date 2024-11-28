@@ -10,13 +10,16 @@ import {
 import { IoEllipsisHorizontalCircleOutline } from "react-icons/io5";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { sendRequest } from "../../assets/js/config";
-import { getLocalStorageItem, useChatsContext } from "../../contexts/ChatsContext";
+import {
+  getLocalStorageItem,
+  useChatsContext,
+} from "../../contexts/ChatsContext";
 
 const AddWorkSpaceModal = ({ handleClose, show, addWorkspace }) => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceLogo, setWorkspaceLogo] = useState(null);
   const [privacyValue, setPrivacyValue] = useState("open");
-  const {refreshData, setRefreshData} = useChatsContext()
+  const { refreshData, setRefreshData } = useChatsContext();
   const fileInputRef = useRef();
   console.log({ workspaceLogo });
   const addNewWorkspaceHandler = async () => {

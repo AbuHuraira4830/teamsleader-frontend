@@ -6,7 +6,7 @@ import { TbInfoCircle } from "react-icons/tb";
 import colors from "react-multi-date-picker/plugins/colors";
 import { useStateContext } from "../../../contexts/ContextProvider";
 
-const VideoPreview = () => {
+const VideoPreview = ({ youtubeInfo, setYoutubeInfo }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [video, setVideo] = useState(null);
   const { postContent, videoSrc } = useStateContext();
@@ -71,19 +71,22 @@ const VideoPreview = () => {
             </div>
             <Form.Control
               type="text"
-              //   value={title}
-              //   onChange={(e) => setTitle(e.target.value)}
+              value={youtubeInfo.title}
+              onChange={(e) =>
+                setYoutubeInfo({ ...youtubeInfo, title: e.target.value })
+              }
               className="text-sm shadow-none focus:border-[#00854d]"
               placeholder="Add title"
             />
           </Form.Group>
-          <p className="centerIt fs_14">
+
+          {/* <p className="centerIt fs_14">
             Subtitle File <TbInfoCircle className="ms-2 fs-5" />
           </p>
           <div className="centerIt" style={{ color: "#1f76c2" }}>
             <LuPlus className="me-2" />
             <u className=" fs_14">Add a subtitle file</u>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

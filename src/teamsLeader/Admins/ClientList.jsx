@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import List from "@mui/material/List";
+import { RxMagnifyingGlass } from "react-icons/rx";
 
 import "react-toastify/dist/ReactToastify.css";
 import ClientListItem from "./ClientListItem";
@@ -23,6 +24,7 @@ const ClientList = () => {
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const [clients, setClients] = useState(
     clientsData.map((client) => ({
@@ -45,14 +47,22 @@ const ClientList = () => {
 
   return (
     <>
-      <div className="my-2" style={{ overflowX: "auto", maxHeight: "400px" }}>
-        <div className="addPersonSearch flex items-center w-full">
+      <div className="my-6  ">
+        <div
+          className={`admin_searchInput flex items-center w-full mb-4 ${
+            isFocused ? "focus" : ""
+          }`}
+        >
           <input
             type="text"
             placeholder="Search clients by name or email"
-            className={`person_searchInput py-[0.4rem] px-2.5`}
+            className="searchInput py-[0.4rem] px-2.5 flex-grow border-none"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ outline: "none" }}
           />
+          <RxMagnifyingGlass className="text-base text-[#c3c6d4] mx-2" />
         </div>
 
         <List>

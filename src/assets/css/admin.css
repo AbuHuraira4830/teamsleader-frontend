@@ -1,0 +1,18 @@
+.admin_mainExpanded {
+  margin-left: 4.5rem !important;
+  width: 79.8rem !important;
+}
+.admin_sidebarCollapsed {
+  width: 4.5%;
+}
+.active-button {
+  background-color: var(--selected-background-color) !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner:hover {
+  background-color: var(--primary-hover-green) !important;
+  border-color: var(--primary-hover-green) !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--primary-green) !important;
+  border-color: var(--primary-green) !important;
+}

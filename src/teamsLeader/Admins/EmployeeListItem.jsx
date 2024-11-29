@@ -1,173 +1,297 @@
 import React, { useState } from "react";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import { PiCrownSimple } from "react-icons/pi";
-import { IoCloseOutline } from "react-icons/io5";
-import ChatIcon from "@mui/icons-material/Chat";
-import { toast } from "react-toastify";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
+import { Table, Button, Modal, Dropdown, Menu, Checkbox } from "antd";
+import { FaTrash, FaEllipsisH, FaUserTie } from "react-icons/fa";
+import { RxMagnifyingGlass } from "react-icons/rx";
+import { useStateContext } from "../../contexts/UsersContext";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import axios from "axios";
 
-const EmployeeListItem = ({
-  employee,
-  onResendInvitation,
-  onCrownClick,
-  onRemoveEmployee,
-}) => {
-  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+const EmployeeListItem = () => {
+  const { employees, setEmployees, setAdmins } = useStateContext();
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentEmail, setCurrentEmail] = useState(null);
 
-  const handleResendInvitationClick = async () => {
+  const filteredEmployees = employees.filter(
+    (employee) =>
+      (employee.name?.toLowerCase() || "").includes(
+        searchQuery.toLowerCase()
+      ) ||
+      employee.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.teamName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleDelete = async () => {
+    if (!currentEmail) return;
+
     try {
-      // Show "Sending Invitation" toast
-      const toastId = toast.info("Sending Invitation");
-
-      // Simulate asynchronous action (API call)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Update the content of "Sending Invitation" toast
-      toast.update(toastId, {
-        render: "Invitation Sent", // Update content
-        type: "success", // Update type (optional)
-        autoClose: 5000, // Update autoClose (optional)
+      // Make an API call to remove the employee role from the user in the database
+      const response = await axios.post("/api/remove-employee-role", {
+        email: currentEmail,
+        teamId: filteredEmployees.find(
+          (employee) => employee.email === currentEmail
+        ).teamId,
       });
 
-      // Trigger the provided callback
-      onResendInvitation(employee);
+      if (response.data.success) {
+        // Remove the employee from the state
+        setEmployees((prev) =>
+          prev.filter((emp) => emp.email !== currentEmail)
+        );
+        setSelectedRowKeys((prevKeys) =>
+          prevKeys.filter((key) => key !== currentEmail)
+        );
+      } else {
+        console.error("Failed to remove employee:", response.data.message);
+      }
     } catch (error) {
-      // Handle errors if needed
-      console.error("Error:", error);
-      // Show an error toast
-      toast.error("Error sending invitation");
+      console.error("Error removing employee:", error);
+    } finally {
+      setIsModalVisible(false); // Close the modal after deletion
     }
   };
 
-  const handleRemoveEmployeeClick = () => {
-    // Show the confirmation dialog
-    setOpenConfirmationDialog(true);
+  const handleBulkDelete = () => {
+    selectedRowKeys.forEach((email) => {
+      setCurrentEmail(email);
+      handleDelete();
+    });
+    setSelectedRowKeys([]); // Clear the selection after deletion
   };
 
-  const handleConfirmRemoveEmployee = () => {
-    // Call the onRemoveEmployee callback only if the user confirms
-    onRemoveEmployee(employee.id);
-    setOpenConfirmationDialog(false);
+  const handleBulkMove = () => {
+    selectedRowKeys.forEach((email) => moveToAdminHandler(email));
+    setSelectedRowKeys([]); // Clear the selection after moving
   };
 
-  const handleCancelRemoveEmployee = () => {
-    setOpenConfirmationDialog(false);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setIsMoveModalVisible(false);
   };
+
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const showDeleteConfirm = (email) => {
+    setCurrentEmail(email);
+    setIsModalVisible(true);
+  };
+
+  const showMoveConfirm = (email) => {
+    setCurrentEmail(email);
+    setIsMoveModalVisible(true);
+  };
+
+  const handleMove = () => {
+    moveToAdminHandler(currentEmail);
+    setIsMoveModalVisible(false);
+  };
+
+  const moveToAdminHandler = async (email) => {
+    try {
+      const employee = employees.find((emp) => emp.email === email);
+      if (!employee) return;
+
+      // Make an API call to update the user's role in the database
+      const response = await axios.post("/api/move-to-admin", {
+        email: employee.email, // using email as the user identifier
+        teamId: employee.teamId, // send the team ID where the employee is being moved to an admin
+      });
+
+      if (response.data.success) {
+        // Remove from employees list and add to admins list
+        setEmployees((prev) => prev.filter((emp) => emp.email !== email));
+        setAdmins((prev) => [...prev, { ...employee, role: "admin" }]);
+      } else {
+        console.error(
+          "Failed to move employee to admin:",
+          response.data.message
+        );
+      }
+    } catch (error) {
+      console.error("Error moving employee to admin:", error);
+    }
+  };
+
+  const menu = (record) => (
+    <Menu className="w-[9.5rem]">
+      <Menu.Item
+        key="1"
+        onClick={() => showMoveConfirm(record.email)}
+        icon={<FaUserTie />}
+      >
+        Move to admins
+      </Menu.Item>
+      <Menu.Item
+        key="2"
+        onClick={() => showDeleteConfirm(record.email)}
+        icon={<FaTrash />}
+      >
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
+
+  const columns = [
+    {
+      title: "",
+      dataIndex: "checkbox",
+      render: (_, record) => (
+        <Checkbox
+          checked={selectedRowKeys.includes(record.email)}
+          onChange={() => {
+            const isSelected = selectedRowKeys.includes(record.email);
+            const newSelectedRowKeys = isSelected
+              ? selectedRowKeys.filter((key) => key !== record.email)
+              : [...selectedRowKeys, record.email];
+            setSelectedRowKeys(newSelectedRowKeys);
+          }}
+          className="ant-checkbox"
+        />
+      ),
+      width: 50,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (text, record) => (
+        <div className="table-row-content flex justify-center items-center text-nowrap">
+          {text}
+          <Dropdown
+            overlay={menu(record)}
+            trigger={["click"]}
+            getPopupContainer={(triggerNode) => triggerNode.parentNode}
+            overlayStyle={{ zIndex: 1050 }}
+            className="action-dropdown action-dropdown-employee hover:bg-[#6768791a] rounded-md px-2 py-0"
+          >
+            <FaEllipsisH
+              style={{ cursor: "pointer" }}
+              className="text-[#6c757d] text-[1.7rem] hover:text-[#000]"
+            />
+          </Dropdown>
+        </div>
+      ),
+      align: "center",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      align: "center",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      align: "center",
+    },
+    {
+      title: "Team Name",
+      dataIndex: "teamName",
+      align: "center",
+    },
+  ];
 
   return (
-    <ListItem key={employee.id}>
-      <ListItemAvatar>
-        <Avatar>{/* Add your avatar icon here */}</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={
-          <div className="flex items-center relative">
-            {employee.name}
-            <span
-              style={{
-                // backgroundColor: "#4285F4",
-                backgroundColor: "transparent",
-                boxShadow: "0 0 40px 40px #7eb6ff inset, 0 0 0 0",
-                borderColor: "#7eb6ff",
-
-                padding: "0.15rem 0.5rem",
-                borderRadius: "6px", // Use a higher value for rounded corners
-                color: "#fff",
-                fontSize: ".6rem",
-                position: "absolute",
-                left: "16%",
-              }}
-            >
-              Employee
-            </span>
-          </div>
-        }
-        secondary={
-          <div className="flex ">
-            {`${employee.email}`}
-
-            <div className="flex mx-auto	 items-center">
-              {employee.showPendingInvitation && (
-                <div className="  pendingText">Invitation Pending</div>
-              )}
-            </div>
-          </div>
-        }
-      />
-
-      <div className="flex items-center space-x-2">
-        {employee.showPendingInvitation && (
-          <Button
-            variant="outlined"
-            size="small"
-            style={{ fontSize: "0.7rem", padding: "0.2rem 0.5rem" }}
-            onClick={handleResendInvitationClick}
-          >
-            Resend
-          </Button>
-        )}
-        <Tooltip
-          title={
-            employee.showPendingInvitation
-              ? `Remove ${employee.name} as an owner`
-              : `Make ${employee.name} an owner`
-          }
-          placement="top"
-        >
-          <IconButton
-            aria-label="crown"
-            onClick={() => onCrownClick(employee.id)}
-          >
-            <PiCrownSimple className="text-[1rem]" />
-          </IconButton>
-        </Tooltip>
-        {/* Tooltip for Chat icon */}
-        <Tooltip title="Chat" placement="top">
-          <IconButton aria-label="chat">
-            <ChatIcon />
-          </IconButton>
-        </Tooltip>
-        {/* Tooltip for Close icon */}
-        <Tooltip title="Remove" placement="top">
-          <IconButton
-            aria-label="more options"
-            // onClick={() => onRemoveEmployee(employee.id)}
-            onClick={handleRemoveEmployeeClick}
-          >
-            <IoCloseOutline className="text-[1rem]" />
-          </IconButton>
-        </Tooltip>
+    <div className="w-full p-8">
+      <div className="admin_searchInput flex items-center w-full mb-4">
+        <input
+          type="text"
+          placeholder="Search employees by name, email, or team name"
+          className="searchInput py-[0.4rem] px-2.5 flex-grow border-none"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ outline: "none" }}
+        />
+        <RxMagnifyingGlass className="text-base text-[#c3c6d4] mx-2" />
       </div>
 
-      <Dialog
-        open={openConfirmationDialog}
-        onClose={handleCancelRemoveEmployee}
+      <div className="d-flex justify-between pb-4">
+        <div className="flex">
+          <span className="title_border me-2"></span>
+          <p className="mb-0" style={{ fontSize: "18px", fontWeight: 600 }}>
+            List of employees
+          </p>
+        </div>
+        <div className="flex">
+          {selectedRowKeys.length > 1 && (
+            <Button
+              type="primary"
+              style={{ backgroundColor: "#00854d", borderColor: "green" }}
+              className="workspace_addBtn mx-2"
+              onClick={handleBulkMove}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <FaUserTie style={{ marginRight: "8px" }} />
+                Move to Admins
+              </div>
+            </Button>
+          )}
+          <Button
+            type="primary"
+            danger
+            onClick={() => showDeleteConfirm(selectedRowKeys[0])}
+            disabled={selectedRowKeys.length === 0}
+            icon={<FaTrash />}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
+
+      <Table
+        dataSource={filteredEmployees}
+        columns={columns}
+        pagination={false}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: onSelectChange,
+          hideSelectAll: true, // Hide the "Select All" checkbox
+          renderCell: () => null, // Disable default checkbox rendering
+        }}
+        rowClassName="hover-row" // Add this class to each row
+      />
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Confirm Deletion"
+        visible={isModalVisible}
+        onOk={handleDelete}
+        onCancel={handleCancel}
+        okText="Delete"
+        okType="danger"
+        zIndex={1060}
       >
-        <DialogTitle>Confirm Removal</DialogTitle>
-        <DialogContent>
-          Are you sure you want to remove {employee.name}?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancelRemoveEmployee} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmRemoveEmployee} color="primary">
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </ListItem>
+        <p>
+          Any user you remove from your company will have their access revoked
+          and this action is irreversible.
+        </p>
+        <p>Are you sure you want to continue?</p>
+      </Modal>
+
+      {/* Move to Admin Confirmation Modal */}
+      <Modal
+        title={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <ExclamationCircleOutlined
+              style={{ color: "orange", marginRight: "8px" }}
+            />
+            <span>Confirm Move</span>
+          </div>
+        }
+        visible={isMoveModalVisible}
+        onOk={handleMove}
+        onCancel={handleCancel}
+        okText="Move"
+        cancelText="Cancel"
+        zIndex={1060}
+        okButtonProps={{ className: "workspace_addBtn" }} // Applying the custom class to the "Move" button
+      >
+        <p>
+          Admins have access to more features to manage your employees & teams.
+        </p>
+      </Modal>
+    </div>
   );
 };
 

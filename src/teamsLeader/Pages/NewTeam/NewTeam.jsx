@@ -138,6 +138,7 @@ export const NewTeam = () => {
 
   const [hoveredRow, setHoveredRow] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [userPlan, setUserPlan] = useState(null); // Store the user's plan
 
   const showModal = () => {
     setModalVisible(true);
@@ -194,7 +195,17 @@ export const NewTeam = () => {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    getAPI("/api/get-current-plan")
+      .then((response) => {
+        const { userPlan } = response.data;
 
+        setUserPlan(userPlan); // Store the user plan
+      })
+      .catch((error) => {
+        console.error("Error fetching user plan:", error);
+      });
+  }, []);
   const handleAddPasswordsClick = () => {
     setPasswordComponentCount((prevCount) => prevCount + 1);
     const data = {
@@ -359,12 +370,19 @@ export const NewTeam = () => {
       key: "Social Planner",
       id: Math.random().toString(),
     },
+ 
+  
     // {
     //   icon: <MdCheckBoxOutlineBlank className="me-2 mt-1 fs-6 align-middle" />,
     //   option: "Blank View",
     //   id: Math.random().toString(),
     // },
   ]);
+
+  const filteredMenu = mainTbl_addBtn_menu.filter(
+    (item) =>
+      !(userPlan?.package === "trial" && item.option === "Social Planner")
+  );
   const mainTbl_btn_optionMenu = [
     {
       icon: <HiOutlineStar className="me-2 mt-1 fs-6 align-middle" />,
@@ -428,6 +446,8 @@ export const NewTeam = () => {
     // // console.log(updatedTableData, "updatedTableData");
     // setSelectedDropdownOption(updatedTableData);
   };
+
+  console.log(selectedDropdownOption);
 
   const handleDropdownSelect = (item) => {
     const data = { name: item.option, active: item.option, key: item.option };
@@ -805,7 +825,7 @@ export const NewTeam = () => {
 
   return (
     // <div className="px-4 pt-3 newTeam " style={{ height: "100vh" }}>
-    <div className="px-4 pt-3 newTeam mb-[5rem]" style={{ height: "auto" }}>
+    <div className="px-4 pt-3 newTeam mb-[5rem] w-[88%] overflow-auto" style={{ height: "auto" }}>
       <div className="flex mb-2 items-center justify-between">
         <h3>Usman</h3>
         {/* <Button className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle">
@@ -821,12 +841,12 @@ export const NewTeam = () => {
               className=" teamInvite_btn bgHover align-middle me-1"
               onClick={showModal}
             >
-              <FaRegUser className="text-base mx-2  " />
-              <span className="text-sm mt-1 "> Invite / 1</span>
+              <FaRegUser className="text-base mx-2 text-[#676879] " />
+              <span className="text-sm mt-1 text-[#676879]"> Invite / 1</span>
             </button>
           </Link>
           <Button
-            className="ms-1 px-1 fs-4 workspace-dropdown-button bgHover align-middle"
+            className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle"
             style={{ display: "flex" }}
           >
             <BsThreeDots className=" fs-5 " />
@@ -834,7 +854,7 @@ export const NewTeam = () => {
         </div>
       </div>
       <div className=" main_tableBtnDiv mb-3 d-flex">
-        {/* <span className=" d-flex" onClick={() => setActiveTab("Main Table")}>
+        <span className=" d-flex" onClick={() => setActiveTab("Main Table")}>
           <span
             style={{
               borderBottom:
@@ -845,16 +865,16 @@ export const NewTeam = () => {
                 (!selectedDropdownOption.length && "-3px"),
             }}
           >
-            <Button
+            {/* <Button
               className=" workspace-dropdown-button  align-self-center  text-start py-1  px-2"
               style={{ display: "flex", alignItems: "center" }}
             >
               <SlHome className="me-2 " />
-              Main Table
-            </Button>
+              Main Table12
+            </Button> */}
           </span>
-          <div className="vr mx-1 nav_splitter align-self-center"></div>
-        </span> */}
+          {/* <div className="vr mx-1 nav_splitter align-self-center"></div> */}
+        </span>
 
         {selectedDropdownOption?.map((option) => (
           <span
@@ -955,14 +975,14 @@ export const NewTeam = () => {
         ))}
         <span>
           <Dropdown>
-            <Dropdown.Toggle className="p-2 workspace-dropdown-button bgHover align-middle">
+            <Dropdown.Toggle className="p-2 workspace_menuBtn bgHover align-middle">
               <FiPlus />
             </Dropdown.Toggle>
-            <Dropdown.Menu className="border-0">
-              {mainTbl_addBtn_menu.map((item, index) => (
+            <Dropdown.Menu>
+              {filteredMenu.map((item, index) => (
                 <Dropdown.Item key={index} href="#" className="">
                   <Button
-                    className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
+                    className="workspace-dropdown-button workspace-dropdownBtn fw-normal align-self-center w-100 text-start py-1 px-2"
                     style={{
                       height: "34px",
                     }}
@@ -979,20 +999,18 @@ export const NewTeam = () => {
           </Dropdown>
         </span>
       </div>
-      {activeTab !== "Calendar" &&
-        activeTab !== "Social Planner" &&
-        activeTab !== "Files Gallery" && (
-          <>
-            <div className="d-flex items-center newTeam_nav mb-5">
-              <Button
-                onClick={addTodoList}
-                type="button"
-                className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
-                style={{ backgroundColor: "#025231", fontSize: "14px" }}
-              >
-                New Item
-              </Button>
-              {/* <ButtonGroup className=" me-4">
+      {activeTab !== "Calendar" && activeTab !== "Social Planner" && (
+        <>
+          <div className="d-flex items-center newTeam_nav mb-5">
+            <Button
+              onClick={addTodoList}
+              type="button"
+              className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
+              style={{ backgroundColor: "#025231", fontSize: "14px" }}
+            >
+              New Item
+            </Button>
+            {/* <ButtonGroup className=" me-4">
               <Button className=" py-0    workspace_addBtn  border-0 rounded-1   ">
                 Add Table
               </Button>
@@ -1046,7 +1064,7 @@ export const NewTeam = () => {
               </Dropdown>
             </ButtonGroup> */}
 
-              {/* <Button
+            {/* <Button
               className=" fs-6 workspace-dropdown-button workspace-dropdownBtn align-middle  text-start py-1 me-2 px-2"
               style={{ display: "flex" }}
             >
@@ -1111,9 +1129,9 @@ export const NewTeam = () => {
             >
               <BsThreeDots className=" fs-5 " />
             </Button> */}
-            </div>
-          </>
-        )}
+          </div>
+        </>
+      )}
 
       <OffcanvasComponent show={showCanvas} handleClose={closeCanvas} />
 

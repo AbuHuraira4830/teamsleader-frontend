@@ -20,22 +20,23 @@ import { BsFillChatDotsFill, BsThreeDots } from "react-icons/bs";
 import { FaRegCalendarCheck, FaUsers } from "react-icons/fa";
 import { AiOutlineBug, AiOutlineLeft } from "react-icons/ai";
 import { BiChevronDown, BiSolidFileExport, BiLockAlt } from "react-icons/bi";
-import { IoDocuments } from "react-icons/io5";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { PiClockCounterClockwiseFill, PiFunnel } from "react-icons/pi";
 import { FiFileText, FiPlus, FiSidebar, FiTrash } from "react-icons/fi";
-import { LuCrown } from "react-icons/lu";
+import { TbEdit, TbFileInvoice } from "react-icons/tb";
+import { LuFileInput, LuCrown } from "react-icons/lu";
 import { DiScrum } from "react-icons/di";
 import { TbEdit, TbFileInvoice } from "react-icons/tb";
 import { CiLock } from "react-icons/ci";
-
-import { LuFileInput } from "react-icons/lu";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { set } from "date-fns";
+
+
 import { getAPI, postAPI } from "../../helpers/apis";
 import { Popover } from "antd";
 import Workspace from "../Pages/NewTeam/Components/WorkspaceComponent";
 import { CircularProgress } from "@mui/material";
+import AddTeamModal from "./AddTeamModal"; // Import the AddTeamModal component
 import DocAddingModal from "./DocAddingModal";
 // import { BiSolidFileExport } from "react-icons/md";
 // import "../../assets/css/sidebar.css";
@@ -60,11 +61,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
     setNewTeam,
   } = useStateContext();
   const navigate = useNavigate();
-  // const [isSubmenuVisible, setSubmenuVisible] = useState(true);
-  // const handleSubmenu = () => {
-  //   setSubmenuVisible(!isSubmenuVisible);
-  // };
-  // console.log(isSubmenuVisible, "isSubmenuVisible");
+
 
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -94,6 +91,8 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  // const [newTeam, setNewTeam] = useState([]);
+  // const [workspaces, setWorkspaces] = useState([]);
 
   const [teamInputValue, setTeamInputValue] = useState("New Team");
   const [privacyValue, setPrivacyValue] = useState("private");
@@ -104,6 +103,8 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
   const [teamEditingInput, setTeamEditingInput] = useState("");
   const [workspaceRenameInput, setWorkspaceRenameInput] = useState("");
   const [workspaceEditing, setWorkspaceEditing] = useState(false);
+  const [userPlan, setUserPlan] = useState(null);
+
   const [docRenameInput, setDocRenameInput] = useState("");
   const [docEditing, setDocEditing] = useState(false);
   const deleteWorkspace = () => {
@@ -738,7 +739,6 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                   >
                     <span className="centerIt">
                       <FaUsers className="me-2 fs-6 align-middle" />
-
                       {teamEditing === team._id ? (
                         <Form.Control
                           type="text"

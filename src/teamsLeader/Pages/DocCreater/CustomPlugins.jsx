@@ -12,6 +12,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 // const CustomPlugins = () => {};
 
+
 export function AddDropdown(editor) {
   editor.ui.componentFactory.add("addDropdown", (locale) => {
     const dropdownView = createDropdown(locale);

@@ -1,31 +1,16 @@
 import React, { useState } from "react";
 import List from "@mui/material/List";
 import { RxMagnifyingGlass } from "react-icons/rx";
-import "react-toastify/dist/ReactToastify.css";
-import EmployeeListItem from "./EmployeeListItem"; // Import the existing EmployeeListItem component
+import { Button, Modal } from "antd";
+import { FaTrash, FaUserTie } from "react-icons/fa";
+import EmployeeListItem from "./EmployeeListItem";
+import { useStateContext } from "../../contexts/UsersContext";
 
 const EmployeeList = () => {
-  const employeesData = [
-    { id: 1, name: "John Doe", email: "johndoe321@gmail.com" },
-    { id: 2, name: "Jane Doe", email: "janedoe8989@gmail.com" },
-    { id: 3, name: "Bob Smith", email: "smithbob145@gmail.com" },
-    { id: 4, name: "Alice Johnson", email: "alicejohnson@gmail.com" },
-    { id: 5, name: "Charlie Brown", email: "charliebrown@gmail.com" },
-    { id: 6, name: "Eva Williams", email: "evawilliams@gmail.com" },
-    { id: 7, name: "Frank Miller", email: "frankmiller@gmail.com" },
-    { id: 8, name: "Grace Davis", email: "gracedavis@gmail.com" },
-    { id: 9, name: "Harry Wilson", email: "harrywilson@gmail.com" },
-    { id: 10, name: "Ivy Robinson", email: "ivyrobinson@gmail.com" },
-  ];
-
+  const { employees, moveToAdmins, setEmployees } = useStateContext();
   const [searchQuery, setSearchQuery] = useState("");
-
-  const [employees, setEmployees] = useState(
-    employeesData.map((employee) => ({
-      ...employee,
-      showPendingInvitation: false,
-    }))
-  );
+  const [isFocused, setIsFocused] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const filteredEmployees = employees.filter(
     (employee) =>
@@ -33,48 +18,122 @@ const EmployeeList = () => {
       employee.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleCrownClick = (id) => {
-    setEmployees((prevEmployees) =>
-      prevEmployees.map((employee) =>
-        employee.id === id
-          ? {
-              ...employee,
-              showPendingInvitation: !employee.showPendingInvitation,
-            }
-          : employee
-      )
-    );
-  };
-
   const handleRemoveEmployee = (id) => {
     setEmployees((prevEmployees) =>
       prevEmployees.filter((employee) => employee.id !== id)
     );
   };
-  const handleResendInvitation = (employee) => {
-    console.log(`Resending invitation for ${employee.name}`);
+
+  const onSelectChange = (id) => {
+    const isSelected = selectedRowKeys.includes(id);
+    const newSelectedRowKeys = isSelected
+      ? selectedRowKeys.filter((key) => key !== id)
+      : [...selectedRowKeys, id];
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const handleBulkMove = () => {
+    Modal.confirm({
+      title: "Confirm Move",
+      content: (
+        <>
+          <p>
+            Admins have access to more features to manage your employees &
+            teams. Would you like to continue?
+          </p>
+        </>
+      ),
+      okText: "Move",
+      okButtonProps: {
+        style: { backgroundColor: "#00854d", borderColor: "green" },
+      },
+      onOk: () => {
+        selectedRowKeys.forEach((key) => moveToAdmins(key));
+        setSelectedRowKeys([]); // Clear the selection after moving
+      },
+    });
+  };
+
+  const showDeleteConfirm = () => {
+    Modal.confirm({
+      title: "Confirm Deletion",
+      content: (
+        <>
+          <p>
+            Any user you remove from your company will have their access revoked
+            and this action is irreversible.
+          </p>
+          <p>Are you sure you want to continue?</p>
+        </>
+      ),
+      okText: "Delete",
+      okType: "danger",
+      onOk: () => {
+        selectedRowKeys.forEach((key) => handleRemoveEmployee(key));
+        setSelectedRowKeys([]); // Clear the selection after deletion
+      },
+    });
   };
 
   return (
     <>
-      <div className="my-2" style={{ overflowX: "auto", maxHeight: "400px" }}>
-        <div className="addPersonSearch flex items-center w-full">
+      <div className="my-6 mb-6">
+        <div
+          className={`admin_searchInput flex items-center w-full mb-4 ${
+            isFocused ? "focus" : ""
+          }`}
+        >
           <input
             type="text"
             placeholder="Search employees by name or email"
-            className={`person_searchInput py-[0.4rem] px-2.5`}
+            className="searchInput py-[0.4rem] px-2.5 flex-grow border-none"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ outline: "none" }}
           />
-          <RxMagnifyingGlass className="text-base text-[#c3c6d4] absolute right-12" />
+          <RxMagnifyingGlass className="text-base text-[#c3c6d4] mx-2" />
         </div>
+
+        {/* <div className="flex justify-end mt-2">
+          {selectedRowKeys.length > 1 && (
+            <Button
+              type="primary"
+              style={{ backgroundColor: "#00854d", borderColor: "green" }}
+              className="workspace_addBtn mx-2"
+              onClick={handleBulkMove}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <FaUserTie style={{ marginRight: "8px" }} />
+                Move to Admins
+              </div>
+            </Button>
+          )}
+
+          <Button
+            type="primary"
+            danger
+            onClick={showDeleteConfirm}
+            disabled={selectedRowKeys.length === 0}
+            icon={<FaTrash />}
+            className="flex items-center justify-center"
+          >
+            Delete
+          </Button>
+        </div> */}
+
         <List>
           {filteredEmployees.map((employee) => (
             <EmployeeListItem
               key={employee.id}
               employee={employee}
-              onResendInvitation={() => handleResendInvitation(employee)}
-              onCrownClick={() => handleCrownClick(employee.id)}
+              onResendInvitation={() =>
+                console.log(`Resending invitation for ${employee.name}`)
+              }
+              onCrownClick={() => console.log(`Crowning ${employee.name}`)}
               onRemoveEmployee={() => handleRemoveEmployee(employee.id)}
+              onCheckboxChange={onSelectChange}
+              selected={selectedRowKeys.includes(employee.id)}
             />
           ))}
         </List>

@@ -6,7 +6,14 @@ import PinterestPostPreview from "./PinterestPostPreview";
 import LinkedinPostPreview from "./LinkedinPostPreview";
 import TikTokPostPreview from "./TikTokPostPreview";
 import XPostPreview from "./XPostPreview";
-const PostPreview = ({ activeAccounts, postContent }) => {
+import YoutubePostPreview from "./YoutubePostPreview";
+const PostPreview = ({
+  activeAccounts,
+  postContent,
+  linkedAccounts,
+  youtubeInfo,
+}) => {
+  console.log("postContent", activeAccounts);
   const renderPreview = () => {
     const activePlatforms = Object.keys(activeAccounts).filter(
       (key) => activeAccounts[key]
@@ -14,19 +21,31 @@ const PostPreview = ({ activeAccounts, postContent }) => {
     // console.log("Active platforms:", activePlatforms); // Check what platforms are active
 
     // Check if there's no content and no active platforms, then show default preview
-    if (postContent === "" && activePlatforms.length === 0) {
+    if (postContent === "") {
       return <DefaultPreviewSkeleton />;
     }
 
     // If there is content or active platforms, map and return the previews
-    if (postContent !== "" ) {
+    if (postContent !== "") {
       return activePlatforms.map((platform) => {
+        console.log("platform", platform);
+
         switch (platform) {
           case "Facebook":
             return <FacebookPostPreview key="facebook" content={postContent} />;
           case "Instagram":
             return (
               <InstagramPostPreview key="instagram" content={postContent} />
+            );
+          case "YouTube":
+            return (
+              <YoutubePostPreview
+                key="youtube"
+                content={postContent}
+                activeAccounts={activeAccounts}
+                linkedAccounts={linkedAccounts}
+                youtubeInfo={youtubeInfo}
+              />
             );
           case "Linkedin":
             return <LinkedinPostPreview key="linkedin" content={postContent} />;

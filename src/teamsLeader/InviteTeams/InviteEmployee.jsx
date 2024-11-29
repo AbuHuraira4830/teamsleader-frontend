@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -14,13 +14,27 @@ import TeamMembersDialog from "./TeamMembersDialog";
 import EmailTemplateDialog from "./EmailTemplateDialog";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import { Modal } from "@mui/material";
 
+import { useStateContext as userContext } from "../../contexts/UsersContext";
+import { postAPI, getAPI } from "../../helpers/apis";
+import { useStateContext } from "../../contexts/ContextProvider";
+import EmployeeLimitModal from "./EmployeeLimitModal";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-const InviteEmployee = ({ onClose }) => {
+
+const InviteEmployee = ({ role }) => {
+  const navigate = useNavigate();
+
+  const { workspaceID, teamID } = useParams();
+  const { selectedWorkspace } = useStateContext();
+  const { employees } = userContext();
   const [persons, setPersons] = useState([]);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
+  console.log("Employees", employees);
 
   const [sectionVisible, setSectionVisible] = useState(true);
   const [isTeamMembersDialogOpen, setTeamMembersDialogOpen] = useState(false);
@@ -36,6 +50,29 @@ const InviteEmployee = ({ onClose }) => {
     title: "",
     personalNote: "",
   });
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false); // Upgrade modal control
+  const [userPlan, setUserPlan] = useState(null); // Store the user's plan
+  const [isLoading, setIsLoading] = useState(false); // Loading state for adding employees
+  const employeeLimits = {
+    trial: 0,
+    freelancer: 5,
+    business: Infinity,
+    enterprise: Infinity,
+  };
+  useEffect(() => {
+    getAPI("/api/get-current-plan")
+      .then((response) => {
+        const { userPlan } = response.data;
+        setUserPlan(userPlan); // Store the user plan
+      })
+      .catch((error) => {
+        console.error("Error fetching user plan:", error);
+      });
+  }, []);
+  const sanitizedWorkspaceID = workspaceID.replace(/^:|:$/g, "");
+  const sanitizedTeamID = teamID.replace(/^:|:$/g, "");
+
+  const hasRole = selectedWorkspace?.teams?.some((team) => team.role);
 
   const handleCompanyChange = (event) => {
     const companyValue = event.target.value;
@@ -50,6 +87,9 @@ const InviteEmployee = ({ onClose }) => {
       // Close the dialog if no company is selected
       setTeamMembersDialogOpen(false);
     }
+  };
+  const handlePeopleClick = () => {
+    setTeamMembersDialogOpen(true);
   };
 
   const handleAddPerson = () => {
@@ -91,65 +131,88 @@ const InviteEmployee = ({ onClose }) => {
       }));
     }
   };
+
   const handleSendInvitation = async () => {
+    // If the user plan hasn't been fetched yet, show an error
+    if (!userPlan) {
+      console.error("User plan not found");
+      return;
+    }
+
+    // Check if the current number of employees exceeds the plan's limit
+    const currentEmployeesCount = employees.length;
+    console.log("EmployeeLength", currentEmployeesCount);
+    const employeeLimit = employeeLimits[userPlan?.package];
+    console.log("userPlan?.package", userPlan?.package);
+
+    // If employee limit is exceeded, show the upgrade modal
+    if (currentEmployeesCount >= employeeLimit) {
+      setShowUpgradeModal(true);
+
+      return;
+    }
+
+    // Proceed with sending invitations if the limit is not exceeded
+    setIsLoading(true);
+    const allPersons = [
+      {
+        fullName: emailData.fullName,
+        email: emailData.email,
+        title: emailData.title,
+        personalNote: emailData.personalNote,
+        role: role,
+      },
+      ...persons.map((person) => ({
+        fullName: person.fullName,
+        email: person.email,
+        title: person.title,
+        personalNote: person.personalNote,
+        role: role,
+      })),
+    ];
+
     try {
-      // Combine the first person with the dynamic persons
-      const allPersons = [
-        {
-          fullName: emailData.fullName,
-          email: emailData.email,
-          title: emailData.title,
-          personalNote: emailData.personalNote,
-        },
-        ...persons,
-      ];
-
-      // Iterate over each person
       for (const person of allPersons) {
-        console.log(person);
-        const response = await fetch("http://localhost:8888/api/team/invite", {
-          // Use your backend server's address here
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fullName: person.fullName,
-            email: person.email,
-            title: person.title,
-            personalNote: person.personalNote,
-          }),
-        });
+        const response = await postAPI(
+          `/api/team/invite/${sanitizedWorkspaceID}/${sanitizedTeamID}`,
+          {
+            persons: [
+              {
+                name: person.fullName,
+                email: person.email,
+                title: person.title,
+                notes: person.personalNote,
+                role: person.role,
+              },
+            ],
+          }
+        );
 
-        const result = await response.json();
-        if (response.ok) {
-          // Handle success for each person
-          console.log("Invitation sent:", result);
+        if (response.status === 200) {
+          console.log("Invitation sent:", response.data);
           setSnackbar({
             open: true,
             message: `Invitation sent successfully to ${person.fullName}!`,
             severity: "success",
           });
-          // Maybe close the dialog or show a success message
         } else {
-          // Handle error for each person
-          console.error(
-            "Failed to send invitation to",
-            person.fullName,
-            ":",
-            result
-          );
+          console.error("Failed to send invitation:", response.data.message);
           setSnackbar({
             open: true,
             message: `Failed to send invitation to ${person.fullName}. Please try again.`,
             severity: "error",
           });
-          // Show an error message
         }
       }
     } catch (error) {
-      console.error("Network error:", error);
-      // Handle network error
+      console.error("Error sending invitations:", error);
+      setSnackbar({
+        open: true,
+        message: "Network error. Please try again later.",
+        severity: "error",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -159,6 +222,7 @@ const InviteEmployee = ({ onClose }) => {
     }
     setSnackbar({ ...snackbar, open: false });
   };
+  console.log("selectedWorkspace Teams Test", selectedWorkspace);
   return (
     <>
       <Box p={4}>
@@ -168,7 +232,7 @@ const InviteEmployee = ({ onClose }) => {
             <p className="text-lg font-bold">Add Employee</p>
           </div>
           <IconButton className="mb-3">
-            <CloseIcon />
+            <CloseIcon onClick={() => navigate(-1)} />
           </IconButton>
         </Box>
         {/* Entire Section */}
@@ -287,32 +351,28 @@ const InviteEmployee = ({ onClose }) => {
             >
               Add another person
             </Button>
-            <Typography variant="body2" ml={2} mr={2}>
-              or
-            </Typography>
+            {!hasRole && (
+              <Typography variant="body2" ml={2} mr={2}>
+                or
+              </Typography>
+            )}
+
             {/* Select Option */}
             <>
-              <Select
-                variant="outlined"
-                value={selectedCompany} // Add your state for the selected value here
-                onChange={handleCompanyChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Select person from company" }}
-                style={{ minWidth: 150 }}
-                size="small"
-              >
-                <MenuItem value="" disabled>
-                  Pick a person
-                </MenuItem>
-                <MenuItem value="Company 1">Company 1</MenuItem>
-                <MenuItem value="Company 2">Company 2</MenuItem>
-                <MenuItem value="Company 3">Company 3</MenuItem>
-                {/* Add more options as needed */}
-              </Select>
+              {!hasRole && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handlePeopleClick}
+                >
+                  Pick People
+                </Button>
+              )}
               <TeamMembersDialog
                 open={isTeamMembersDialogOpen}
                 onClose={() => setTeamMembersDialogOpen(false)}
                 selectedCompany={selectedCompany}
+                teamID={teamID}
               />
             </>
           </Box>
@@ -387,6 +447,11 @@ const InviteEmployee = ({ onClose }) => {
           {snackbar.message}
         </Alert>
       </Snackbar>
+      <EmployeeLimitModal
+        showUpgradeModal={showUpgradeModal}
+        setShowUpgradeModal={setShowUpgradeModal}
+        userPlan={userPlan}
+      />
     </>
   );
 };

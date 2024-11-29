@@ -29,7 +29,10 @@ const AddNewRole = () => {
   };
   return (
     <>
-      <div className="newRole_container	">
+      <div
+        className="newRole_container 
+      	"
+      >
         <div className="w-[55%]">
           <Box
             component="form"
@@ -39,7 +42,7 @@ const AddNewRole = () => {
             noValidate
             autoComplete="off"
           >
-            <div className="mt-3 ">
+            <div className="mt-4 ">
               <Typography
                 gutterBottom
                 style={{ marginLeft: "0.5rem", fontSize: ".85rem" }}
@@ -66,7 +69,7 @@ const AddNewRole = () => {
                 gutterBottom
                 style={{
                   marginLeft: "0.5rem",
-                  marginTop: ".5rem",
+                  marginTop: "2.5rem",
                   fontSize: ".85rem",
                 }}
               >
@@ -92,7 +95,7 @@ const AddNewRole = () => {
                 gutterBottom
                 style={{
                   marginLeft: "0.5rem",
-                  marginTop: ".5rem",
+                  marginTop: "2.5rem",
                   fontSize: ".85rem",
                 }}
               >
@@ -110,7 +113,7 @@ const AddNewRole = () => {
                 gutterBottom
                 style={{
                   marginLeft: "0.5rem",
-                  marginTop: ".5rem",
+                  marginTop: "2.5rem",
                   fontSize: ".85rem",
                 }}
               >
@@ -136,10 +139,10 @@ const AddNewRole = () => {
           </Box>
         </div>
 
-        <hr
+        {/* <hr
           className="role_divider"
           style={{ borderBottom: "1px solid #e6e9ef" }}
-        />
+        /> */}
 
         <div className="w-[20%]">
           <Box

@@ -420,6 +420,7 @@ z-index: 3 !important;
 .person_searchInput:focus{
   border-color: #00854d !important;
   outline: none !important;
+
 }
 :where(.css-dev-only-do-not-override-gzal6t).ant-popover{
   z-index: 99999 !important;

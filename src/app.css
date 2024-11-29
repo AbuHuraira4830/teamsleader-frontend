@@ -133,7 +133,6 @@ li {
 /* .app-container {
   background-color: var(--navbar-background-color);
 } */
-
 .flex {
   display: flex;
 }
@@ -698,6 +697,13 @@ input::placeholder {
 .postFroala .fr-wrapper .fr-video {
   display: none !important;
 }
+/* ================================================= */
+
+
+.custom-modal-position  {
+  transform: translateY(-20%) !important; /* Adjust this value to move the modal up */
+}
+
 .ant-popover-inner-content {
   border-radius: 6px;
 }

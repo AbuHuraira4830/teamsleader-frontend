@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const InstagramDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="w-full p-3 bg-white border border-gray-300 rounded-md shadow-sm">

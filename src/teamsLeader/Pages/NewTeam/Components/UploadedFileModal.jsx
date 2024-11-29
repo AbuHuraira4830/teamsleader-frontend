@@ -32,6 +32,8 @@ import FroalaEditor from "react-froala-wysiwyg";
 import Froalaeditor from "froala-editor";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 import { getAPI, postAPI } from "../../../../helpers/apis";
+import { RxCross2 } from "react-icons/rx";
+import DeleteModal from "../../../../dynamicComponents/DeleteModal";
 
 const UploadedFileModal = () => {
   const {
@@ -50,6 +52,8 @@ const UploadedFileModal = () => {
     setCurrentItemIndex,
     selectedTask,
     setUploadedFiles,
+    deletemodal,
+    setDeleteModal,
   } = useStateContext();
 
   const modalData = modalShow;
@@ -140,7 +144,6 @@ const UploadedFileModal = () => {
       closeModal();
     }
   };
-  const [deletemodal, setDeleteModal] = useState(false);
 
   const closeDeleteModal = () => setDeleteModal(false);
   const openDeleteModal = () => setDeleteModal(true);
@@ -153,7 +156,7 @@ const UploadedFileModal = () => {
       centered
       fullscreen={fullscreen}
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <div className="flex">
           <span className="file_modalIcon ">
             {FileAltIcons(allFiles[currentItemIndex])}
@@ -183,6 +186,21 @@ const UploadedFileModal = () => {
             </span>
           </span>
         </div>
+        <button
+          type="button"
+          class="btn-close rounded-1 bgHover centerIt justify-content-center p-0 "
+          aria-label="Close"
+          onClick={closeModal}
+          style={{
+            width: "35px",
+            height: "35px",
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+          }}
+        >
+          <RxCross2 className="fs-3 text-color" />
+        </button>
       </Modal.Header>
       <Modal.Body className="p-0 h-100 mh-100">
         <div className="flex justify-content-between h-100 mh-100">
@@ -214,35 +232,11 @@ const UploadedFileModal = () => {
                 <SlArrowRight className="fs-3 fw-bold" />
               </Button>
             </div>
-            <Modal show={deletemodal} onHide={closeDeleteModal}>
-              <Modal.Header className="border-0" closeButton>
-                <p className="m-0">
-                  Delete the file {allFiles[currentItemIndex]?.name}?
-                </p>
-              </Modal.Header>
-              <Modal.Footer className="border-0">
-                <Button
-                  className="workspace-dropdown-button fw-normal rounded-1 py-1  px-3 "
-                  style={{
-                    height: "40px",
-                  }}
-                  onClick={closeDeleteModal}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  className="p-2 px-3  workspace_addBtn rounded-1 border-0"
-                  style={{ backgroundColor: "#025231" }}
-                  onClick={() => {
-                    closeDeleteModal();
-                    handleDeleteFile();
-                  }}
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <DeleteModal
+              handleDeleteFile={handleDeleteFile}
+              fileName={`file ${allFiles[currentItemIndex]?.name}`}   
+            />
+
             <div className="centerIt preview_control position-absolute">
               {/* <Button
                 type="button"

@@ -14,7 +14,6 @@ const { TabPane } = Tabs;
 const WorkAndHoliday = ({ setSelectedOption }) => {
   const { days, setDays, theme, thisUser, setThisUser, users } =
     useStateContext();
-  console.log(thisUser.teamWorkingDays, "days", days);
   const [usersTotalWorkingHours, setUsersTotalWorkingHours] = useState({});
   const isFirstRender = useRef(true);
 
@@ -47,7 +46,6 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
           emailAddress: thisUser.emailAddress,
           workingDaysAndHours: updatedDays,
         });
-        console.log(response.data.user);
         setThisUser(response.data.user);
         const res = await postAPI("/api/working-days-time/update", {
           emailAddresses,
@@ -72,7 +70,6 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
       const res = await postAPI("/api/user/total-working-hours", {
         emailAddresses,
       });
-      console.log(res.data.UsersWoringHours);
       setUsersTotalWorkingHours(res.data.UsersWoringHours);
     } catch (err) {
       console.log(err);

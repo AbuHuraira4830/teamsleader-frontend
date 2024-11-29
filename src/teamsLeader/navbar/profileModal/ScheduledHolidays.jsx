@@ -145,10 +145,30 @@ const ScheduledHolidays = () => {
       handleHistory(emailAddress, newUpdate);
       setSuccessModal(true);
       await updateMemberHoliday(days, type, emailAddress);
+      // await updateHolidaysLeft(days, emailAddress);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const updateHolidaysLeft = async (days, emailAddress) => {
+      console.log(days, emailAddress);
+      try {
+        const value = Number(days); // Convert days to a number
+        if (isNaN(value)) {
+          console.error("Invalid number for days:", days);
+          return;
+        }
+        const res = await postAPI("/api/member/update-holidays-left", {
+          emailAddress,
+          value,
+          source: "revoke",
+        });
+        console.log(res.data.message);
+      } catch (err) {
+        console.log(err);
+      }
+    };
   const updateMemberHoliday = async (days, type, emailAddress) => {
     console.log(days, type, emailAddress);
     try {

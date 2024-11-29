@@ -48,7 +48,7 @@ const EmailUpdateModal = ({ closeModal, emailModal }) => {
   };
   return (
     <Modal
-      show={emailModal}
+      show={true}
       onHide={closeModal}
       centered
       dialogClassName="emailPopup border-0"
@@ -125,4 +125,3 @@ const EmailUpdateModal = ({ closeModal, emailModal }) => {
   );
 };
 
-export default EmailUpdateModal;

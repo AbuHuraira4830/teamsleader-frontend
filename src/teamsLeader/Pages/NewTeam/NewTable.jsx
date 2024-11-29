@@ -385,7 +385,6 @@ const NewTable = ({
         console.log(err);
       });
   };
-  console.log(tasks);
   return (
     <>
       {tableHidden && (

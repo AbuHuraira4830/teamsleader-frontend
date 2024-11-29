@@ -521,7 +521,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
               <Form.Control
                 type="text"
                 placeholder="Search"
-                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"
+                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"           
                 onFocus={HandleInputFocus}
                 onMouseEnter={HandleMouseEnter}
                 onMouseLeave={HandleMouseLeave}

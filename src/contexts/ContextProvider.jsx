@@ -688,7 +688,6 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     getAPI("/api/user")
       .then((res) => {
-        
         setDays(res.data.user.workingDaysAndHours);
         setThisUser(res.data.user);
       })
@@ -906,10 +905,19 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-  const [userEmail, setUserEmail] = useState(""); 
+  const [userEmail, setUserEmail] = useState("");
+  const [deletemodal, setDeleteModal] = useState(false);
+  const [updateRequestModal, setUpdateRequestModal] = useState({});
+  const [myHolidayRequests, setMyHolidayRequests] = useState([]);
   return (
     <StateContext.Provider
       value={{
+        myHolidayRequests,
+        setMyHolidayRequests,
+        updateRequestModal,
+        setUpdateRequestModal,
+        deletemodal,
+        setDeleteModal,
         userEmail,
         setUserEmail,
         selectedEmployee,
@@ -1112,4 +1120,3 @@ export const ContextProvider = ({ children }) => {
 };
 
 export const useStateContext = () => useContext(StateContext);
-

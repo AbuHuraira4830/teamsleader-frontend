@@ -120,6 +120,7 @@ const HolidayRequests = () => {
         status,
         approvedBy,
       });
+      console.log(res.data)
       // Update holiday requests data
       setHolidayRequestsData(res.data.holidayRequests);
       handleHistory(emailAddress, newUpdate);
@@ -128,11 +129,30 @@ const HolidayRequests = () => {
       setSuccessMessage("Holiday request approved successfully");
       // Call the function to update the member's holidays
       await updateMemberHoliday(days, type, emailAddress);
+      // await updateHolidaysLeft(days, emailAddress);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const updateHolidaysLeft = async (days, emailAddress) => {
+    console.log(days, emailAddress);                       
+    try {
+      const value = Number(days); // Convert days to a number
+      if (isNaN(value)) {
+        console.error("Invalid number for days:", days);
+        return;
+      }
+      const res = await postAPI("/api/member/update-holidays-left", {
+        emailAddress,
+        value,
+        source: "approve",
+      });
+      console.log(res.data.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const updateMemberHoliday = async (days, type, emailAddress) => {
     try {
       const daysAsNumber = Number(days); // Convert days to a number
@@ -163,7 +183,7 @@ const HolidayRequests = () => {
     const time = now
       .toLocaleTimeString("en-US", timeOptions)
       .replace(":", " : ");
-      const newUpdate = `${thisUser.fullName} rejected your ${dateToDate} holiday request on ${date} at ${time}`;
+    const newUpdate = `${thisUser.fullName} rejected your ${dateToDate} holiday request on ${date} at ${time}`;
     console.log(extraNote);
     const status = { color: "#ff5858", bgColor: "#ffcbcb", value: "Rejected" };
     const rejectedBy = {
@@ -280,7 +300,7 @@ const HolidayRequests = () => {
                   <ExtraNote
                     extraNotes={extraNotes}
                     setExtraNotes={setExtraNotes}
-                    item={item}      
+                    item={item}
                   />
                 </td>
                 <td>
@@ -313,7 +333,7 @@ const HolidayRequests = () => {
                         )
                       }
                     >
-                      Reject             
+                      Reject
                     </span>
                   </div>
                 </td>

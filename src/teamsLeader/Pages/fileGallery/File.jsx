@@ -8,14 +8,20 @@ import { BsThreeDots } from "react-icons/bs";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import UploadedFileModal from "../NewTeam/Components/UploadedFileModal";
 import { getAPI } from "../../../helpers/apis";
+import DeleteModal from "../../../dynamicComponents/DeleteModal";
 // import Draggable from "react-draggable";
 
 const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
-  const { setPreviewModalFiles, setModalShow, setCurrentItemIndex, thisUser } =
-    useStateContext();
+  const {
+    setPreviewModalFiles,
+    setModalShow,
+    setCurrentItemIndex,
+    thisUser,
+    setDeleteModal,
+  } = useStateContext();
   // const handleDownload = (file) => {
   //   const link = document.createElement("a");
-  //   link.href = file.url;          
+  //   link.href = file.url;
   //   link.setAttribute("download", file.name);
   //   document.body.appendChild(link);
   //   link.click();
@@ -82,7 +88,10 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
                 >
                   Download File
                 </Dropdown.Item>
-                <Dropdown.Item className="py-1" onClick={() => onDelete(file)}>
+                <Dropdown.Item
+                  className="py-1"
+                  onClick={() => setDeleteModal(true)}
+                >
                   Delete File
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -136,7 +145,6 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
                 {thisUser?.picture ? (
                   <div
                     style={{ width: "30px", height: "30px", cursor: "pointer" }}
-                    
                   >
                     <img
                       src={thisUser.picture}
@@ -152,16 +160,13 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
                       width: "32px",
                       height: "32px",
                       color: "white",
-                      cursor: "pointer",   
+                      cursor: "pointer",
                     }}
                   >
                     {thisUser?.fullName[0]?.toUpperCase()}
                   </div>
                 )}
-                <p className="ms-1">
-
-                17 Oct, 2023
-                </p>
+                <p className="ms-1">17 Oct, 2023</p>
               </span>
               <div></div>
             </div>
@@ -182,7 +187,10 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
                 >
                   Download File
                 </Dropdown.Item>
-                <Dropdown.Item className="py-1" onClick={() => onDelete(file)}>
+                <Dropdown.Item
+                  className="py-1"
+                  onClick={() => setDeleteModal(true)}
+                >
                   Delete File
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -191,6 +199,7 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
         </div>
       )}
       <UploadedFileModal />
+      <DeleteModal handleDeleteFile={onDelete} fileName={`file ${file.name}`} />
     </>
   );
 };

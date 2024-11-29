@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import IMAGES from "../../../assets/images/Images";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import UploadedFileModal from "../../Pages/NewTeam/Components/UploadedFileModal";
@@ -7,7 +7,8 @@ import ExtraNote from "./ExtraNote";
 import { postAPI } from "../../../helpers/apis";
 import { Popover } from "antd";
 import ReasonPopup from "./ReasonPopup";
-
+import { FiEdit } from "react-icons/fi";
+import UpdateHolidayRequest from "./UpdateHolidayRequest";
 const EmployeeTimeOffs = ({
   selectedYear,
   myHolidayRequests,
@@ -15,13 +16,14 @@ const EmployeeTimeOffs = ({
 }) => {
   const {
     holidayRequestsData,
-
+    setUpdateRequestModal,
     setPreviewModalFiles,
     setCurrentItemIndex,
     setModalShow,
     thisUser,
   } = useStateContext();
 
+  const [visibleModals, setVisibleModals] = useState({});
   useEffect(() => {
     postAPI("/api/get-holiday-requests", [thisUser.emailAddress])
       .then((res) => {
@@ -64,6 +66,9 @@ const EmployeeTimeOffs = ({
     {
       title: "Notes",
     },
+    {
+      title: "Action",
+    },
   ];
 
   const handleFileClick = (index, files) => {
@@ -83,11 +88,18 @@ const EmployeeTimeOffs = ({
     );
   };
 
+  const handleShowModal = (rowId) => {
+    setVisibleModals((prev) => ({ ...prev, [rowId]: true }));
+  };
+
+  const handleCloseModal = (rowId) => {
+    setVisibleModals((prev) => ({ ...prev, [rowId]: false }));
+  };
   return (
     <>
       <Table
         responsive
-        className="holiday-table mt-3 text-nowrap w-max"
+        className="holiday-table mt-2 text-nowrap w-max"
         size=""
       >
         <thead>
@@ -103,7 +115,7 @@ const EmployeeTimeOffs = ({
           {myHolidayRequests
             ?.filter((row) => isDateInSelectedYear(row.dateToDate))
             .map((row, index) => (
-              <tr className="fs_14" key={index}>
+              <tr className="fs_14" key={row._id}>
                 <td className="text-center">{row.holidayName}</td>
                 <td className="text-center">{row.type}</td>
 
@@ -131,10 +143,7 @@ const EmployeeTimeOffs = ({
                   {(row.approvedBy || row.rejectedBy) && (
                     <div className="centerIt justify-center">
                       <img
-                        src={
-                          row.approvedBy.picture ||
-                          row.rejectedBy.picture 
-                        }
+                        src={row.approvedBy.picture || row.rejectedBy.picture}
                         width={30}
                         alt=""
                         className="align-self-center  me-2"
@@ -143,8 +152,7 @@ const EmployeeTimeOffs = ({
                       />
                       <span />
                       <span className="cursor_pointer">
-                        {row.approvedBy.fullName ||
-                          row.rejectedBy.fullName }
+                        {row.approvedBy.fullName || row.rejectedBy.fullName}
                       </span>
                     </div>
                   )}
@@ -194,10 +202,34 @@ const EmployeeTimeOffs = ({
                     source={"Notes"}
                   />
                 </td>
+                <td>
+                  <div className="centerIt justify-center">
+                    <button
+                      className="h-100 centerIt justify-center border-0 shadow-none bgHover p-2 rounded-1"
+                      onClick={() => handleShowModal(row._id)}
+                      disabled={row.status.value !== "Pending"}
+                      style={{
+                        color:
+                          row.status.value === "Pending"
+                            ? "var(--text-color)"
+                            : "gray",
+                      }}
+                    >
+                      <FiEdit className="fs-5" />
+                    </button>
+                  </div>
+                  <UpdateHolidayRequest
+                    row={row}
+                    visible={!!visibleModals[row._id]}
+                    onClose={() => handleCloseModal(row._id)}
+                    isEdit={true}
+                  />
+                </td>
               </tr>
             ))}
         </tbody>
       </Table>
+
       <UploadedFileModal />
     </>
   );

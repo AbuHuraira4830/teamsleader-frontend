@@ -394,7 +394,6 @@ export const NewTeam = () => {
     },
   ];
   const [selectedDropdownOption, setSelectedDropdownOption] = useState([]);
-  console.log(selectedDropdownOption, "selectedDropdownOption");
   useEffect(() => {
     getAPI("/api/home-tabs/list")
       .then((response) => {

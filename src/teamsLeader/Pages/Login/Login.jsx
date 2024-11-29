@@ -8,13 +8,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { postAPI } from "../../../helpers/apis";
 import Header from "./registrationHeader";
 import { CircularProgress } from "@mui/material";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
 const Login = () => {
   const navigate = useNavigate();
   const [nextClicked, setNextClicked] = useState(true);
   const [showError, setShowError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+
   // const [userEmail,setUserEmail]=useState()
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault(); 
@@ -112,7 +119,7 @@ const Login = () => {
                     type="email"
                     onChange={handleChange}
                     className="login_input"
-                    placeholder=""
+                    placeholder="Enter your email"
                   />
                 </span>
               </span>
@@ -130,22 +137,38 @@ const Login = () => {
             <div>
               <span className="flex align-items-center mt-3 pt-1">
                 <span className="email_label me-3">Password</span>
-                <span className="width360">
+                <span className="width360 position-relative">
                   <input
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle between text and password
                     className="login_input"
-                    placeholder=""
+                    placeholder="Enter your password"
                     onChange={handleChange}
                   />
-                  {(errorMessage === "*Password Is Empty" ||
-                    errorMessage === "*Incorrect Password") && (
-                    <p className="m-0 text-start fs_14 text-danger">
-                      {errorMessage}
-                    </p>
-                  )}
+                  <span
+                    className="position-absolute"
+                    style={{
+                      right: "10px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                    }}
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <AiOutlineEyeInvisible />
+                    ) : (
+                      <AiOutlineEye />
+                    )}
+                  </span>
                 </span>
               </span>
+              {(errorMessage === "*Password Is Empty" ||
+                errorMessage === "*Incorrect Password") && (
+                <p className="m-0 text-start fs_14 text-danger">
+                  {errorMessage}
+                </p>
+              )}
             </div>
             <a
               className="login_link pb-1"

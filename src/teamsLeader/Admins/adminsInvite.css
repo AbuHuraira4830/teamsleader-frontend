@@ -18,13 +18,16 @@
     
 } */
 .role_divider{
-    margin: 1rem 1rem;
+    margin: 0rem .9rem;
     margin-bottom: 0;
-    border-width: 1px;
+    /* border-width: 1px; */
     height: auto;
-    border-right: 1px solid gray;
+    border-right: 2px solid #00ca72;
+    /* border-right: 1px solid gray; */
+    
     border-top: 0;
-    opacity: .3;
+    opacity: 1;
+    /* opacity: .3; */
 
 }
 .employee_divider{
@@ -144,6 +147,15 @@ background-color:#FFD700;
 border-radius: 4px;
 color: rgb(107 77 77);
 transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+margin-bottom: .5rem;
+
+}
+
+.inviteTeamInner  .dropdown  .dropdown-menu .admin {
+background-color:#e3e3e3;
+border-radius: 4px;
+color: rgb(107 77 77);
+transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 
 
 }
@@ -156,7 +168,6 @@ transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     background-color: #e7d35f !important;    
     color: #504c4c !important;
   }
-/* ======================================== */
 .css-i4bv87-MuiSvgIcon-root{
     height: 1.2em !important;
     width: 17px !important;
@@ -164,4 +175,84 @@ transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 .css-1xtorts-MuiDivider-root,.css-e9xqye-MuiDivider-root{
     margin-top: 6px !important;
     margin-bottom: 6px !important;
+}
+
+.admin_searchInput {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #c3c6d4;
+    border-radius: 4px;
+    color: #323338;
+    font-size: 0.8rem;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    padding: 0rem 0.3rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .admin_searchInput.focus {
+    border-color: #00854d !important;
+  }
+  
+  .searchInput {
+    width: 100%;
+    border: none;
+    outline: none;
+  }
+  
+  
+  /* ============================================ */
+  .employee-list-item {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .employee-checkbox, .admin-checkbox {
+    display: flex !important;
+    align-items: center !important;
+    margin-right: 12px !important;
+  }
+  
+  .employee-item {
+    flex-grow: 1 !important;
+  }
+  
+  .employee-item:hover .action-dropdown {
+    visibility: visible !important;
+  }
+  
+  /* .action-dropdown {
+    visibility: hidden !important;
+    margin-left: 8px !important;
+  } */
+  .hover-row {
+    position: relative;
+  }
+  
+  .hover-row:hover .action-dropdown {
+    display: inline-block;
+  }
+  
+  .action-dropdown,.action-dropdown-admin {
+    display: none;
+    position: absolute;
+    left: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .action-dropdown-admin{
+    left: -45% !important;
+    /* left: -70% !important; */
+}
+.action-dropdown-client{
+    left: -70%;
+}
+
+.action-dropdown-employee{
+    left: -50%;
+}
+.action-dropdown-clientItem
+{
+    left: -60%;
 }

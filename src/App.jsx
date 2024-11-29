@@ -1,5 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+
+import React, { useEffect, useState } from "react";
 import Home from "./teamsLeader/Home/Home";
 import "./app.css";
 import "../node_modules/@syncfusion/ej2-base/styles/material.css";
@@ -34,18 +40,51 @@ import "react-toastify/dist/ReactToastify.css";
 import Main from "./teamsLeader/Pages/NewTeam/Components/Kanban Components/Main.jsx";
 
 import PasswordTable from "./teamsLeader/Pages/PasswordsTable/PasswordTable.jsx";
-import Proposals from "./teamsLeader/Pages/proposals/Proposals.jsx";
-import TestCkEditor from "./teamsLeader/proposals/components/DropableComponents/TestCkEditor.jsx";
-import ReactDND from "./teamsLeader/Pages/DocCreater/ReactDND.jsx";
-const App = () => {
+import { getAPI } from "./helpers/apis";
+import { useStateContext } from "./contexts/ContextProvider.jsx";
+import YoutubeCallback from "./teamsLeader/SocialMediaPlanner/PostPreview/ConnectProfile/YoutubeCallback.jsx";
+import LinkedinCallBack from "./teamsLeader/SocialMediaPlanner/PostPreview/ConnectProfile/LinkedinCallBack.jsx";
+import MainLayout from "./MainLayout"; // Adjust the import according to your project structure
+import AdminLayout from "./teamsLeader/navbar/Administration/AdminLayout.jsx";
+import Billing from "./teamsLeader/navbar/Administration/Billing.jsx";
+import AdminControls from "./teamsLeader/navbar/Administration/AdminControls/AdminControls.jsx";
+import InviteEmployeeMain from "./teamsLeader/InviteTeams/InviteEmployeeMain.jsx";
+import InviteClientMain from "./teamsLeader/InviteTeams/InviteClientMain.jsx";
+import InviteAdminMain from "./teamsLeader/InviteTeams/InviteAdminMain.jsx";
+import PermissionControl from "./teamsLeader/navbar/Administration/PermissionControls/PermissionControl.jsx";
+import TrialExpireModal from "./modals/TrialExpireModal.jsx";
+import AuthGuard from "./AuthGuard.jsx";
+
+// import Login from "./teamsLeader/Pages/Login/Login";
+const AppWrapper = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dragdrop" element={<ReactDND />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/*"
+          element={
+            <AuthGuard>
+              <App />
+           </AuthGuard> 
+          }
+        />
+      </Routes>
+    </Router>
+  );
+};
+
+const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
         <Route path="/workspace/:workspaceID/team/:teamID" element={<Home />} />
         <Route path="/workspace/:workspaceID" element={<Home />} />
-        <Route path="/docs/:docId" element={<Home />} />
+        {/* <Route path="/workspace/:workspaceID" element={<Home />} /> */}
+        {/* <Route
+          path="/workspace/:workspaceID/team/:teamID"
+          element={<TrialExpireModal />}
+        /> */}
         <Route path="/verify-email/:id" element={<EmailVerification />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -78,10 +117,33 @@ const App = () => {
           path="/workspace/:workspaceID/team/:teamID/teams-invites"
           element={<InviteTeamsMain />}
         />
-        {/* <Route path="/calendar" element={<CalendarWrapper />} /> */}
-      </Routes>
-    </Router>
+        <Route
+          path="/workspace/:workspaceID/team/:teamID/teams-invites/add-employee"
+          element={<InviteEmployeeMain />}
+        />
+        <Route
+          path="/workspace/:workspaceID/team/:teamID/teams-invites/add-client"
+          element={<InviteClientMain />}
+        />
+        <Route
+          path="/workspace/:workspaceID/team/:teamID/teams-invites/add-admin"
+          element={<InviteAdminMain />}
+        />
+        <Route path="/new-post" element={<PostEditorWrapper />} />
+        <Route path="/new-post/youtube" element={<YoutubeCallback />} />
+        <Route path="/linkedin/callback" element={<LinkedinCallBack />} />
+        <Route
+          path="/workspace/:workspaceID/team/:teamID/administration/*"
+          element={<AdminLayout />}
+        >
+          <Route path="billing" element={<Billing />} />
+          <Route path="users" element={<AdminControls />} />
+          <Route path="permissions" element={<PermissionControl />} />
+          {/* Add other administration routes here */}
+        </Route>
+      </Route>
+    </Routes>
   );
 };
 
-export default App;
+export default AppWrapper;

@@ -1,132 +1,233 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
-  Button,
-  Checkbox,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogTitle,
-  Divider,
+  DialogContent,
+  Button,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemSecondaryAction,
   ListItemText,
+  ListItemAvatar,
+  Avatar,
+  ListItemSecondaryAction,
+  Checkbox,
   IconButton,
   Typography,
-  Avatar,
-  Paper,
+  Divider,
+  Tooltip,
+  Select,
+  MenuItem,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { RxMagnifyingGlass } from "react-icons/rx";
-
 import CloseIcon from "@mui/icons-material/Close";
+import { RxMagnifyingGlass } from "react-icons/rx"; // Ensure you have this icon package installed
+import { useParams } from "react-router-dom"; // Ensure you have react-router-dom installed
 
 const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
-  console.log("selectedCompany", selectedCompany);
   const [showAlreadyInvitedSection, setShowAlreadyInvitedSection] =
     useState(true);
-
-  const invitedPeople = [
-    { id: 3, name: "Mike Geerinck", role: "Admin", title: "CTO", avatar: "C" },
-    {
-      id: 1,
-      name: "John Doe",
-      role: "Employee",
-      title: "Developer",
-      avatar: "A",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      role: "Client",
-      title: "Marketing Manager",
-      avatar: "B",
-    },
-  ];
-
-  const availablePeople = [
-    { id: 8, name: "Usman Yousaf", role: "Admin", title: "CEO", avatar: "H" },
-    {
-      id: 4,
-      name: "Alice Johnson",
-      role: "Employee",
-      title: "Copywriter",
-      avatar: "D",
-    },
-    {
-      id: 5,
-      name: "Bob Williams",
-      role: "Client",
-      title: "Project Manager",
-      avatar: "E",
-    },
-    {
-      id: 6,
-      name: "Another Employee",
-      role: "Employee",
-      title: "UX Designer",
-      avatar: "F",
-    },
-    {
-      id: 7,
-      name: "Client User",
-      role: "Client",
-      title: "Product Owner",
-      avatar: "G",
-    },
-  ];
-
-  // ... (your other code)
-
+  const [invitedPeople, setInvitedPeople] = useState([]);
+  const [availablePeople, setAvailablePeople] = useState([]);
   const [selectedPeople, setSelectedPeople] = useState([]);
+  const [disabledEmails, setDisabledEmails] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAddInvitesDisabled, setIsAddInvitesDisabled] = useState(true);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-  const handleCheckboxChange = (personId) => {
+  const { workspaceID, teamID } = useParams();
+
+  useEffect(() => {
+    if (open) {
+      fetchPeopleData();
+    }
+  }, [open]);
+
+  useEffect(() => {
+    setIsAddInvitesDisabled(selectedPeople.length === 0);
+  }, [selectedPeople]);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const consolidateUsers = (users) => {
+    const consolidated = [];
+
+    users.forEach((user) => {
+      const existingUser = consolidated.find(
+        (u) =>
+          u.email === user.email && u.name === user.name && u.role === user.role
+      );
+
+      if (!existingUser) {
+        consolidated.push({
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          title: user.title,
+        });
+      }
+    });
+
+    return consolidated;
+  };
+
+  const fetchPeopleData = async () => {
+    console.log("teamIdWorks", teamID);
+    try {
+      const response = await axios.get(`/api/users/list/${teamID}`);
+      const { specifiedTeamUsers, otherTeamUsers } = response.data;
+      console.log(" All Users Data", response.data);
+
+      const invitedPeopleData = consolidateUsers(specifiedTeamUsers);
+      const availablePeopleData = consolidateUsers(otherTeamUsers);
+
+      setInvitedPeople(invitedPeopleData);
+      setAvailablePeople(availablePeopleData);
+    } catch (error) {
+      console.error("Error fetching people data:", error);
+    }
+  };
+
+  const handleCheckboxChange = (person) => {
+    const identifier = `${person.email}-${person.name}-${person.role}`;
     setSelectedPeople((prevSelected) => {
-      if (prevSelected.includes(personId)) {
-        return prevSelected.filter((id) => id !== personId);
+      if (prevSelected.includes(identifier)) {
+        // Uncheck and enable other users with the same email
+        setDisabledEmails((prevDisabled) =>
+          prevDisabled.filter((email) => email !== person.email)
+        );
+        return prevSelected.filter((id) => id !== identifier);
       } else {
-        return [...prevSelected, personId];
+        // Check and disable other users with the same email
+        setDisabledEmails((prevDisabled) => [...prevDisabled, person.email]);
+        return [...prevSelected, identifier];
       }
     });
   };
 
-  // Function to handle adding invites
-  const handleAddInvites = () => {
-    // Implement your logic for adding invites here
-    console.log("Selected People:", selectedPeople);
-    // Close the dialog
-    onClose();
+  const handleSendInvitation = async () => {
+    try {
+      const personsToInvite = selectedPeople.map((identifier) => {
+        const [email, name, role] = identifier.split("-");
+        return { email, name, role };
+      });
+
+      for (const person of personsToInvite) {
+        console.log(person);
+
+        const response = await fetch(
+          `http://localhost:8888/api/team/invite/${workspaceID}/${teamID}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              persons: [
+                {
+                  name: person.name,
+                  email: person.email,
+                  role: person.role,
+                  title: "", // Add title if available
+                  notes: "", // Add personalNote if available
+                },
+              ],
+            }),
+          }
+        );
+
+        const result = await response.json();
+        if (response.ok) {
+          // Handle success for each person
+          console.log("Invitation sent:", result);
+          setSnackbar({
+            open: true,
+            message: `Invitation sent successfully to ${person.name}!`,
+            severity: "success",
+          });
+        } else {
+          // Handle error for each person
+          console.error(
+            "Failed to send invitation to",
+            person.name,
+            ":",
+            result
+          );
+          setSnackbar({
+            open: true,
+            message: `Failed to send invitation to ${person.name}. Please try again.`,
+            severity: "error",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      setSnackbar({
+        open: true,
+        message: "Network error. Please try again later.",
+        severity: "error",
+      });
+    }
   };
+
   const getRoleBackgroundColor = (role) => {
-    switch (role) {
-      case "Employee":
-        return "#7eb6ff"; // Soft Blue color
-      case "Client":
-        return "#fffacd"; // Soft Yellow color (Lemon Chiffon)
-      case "Admin":
-        return "#d3d3d3"; // Soft Gray color
-      // Add more cases as needed
+    switch (role.toLowerCase()) {
+      case "employee":
+        return "#7eb6ff";
+      case "client":
+        return "#fffacd";
+      case "admin":
+        return "#d3d3d3";
       default:
         return "transparent";
     }
   };
 
   const getRoleTextColor = (role) => {
-    return role === "Client" ? "rgb(107 77 77)" : "#fff"; // Black for 'Client', White for others
+    return role.toLowerCase() === "client" ? "rgb(107 77 77)" : "#fff";
   };
+
   const handleCloseAlreadyInvitedSection = () => {
     setShowAlreadyInvitedSection(false);
   };
+
   const filterPeople = (people) => {
     return people.filter(
       (person) =>
         person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         person.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (person.title &&
-          person.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        person.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+  };
+
+  const handleRoleChange = (identifier, newRole) => {
+    const [email, name] = identifier.split("-");
+    setAvailablePeople((prevPeople) =>
+      prevPeople.map((person) =>
+        person.email === email && person.name === name
+          ? { ...person, role: newRole }
+          : person
+      )
+    );
+    // Also update the selectedPeople to reflect the new role
+    setSelectedPeople((prevSelected) =>
+      prevSelected.map((id) =>
+        id === identifier ? `${email}-${name}-${newRole}` : id
+      )
+    );
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
@@ -137,7 +238,7 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
       fullWidth
       PaperProps={{
         style: {
-          height: "700px", // Change this value to set your desired fixed height
+          height: "700px",
           overflowY: "auto",
         },
       }}
@@ -159,7 +260,7 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
         <Divider
           sx={{
             my: 2,
-            backgroundColor: "#4CAF50", // Green color
+            backgroundColor: "#4CAF50",
             height: "1px",
             borderColor: "rgba(0, 0, 0, 0.4)",
           }}
@@ -168,16 +269,13 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
       <div className="addPersonSearch flex items-center w-full">
         <input
           type="text"
-          placeholder="Search people by name,role or title"
-          className={`person_searchInput py-[0.4rem] px-2.5 my-[-11px] mx-[17px]`}
+          placeholder="Search people by name, role or title"
+          className="person_searchInput py-2 px-2.5 my-1 mx-4"
           onChange={(e) => setSearchTerm(e.target.value)}
-
-          // onChange={(e) => setSearchQuery(e.target.value)}
         />
         <RxMagnifyingGlass className="text-base text-[#c3c6d4] absolute right-12" />
       </div>
 
-      {/* Already Invited People */}
       <DialogContent>
         {showAlreadyInvitedSection && (
           <>
@@ -195,16 +293,16 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
             <Divider
               sx={{
                 my: 2,
-                backgroundColor: "#4CAF50", // Green color
+                backgroundColor: "#4CAF50",
                 height: ".5px",
                 borderColor: "rgba(0, 0, 0, 0.4)",
               }}
             />
             <List>
               {filterPeople(invitedPeople).map((person) => (
-                <ListItem key={person.id}>
+                <ListItem key={`${person.email}-${person.name}-${person.role}`}>
                   <ListItemAvatar>
-                    <Avatar src={person.avatarUrl} alt={person.name} />
+                    <Avatar alt={person.name} />
                   </ListItemAvatar>
                   <ListItemText
                     primary={
@@ -223,7 +321,7 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
                             fontSize: "11px",
                           }}
                         >
-                          {person.role}
+                          {capitalizeFirstLetter(person.role)}
                         </span>
                       </div>
                     }
@@ -231,10 +329,6 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
                       <span className="text-[0.6rem]">{person.title}</span>
                     }
                   />
-
-                  <ListItemSecondaryAction>
-                    {/* Add more details or actions as needed */}
-                  </ListItemSecondaryAction>
                 </ListItem>
               ))}
             </List>
@@ -245,62 +339,85 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
           <Divider
             sx={{
               my: 2,
-              backgroundColor: "#4CAF50", // Green color
+              backgroundColor: "#4CAF50",
               height: "1px",
               borderColor: "rgba(0, 0, 0, 0.4)",
             }}
           />
         )}
 
-        {/* Select People from the List */}
         <Typography variant="h6">Select People from the List</Typography>
         <List>
-          {filterPeople(availablePeople).map((person) => (
-            <ListItem key={person.id}>
-              <ListItemAvatar>
-                <Avatar src={person.avatarUrl} alt={person.name} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <div className="flex items-center relative fw-bold">
-                    {`${person.name}`}
-                    <span
-                      style={{
-                        backgroundColor: getRoleBackgroundColor(person.role),
-                        color: getRoleTextColor(person.role),
-                        borderRadius: "6px",
-                        padding: "0.17rem 0.5rem",
-                        position: "absolute",
-                        left: "18%",
-                        fontSize: "11px",
-                      }}
+          {filterPeople(availablePeople).map((person) => {
+            const identifier = `${person.email}-${person.name}-${person.role}`;
+            return (
+              <ListItem key={identifier}>
+                <ListItemAvatar>
+                  <Avatar alt={person.name} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Tooltip
+                      title={`Role: ${person.role}\nTitle: ${person.title}`}
                     >
-                      {person.role}
-                    </span>
-                  </div>
-                }
-                secondary={
-                  <span className="text-[0.6rem]">{person.title}</span>
-                }
-              />
-
-              <ListItemSecondaryAction>
-                <Checkbox
-                  edge="end"
-                  onChange={() => handleCheckboxChange(person.id)}
-                  checked={selectedPeople.includes(person.id)}
+                      <div className="flex items-center relative fw-bold">
+                        {`${person.name}`}
+                        <Select
+                          value={person.role}
+                          onChange={(e) =>
+                            handleRoleChange(identifier, e.target.value)
+                          }
+                          style={{
+                            backgroundColor: getRoleBackgroundColor(
+                              person.role
+                            ),
+                            color: getRoleTextColor(person.role),
+                            borderRadius: "6px",
+                            padding: "0.17rem 0.5rem",
+                            position: "absolute",
+                            left: "18%",
+                            fontSize: "11px",
+                            height: "1.5rem",
+                            marginLeft: "0.5rem",
+                          }}
+                        >
+                          <MenuItem value="employee">
+                            {capitalizeFirstLetter("employee")}
+                          </MenuItem>
+                          <MenuItem value="client">
+                            {capitalizeFirstLetter("client")}
+                          </MenuItem>
+                          <MenuItem value="admin">
+                            {capitalizeFirstLetter("admin")}
+                          </MenuItem>
+                        </Select>
+                      </div>
+                    </Tooltip>
+                  }
+                  secondary={<span className="text-xs">{person.title}</span>}
                 />
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
+                <ListItemSecondaryAction>
+                  <Checkbox
+                    edge="end"
+                    onChange={() => handleCheckboxChange(person)}
+                    checked={selectedPeople.includes(identifier)}
+                    disabled={
+                      selectedPeople.some((id) => id.includes(person.email)) &&
+                      !selectedPeople.includes(identifier)
+                    }
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
         </List>
         <Divider />
-        {/* Add Invites or Cancel */}
         <DialogActions>
           <Button
-            onClick={handleAddInvites}
+            onClick={handleSendInvitation}
             variant="contained"
             color="success"
+            disabled={isAddInvitesDisabled}
           >
             Add Invites
           </Button>
@@ -309,6 +426,19 @@ const TeamMembersDialog = ({ open, onClose, selectedCompany }) => {
           </Button>
         </DialogActions>
       </DialogContent>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 };

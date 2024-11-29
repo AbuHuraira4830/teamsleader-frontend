@@ -247,6 +247,19 @@ padding: 0 4px;
 .invoice_customCalendar .react-datepicker__input-container,.invoice_customCalendar .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle{
   display: none !important;
 }
+.schedule_customCalendar .react-datepicker__input-container,.invoice_customCalendar .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle{
+  display: block !important;
+}
+.schedule_customCalendar .react-datepicker-wrapper input{
+  padding-left: 12px !important;
+  width: 160px !important;
+
+}
+
+.schedule_customCalendar .react-datepicker-wrapper input:hover
+{
+border: none !important;
+}
 .invoice_customCalendar  .react-datepicker {
   background: #fff;
   border: 0;

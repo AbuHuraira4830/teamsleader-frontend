@@ -774,13 +774,16 @@ export const NewInvoice = () => {
         </Button> */}
         {/* ==================Invite Employee/Client============= */}
         <div className="flex">
-          <Link to="/teams-invites" className=" no-underline	">
+          <Link
+            to="/workspace/:workspaceID/team/:teamID/teams-invites"
+            className=" no-underline	"
+          >
             <button
               className=" teamInvite_btn bgHover align-middle me-1"
               onClick={showModal}
             >
-              <FaRegUser className="text-base mx-2  " />
-              <span className="text-sm mt-1 "> Invite / 1</span>
+              <FaRegUser className="text-base mx-2 text-[#676879] " />
+              <span className="text-sm mt-1 text-[#676879]"> Invite / 1</span>
             </button>
           </Link>
           <Button

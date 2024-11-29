@@ -8,7 +8,6 @@ import { Col, Form, Row } from "react-bootstrap";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { getAPI, postAPI } from "../../../helpers/apis";
-import EmailUpdateModal from "./EmailUpdateModal";
 import AccountScheduleModal from "./AccountScheduleModal";
 import { DatePicker, Space } from "antd";
 import dayjs from "dayjs";
@@ -342,7 +341,6 @@ const PersonalInfo = ({ setSelectedOption }) => {
           </div>
         </Col>
       </Row>
-      <EmailUpdateModal emailModal={emailModal} closeModal={closeModal} />
       {/* <AccountScheduleModal
         scheduleModal={scheduleModal}
         setScheduleModal={setScheduleModal}

@@ -447,7 +447,18 @@ export const NewTeam = () => {
     // setSelectedDropdownOption(updatedTableData);
   };
 
-  console.log(selectedDropdownOption);
+const handleAddGallery = () => {
+  postAPI(`/api/gallery/store`, {
+    name: "File Gallery",
+    teamID: selectedTeam?._id,
+  })
+    .then((res) => {
+      setTeamTasks(res.data.team);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
   const handleDropdownSelect = (item) => {
     const data = { name: item.option, active: item.option, key: item.option };
@@ -457,6 +468,13 @@ export const NewTeam = () => {
       .then((response) => {
         setSelectedDropdownOption(response.data.tabs);
         setActiveTab(item.option);
+        if (
+          item.option === "Files Gallery" &&
+          !selectedDropdownOption.some(
+            (item) => item.option === "Files Gallery"
+          )
+        )
+          handleAddGallery();
       })
       .catch((err) => {
         console.log(err);

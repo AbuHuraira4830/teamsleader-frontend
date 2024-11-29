@@ -187,8 +187,31 @@ console.log("UserNav",user)
 
   return (
     <>
-      
-
+      {thisUser?.isEmailVerified ? null : (
+        <Alert
+          className="email-verify-message"
+          message={
+            <span className="fs_15">
+              Please confirm your email address: {thisUser?.emailAddress} &nbsp;
+              <a
+                href="#"
+                onClick={resendEmail}
+                style={{ color: "white", textDecoration: "underline" }}
+              >
+                Resend email
+              </a>
+              &nbsp;&nbsp;
+              <a
+                href="#"
+                style={{ color: "white", textDecoration: "underline" }}
+              >
+                Change email address
+              </a>
+            </span>
+          }
+          type="info"
+        />
+      )}
       <div className="centerIt px-4 ">
         <span className="flex">
           {/* <Button className="p-0 workspace_menuBtn bgHover align-middle me-3">
@@ -232,7 +255,7 @@ console.log("UserNav",user)
           >
             <Button
               className="p-0 workspace_menuBtn bgHover align-middle me-1"
-              // onClick={showModal}
+              onClick={showModal}
             >
               <AiOutlineUserAdd />
             </Button>
@@ -256,7 +279,11 @@ console.log("UserNav",user)
               style={{ width: "30px", height: "30px", cursor: "pointer" }}
               onClick={handleShow}
             >
-              <img src={thisUser.picture} alt="" className="rounded-circle w-100 h-100" />
+              <img
+                src={thisUser.picture}
+                alt=""
+                className="rounded-circle w-100 h-100"
+              />
             </div>
           ) : (
             <div

@@ -172,12 +172,20 @@ const FileUploaderPopup = ({ openPreviewFromPopup, closeUploading }) => {
   //   return null;
   // };
   return (
-    <div className="h-100">
+    <div
+      className="h-100 "
+      style={{ backgroundColor: "var(--dropdown-bgColor) !important" }}
+    >
       {uploading && (
         <Card
           body
           className="file_uploader_component border-0 "
-          style={{ maxHeight: "355px", overflowY: "auto" }}
+          style={{
+            maxHeight: "355px",
+            overflowY: "auto",
+            backgroundColor: "var(--dropdown-bgColor) !important",
+            color: "var(--text-color) !important",
+          }}
         >
           <div className="centerIt justify-content-between ">
             {showLoader ? (
@@ -215,7 +223,7 @@ const FileUploaderPopup = ({ openPreviewFromPopup, closeUploading }) => {
               const fileSize =
                 file.size < 1024 * 1024
                   ? `${(file.size / 1024).toFixed(2)} KB`
-                  : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;   
+                  : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
               // console.log(file);
               return (
                 <div

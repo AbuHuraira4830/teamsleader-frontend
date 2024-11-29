@@ -11,11 +11,11 @@ import SuccessPopup from "./SuccessPopup";
 import IMAGES from "../../../assets/images/Images";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { holidayInput,  } from "./ManageHolidays";
+import { holidayInput } from "./ManageHolidays";
 import { postAPI } from "../../../helpers/apis";
 
 const AddHolidayCalender = () => {
-  const {                 
+  const {
     theme,
     userHolidays,
     setUserHolidays,
@@ -50,6 +50,9 @@ const AddHolidayCalender = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState("");
 
+  const closeModal = () => {
+    setIsEmployeeModalOpen(false);
+  };
   // const handleRangeChange = (newRange) => {
   //   console.log({ newRange });
   //   if (newRange && newRange.length === 2) {
@@ -185,7 +188,11 @@ const AddHolidayCalender = () => {
   };
 
   return (
-    <div className="relative" ref={calendarRef}>
+    <div
+      className="relative "
+      ref={calendarRef}
+      style={{ color: "var(--text-color )!important" }}
+    >
       <div style={{ width: "60%" }}>
         <p className="font-bold text-xl ">Add Holiday</p>
         <div>
@@ -193,7 +200,7 @@ const AddHolidayCalender = () => {
             <p className="text-nowrap ">Holiday name</p>{" "}
             <Form.Control
               type="text"
-              className="ms-auto focus:border-green-700 hover:border-green-700 shadow-none"
+              className="ms-auto focus:border-green-700 hover:border-green-700 shadow-none bg-transparent Border"
               placeholder="Enter holiday name"
               value={timeOffName}
               onChange={handleTimeOffNameChange}
@@ -205,7 +212,7 @@ const AddHolidayCalender = () => {
             <p>Select days</p>
             <div className="addHolidayDatepicker" style={{ width: "60%" }}>
               <DatePicker
-                className={`green hello${
+                className={`green ${
                   theme === "light_theme" ? "" : "range-container"
                 }`}
                 // shadow={false}
@@ -234,7 +241,7 @@ const AddHolidayCalender = () => {
             <div style={{ width: "60%" }}>
               <Form.Control
                 type="text"
-                className="ms-auto w-100 focus:border-green-700 hover:border-green-700 shadow-none"
+                className="ms-auto w-100 focus:border-green-700 hover:border-green-700 shadow-none bg-transparent Border"
                 placeholder="select employees"
                 // defaultValue={selectedEmployee}
                 readOnly
@@ -250,22 +257,41 @@ const AddHolidayCalender = () => {
                 onHide={() => setIsEmployeeModalOpen(false)}
                 backdropClassName="EmployeeModalBackdrop"
                 dialogClassName="EmployeeModalDialog"
+                className=""
               >
-                <Modal.Header closeButton>
+                <Modal.Header
+                  // closeButton
+                  style={{ borderColor: "var(--border-color) !important" }}
+                >
+                  <button
+                    type="button"
+                    class="btn-close rounded-1 bgHover centerIt justify-content-center p-0 "
+                    aria-label="Close"
+                    onClick={closeModal}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      position: "absolute",
+                      top: "16px",
+                      right: "16px",
+                    }}
+                  >
+                    <RxCross2 className="fs-5 text-color" />
+                  </button>
                   <Modal.Title>Select Employees</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="addHolidaySection">
                   <div>
                     <HiMagnifyingGlass className="position-absolute top-7 left-6" />
                     <Form.Control
-                      className="ms-auto w-100 focus:border-green-700 hover:border-green-700 shadow-none mb-3 pl-7"
+                      className="ms-auto w-100 focus:border-green-700 hover:border-green-700 shadow-none mb-3 pl-7 bg-transparent Border text-color"
                       placeholder="Search employees"
                       value={employeeSearch}
                       onChange={handleEmployeeSearch}
                     />
                   </div>
                   <Checkbox
-                    className="fw-bold"
+                    className="fw-bold text-color bg-transparent"
                     indeterminate={
                       checkedList.length > 0 &&
                       checkedList.length < filteredUsers.length
@@ -275,14 +301,19 @@ const AddHolidayCalender = () => {
                   >
                     &nbsp;&nbsp;Select all employees
                   </Checkbox>
-                  <Divider className="my-2" />
+                  <Divider className="my-2 Border" />
                   <div
                     className="members-list"
                     style={{ height: "170px", overflowY: "auto" }}
                   >
                     <Checkbox.Group
+                      className="bg-transparent"
                       options={filteredUsers.map((user) => ({
-                        label: <div className="flex-column">{user.user}</div>,
+                        label: (
+                          <div className="flex-column text-color">
+                            {user.user}
+                          </div>
+                        ),
                         value: user.email, // Use email or any unique value for identification
                       }))}
                       value={checkedList}
@@ -290,7 +321,9 @@ const AddHolidayCalender = () => {
                     />
                   </div>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer
+                  style={{ borderColor: "var(--border-color) !important" }}
+                >
                   <Button
                     className="workspace-dropdown-button position-relative fw-normal align-self-center  text-start py-1  px-3 "
                     style={{

@@ -83,7 +83,6 @@ export const userProfile = (
   setSelectedEmployee,
   email
 ) => {
-  console.log(name, email);
   const handleClick = (email) => {
     setSelectedOption("Timesheet");
     setSelectedEmployee(email);

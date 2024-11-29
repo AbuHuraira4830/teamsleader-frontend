@@ -70,7 +70,7 @@ const Signup2 = ({ setActiveView }) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            Hey there, what brings you here?
+            Hey there, what brings you here.
           </p>
         </div>
 

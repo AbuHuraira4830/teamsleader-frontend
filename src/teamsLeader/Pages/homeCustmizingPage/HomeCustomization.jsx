@@ -7,10 +7,13 @@ import { set } from "date-fns";
 import { FaPlus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { postAPI } from "../../../helpers/apis";
+import { CircularProgress } from "@mui/material";
 
 const HomeCustomization = () => {
   const navigate = useNavigate();
-  const { tableTeamName, setTableTeamName } = useStateContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const { tableTeamName, setTableTeamName, userEmail } = useStateContext();
   const handleChange = (e) => {
     setTableTeamName(e.target.value);
   };
@@ -38,6 +41,24 @@ const HomeCustomization = () => {
       content: line(),
     },
   ];
+
+  const updateTeamName = async () => {
+    if (!tableTeamName) {
+       navigate("/home-customization2");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await postAPI("/api/team-name/update", {
+        name: tableTeamName,
+        email: userEmail,
+      });
+      setIsLoading(false);
+      navigate("/home-customization2");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
     // className="container w-100 m-0"
@@ -84,12 +105,18 @@ const HomeCustomization = () => {
             </div>
             <div className="mt-5">
               <Button
-                onClick={() => navigate("/home-customization2")}
+                onClick={updateTeamName}
                 type="button"
                 className="rounded-1 d-flex  justify-content-end mt-4 align-items-center green_btn border-0 float-end "
                 style={{ width: "126px" }}
               >
-                Continue <MdChevronRight className="ms-2 fs-5" />
+                {isLoading ? (
+                  <CircularProgress size={24} className="text-white" />
+                ) : (
+                  <>
+                    Continue <MdChevronRight className="ms-2 fs-5" />
+                  </>
+                )}
               </Button>
             </div>
           </div>
@@ -150,7 +177,12 @@ const HomeCustomization = () => {
               ></span>
             </div>
             <div>
-              <Table responsive bordered className="border-bottom-0">
+              <Table
+                responsive
+                bordered
+                className="border-bottom-0"
+                style={{ borderColor: "var(--border-color) !important" }}
+              >
                 <thead className="rounded-top rounded-2 overflow-hidden">
                   <tr>
                     <th>{line()}</th>
@@ -195,7 +227,12 @@ const HomeCustomization = () => {
               ></span>
             </div>
             <div>
-              <Table responsive bordered className="border-bottom-0">
+              <Table
+                responsive
+                bordered
+                className="border-bottom-0"
+                style={{ borderColor: "var(--border-color) !important" }}
+              >
                 <thead className="rounded-top rounded-2 overflow-hidden">
                   <tr>
                     <th>{line()}</th>

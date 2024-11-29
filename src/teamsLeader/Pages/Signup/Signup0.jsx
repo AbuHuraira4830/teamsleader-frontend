@@ -51,7 +51,7 @@ const Signup0 = ({ setActiveView, userEmail, setUserEmail }) => {
       <div className="mx-auto text-center pt-5" style={{ width: "420px" }}>
         <div>
           <p className="mb-2" style={{ fontSize: "30px", marginTop: "24px" }}>
-            Welcome to teamsleader.com
+            Welcome to Teamsleader
           </p>
           <p className="email_label mb-2">
             Get started - it's free. No credit card needed.

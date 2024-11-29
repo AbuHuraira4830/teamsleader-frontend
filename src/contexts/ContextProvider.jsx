@@ -905,7 +905,9 @@ export const ContextProvider = ({ children }) => {
   const [selectedPasswordRow, setSelectedPasswordRow] = useState(null);
   const [passwordTableID, setPasswordTableID] = useState(null);
 
-  const [signupData, setSignupData] = useState({});
+  const [signupData, setSignupData] = useState({
+    profileColor: colors[Math.floor(Math.random() * colors.length)],
+  });
   const [postContent, setPostContent] = useState("");
   const [imgSrc, setImgSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
@@ -935,10 +937,21 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-
+  const [userEmail, setUserEmail] = useState("");
+  const [deletemodal, setDeleteModal] = useState(false);
+  const [updateRequestModal, setUpdateRequestModal] = useState({});
+  const [myHolidayRequests, setMyHolidayRequests] = useState([]);
   return (
     <StateContext.Provider
       value={{
+        myHolidayRequests,
+        setMyHolidayRequests,
+        updateRequestModal,
+        setUpdateRequestModal,
+        deletemodal,
+        setDeleteModal,
+        userEmail,
+        setUserEmail,
         selectedEmployee,
         setSelectedEmployee,
         employeeSummary,

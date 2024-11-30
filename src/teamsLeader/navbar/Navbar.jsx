@@ -575,7 +575,7 @@ console.log("UserNav",user)
         )}
         <ProfileModal />
         <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} />
-        <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} />
+        {/* <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} /> */}
       </div>
     </>
   );

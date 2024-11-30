@@ -15,7 +15,7 @@ import { BsArrowUp } from "react-icons/bs";
 import { ImFilesEmpty } from "react-icons/im";
 import { PiTextTBold } from "react-icons/pi";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { getAPI } from ".././helpers/api";
+import { getAPI, postAPI } from ".././helpers/api";
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [workspaceID, setWorkspaceID] = useState(null);
@@ -937,7 +937,6 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-  const [userEmail, setUserEmail] = useState("");
   const [deletemodal, setDeleteModal] = useState(false);
   const [updateRequestModal, setUpdateRequestModal] = useState({});
   const [myHolidayRequests, setMyHolidayRequests] = useState([]);

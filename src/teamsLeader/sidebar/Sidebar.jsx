@@ -26,7 +26,6 @@ import { FiFileText, FiPlus, FiSidebar, FiTrash } from "react-icons/fi";
 import { TbEdit, TbFileInvoice } from "react-icons/tb";
 import { LuFileInput, LuCrown } from "react-icons/lu";
 import { DiScrum } from "react-icons/di";
-import { TbEdit, TbFileInvoice } from "react-icons/tb";
 import { CiLock } from "react-icons/ci";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { set } from "date-fns";

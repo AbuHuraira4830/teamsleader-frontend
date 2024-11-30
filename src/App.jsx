@@ -54,13 +54,15 @@ import InviteAdminMain from "./teamsLeader/InviteTeams/InviteAdminMain.jsx";
 import PermissionControl from "./teamsLeader/navbar/Administration/PermissionControls/PermissionControl.jsx";
 import TrialExpireModal from "./modals/TrialExpireModal.jsx";
 import AuthGuard from "./AuthGuard.jsx";
-
+import Proposals from "./teamsLeader/Pages/proposals/Proposals.jsx";
 // import Login from "./teamsLeader/Pages/Login/Login";
+import TestCkEditor from "../src/teamsLeader/proposals/components/DropableComponents/TestCkEditor.jsx";
 const AppWrapper = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route
           path="/*"
           element={

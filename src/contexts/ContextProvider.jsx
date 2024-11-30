@@ -937,7 +937,6 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-  const [userEmail, setUserEmail] = useState("");
   const [deletemodal, setDeleteModal] = useState(false);
   const [updateRequestModal, setUpdateRequestModal] = useState({});
   const [myHolidayRequests, setMyHolidayRequests] = useState([]);

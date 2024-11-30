@@ -91,20 +91,28 @@ const App = () => {
         <Route path="/invite-team" element={<InviteTeam />} />
         <Route path="/home-customization" element={<HomeCustomization />} />
         <Route path="/home-customization2" element={<HomeCustomization2 />} />
-        <Route path="/password-managment" element={<PasswordTable />} />
+        {/* <Route path="/password-managment" element={<PasswordTable />} /> */}
         <Route path="/popover" element={<PopoverStatus />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/inbox" element={<ChatInbox />} />
-        <Route path="/inbox/:workspaceId/:chatId" element={<ChatInbox />} />
+        <Route
+          path="/inbox/:workspaceId/:user_Id/:chat_Id"
+          element={<ChatInbox />}
+        />
         <Route path="/inbox/:workspaceId" element={<ChatInbox />} />
+        <Route path="/inbox/:workspaceId/:channel_Id" element={<ChatInbox />} />
         <Route path="/first-pusher" element={<FirstPusher />} />
         <Route path="/first-pusher/:workspaceId" element={<FirstPusher />} />
-        <Route path="/second-pusher" element={<SecondPusher />} />
+        <Route path="/kanban-demo" element={<SecondPusher />} />
         {/* <Route path="*" element={<div>Page not found</div>} /> */}
         {/* ================================================================ */}
         <Route path="/manage-teams/*" element={<TeamsMain />} />{" "}
         <Route path="/invoices" element={<InvoicesMain />} />
+        <Route path="/proposals" element={<Proposals />} />
         <Route path="/invoices/create" element={<CreateInvoiceWrapper />} />
+        <Route path="/teams-invites" element={<InviteTeamsMain />} />
+        <Route path="/new-post" element={<PostEditorWrapper />} />
+        <Route path="/test-ckeditor" element={<TestCkEditor />} />
         <Route
           path="/workspace/:workspaceID/team/:teamID/teams-invites"
           element={<InviteTeamsMain />}

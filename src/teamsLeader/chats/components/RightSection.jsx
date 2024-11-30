@@ -19,6 +19,7 @@ import { formatDate, getEmailFirstPart } from "../script";
 import FileUpload from "./RightSection/FileUpload";
 import FilePreviews from "./RightSection/FilePreviews";
 import ChatComments from "./RightSection/ChatComments";
+import AddMembersInChannel from "./Modals/AddMembersInChannel";
 import { sendRequest } from "../../../assets/js/config";
 import { useParams } from "react-router-dom";
 const UsersList = () => {
@@ -80,7 +81,7 @@ const RightSection = () => {
     setRefreshData,
     refreshData,
     uploadedFiles,
-    setUploadedFiles,
+    setUploadedFiles,setAddMembersInChannel
   } = useChatsContext();
 
   console.log({ openedPrivateUser });
@@ -195,7 +196,8 @@ const RightSection = () => {
   };
 
   return (
-    <div className="flex-1 w-[1000px] rounded-tr-md rounded-br-md p-2">
+    <div className="flex-1 w-[1000px] rounded-tr-md rounded-br-md p-2 ">
+      <AddMembersInChannel/>
       <div className="flex flex-col justify-between h-full ">
         <div className="border-b flex items-center justify-between py-2 font-bold">
           <span>
@@ -279,7 +281,11 @@ const RightSection = () => {
               )}
 
             {openedChannel?._id && (
-              <div className="border p-2 flex items-center justify-center w-fit gap-2 rounded text-sm cursor-pointer">
+              <div className="border p-2 flex items-center justify-center w-fit gap-2 rounded text-sm cursor-pointer"
+              onClick={
+                ()=>{
+                setAddMembersInChannel(true)
+              }}>
                 <FaUserPlus />
                 <span>Add Coworkers</span>
               </div>

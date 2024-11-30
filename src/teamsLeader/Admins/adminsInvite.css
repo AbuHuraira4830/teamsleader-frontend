@@ -157,6 +157,7 @@ border-radius: 4px;
 color: rgb(107 77 77);
 transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 
+
 }
 .inviteTeamInner .dropdown .dropdown-menu .employee:hover {
     background-color: #62b3e9 !important;
@@ -167,7 +168,6 @@ transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     background-color: #e7d35f !important;    
     color: #504c4c !important;
   }
-/* ======================================== */
 .css-i4bv87-MuiSvgIcon-root{
     height: 1.2em !important;
     width: 17px !important;
@@ -226,7 +226,6 @@ transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     visibility: hidden !important;
     margin-left: 8px !important;
   } */
-  /* ================================================== */
   .hover-row {
     position: relative;
   }

@@ -428,6 +428,11 @@ export const ContextProvider = ({ children }) => {
       ),
     },
     { id: uuidv4(), name: "Item" },
+
+    {
+      id: uuidv4(),
+      name: "Owner",
+    },
     {
       id: uuidv4(),
       name: "People",
@@ -454,12 +459,13 @@ export const ContextProvider = ({ children }) => {
     },
     {
       id: uuidv4(),
-      name: "People",
+      name: "Owner",
     },
     {
       id: uuidv4(),
-      name: "Full Name",
+      name: "People",
     },
+
     {
       id: uuidv4(),
       name: "Card Number",
@@ -489,9 +495,18 @@ export const ContextProvider = ({ children }) => {
       ),
     },
     { id: uuidv4(), name: "Item" },
+
+    {
+      id: uuidv4(),
+      name: "Owner",
+    },
     {
       id: uuidv4(),
       name: "Person",
+    },
+    {
+      id: uuidv4(),
+      name: "Tagged People",
     },
 
     {
@@ -568,6 +583,8 @@ export const ContextProvider = ({ children }) => {
     // },
     // ... other rows
   ]);
+  const [thisUser, setThisUser] = useState(null);
+  const [days, setDays] = useState([]);
   const [rowsQuotes, setRowsQuotes] = useState([
     {
       id: uuidv4().replace(/[^\d]/g, ""),
@@ -695,6 +712,196 @@ export const ContextProvider = ({ children }) => {
   //       console.error("Failed to fetch events:", error);
   //     });
   // }, [modalDataCalendar]);
+  const [selectedOption, setSelectedOption] = useState("Personal info");
+  const [users, setUsers] = useState();
+  const [members, setMembers] = useState(null);
+  const [employeeSummary, setEmployeeSummary] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
+  useEffect(() => {
+    getAPI("/api/user")
+      .then((res) => {
+        setDays(res.data.user.workingDaysAndHours);
+        setThisUser(res.data.user);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user data:", error);
+      });
+
+    getAPI("/api/single-member/holidays-list")
+      .then((res) => {
+        setUserHolidays(res.data.holidays.holidays);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user data:", error);
+      });
+
+    // fetch("http://localhost:8888/api/events")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setModalDataCalendar(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Failed to fetch events:", error);
+    //   });
+  }, []);
+  const fetchTeamMembersAndHolidays = async () => {
+    try {
+      const response = await getAPI("/api/workspace/team-members");
+      setMembers(response.data);
+
+      const adminEmails = response.data.admins.map((admin) => admin.email);
+      const employeeEmails = response.data.employees.map(
+        (employee) => employee.email
+      );
+      const emails = [...adminEmails, ...employeeEmails];
+
+      const userHolidays = await membersHolidaysList(emails);
+      handleUsers(response.data, userHolidays);
+    } catch (error) {
+      console.error("Failed to fetch team members:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTeamMembersAndHolidays();
+  }, [thisUser]);
+
+  const membersHolidaysList = async (emailAddresses) => {
+    // if (!emailAddresses || emailAddresses.length === 0) return [];
+    try {
+      const res = await postAPI("/api/members/holidays-list", {
+        emailAddresses,
+      });
+      return res.data.holidays;
+    } catch (error) {
+      console.error("Failed to fetch members holidays:", error);
+      return [];
+    }
+  };
+  const fetchHolidayHistory = async (emailAddress) => {
+    try {
+      const res = await getAPI(
+        `/api/user/holiday-history?emailAddress=${encodeURIComponent(
+          emailAddress
+        )}`
+      );
+      return res.data.holidayHistory || [];
+    } catch (error) {
+      console.error("Error fetching holiday history:", error);
+      return []; // Fallback to an empty array in case of an error
+    }
+  };
+
+  const handleUsers = async (data, holidays) => {
+    const getUserHolidays = (email) => {
+      const userHolidayData = holidays.find(
+        (holiday) => holiday.emailAddress === email
+      );
+      return userHolidayData ? userHolidayData.holidays : [];
+    };
+
+    // Use Promise.all to resolve all holiday history promises
+    const admins = await Promise.all(
+      data.admins.map(async (admin, index) => ({
+        key: `${index + 1}`,
+        name: admin.name,
+        email: admin?.email,
+        holidays: getUserHolidays(admin?.email),
+        holidayHistory: await fetchHolidayHistory(admin?.email), // Await the result
+        user: userProfile(
+          admin.name,
+          admin?.picture,
+          setSelectedOption,
+          setSelectedEmployee,
+          admin?.email
+        ),
+        ...mapUserHolidays(getUserHolidays(admin?.email), admin?.email),
+      }))
+    );
+
+    const employees = await Promise.all(
+      data.employees.map(async (employee, index) => ({
+        key: `${index + admins.length + 1}`,
+        name: employee.name,
+        email: employee.email,
+        holidays: getUserHolidays(employee?.email),
+        holidayHistory: await fetchHolidayHistory(employee?.email), // Await the result
+        user: userProfile(
+          employee.name,
+          employee?.picture,
+          setSelectedOption,
+          setSelectedEmployee,
+          employee?.email
+        ),
+        ...mapUserHolidays(getUserHolidays(employee?.email), employee?.email),
+      }))
+    );
+
+    // Once all the promises are resolved, update the state
+    setUsers([...admins, ...employees]);
+  };
+
+  const colors = [
+    "#395d9b",
+    "#0e527e",
+    "#357580",
+    "#41759d",
+    "#0f4f43",
+    "#0e7358",
+    "#5c7930",
+    "#736a3e",
+    "#8d751e",
+    "#8c653c",
+    "#8d4134",
+    "#8d6674",
+    "#8d4a58",
+    "#7f314b",
+    "#6b2947",
+    "#8d1a62",
+    "#8d3c7f",
+    "#8b6096",
+    "#5f3e8b",
+    "#4a3586",
+    "#4d2d62",
+    "#2e1b67",
+    "#383c8d",
+    "#1f3866",
+
+    "#42607c",
+    "#70717f",
+    "#4e505e",
+    "#4d3941",
+  ];
+
+  const [userHolidays, setUserHolidays] = useState([]);
+  const toCamelCase = (str) => {
+    return str
+      .toLowerCase()
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
+        index === 0 ? word.toLowerCase() : word.toUpperCase()
+      )
+      .replace(/\s+/g, "");
+  };
+
+  // Function to map userHolidays to user properties
+  const mapUserHolidays = (holidays, email) => {
+    if (holidays.length === 0) return {};
+    return holidays?.reduce((acc, holiday) => {
+      const propertyName = toCamelCase(holiday.type);
+      acc[propertyName] = holidayInput(
+        holiday.value,
+        holiday.type,
+        email,
+        fetchTeamMembersAndHolidays,
+        thisUser?.fullName
+      );
+      return acc;
+    }, {});
+  };
+  // useEffect(() => {
+  //   mapUserHolidays();
+  // }, [userHolidays]);
+
+  const [holidayRequestsData, setHolidayRequestsData] = useState([]);
   const [selectedPasswordRow, setSelectedPasswordRow] = useState(null);
   const [passwordTableID, setPasswordTableID] = useState(null);
 
@@ -702,13 +909,77 @@ export const ContextProvider = ({ children }) => {
   const [postContent, setPostContent] = useState("");
   const [imgSrc, setImgSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
+  const [componentToShow, setComponentToShow] = useState("newTeam");
+  const [allDocuments, setAllDocuments] = useState([]);
+  const [selectedDocument, setSelectedDocument] = useState(null);
+  const [successModal, setSuccessModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+  const [workspaces, setWorkspaces] = useState([]);
+  const [newTeam, setNewTeam] = useState([]);
+  const [profileModal, setProfileModal] = useState(false);
+  const [memberInvitationPopup, setMemberInvitationPopup] = useState(false);
+  const [isDocumentChange, setIsDocumentChange] = useState(false);
+  const [isToggleFontFamily, setIsToggleFontFamily] = useState(false);
+  const [isToggleFontSize, setIsToggleFontSize] = useState(false);
+  useEffect(() => {
+    if (selectedDocument?._id) {
+      // Update the states based on the backend response
+      setIsToggleFontFamily(
+        selectedDocument?.applyFontFamilyToSelectedText || false
+      );
+      setIsToggleFontSize(
+        selectedDocument?.applyFontSizeToSelectedText || false
+      );
+    }
+  }, [selectedDocument?._id]);
+  const [holidayHistory, setHolidayHistory] = useState(
+    thisUser?.holidayHistory || []
+  );
+
   return (
     <StateContext.Provider
       value={{
-        isPaymentModalOpen,
-        setIsPaymentModalOpen,
-        isPlanModalOpen,
-        setIsPlanModalOpen,
+        selectedEmployee,
+        setSelectedEmployee,
+        employeeSummary,
+        setEmployeeSummary,
+        fetchTeamMembersAndHolidays,
+        setMembers,
+        members,
+        holidayHistory,
+        setHolidayHistory,
+        selectedOption,
+        setSelectedOption,
+        users,
+        mapUserHolidays,
+        setUsers,
+        holidayRequestsData,
+        setHolidayRequestsData,
+        userHolidays,
+        setUserHolidays,
+        days,
+        setDays,
+        memberInvitationPopup,
+        setMemberInvitationPopup,
+        colors,
+        profileModal,
+        setProfileModal,
+        newTeam,
+        setNewTeam,
+        workspaces,
+        setWorkspaces,
+        errorModal,
+        setErrorModal,
+        successModal,
+        setSuccessModal,
+        thisUser,
+        setThisUser,
+        selectedDocument,
+        setSelectedDocument,
+        allDocuments,
+        setAllDocuments,
+        componentToShow,
+        setComponentToShow,
         videoSrc,
         setVideoSrc,
         imgSrc,
@@ -861,7 +1132,13 @@ export const ContextProvider = ({ children }) => {
         user,
         setUser,
         userEmail,
-        setUserEmail
+        setUserEmail,
+        isDocumentChange,
+        setIsDocumentChange,
+        isToggleFontFamily,
+        setIsToggleFontFamily,
+        isToggleFontSize,
+        setIsToggleFontSize,
       }}
     >
       {children}

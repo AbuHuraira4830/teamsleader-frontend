@@ -13,10 +13,22 @@ export const FileGridIcon = ({ file }) => {
   const fileType = file.type;
 
   if (fileType.startsWith("image/")) {
-    return <img src={file.url} alt="Uploaded file" className="whInherit" />;
+    return (
+      <img
+        src={file.url}
+        alt="Uploaded file"
+        style={{ maxWidth: "100%", height: "100%" }}
+        className="whInherit"
+      />
+    );
   } else if (fileType.startsWith("video/")) {
     return (
-      <video autoPlay className="whInherit">
+      <video
+        autoPlay
+        muted
+        className="whInherit"
+        style={{ maxWidth: "100%", height: "100%" }}
+      >
         <source src={file.url} type={fileType} />
         Your browser does not support the video tag.
       </video>
@@ -55,11 +67,11 @@ export const FileGridIcon = ({ file }) => {
         src={file.url}
         type="application/pdf"
         className="whInherit"
-        style={
-          {
-            //   height: "-webkit-fill-available",
-          }
-        }
+        width="100%"
+        height="100%"
+        style={{
+          height: "-webkit-fill-available",
+        }}
       />
 
       // <DocViewer

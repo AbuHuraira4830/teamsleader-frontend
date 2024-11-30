@@ -215,8 +215,8 @@ const FileUploaderPopup = ({ openPreviewFromPopup, closeUploading }) => {
               const fileSize =
                 file.size < 1024 * 1024
                   ? `${(file.size / 1024).toFixed(2)} KB`
-                  : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-              console.log(file);
+                  : `${(file.size / (1024 * 1024)).toFixed(2)} MB`;   
+              // console.log(file);
               return (
                 <div
                   key={index}

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700;8..60,800;8..60,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Acme&family=Futura&family=Lato&display=swap");
 
 .ql-toolbar :where(.css-dev-only-do-not-override-gzal6t).ant-divider-vertical {
   height: 1.5em;
@@ -14,6 +15,30 @@
 /* .docCreater .table {
   border: 1px solid hsl(0, 0%, 70%);
 } */
+.docCreater table td,
+th {
+  background-color: var(--dropdown-bgColor);
+  color: var(--text-color);
+}
+.ck-editor__nested-editable_focused {
+  /* background-color: var(--dropdown-bgColor) !important; */
+  color: black !important;
+}
+.ck-balloon-rotator .ck-toolbar {
+  background-color: var(--sidebar-background-color) !important;
+  color: var(--text-color) !important;
+}
+.ck-balloon-rotator__content {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ck-balloon-rotator__content button {
+  /* background-color: var(--dropdown-bgColor) !important; */
+  color: var(--text-color) !important;
+}
+.ck-balloon-rotator__content .ck-button__label {
+  color: var(--text-color) !important;
+}
 .docCreater
   .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
   border: 0;
@@ -28,8 +53,92 @@
   min-height: 76vh;
   padding: 50px 50px 0px 50px;
   border-radius: 8px;
+  background-color: var(--dropdown-bgColor);
+  color: var(--text-color);
 }
-.docCreater .ck-content h2 strong {
+.docCreater .ck-content.notepad {
+  background-image: linear-gradient(
+      0deg,
+      transparent 95%,
+      var(--docs-blue-lines) 5%
+    ),
+    linear-gradient(90deg, transparent 95%, red 5%);
+  background-position-x: 18px;
+  background-position-y: -2px;
+  background-repeat: repeat, repeat-y;
+  background-size: 24px 24px;
+}
+.docCreater .ck-content.stickyNote {
+  background-image: linear-gradient(
+    0deg,
+    hsla(47, 29%, 69%, 0.4) 97%,
+    hsla(46, 87%, 78%, 0.2) 3%
+  );
+  background-position-y: -2px;
+  background-size: 28px 28px;
+}
+
+.ck-sticky-panel__content .ck-toolbar {
+  background-color: var(--sidebar-background-color) !important;
+  color: var(--text-color) !important;
+}
+.ck.ck-toolbar.ck-toolbar_grouping {
+  background-color: var(--sidebar-background-color) !important;
+  color: var(--text-color) !important;
+}
+.ck-dropdown__panel .ck-toolbar {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ck-dropdown__panel {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ck-form__header__label {
+  color: var(--text-color) !important;
+}
+.ck-list__item {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.ck-button {
+  /* background-color: var(--sidebar-background-color) !important; */
+  color: var(--text-color) !important;
+}
+.ck-list__item:hover {
+  background-color: var(--gray-hover-color) !important;
+  color: var(--text-color) !important;
+}
+.ck-button:hover {
+  background-color: var(--gray-hover-color) !important;
+  color: var(--text-color) !important;
+}
+.ck-splitbutton__arrow,
+.ck-splitbutton__action {
+  background-color: var(--sidebar-background-color) !important;
+}
+.ck-on:is(.ck.ck-button, a.ck.ck-button) {
+  background-color: var(--gray-hover-color) !important;
+  color: var(--text-color) !important;
+}
+.ck-input {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+}
+.ck-label {
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+}
+.ck-collapsible_collapsed {
+  margin-bottom: 10px !important;
+}
+.ck-dialog {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ck-labeled-field-view__status {
+  color: var(--text-color) !important;
+}
+.ck-content h2 strong {
   font-size: 36px;
   font-weight: 800;
 }
@@ -41,7 +150,10 @@
   border-bottom: 1px solid #d0d4e4;
 }
 .doc-sidebar {
-  top: 50px !important;
+  top: 48px !important;
+  background-color: var(--sidebar-background-color) !important;
+  color: var(--text-color) !important;
+  border-left: 1px solid var(--border-color) !important;
 }
 
 .doc-sidebar .selector {
@@ -93,6 +205,12 @@
   background-color: #0073ea;
   border-radius: 10px;
 }
+.icon-crown-gray {
+  width: 20px;
+  height: 20px;
+  background-color: lightgray;
+  border-radius: 10px;
+}
 .person-avatar {
   background-color: #ff642a;
   width: 30px;
@@ -122,4 +240,54 @@
 }
 .share-person:hover {
   background-color: #dcdfec;
+}
+.backgroundPart {
+  border: 1px solid var(--border-color);
+}
+.backgroundPartP {
+  width: 72px !important;
+  height: 40px;
+  border: 1px solid var(--border-color);
+}
+/* Hover class that is added dynamically */
+.hover-effect {
+  position: relative;
+  padding-left: 30px; /* Space for the icon */
+}
+
+.hover-effect::before {
+  content: "\f3c9"; /* FontAwesome icon or use your own */
+  font-family: "FontAwesome";
+  color: blue;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+/* Add this CSS globally or to the hovered elements */
+/* p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+img {
+  background-color: rgb(87, 75, 190);
+} */
+
+/* Target inline tags inside text elements */
+p strong,
+p i,
+h1 strong,
+h1 i,
+h2 strong,
+h2 i,
+h3 strong,
+h3 i {
+  display: inline-block; /* Force them to behave more like block elements */
+  line-height: inherit; /* Ensure they follow the same line-height as the parent */
+  padding: inherit;
+  margin: inherit;
 }

@@ -1,4 +1,4 @@
-table td,
+.newTeam-table table td,
 th {
   background-color: var(--dropdown-bgColor) !important;
   color: var(--text-color) !important;
@@ -7,7 +7,7 @@ th {
   padding-bottom: 3px !important; */
 }
 .newTeam-table tr {
-  border: 1px solid var(--gray-hover-color);
+  border: 1px solid var(--border-color);
 }
 .MuiDateCalendar-root {
   background-color: var(--dropdown-bgColor);
@@ -23,11 +23,11 @@ th {
   color: var(--text-color) !important;
 }
 .right-border {
-  border-right: 1px solid var(--gray-hover-color) !important;
+  border-right: 1px solid var(--border-color) !important;
 }
 .dynamic-border {
-  border: 1px solid var(--gray-hover-color);
-  border-bottom: 1px solid var(--gray-hover-color) !important;
+  border: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color) !important;
 }
 .newTeam-table tbody tr:hover td {
   background-color: var(--gray-hover-color) !important;
@@ -44,7 +44,7 @@ th {
 }
 
 .main_tableBtnDiv {
-  border-bottom: 1px solid var(--gray-hover-color);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 2px;
 }
 .newTeam-table svg {
@@ -61,7 +61,7 @@ th {
 }
 .tr_optionBtn {
   left: -23px;
-  margin-top: -9px;
+  margin-top: 0px;
 }
 .newTeam .dropdown .dropdown-menu a {
   padding: 0px 7px;
@@ -403,12 +403,17 @@ video {
   font-size: 12px !important;
 }
 
-.newTeam-table td,
-/* th , */
-.newTeam-table th
-{
-  /* text-align: center !important;  */
-  /* Don't apply direct styles. from huraira */
+.newTeam-table td {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+  text-align: center !important;
+  white-space: nowrap;
+  padding: 0px;
+}
+.newTeam-table th {
+  /* background-color: var(--dropdown-bgColor) !important; */
+  color: var(--text-color) !important;
+  text-align: center !important;
   white-space: nowrap;
   padding: 0px;
 }
@@ -700,4 +705,151 @@ input::-webkit-inner-spin-button {
 }
 .newTeam-table .MuiTextField-root {
   width: 150px;
+}
+.ProfileSidebar {
+  height: 100%;
+  background-color: var(--toggle-btnBg);
+  position: fixed;
+  height: 100% !important;
+}
+.feedSidebar {
+  height: 100%;
+  background-color: var(--sidebar-background-color);
+  position: fixed;
+  height: 100% !important;
+  border-right: 1px solid var(--border-color);
+}
+.introPart {
+  border: 1px solid var(--border-color);
+}
+.fs_32 {
+  font-size: 32px !important;
+}
+.ant-picker-dropdown {
+  z-index: 9999;
+}
+.opacity6 {
+  opacity: 0.6 !important;
+}
+.ant-select-dropdown {
+  z-index: 9999;
+}
+.fontSize16 {
+  font-size: 16px;
+}
+.pwsswordPopup {
+  min-width: 300px !important;
+  height: 50px;
+  border-radius: 4px;
+  width: fit-content !important;
+}
+.pwsswordPopup .modal-body {
+  padding: 9px 13px;
+}
+.successPopup .modal-content {
+  background-color: #00854d !important;
+}
+.errorPopup .modal-content {
+  background-color: #d83a52 !important;
+}
+.emailPopup {
+  width: 520px !important;
+}
+.emailPopup .modal-body {
+  padding: 24px;
+}
+.emailPopup .modal-content {
+  border-radius: 16px !important;
+}
+.scheduleModal .modal-content {
+  padding: 24px 32px 32px;
+}
+.scheduleModal {
+  min-width: 830px !important;
+  z-index: 9999 !important;
+}
+.scheduleModal .modal-body {
+  padding: 0px;
+}
+.para:hover {
+  border: 1px solid var(--border-color);
+}
+.profileModal {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  min-width: 100% !important;
+  padding: 30px 30px 0px !important;
+}
+.profileModal .modal-body {
+  border-radius: 8px 8px 0px 0px;
+}
+.profileModalBackdrop {
+  opacity: 1 !important;
+  background: #292f4cb3 !important;
+}
+
+.profileModal .modal-header {
+  background-color: var(--sidebar-background-color);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.profileModal .modal-body {
+  background-color: var(--sidebar-background-color);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.profileModal .modal-content {
+  border-radius: 8px 8px 0px 0px !important;
+}
+.profileDatePicker {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ant-picker-panel-container,
+.ant-picker-header,
+.ant-select-dropdown {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ant-picker-header button,
+.ant-select-selector {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ant-picker-panel-container td {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.ant-picker-panel-container td .ant-picker-cell-inner:hover {
+  background-color: var(--gray-hover-color) !important;
+}
+.ant-select-item:hover {
+  background-color: var(--gray-hover-color) !important;
+}
+.ant-select-item-option-selected {
+  background-color: var(--selected-background-color) !important;
+}
+.ant-select-item,
+.ant-select-arrow,
+.ant-picker-suffix {
+  color: var(--text-color) !important;
+}
+.feedHeader {
+  border-bottom: 1px solid var(--border-color);
+}
+.feedContent {
+  background-color: var(--inboxModal-content);
+  height: 100%;
+}
+.Selected {
+  background-color: var(--selected-background-color) !important;
+}
+.msgPart {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 100%;
+  background-color: var(--sidebar-background-color);
+}
+.Persons > *:not(:first-child) {
+  margin-left: -11px;
 }

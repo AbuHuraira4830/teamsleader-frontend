@@ -298,6 +298,8 @@ export const NewTeam = () => {
         title: newItemInput,
         tableID: id,
         firstTaskID: firstTask,
+        ownerColor: thisUser.profileColor,
+        ownerPicture: thisUser.picture,
       };
       postAPI("/api/tasks/store", data)
         .then((response) => {
@@ -351,6 +353,11 @@ export const NewTeam = () => {
       key: "Files Gallery",
       id: Math.random().toString(),
     },
+    // {
+    //   icon: <FaWpforms className="me-2 mt-1 fs-6 align-middle" />,
+    //   option: "Form",
+    //   id: Math.random().toString(),
+    // },
     {
       icon: <ViewKanbanOutlinedIcon className="me-2 mt-1 fs-6 align-middle" />,
       option: "Kanban",
@@ -363,7 +370,15 @@ export const NewTeam = () => {
       key: "Social Planner",
       id: Math.random().toString(),
     },
+ 
+  
+    // {
+    //   icon: <MdCheckBoxOutlineBlank className="me-2 mt-1 fs-6 align-middle" />,
+    //   option: "Blank View",
+    //   id: Math.random().toString(),
+    // },
   ]);
+
   const filteredMenu = mainTbl_addBtn_menu.filter(
     (item) =>
       !(userPlan?.package === "trial" && item.option === "Social Planner")
@@ -881,8 +896,10 @@ export const NewTeam = () => {
             >
               <Button
                 className="d-flex workspace-dropdown-button align-self-center py-1  px-2 "
-                style={{ display: "flex" }}
+                style={{ display: "flex", height: "33px" }}
               >
+                {/* <Button className="workspace-dropdown-button workspace-dropdownBtn align-self-center py-1  px-2 flex"> */}
+                {/* {option.icon} */}
                 {tabEditing === option._id ? (
                   <Form.Control
                     style={{ width: "150px" }}

@@ -19,11 +19,14 @@ import AddColumnModal from "./Components/addColumnModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { MdContentCopy } from "react-icons/md";
+import { RxAvatar } from "react-icons/rx";
+
 import { LuExternalLink, LuTrash } from "react-icons/lu";
 import { Popover } from "antd";
 import { GoPencil } from "react-icons/go";
 import { ChromePicker } from "react-color";
 import { getAPI, postAPI } from "../../../helpers/apis";
+import MemberInvitationPopup from "./MemberInvitationPopup";
 
 const NewTablePassword = ({
   // handleDeleteRow,
@@ -56,6 +59,7 @@ const NewTablePassword = ({
     setPasswordTableID,
     selectedPasswordRow,
     setSelectedPasswordRow,
+    setMemberInvitationPopup,
   } = useStateContext();
   const [editedItemId, setEditedItemId] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState("");
@@ -72,7 +76,8 @@ const NewTablePassword = ({
   const [inputTypes, setInputTypes] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-
+  const [addButton, setAddButton] = useState(false);
+  const [totalMembers, setTotalMembers] = useState(false);
   const handleCheckboxChange = (rowId) => {
     console.log(selectedRows);
     const newSelectedRows = selectedRows.includes(rowId)
@@ -282,6 +287,42 @@ const NewTablePassword = ({
         // Show error message or perform any other necessary actions
       });
   };
+  const inviteMember = (email, row) => {
+    postAPI(`/api/invite-to-password`, {
+      tableID: table._id,
+      email,
+      rowID: row._id,
+    })
+      .then((res) => {
+        setPasswordTables(res.data.tables);
+        console.log(res.data);
+        setMemberInvitationPopup(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleActiveMember = (email, row) => {
+    postAPI("/api/password-table/set-member-active", { rowId: row._id, email })
+      .then((res) => {
+        setPasswordTables(res.data.tables);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleDectiveMember = (email, row) => {
+    postAPI("/api/password-table/set-member-deactive", {
+      rowId: row._id,
+      email,
+    })
+      .then((res) => {
+        setPasswordTables(res.data.tables);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       {tableHiddenPassword && (
@@ -375,7 +416,7 @@ const NewTablePassword = ({
               className="fs-4 cursor_pointer"
             />
             <Form.Control
-              className="workspace_searchInput shadow-none fw-bold table-title-color table-title py-0"
+              className="workspace_searchInput bg-transparent shadow-none fw-bold  table-title py-0"
               value={tableTitleInput}
               onChange={(e) => setTableTitleInput(e.target.value)}
               onBlur={handleTableName}
@@ -412,7 +453,7 @@ const NewTablePassword = ({
                         />
                         {tableTitleInput}
                       </h6>
-                      <p className="m-0 ps-4 ms-2 secondary_clr fs_14">
+                      <p className="m-0 ps-4 ms-2 secondary_clr fs_14" style>
                         {table.rows.length} passwords
                       </p>
                     </div>
@@ -445,7 +486,7 @@ const NewTablePassword = ({
                   </th>
                   <th colSpan={2}>Project</th>
 
-                  {passColumns.slice(3).map((column) => (
+                  {passColumns.slice(2).map((column) => (
                     <th key={column.id}>{column.name}</th>
                   ))}
                   {/* <th className="text-center ">
@@ -471,16 +512,17 @@ const NewTablePassword = ({
                     onMouseEnter={() => setHoveredRow(row._id)}
                     onMouseLeave={() => setHoveredRow(null)}
                   >
-                    <td
-                      className="table-shadow table-shadow-important table-border-color"
+                    <th
+                      className="table-shadow table-shadow-important table-border-color position-static"
                       style={tableborder}
-                    ></td>
-                    <td
-                      className="text-center checkBox-cell"
-                      key={passColumns[0].id}
-                      style={{ width: "50px" }}
                     >
-                      <span className="position-absolute tr_optionBtn p-2 ">
+                      <span
+                        className="position-absolute tr_optionBtn p-2 "
+                        style={{
+                          width: "49px",
+                          height: "41px",
+                        }}
+                      >
                         <Dropdown>
                           <Dropdown.Toggle
                             className={` ${
@@ -527,6 +569,12 @@ const NewTablePassword = ({
                           </Dropdown.Menu>
                         </Dropdown>
                       </span>
+                    </th>
+                    <td
+                      className="text-center checkBox-cell"
+                      key={passColumns[0].id}
+                      style={{ width: "50px" }}
+                    >
                       <Form.Check
                         type="checkbox"
                         checked={selectedRows.includes(row._id)}
@@ -559,6 +607,57 @@ const NewTablePassword = ({
                     </td>
 
                     {/* =======================Password Column======================== */}
+
+                    <td
+                      style={{ width: "65px", padding: "7px 20px" }}
+                      className="text-center "
+                    >
+                      {row.ownerPicture ? (
+                        <div style={{ width: "30px", height: "30px" }}>
+                          <img
+                            src={row.ownerPicture}
+                            alt=""
+                            className="rounded-circle h-100 w-100"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="centerIt justify-content-center rounded-circle"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            fontSize: "16px",
+                            fontWeight: "500",
+                            color: "white",
+                            backgroundColor: row.ownerColor,
+                          }}
+                        >
+                          {row?.owner[0]?.toUpperCase()}
+                        </div>
+                      )}
+                    </td>
+                    <td
+                      className="text-center"
+                      style={{ width: "65px", padding: "7px 30px 7px 3px" }}
+                      onMouseEnter={() => {
+                        setAddButton(row._id), setTotalMembers(true);
+                      }}
+                      onMouseLeave={() => {
+                        setAddButton(null), setTotalMembers(false);
+                      }}
+                    >
+                      {" "}
+                      <MemberInvitationPopup
+                        totalMembers={totalMembers}
+                        inviteMember={inviteMember}
+                        handleActiveMember={handleActiveMember}
+                        handleDectiveMember={handleDectiveMember}
+                        task={row}
+                        addButton={addButton}
+                        setAddButton={setAddButton}
+                      />
+                    </td>
+
                     <td key={passColumns[3].id} style={{ width: "50%" }}>
                       <div
                         key={row._id}
@@ -619,14 +718,14 @@ const NewTablePassword = ({
                       </div>
                     </td>
 
-                    <td key={passColumns[3].id}>
+                    <td key={passColumns[4].id}>
                       <div
                         key={row._id}
                         className="password_url w-100 flex justify-center items-center"
                       >
                         <a href={row?.url} target="_blank" className="">
                           {/* {row.url.text} */}
-                          <LuExternalLink className="password_link fs-6" />
+                          <LuExternalLink className="password_link fs-6 text-color" />
                         </a>
                       </div>
                     </td>
@@ -634,10 +733,10 @@ const NewTablePassword = ({
                 ))}
 
                 <tr>
-                  <td
+                  <th
                     className="table-shadow table-shadow-important table-border-color"
                     style={tableborder}
-                  ></td>
+                  ></th>
                   <td className="text-center checkBox-cell">
                     <Form.Check type="checkbox" disabled />
                   </td>

@@ -38,8 +38,7 @@ const EmailVerificationModal = () => {
               Please confirm your email
             </p>
             <p className="text-center">
-              You haven't verified your email from last 3 days. To proceed
-              further please verify your email.
+            You haven't verified your email from last 3 days. To proceed further please verify your email.
             </p>
             <Button
               className="workspace_addBtn border-0 fs_14 mb-3"

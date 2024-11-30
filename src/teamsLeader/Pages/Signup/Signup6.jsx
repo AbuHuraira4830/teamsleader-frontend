@@ -13,7 +13,7 @@ const Signup6 = ({ setActiveView }) => {
   const [data, setData] = useState();
   const [option, setOption] = useState(null);
   const navigate = useNavigate();
-  const { signupData, setSignupData } = useStateContext();
+  const { signupData, setSignupData,colors } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const options = [
@@ -32,31 +32,20 @@ const Signup6 = ({ setActiveView }) => {
 
   const handleRoleClick = (item) => {
     const radio = document.getElementById(item);
-
     if (radio) {
       setSignupData((prevData) => ({
         ...prevData,
         hearFrom: item,
-        package: "trial", // Set package as 'trial' during signup
-        packageStartDate: new Date(),
+        profileColor:colors[Math.floor(Math.random() * colors.length)]
       }));
       radio.click();
     }
   };
   const handleSignup = async () => {
     setIsLoading(true);
-
-    // Ensure package is set to 'trial' if not already
-    const updatedSignupData = {
-      ...signupData,
-      package: signupData.package || "trial", // fallback to 'trial' if not set
-      packageStartDate: new Date(),
-    };
-
-    console.log(updatedSignupData); // Log to confirm the data structure
-
-    postAPI("/api/user/signup", updatedSignupData)
-      .then((response) => {
+    console.log(signupData);
+    postAPI("/api/user/signup", signupData)
+      .then((re) => {
         setIsLoading(false);
         navigate("/invite-team");
         localStorage.setItem("token", response.data.token);
@@ -65,7 +54,6 @@ const Signup6 = ({ setActiveView }) => {
         setIsLoading(false);
       });
   };
-
   return (
     <div className="signup_form w-100">
       <Header />

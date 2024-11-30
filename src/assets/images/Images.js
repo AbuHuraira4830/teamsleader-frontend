@@ -10,9 +10,13 @@ import image_v2 from "../../assets/images/image_v2.png";
 import excel_v2 from "../../assets/images/excel_v2.png";
 import video_v2 from "../../assets/images/video_v2.png";
 import verification from "../../assets/images/verification.png";
-import endTrial from "../../assets/images/end_of_trial.png";
-
+import TABLE_Dummy from "../../assets/images/table image.png";
+import man from "../../assets/images/man.jpg";
+import Paul from "./Paul.png";  
 const IMAGES = {
+  PAUL: Paul, 
+  MAN: man,
+  TABLE_DUMMY: TABLE_Dummy,
   VIDEO: video_v2,
   EXCEL: excel_v2,
   IMAGE: image_v2,
@@ -25,6 +29,5 @@ const IMAGES = {
   BGIMG: bgImg,
   BGIMG1: bgImg1,
   VERIFICATION: verification,
-  endTrial,
 };
 export default IMAGES;

@@ -130,10 +130,9 @@ const Leftbar = () => {
   console.log({ user_Id, openedChat });
   return (
     <>
+      <NewChannelModal />
+      <AddCoworkerModal />
       <div className="bg-green-200 h-full w-72 p-3 rounded-tl-md rounded-bl-md flex flex-col gap-3 overflow-y-scroll">
-        <NewChannelModal />
-        <AddCoworkerModal />
-
         <div
           className=" flex items-center gap-1 font-bold cursor-pointer"
           // className="mt-10 flex items-center gap-1 font-bold cursor-pointer"

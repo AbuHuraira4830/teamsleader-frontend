@@ -5,38 +5,88 @@ import { Button, Dropdown } from "react-bootstrap";
 import { PiImagesSquareThin } from "react-icons/pi";
 import { FileListIcon } from "../../../dynamicComponents/FileListIcon";
 import { BsThreeDots } from "react-icons/bs";
+import { useStateContext } from "../../../contexts/ContextProvider";
+import UploadedFileModal from "../NewTeam/Components/UploadedFileModal";
+import { getAPI } from "../../../helpers/apis";
 // import Draggable from "react-draggable";
 
-const File = ({ file, fileView, onDelete, onDragStart }) => {
-  const handleDownload = (file) => {
-    const link = document.createElement("a");
-    link.href = file.url;
-    link.setAttribute("download", file.name);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  const handleDelete = () => {
-    // Trigger delete for the current file
-    if (onDelete) {
-      onDelete(file);
-    }
+const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
+  const { setPreviewModalFiles, setModalShow, setCurrentItemIndex } =
+    useStateContext();
+  // const handleDownload = (file) => {
+  //   const link = document.createElement("a");
+  //   link.href = file.url;
+  //   link.setAttribute("download", file.name);
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
+  const handleDownload = () => {
+    const keys = file.key;
+    getAPI(`/api/download-single-file-s3?keys=${keys}`)
+      .then((res) => {
+        const downloadUrl = res.data?.downloadUrls;
+        console.log(res.data);
+        fetch(downloadUrl)
+          .then((response) => response.blob())
+          .then((blob) => {
+            // Create a URL for the blob
+            const blobUrl = window.URL.createObjectURL(blob);
+            // Create a link element
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.setAttribute("download", file.name);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
+          })
+          .catch((err) => {
+            console.error("Error downloading file:", err);
+          });
+      })
+      .catch((err) => {
+        console.error("Error getting download URL:", err);
+      });
   };
 
-  const handleDragStart = (e) => {
-    // Provide the dragged data along with the file type
-    e.dataTransfer.setData("file", JSON.stringify({ type: file.type, file }));
-    onDragStart();
+  const filepreview = () => {
+    setCurrentItemIndex(index);
+    setModalShow({ modalActive: true });
+    setPreviewModalFiles(uploadedFiles);
   };
   return (
     <>
       {fileView && (
-        <div draggable>
+        <div onClick={filepreview}>
           <div
-            draggable
-            className="file-icon justify-content-center align-items-center d-flex ofcanvasFile "
+            className="file-icon justify-content-center align-items-center d-flex ofcanvasFile position-relative "
             style={{ width: "100%", height: "130px" }}
           >
+            <Dropdown
+              className="position-absolute top-1 end-1 "
+              onClick={(e) => e.stopPropagation()}
+              style={{ zIndex: "9999" }}
+            >
+              <Dropdown.Toggle
+                className="px-2 py-2 bgHover border-0 gallery_action "
+                style={{ fontSize: "14px" }}
+              >
+                <BsThreeDots />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="border-0 fs_14 px-2">
+                <Dropdown.Item
+                  className="py-1"
+                  onClick={() => handleDownload(file)}
+                >
+                  Download File
+                </Dropdown.Item>
+                <Dropdown.Item className="py-1" onClick={() => onDelete(file)}>
+                  Delete File
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <FileGridIcon file={file} />
           </div>
 
@@ -49,8 +99,9 @@ const File = ({ file, fileView, onDelete, onDragStart }) => {
             <AiOutlineClockCircle />
           </div>
           <Button
+            onClick={(e) => e.stopPropagation()}
             type="button"
-            className="px-1 py-0 workspace-dropdown-button border-0"
+            className="px-1 py-0 workspace-dropdown-button border-0 centerIt"
             style={{ fontSize: "14px" }}
           >
             <PiImagesSquareThin />
@@ -59,12 +110,8 @@ const File = ({ file, fileView, onDelete, onDragStart }) => {
         </div>
       )}
       {!fileView && (
-        <div
-          draggable
-          onDragStart={handleDragStart}
-          className="d-flex justify-content-between py-2 border rounded-2 px-2 cursor_pointer "
-        >
-          <div className="d-flex w-100 ms-2">
+        <div className="d-flex justify-content-between py-2 Border rounded-2 px-2 cursor_pointer ">
+          <div className="d-flex w-100 ms-2" onClick={filepreview}>
             <div style={{ width: "90px", height: "90px" }}>
               <FileListIcon file={file} />
             </div>
@@ -77,7 +124,7 @@ const File = ({ file, fileView, onDelete, onDragStart }) => {
               <div>
                 <Button
                   type="button"
-                  className="px-1 py-0 workspace-dropdown-button border-0"
+                  className="px-1 py-0 workspace-dropdown-button border-0 centerIt"
                   style={{ fontSize: "14px" }}
                 >
                   <PiImagesSquareThin />
@@ -102,14 +149,14 @@ const File = ({ file, fileView, onDelete, onDragStart }) => {
                 <BsThreeDots />
               </Dropdown.Toggle>
 
-              <Dropdown.Menu className="border-0 fs_14">
+              <Dropdown.Menu className="border-0 fs_14 px-2">
                 <Dropdown.Item
                   className="py-1"
                   onClick={() => handleDownload(file)}
                 >
                   Download File
                 </Dropdown.Item>
-                <Dropdown.Item className="py-1" onClick={handleDelete}>
+                <Dropdown.Item className="py-1" onClick={() => onDelete(file)}>
                   Delete File
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -117,6 +164,7 @@ const File = ({ file, fileView, onDelete, onDragStart }) => {
           </div>
         </div>
       )}
+      <UploadedFileModal />
     </>
   );
 };

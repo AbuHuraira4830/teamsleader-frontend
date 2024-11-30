@@ -7,7 +7,7 @@ import {
   FiPlus,
   FiPlusCircle,
 } from "react-icons/fi";
-import { RxAvatar, RxMagnifyingGlass } from "react-icons/rx";
+import { RxAvatar, RxCross2, RxMagnifyingGlass } from "react-icons/rx";
 import {
   BsChevronDown,
   BsEmojiSmile,
@@ -26,13 +26,31 @@ const OfCanvasPassword = ({ show, handleClose }) => {
   return (
     <Offcanvas
       show={show}
-      onHide={handleClose} 
+      onHide={handleClose}
       scroll={true}
       backdrop={false}
       placement="end"
-      className="w-50 newTeam_ofcanvas"
+      className="w-50 newTeam_ofcanvas "
+      style={{ borderLeft: "1px solid var(--border-color) !important" }}
     >
-      <Offcanvas.Header closeButton></Offcanvas.Header>
+      <Offcanvas.Header className="">
+        {" "}
+        <button
+          type="button"
+          class="btn-close rounded-1 bgHover centerIt justify-content-center p-0 ms-0 me-auto"
+          onClick={handleClose}
+          aria-label="Close"
+          style={{
+            width: "24px",
+            height: "24px",
+            // position: "absolute",
+            // top: "10px",
+            // right: "10px",
+          }}
+        >
+          <RxCross2 className="fs-5 text-color" />
+        </button>
+      </Offcanvas.Header>
       <Offcanvas.Body className="custom-scrollbar">
         <div className="flex justify-content-between mb-4">
           <h5 className="mt-1 me-2">Passwords</h5>

@@ -131,11 +131,11 @@ const Workspace = ({ hide }) => {
         </Button>
       </div>
 
-      {/* <AddWorkSpaceModal
+      <AddWorkSpaceModal
         show={workspaceModal}
         handleClose={handleClose}
-        addWorkspace={addWorkspace}
-      /> */}
+        addWorkspace={addWorkspace} // Pass this function instead of setWorkspaces
+      />
     </div>
   );
 };

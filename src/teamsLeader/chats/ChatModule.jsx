@@ -6,7 +6,10 @@ import RightSection from "./components/RightSection";
 import "./chat.css";
 const ChatModule = ({ getLoginUserChatDetail }) => {
   return (
-    <div className="mt-14 bg-white h-[700px]  rounded-tl-md rounded-bl-md">
+    <div
+      className="mt-12 bg-white   rounded-tl-md rounded-bl-md"
+      style={{height: "calc(100vh - 50px)"}}
+    >
       <div className="flex h-full">
         <Leftbar getLoginUserChatDetail={getLoginUserChatDetail} />
         <RightSection />

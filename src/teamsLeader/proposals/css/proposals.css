@@ -1,0 +1,73 @@
+/* .textFieldTextarea {
+    border-color: white !important;
+}
+.textFieldTextarea:hover {
+    border-color: aliceblue !important;
+} */
+
+.editor-controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .editor-content {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    resize: none;
+    min-height: 50px;
+    outline: none;
+  }
+  
+  .editor-content:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  .table-container {
+    width: 100%;
+  }
+  
+  .resizable-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  td {
+    position: relative;
+  }
+  
+  .resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background-color: transparent;
+  }
+  
+  .resize-handle:hover {
+    background-color: lightgray;
+  }
+  
+  .table-container .ql-container.ql-snow {
+    border: none !important;
+    
+  }
+
+
+  /* // pricing table  */
+
+  /* Add this to your CSS file (e.g., DocCreator.css) */
+  .table-focused-cell {
+    border: 1px solid gray;
+  }
+  
+  .table-focused th,
+  .table-focused td {
+    border: 1px solid gray;
+  }

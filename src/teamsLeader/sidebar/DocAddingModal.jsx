@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { postAPI } from "../../helpers/apis";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 const DocAddingModal = ({
   docName,
@@ -8,11 +10,20 @@ const DocAddingModal = ({
   show,
   hideDocModal,
 }) => {
+  const { allDocuments, setAllDocuments, selectedWorkspace } =
+    useStateContext();
   const [teamInputValue, setTeamInputValue] = useState("");
+
   const handldeChange = () => {
-    setDocName([...docName, teamInputValue]);
-    setTeamInputValue("");
-    hideDocModal();
+    postAPI("/api/doc/store", {
+      workspaceID: selectedWorkspace._id,
+      name: teamInputValue,
+    }).then((res) => {
+      setAllDocuments(res?.data?.workspace?._doc?.documents);
+      setTeamInputValue("");
+      hideDocModal();
+    });
+    // setDocName([...docName, teamInputValue]);
   };
   return (
     <Modal className="team_modal" show={show} onHide={onHide} animation={true}>

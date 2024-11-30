@@ -9,7 +9,7 @@ import { FileListIcon } from "./FileListIcon";
 
 const FileUploaderPopup = ({ openPreviewFromPopup, closeUploading }) => {
   const { uploadCount, uploading, currentlyUploadedFiles } = useStateContext();
-  console.log({ currentlyUploadedFiles });
+  // console.log({ currentlyUploadedFiles });
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {

@@ -64,19 +64,12 @@ const FileUploader = ({ handleClose }) => {
     setUploadCount(acceptedFiles.length);
     setCurrentlyUploadedFiles(acceptedFiles);
     startUploading();
-
-    // await delay(500);
-
     setUploadCount(acceptedFiles.length);
-
     const updatedFiles = [];
-    // Assuming acceptedFiles is an array of files
 
     for (let i = 0; i < acceptedFiles.length; i++) {
       const file = acceptedFiles[i];
       const res = await getAPI("api/s3url");
-
-      // Perform the upload
       await fetch(res.data.data.url, {
         method: "PUT",
         headers: {
@@ -95,34 +88,23 @@ const FileUploader = ({ handleClose }) => {
         size: file.size,
         url: URL,
         key: key,
-        taskID: selectedTask,
+        refID: selectedTask,
       });
 
       console.log(URL);
     }
     const data = {
       files: updatedFiles,
-      taskID: selectedTask,
+      refID: selectedTask,
     };
     postAPI("/api/files/store", data)
       .then((res) => {
-        // console.log(res);
         setUploadedFiles(res.data.files);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // const updatedFiles = acceptedFiles.map((file) => ({
-    //   name: file.name,
-    //   type: file.type,
-    //   size: file.size,
-    //   url: ,
-    // }));
-
-    // setUploadedFiles((prevFiles) => [...prevFiles, ...updatedFiles]);
-
-    // await delay(30000);
     setUploading(false);
   };
   // useEffect(() => {
@@ -243,9 +225,8 @@ const FileUploader = ({ handleClose }) => {
       setSelectedFiles(filteredFiles.slice());
     }
   };
- 
+
   const handleDeleteSelected = () => {
-    // Remove selected files from uploadedFiles
     const files = selectedFiles.map((file) => file.url);
     console.log(files);
     postAPI("/api/delete-files-s3", files)
@@ -257,7 +238,7 @@ const FileUploader = ({ handleClose }) => {
       });
     const data = {
       files: selectedFiles,
-      taskID: selectedTask,
+      refID: selectedTask,
     };
     console.log(data);
     postAPI("/api/files/delete", data)
@@ -385,7 +366,7 @@ const FileUploader = ({ handleClose }) => {
                         <div className="flex justify-content-between py-2 border rounded-2 px-2 cursor_pointer ">
                           <InputGroup.Checkbox
                             checked={selectedFiles.includes(file)}
-                            onChange={() => handleCheckboxClick(file)}
+                            onChange={() => handleCheckboxClick(file)} 
                             // className="me-2"
                           />
                           <div

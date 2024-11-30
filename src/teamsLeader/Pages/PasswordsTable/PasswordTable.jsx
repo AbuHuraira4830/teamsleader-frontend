@@ -31,6 +31,7 @@ const PasswordTable = () => {
   useEffect(() => {
     getAPI(`/api/password-table/list`)
       .then((res) => {
+        console.log(res.data.tables);
         setPasswordTables(res.data.tables);
       })
       .catch((err) => {
@@ -96,6 +97,7 @@ const PasswordTable = () => {
     setTableHidden(!tableHidden);
     setIconRotation(iconRotation === 0 ? 270 : 0);
   };
+
   return (
     <div className="px-4 pt-5">
       {/* <h3>Usman</h3> */}
@@ -189,9 +191,9 @@ const PasswordTable = () => {
               moveRowToTop={moveRowToTop}
               duplicateRow={duplicateRow}
               CreateRowBelow={CreateRowBelow}
-                tableHidden={tableHidden}
-                iconStyle={iconStyle}
-                handleToggleTable={handleToggleTable}
+              tableHidden={tableHidden}
+              iconStyle={iconStyle}
+              handleToggleTable={handleToggleTable}
             />
           );
         }

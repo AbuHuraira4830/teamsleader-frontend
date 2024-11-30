@@ -23,13 +23,16 @@ import { GoBell } from "react-icons/go";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Alert } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAPI } from "../../helpers/apis";
+import { getAPI, postAPI } from "../../helpers/apis";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import PlanModal from "./PlanModal";
 import PaymentModal from "./PaymentModal/PaymentModal";
 import EnterpriseModal from "./EnterpriseModal/EnterpriseModal";
 import axios from "axios";
+import ProfileModal from "./profileModal/ProfileModal";
+import UpdateFeedModal from "../updateFeed/UpdateFeedModal";
+import InviteAdminModal from "../Admins/InviteAdminModal";
 
 
 const Navbar = ({ user }) => {
@@ -46,6 +49,10 @@ console.log("UserNav",user)
     isPlanModalOpen,
     isPaymentModalOpen,
     setIsPaymentModalOpen,
+    thisUser,
+    profileModal,
+    setProfileModal,
+    setComponentToShow,
   } = useStateContext();
   const [show, setShow] = useState(false);
   // const [isModalVisible, setModalVisible] = useState(false);
@@ -53,7 +60,16 @@ console.log("UserNav",user)
   const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false);
   const [currentPlan,setCurrentPlan] = useState();
   const [selectedPlan, setSelectedPlan] = useState();
+  
 
+  const [feedModal, setFeedModal] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+ 
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
 
   useEffect(() => {
     const fetchPlan = async() =>{
@@ -111,6 +127,7 @@ console.log("UserNav",user)
   };
   const handleShow = () => setShow(true);
 
+
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -125,24 +142,24 @@ console.log("UserNav",user)
     setModalVisible(false);
   };
 
-  // useEffect(() => {
-  //   getAPI("/api/user/get-user-from-token")
-  //     .then((response) => {
-  //       if (response.status === 200 && response.data?._doc?.isEmailVerified) {
-  //         setIsEmailVerified(true);
-  //       } else {
-  //         // toast.error(response.data.message);
-  //         console.log(response.data.message);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       if (err.status === 401) {
-  //         return window.location.replace("/login");
-  //       }
-  //       // toast.error(response.data.message);
-  //       console.log(err);
-  //     });
-  // }, [isEmailVerified]);
+  useEffect(() => {
+    getAPI("/api/user/get-user-from-token")
+      .then((response) => {
+        if (response.status === 200 && response.data?._doc?.isEmailVerified) {
+          setIsEmailVerified(true);
+        } else {
+          // toast.error(response.data.message);
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err.status === 401) {
+          return window.location.replace("/login");
+        }
+        // toast.error(response.data.message);
+        console.log(err);
+      });
+  }, [isEmailVerified]);
 
   const resendEmail = async (e) => {
     e.preventDefault();
@@ -167,34 +184,12 @@ console.log("UserNav",user)
   };
 
 
+
   return (
     <>
-      {/* {!isEmailVerified ? null : (
-        <Alert
-          className="email-verify-message"
-          message={
-            <span className="fs_15">
-              Please confirm your email address: {user?.emailAddress} &nbsp;
-              <a
-                href="#"
-                onClick={resendEmail}
-                style={{ color: "white", textDecoration: "underline" }}
-              >
-                Resend email
-              </a>
-              &nbsp;&nbsp;
-              <a
-                href="#"
-                style={{ color: "white", textDecoration: "underline" }}
-              >
-                Change email address
-              </a>
-            </span>
-          }
-          type="info"
-        />
-      )} */}
-      <div className="flex px-4 ">
+      
+
+      <div className="centerIt px-4 ">
         <span className="flex">
           {/* <Button className="p-0 workspace_menuBtn bgHover align-middle me-3">
           <TbGridDots />
@@ -255,12 +250,30 @@ console.log("UserNav",user)
           {/* <span className="nav-avatar flex align-self-center">
           <img src={IMAGES.LEAF} alt="" className="align-self-center" />
         </span> */}
-          <span
-            onClick={handleShow}
-            className="nav-avatar rounded-circle align-self-center p-1 border-0"
-          >
-            UH
-          </span>
+
+          {thisUser?.picture ? (
+            <div
+              style={{ width: "30px", height: "30px", cursor: "pointer" }}
+              onClick={handleShow}
+            >
+              <img src={thisUser.picture} alt="" className="rounded-circle w-100 h-100" />
+            </div>
+          ) : (
+            <div
+              onClick={handleShow}
+              className=" rounded-circle  centerIt justify-content-center "
+              style={{
+                backgroundColor: thisUser?.profileColor,
+                width: "32px",
+                height: "32px",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              {thisUser?.fullName[0]?.toUpperCase()}
+            </div>
+          )}
+
           <div className="">
             <Modal
               show={show}
@@ -287,6 +300,9 @@ console.log("UserNav",user)
                         className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                         style={{
                           height: "34px",
+                        }}
+                        onClick={() => {
+                          setProfileModal(true), handleClose();
                         }}
                       >
                         <span className="centerIt">
@@ -415,7 +431,7 @@ console.log("UserNav",user)
                             style={{
                               height: "34px",
                             }}
-                            onClick={() => setTheme("light_theme")}
+                            onClick={() => handleTheme("light_theme")}
                           >
                             <span className="centerIt">
                               <BiSun className="me-2 fs-6 align-middle" />
@@ -429,7 +445,7 @@ console.log("UserNav",user)
                             style={{
                               height: "34px",
                             }}
-                            onClick={() => setTheme("night_theme")}
+                            onClick={() => handleTheme("night_theme")}
                           >
                             <span className="centerIt">
                               <BsMoon className="me-2 fs-6 align-middle" />
@@ -443,7 +459,7 @@ console.log("UserNav",user)
                             style={{
                               height: "34px",
                             }}
-                            onClick={() => setTheme("dark_theme")}
+                            onClick={() => handleTheme("dark_theme")}
                           >
                             <span className="centerIt">
                               <BsStars className="me-2 fs-6 align-middle" />
@@ -530,6 +546,9 @@ console.log("UserNav",user)
             handleBackClickEnterprise={handleBackClickEnterprise}
           />
         )}
+        <ProfileModal />
+        <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} />
+        <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} />
       </div>
     </>
   );

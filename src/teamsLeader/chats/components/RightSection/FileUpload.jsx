@@ -60,21 +60,6 @@ const FileUpload = () => {
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFilesArray]);
     // success();
 
-    // toast("Working  .... ", {
-    //   position: "top-center",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    //   transition: Bounce,
-    //   style: {
-    //     marginTop: "100px", // Set the top margin to 100px
-    //   },
-    // });
-
     // Initialize formData for multiple files
     const formData = new FormData();
 

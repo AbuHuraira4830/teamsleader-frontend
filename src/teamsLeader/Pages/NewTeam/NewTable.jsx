@@ -31,6 +31,7 @@ import TableShadow from "./TableShadow";
 import { GoPencil } from "react-icons/go";
 import { LuTrash } from "react-icons/lu";
 import { id } from "date-fns/locale";
+import MemberInvitationPopup from "./MemberInvitationPopup";
 const NewTable = ({
   tableHidden,
   handleToggleTable,
@@ -86,6 +87,9 @@ const NewTable = ({
     setSelectedTask,
     setCommentsArray,
     setRepliesArray,
+    thisUser,
+    colors,
+    setMemberInvitationPopup,
   } = useStateContext();
 
   const [dueDate, setDueDate] = useState("");
@@ -98,6 +102,8 @@ const NewTable = ({
   const [hoveredHeader, setHoveredHeader] = useState(null);
   const [taskTitleValue, setTaskTitleValue] = useState("");
   const [EditingTaskTitle, setEditingTaskTitle] = useState(null);
+  const [addButton, setAddButton] = useState(false);
+  const [totalMembers, setTotalMembers] = useState(false);
   let columnsArray = [];
   if (tasks?.length > 0) {
     tasks[0]?.columns?.map((column) => {
@@ -309,14 +315,12 @@ const NewTable = ({
   const handleFetchFiles = (id) => {
     setShowCanvas(true);
     setSelectedTask(id);
-    getAPI(`/api/files/list?taskId=${id}`).then((res) => {
+    getAPI(`/api/files/list?refID=${id}`).then((res) => {
       try {
         setUploadedFiles(res.data.files);
       } catch (err) {
         console.log(err);
       }
-
-      // console.log({ res });
     });
     getAPI(`/api/comments/list/${id}`).then((res) => {
       try {
@@ -334,6 +338,52 @@ const NewTable = ({
     });
   };
   // console.log(teamTasks)
+  const inviteMember = (email, task) => {
+    postAPI(`/api/invite-to-task`, {
+      email,
+      userName: thisUser.fullName,
+      profileColor: colors[Math.floor(Math.random() * colors.length)],
+      task: task.title,
+      workspaceID: selectedWorkspace._id,
+      teamID: selectedTeam._id,
+      tableID: table._id,
+      taskID: task._id,
+    })
+      .then((res) => {
+        setMemberInvitationPopup(false);
+        setTeamTasks(res.data.team);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleActiveMember = (email, task) => {
+    postAPI("/api/set-task-member-active", {
+      email,
+      taskId: task._id,
+      teamID: selectedTeam._id,
+    })
+      .then((res) => {
+        setTeamTasks(res.data.team);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDectiveMember = (email, task) => {
+    postAPI("/api/set-task-member-deactive", {
+      email,
+      taskId: task._id,
+      teamID: selectedTeam._id,
+    })
+      .then((res) => {
+        setTeamTasks(res.data.team);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       {tableHidden && (
@@ -427,7 +477,7 @@ const NewTable = ({
               className="fs-4 cursor_pointer"
             />
             <Form.Control
-              className="workspace_searchInput shadow-none bg-transparent fw-bold table-title-color table-title py-0"
+              className="workspace_searchInput shadow-none bg-transparent fw-bold  table-title py-0"
               value={tableTitleInput}
               onChange={(e) => setTableTitleInput(e.target.value)}
               onBlur={handleTableName}
@@ -508,6 +558,8 @@ const NewTable = ({
                     />
                   </th>
                   <th colSpan={2}>Items</th>
+
+                  <th>Owner</th>
                   <th>Person</th>
                   <th>Status</th>
                   <th>Due Date</th>
@@ -572,27 +624,28 @@ const NewTable = ({
                     onMouseLeave={() => setHoveredRow(null)}
                   >
                     <th
-                      className="table-shadow table-shadow-important table-border-color"
+                      className="table-shadow table-shadow-important table-border-color position-static"
                       style={tableborder}
-                    ></th>
-                    <td
-                      className="text-center checkBox-cell "
-                      key={columns[0].id}
-                      style={{ width: "50px" }}
                     >
-                      <span className="position-absolute tr_optionBtn p-2 ">
+                      <span
+                        className="position-absolute tr_optionBtn p-2 "
+                        style={{
+                          width: "49px",
+                          height: "41px",
+                        }}
+                      >
                         <Dropdown>
                           <Dropdown.Toggle
-                            className={` ${
+                            className={`${
                               hoveredRow === row._id ? "" : "disply_none"
-                            } px-1 py-0 workspace_menuBtn bgHover  text-center mx-1 focusClass`}
+                            }  px-1 py-0 workspace_menuBtn bgHover  text-center mx-1 focusClass`}
                             style={{
                               width: "25px",
                               height: "25px",
                               verticalAlign: "middle",
                             }}
                           >
-                            <BsThreeDots className=" fs-6 align-middle " />
+                            <BsThreeDots className={`fs-6 align-middle `} />
                           </Dropdown.Toggle>
                           <Dropdown.Menu className="tr_optionDropdown border-0">
                             {rowOptionMenu.map((item, index) => (
@@ -627,6 +680,12 @@ const NewTable = ({
                           </Dropdown.Menu>
                         </Dropdown>
                       </span>
+                    </th>
+                    <td
+                      className="text-center checkBox-cell "
+                      key={columns[0].id}
+                      style={{ width: "50px" }}
+                    >
                       <Form.Check
                         type="checkbox"
                         checked={selectedRows.includes(row._id)}
@@ -718,11 +777,57 @@ const NewTable = ({
 
                     <td
                       key={columns[3].id}
-                      style={{ width: "65px", padding: "10px 20px" }}
-                      className="text-center"
+                      style={{ width: "65px", padding: "7px 20px" }}
+                      className="text-center "
                     >
-                      <RxAvatar className="align-bottom" />
+                      {row.ownerPicture ? (
+                        <div style={{ width: "30px", height: "30px" }}>
+                          <img
+                            src={row.ownerPicture}
+                            alt=""
+                            className="rounded-circle h-100 w-100"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="centerIt justify-content-center rounded-circle"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            fontSize: "16px",
+                            fontWeight: "500",
+                            color: "white",
+                            backgroundColor: row.ownerColor,
+                          }}
+                        >
+                          {row.owner[0].toUpperCase()}
+                        </div>
+                      )}
                     </td>
+                    <td
+                      key={columns[4].id}
+                      style={{ width: "65px", padding: "7px 30px 7px 3px" }}
+                      className=" "
+                      onMouseEnter={() => {
+                        setAddButton(row._id), setTotalMembers(true);
+                      }}
+                      onMouseLeave={() => {
+                        setAddButton(null), setTotalMembers(false);
+                      }}
+                    >
+                      {/* {!row.members.includes(row.owner)&&  <RxAvatar />}   */}
+
+                      <MemberInvitationPopup
+                        totalMembers={totalMembers}
+                        inviteMember={inviteMember}
+                        handleDectiveMember={handleDectiveMember}
+                        handleActiveMember={handleActiveMember}
+                        task={row}
+                        addButton={addButton}
+                        setAddButton={setAddButton}
+                      />
+                    </td>
+
                     <Popover
                       key={row._id}
                       content={
@@ -740,7 +845,7 @@ const NewTable = ({
                       }
                     >
                       <td
-                        key={columns[4].id}
+                        key={columns[6].id}
                         className="text-center p-0 flex "
                         style={{ minWidth: "160px" }}
                       >
@@ -755,7 +860,7 @@ const NewTable = ({
                         </span>
                       </td>
                     </Popover>
-                    <td key={columns[5]?.id} style={{ width: "150px" }}>
+                    <td key={columns[7]?.id} style={{ width: "150px" }}>
                       {/* <DatePicker onChange={(_, dateString)=>dueDateHandler(row._id, dateString)} value={row?.endDate?.substring(0, 10)} /> */}
 
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -844,6 +949,7 @@ const NewTable = ({
                     className="transparent_border bg-transparent p-0 right-border "
                     colSpan={4}
                   ></th>
+                  <th className="dynamic-border "></th>
                   <th className="dynamic-border "></th>
                   <th className="dynamic-border "></th>
                   <th className="dynamic-border "></th>

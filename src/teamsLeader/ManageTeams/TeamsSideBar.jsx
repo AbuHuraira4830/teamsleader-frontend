@@ -24,7 +24,23 @@ const TeamsSidebar = () => {
         <h1 className="text-xl font-semibold">Teams</h1>
       </div>
       <div className="flex flex-col p-4 space-y-2 mt-[-1rem]">
+        {/* <Button
+          className="d-flex items-center   bgHover text-base "
+          variant="none"
+          onClick={showModal}
+        >
+          <AiOutlinePlus className="mr-2 text-base" />
+          <span>New team</span>
+        </Button> */}
         <CreateTeamModal visible={isModalVisible} onClose={handleCancel} />
+
+        {/* <Button
+          className=" d-flex items-center   bgHover text-base"
+          variant="none"
+        >
+          <LuFilter className="mr-2 text-base" />
+          <span className="text-sm">Filter teams</span>
+        </Button> */}
 
         <div className="addPersonSearch flex items-center relative w-full">
           <input

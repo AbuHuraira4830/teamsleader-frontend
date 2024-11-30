@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa6";
 
 export const FileListIcon = ({ file }) => {
-  console.log({ file });
+  // console.log({ file });
   const fileType = file.type;
   if (fileType.startsWith("image/")) {
     return (

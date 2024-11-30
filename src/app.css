@@ -8,34 +8,27 @@ button {
   box-shadow: none !important;
 }
 .navbar-blue {
-  --navbar-background-color: #7EB6FF;
+  --navbar-background-color: #7eb6ff;
 }
 
 .navbar-red {
-  --navbar-background-color: #FFFACD;
-}
-.navbar-gray {
-  --navbar-background-color: #e3e3e3;
+  --navbar-background-color: #fffacd;
 }
 
 .body-blue {
-  background-color: #7EB6FF;
-}
-.body-gray {
-  background-color: #e3e3e3;
+  background-color: #7eb6ff;
 }
 
 .body-red {
-  background-color: #FFFACD;
+  background-color: #fffacd;
 }
-
 .green_body {
   background-color: var(--navbar-background-color) !important ;
 }
 .white_body {
   background-color: #ffffff !important ;
 }
-body {
+* {
   /* background-color: var(--navbar-background-color); */
   font-family: Noto Kufi Arabic, sans-serif, "Segoe UI Emoji",
     "Apple Color Emoji", "Noto Color Emoji", "Segoe UI", "Arial" !important;
@@ -49,12 +42,40 @@ body {
   --primary-white-color: #ffffff;
   --font-size-14px: 14px;
   --font-weight-500: 500;
-  --secondary-color: #676879;
+
   --icon-green-color: #00ca72;
 }
+.ck-content {
+  font-family: inherit !important; /* Ensure CKEditor controls font family */
+}
+strong,
+em,
+u,
+b,
+i,
+s,
+mark,
+del,
+ins,
+sup,
+sub,
+small,
+code,
+kbd,
+samp,
+var,
+ol,
+ul,
+li {
+  font-family: inherit !important;
+}
+.ck-dropdown__panel .ck-list {
+  max-height: 400px; /* Adjust this to control the scrollable height */
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
 .light_theme {
   --dropdown-bgColor: #ffffff;
-
   --sidebar-background-color: #ffffff;
   --text-color: #323338;
   --navbar-background-color: #e2f0e7;
@@ -62,6 +83,15 @@ body {
   --gray-hover-color: #6768791a;
   --toggle-btnBg: #f6f7fb;
   --other-activityBg: #f5f6f8;
+  --border-color: #d0d4e4;
+  --box-shadow: #e6e9ef;
+  --workspaces-shadow: #00000033;
+  --welcome-page: #e6e9ef;
+  --inboxModal-content: #f6f7fb;
+  --secondary-color: #676879;
+  --docs-blue-lines: ;
+  --placeholder-color: #676879;
+  --light-gray: #f5f6f8;
 }
 .dark_theme {
   --dropdown-bgColor: #30324e;
@@ -72,6 +102,14 @@ body {
   --gray-hover-color: #4b4e69;
   --toggle-btnBg: #30324e;
   --other-activityBg: #30324e;
+  --border-color: #4b4e69;
+  --box-shadow: #4b4e69;
+  --workspaces-shadow: #090b1980;
+  --inboxModal-content: #181b34;
+  --docs-blue-lines: rgba(151, 179, 197, 0.4);
+  --secondary-color: #9699a6;
+  --placeholder-color: #c3c6d4;
+  --light-gray: #33354b;
 }
 .night_theme {
   --dropdown-bgColor: #2c2c2c;
@@ -79,9 +117,17 @@ body {
   --text-color: #eeeeee;
   --navbar-background-color: #212121;
   --selected-background-color: #013c29;
-  --gray-hover-color: #636363;
+  --gray-hover-color: #6768794d;
   --toggle-btnBg: #2c2c2c;
   --other-activityBg: #2c2c2c;
+  --border-color: #636363;
+  --box-shadow: #636363;
+  --workspaces-shadow: #000000;
+  --inboxModal-content: #111111;
+  --docs-blue-lines: rgba(151, 179, 197, 0.4);
+  --secondary-color: #9699a6;
+  --placeholder-color: #aaaaaa;
+  --light-gray: #272729;
 }
 
 /* .app-container {
@@ -107,11 +153,10 @@ body {
   /* transition: width 0.3s ease; */
   position: absolute;
   width: 79.4rem;
-  /* margin-left: 16.6rem; */
-  margin-left: 12rem;
+  margin-left: 16.6rem;
   top: 48px;
   /* min-height: 92vh; */
-  /* height: 93%; */
+  height: 392vh;
   overflow-y: auto;
   border-top-left-radius: 8px;
   color: var(--text-color) !important;
@@ -223,7 +268,9 @@ body {
 .transparent_bg {
   background-color: transparent !important  ;
 }
-
+.sidebar_topBtn {
+  border-bottom: 1px solid var(--border-color);
+}
 .sidebar_topBtn button {
   color: var(--text-color) !important;
   border: none;
@@ -353,13 +400,16 @@ body {
 .form-control {
   color: var(--text-color);
 }
-.form-control::placeholder {
-  color: var(--text-color) !important;
-  font-size: 14px;
+input::placeholder {
+  color: var(--placeholder-color) !important;
+  /* font-size: 14px; */
 }
 .workspace_searchInput:focus {
-  border: 1px solid var(--primary-green) !important;
+  outline: 1px solid var(--primary-green) !important;
   color: var(--text-color);
+}
+.table-title {
+  color: var(--input-color) !important;
 }
 .workspace_addBtn:hover {
   background-color: var(--primary-hover-green) !important;
@@ -454,7 +504,7 @@ body {
   padding: 0 6px;
 }
 .nav-avatar {
-  background-color: #ff642a !important;
+  background-color: #ff642a;
   font-size: 18px;
   font-weight: var(--font-weight-500) !important;
   color: var(--primary-white-color) !important;
@@ -612,23 +662,14 @@ body {
 
 .teamInvite_btn {
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
-  border: 1px solid #c3c6d4;
-
-  color: #323338;
-
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
   background-color: transparent;
-
   line-height: 22px;
-
   padding: 4px 8px;
-
   height: 32px;
-
   border-radius: 4px;
 }
 
@@ -642,7 +683,13 @@ body {
 .text-color {
   color: var(--text-color) !important;
 }
-.fr-popup,
+.dropdown_color {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.Border {
+  border: 1px solid var(--border-color) !important;
+}
+.postFroala .fr-popup,
 .fr-active {
   left: auto !important;
   right: 0 !important;
@@ -657,3 +704,234 @@ body {
   transform: translateY(-20%) !important; /* Adjust this value to move the modal up */
 }
 
+.ant-popover-inner-content {
+  border-radius: 6px;
+}
+:where(.css-dev-only-do-not-override-1xg9z9n).ant-popover
+  .ant-popover-arrow:before {
+  background: var(--dropdown-bgColor) !important;
+}
+.no_cursor {
+  caret-color: transparent;
+}
+.hoverBorder:hover {
+  outline: 1px solid var(--border-color) !important;
+}
+.Check input {
+  width: 18px !important;
+  height: 18px !important;
+}
+.Check input {
+  margin: 0;
+}
+.holiday-time::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.work-daysP .work-days:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+.rmdp-day-picker > div {
+  margin: 0px 16px !important;
+}
+.rmdp-week-day,
+.rmdp-day,
+.rmdp-week {
+  margin: 0px !important;
+}
+.rmdp-calendar {
+  padding: 20px !important;
+}
+.rmdp-border {
+  border: 0 !important;
+}
+.rmdp-header-values {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.holiday-tab .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(
+    --icon-green-color
+  ) !important; /* Change this to your desired color */
+}
+
+/* Optional: Change the color of the tab text when not active */
+.holiday-tab .ant-tabs-tab-btn {
+  color: var(--text-color); /* Change this to your desired color */
+}
+.holiday-tab .ant-tabs-tab-btn:hover {
+  color: var(
+    --icon-green-color
+  ) !important; /* Change this to your desired color */
+}
+.playPauseBtn {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+  background-color: var(--light-gray) !important;
+}
+
+.playPauseBtn:hover {
+  border-color: #00854d !important;
+  color: #00854d !important;
+  background-color: var(--light-gray) !important;
+}
+.three-dots {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.ant-table-row:hover .three-dots {
+  visibility: visible;
+}
+.ant-table-thead .ant-table-cell {
+  white-space: nowrap;
+}
+.holidayDatepicker .rmdp-input {
+  padding: 15px 10px;
+  width: 196px;
+  height: 30px !important;
+  border-color: var(--border-color);
+}
+.holidayDatepicker .rmdp-wrapper {
+}
+
+.timeSheetModal {
+  z-index: 9999 !important;
+}
+/* .timeSheetModalMask {     
+  z-index: 9999;
+} */
+.timeSheetInput {
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  width: 100% !important;
+}
+.timeSheetModal .rmdp-container {
+  width: 100%;
+}
+.ScheduleModal {
+  z-index: 9999 !important;
+}
+
+.range-container.rmdp-wrapper {
+  background-color: transparent; /* or any other color you prefer */
+}
+
+.range-container.rmdp-wrapper .rmdp-day {
+  color: var(--text-color); /* or any other text color you prefer */
+}
+
+.range-container .rmdp-header-values {
+  color: var(--text-color); /* or any other year text color you prefer */
+}
+
+.timeTrackerBtns {
+  /* color: var(--text-color) !important; */
+  border: 1px solid var(--border-color) !important;
+}
+.text-color .holiday-table tr {
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--dropdown-bgColor) !important;
+}
+
+.holiday-table td {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+.holiday-table th {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+
+.ant-tabs-tab-active {
+  background-color: var(--sidebar-background-color) !important;
+}
+
+.graytext {
+  color: var(--placeholder-color);
+}
+.ant-breadcrumb-separator {
+  color: var(--text-color) !important;
+}
+.whiteText {
+  color: var(--text-color);
+}
+.hoiday-history {
+  border-radius: 8px;
+  border-color: var(--border-color);
+}
+.hoiday-history .ant-collapse-header {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+  /* border-radius: 0; */
+  border-radius: 8px !important;
+  font-size: 20px;
+  font-weight: 700;
+  align-items: center !important;
+}
+.hoiday-history .ant-collapse-header-text {
+  font-size: 20px;
+  font-weight: 700;
+}
+.hoiday-history .ant-collapse-arrow {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+.hoiday-history .ant-collapse-content {
+  background-color: var(--sidebar-background-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+.holidayName {
+  border-color: var(--border-color) !important;
+  font-size: 14px !important;
+}
+.holidayName:hover {
+  border: 1px solid var(--border-color) !important;
+}
+.holidayName:focus {
+  border: 1px solid var(--primary-green) !important;
+}
+
+.special_tag {
+  font-size: 13px;
+  height: 20px;
+  padding: 0px 5px;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.addHolidayDatepicker .rmdp-container {
+  width: 100%;
+}
+.addHolidayDatepicker input {
+  border-color: var(--border-color) !important;
+  border-width: 1px;
+  width: 100%;
+  height: 37px;
+}
+
+.addHolidayDatepicker input:focus {
+  border-color: var(--primary-green) !important;
+}
+.addHolidayDatepicker input:hover {
+  border-color: var(--primary-green) !important;
+}
+.employeeCheckBoxes .ant-checkbox-wrapper {
+  align-items: center !important;
+  margin-bottom: 5px;
+}
+.EmployeeModalBackdrop {
+  z-index: 1055 !important;
+}
+.EmployeeModalDialog {
+  z-index: 9999 !important;
+  width: 480px !important ;
+}
+.holiday-spinner {
+  border: 3.5px solid #0000005c !important;
+  border-right-color: transparent !important;
+}
+.members-list .ant-checkbox-group {
+  flex-direction: column !important;           
+}

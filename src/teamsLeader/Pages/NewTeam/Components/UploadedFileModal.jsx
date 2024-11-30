@@ -33,7 +33,7 @@ import Froalaeditor from "froala-editor";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 import { getAPI, postAPI } from "../../../../helpers/apis";
 
-const UploadedFileModal = ({ handleClose }) => {
+const UploadedFileModal = () => {
   const {
     modalShow,
     uploadedFiles,
@@ -63,8 +63,6 @@ const UploadedFileModal = ({ handleClose }) => {
   const handleDownload = () => {
     const file = allFiles[currentItemIndex];
     const keys = file.key;
-    // const keys = [key];
-
     getAPI(`/api/download-single-file-s3?keys=${keys}`)
       .then((res) => {
         const downloadUrl = res.data?.downloadUrls;
@@ -111,7 +109,7 @@ const UploadedFileModal = ({ handleClose }) => {
   const handleDeleteFile = () => {
     const data = {
       files: [allFiles[currentItemIndex]],
-      taskID: selectedTask,
+      refID: selectedTask,
     };
     console.log(data);
     postAPI("/api/files/delete", data)
@@ -169,7 +167,7 @@ const UploadedFileModal = ({ handleClose }) => {
                 type="button"
                 className="px-1 py-0 workspace-dropdown-button border-0 centerIt"
                 style={{ fontSize: "14px" }}
-                onClick={() => handleClose}
+                // onClick={() => handleClose}
               >
                 <FiSidebar className="me-1" /> Team Name
               </Button>

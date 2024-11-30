@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { BiArrowBack } from "react-icons/bi";
 import { Button as AntButton } from "antd";
-import { Form, Button, Col, Container, Row } from "react-bootstrap"; 
+import { Form, Button, Col, Container, Row } from "react-bootstrap";
 import ExtraNotePassword from "./ExtraNotePassword";
 import { useStateContext } from "../contexts/ContextProvider";
 import { v4 as uuidv4 } from "uuid";
@@ -22,6 +22,7 @@ const AddPasswordForm = ({
     setRowsPassword,
     passwordTableID,
     setPasswordTables,
+    thisUser
   } = useStateContext();
   const [templateName, setTemplateName] = useState(selectedPasswordRow?.name);
   const [email, setEmail] = useState(selectedPasswordRow?.email);
@@ -98,6 +99,8 @@ const AddPasswordForm = ({
       password: password,
       url: url,
       note: extraNote,
+      ownerColor: thisUser.profileColor,
+      ownerPicture: thisUser.picture,
     };
     postAPI("/api/password-row/store", data)
       .then((res) => {
@@ -184,7 +187,7 @@ const AddPasswordForm = ({
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="text"
-                  className=" shadow-none "
+                  className=" shadow-none text-color dropdown_color "
                   placeholder="Enter template name"
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
@@ -198,7 +201,7 @@ const AddPasswordForm = ({
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="email"
-                  className=" shadow-none"
+                  className=" shadow-none text-color dropdown_color"
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -212,7 +215,7 @@ const AddPasswordForm = ({
                 <div className="position-relative">
                   <Form.Control
                     type={showPassword ? "text" : "password"}
-                    className=" shadow-none"
+                    className=" shadow-none text-color dropdown_color"
                     placeholder="Enter your password"
                     value={password}
                     onChange={handlePasswordChange}
@@ -244,7 +247,7 @@ const AddPasswordForm = ({
                 <div className="position-relative">
                   <Form.Control
                     type={showConfirmedPassword ? "text" : "password"}
-                    className=" shadow-none "
+                    className=" shadow-none text-color dropdown_color "
                     placeholder="Confirm Password"
                     style={{
                       width: "370px",
@@ -273,7 +276,7 @@ const AddPasswordForm = ({
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="text"
-                  className=" shadow-none"
+                  className=" shadow-none text-color dropdown_color"
                   placeholder="Enter URL"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}

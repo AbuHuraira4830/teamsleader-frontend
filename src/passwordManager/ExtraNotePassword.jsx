@@ -24,7 +24,8 @@ const ExtraNotePassword = () => {
 
   return (
     <Textarea
-      placeholder="Type in here…"
+      placeholder="Type in here… "
+      className="text-color dropdown_color"
       value={text}
       onChange={handleTextChange}
       minRows={2}
@@ -34,6 +35,7 @@ const ExtraNotePassword = () => {
           <IconButton
             variant="outlined"
             color="neutral"
+            className="bgHover"
             onClick={addEmoji("👍")}
           >
             👍
@@ -41,6 +43,7 @@ const ExtraNotePassword = () => {
           <IconButton
             variant="outlined"
             color="neutral"
+            className="bgHover"
             onClick={addEmoji("🏖")}
           >
             💯
@@ -48,6 +51,7 @@ const ExtraNotePassword = () => {
           <IconButton
             variant="outlined"
             color="neutral"
+            className="bgHover"
             onClick={addEmoji("😍")}
           >
             😍
@@ -57,6 +61,7 @@ const ExtraNotePassword = () => {
             color="neutral"
             sx={{ ml: "auto" }}
             onClick={handleCopyAll}
+            className="bgHover text-color"
           >
             {copyButtonText}
           </Button>

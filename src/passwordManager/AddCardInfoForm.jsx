@@ -14,6 +14,7 @@ const AddCardInfoForm = ({
     selectedPasswordRow,
     passwordTableID,
     setPasswordTables,
+    thisUser,
   } = useStateContext();
 
   const [templateName, setTemplateName] = useState("");
@@ -105,6 +106,8 @@ const AddCardInfoForm = ({
       card: cardNumber,
       date: expiryDate,
       cvv: cvv,
+      ownerColor: thisUser.profileColor,
+      ownerPicture: thisUser.picture,
     };
     postAPI("/api/password-row/store", data)
       .then((res) => {
@@ -145,8 +148,18 @@ const AddCardInfoForm = ({
   return (
     <>
       {/* ===================================================== */}
-      <div>
-        <div className="flex justify-content-start  align-items-center fs_15 ps-2 pt-2 cursor_pointer"></div>
+      <div className="text-color">
+        <div className="flex justify-content-start  align-items-center fs_15 ps-2 pt-2 cursor_pointer">
+          {/* <div className="password_backBtn">
+            <AntButton type="text">
+              <BiArrowBack onClick={handleBackButtonClick} />
+            </AntButton>
+
+            <span className="backbtn_text" style={{ fontWeight: 600 }}>
+              Go back
+            </span>
+          </div> */}
+        </div>
         <div className="flex info_container">
           <Container className="align-self-center">
             <div className="flex  pb-4 ">
@@ -160,28 +173,15 @@ const AddCardInfoForm = ({
             </div>
             <Row className=" grayText add_password_wrapper">
               <Col lg={4} className="mt-4">
-                First Name
+                Full Name
               </Col>
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="text"
-                  className=" shadow-none"
-                  placeholder="Enter first name as on card"
+                  className=" shadow-none text-color dropdown_color "
+                  placeholder="Enter full name as on card"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  style={{ width: "370px", height: "34px", fontSize: "0.8rem" }}
-                />
-              </Col>
-              <Col lg={4} className="mt-4">
-                Last Name
-              </Col>
-              <Col lg={6} className="mt-4">
-                <Form.Control
-                  type="text"
-                  className=" shadow-none"
-                  placeholder="Enter last name as on card"
-                  // value={fullName}
-                  // onChange={(e) => setFullName(e.target.value)}
                   style={{ width: "370px", height: "34px", fontSize: "0.8rem" }}
                 />
               </Col>
@@ -191,7 +191,7 @@ const AddCardInfoForm = ({
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="number"
-                  className=" shadow-none"
+                  className=" shadow-none text-color dropdown_color"
                   placeholder="1111-2222-3333-4444"
                   value={cardNumber}
                   onChange={(e) => setCardNumber(e.target.value)}
@@ -199,14 +199,13 @@ const AddCardInfoForm = ({
                 />
                 <span className="text-danger fs_1">{cardNumberError}</span>
               </Col>
-
               <Col lg={4} className="mt-4">
                 Expiry Date
               </Col>
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="text"
-                  className=" shadow-none"
+                  className=" shadow-none text-color dropdown_color"
                   placeholder="MM/YY"
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(e.target.value)}
@@ -220,7 +219,7 @@ const AddCardInfoForm = ({
               <Col lg={6} className="mt-4">
                 <Form.Control
                   type="number"
-                  className=" shadow-none"
+                  className=" shadow-none text-color dropdown_color"
                   placeholder="Enter CVV"
                   value={cvv}
                   onChange={(e) => setCvv(e.target.value)}

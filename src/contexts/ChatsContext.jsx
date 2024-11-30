@@ -86,6 +86,7 @@ export const ChatsContext = ({ children }) => {
   const [openWorkspaceList, setOpenWorkspaceList] = useState(false);
 
   const [newChannelModal, setNewChannelModal] = useState(false);
+  const [addMembersInChannel, setAddMembersInChannel] = useState(false);
   const [createNewChannelObj, setCreateNewChannelObj] = useState({
     channelName: "",
     description: "",
@@ -139,6 +140,8 @@ export const ChatsContext = ({ children }) => {
         setLoginUserId,
         openedChat,
         setOpenedChat,
+        addMembersInChannel,
+        setAddMembersInChannel,
       }}
     >
       {children}

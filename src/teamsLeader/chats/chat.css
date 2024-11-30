@@ -1,6 +1,5 @@
 .ant-modal-content {
-    /* padding: 0px !important; */
-    /* Do not apply styles directly on global classes. It will disturb design on other places. (Huraira) */
+    padding: 0px !important;
 }
 
 .chat-textarea-quill .ql-toolbar.ql-snow{

@@ -149,11 +149,11 @@ const ChatInbox = () => {
   return (
     // <Router>
     <>
-      <div className="Navbar p-0 w-100 py-1" style={{ zIndex: 999 }}>
+      <div className="Navbar p-0 w-full py-1" style={{ zIndex: 999 }}>
         <Navbar setTheme={setTheme} />
       </div>
 
-      <div className="app-container flex">
+      <div className="">
         <div
           className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
         >

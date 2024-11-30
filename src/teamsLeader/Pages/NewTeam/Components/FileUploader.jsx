@@ -27,6 +27,7 @@ import IMAGES from "../../../../assets/images/Images";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 import { getAPI, postAPI } from "../../../../helpers/apis";
 import { data } from "autoprefixer";
+import DeleteModal from "../../../../dynamicComponents/DeleteModal";
 
 const FileUploader = ({ handleClose }) => {
   const {
@@ -45,6 +46,8 @@ const FileUploader = ({ handleClose }) => {
     selectedTask,
     setPreviewModalFiles,
     setCurrentItemIndex,
+    thisUser,
+    setDeleteModal,
   } = useStateContext();
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -323,7 +326,7 @@ const FileUploader = ({ handleClose }) => {
                       />
                       <Button
                         className="p-2 workspace_menuBtn bgHover ms-2 border text-danger"
-                        onClick={handleDeleteSelected}
+                        onClick={() => setDeleteModal(true)}
                       >
                         <FaRegTrashCan />
                       </Button>
@@ -331,6 +334,7 @@ const FileUploader = ({ handleClose }) => {
                   )}
                 </Col>
               )}
+
               {filteredFiles.map((file, index) => (
                 <>
                   {fileView ? (
@@ -366,7 +370,7 @@ const FileUploader = ({ handleClose }) => {
                         <div className="flex justify-content-between py-2 border rounded-2 px-2 cursor_pointer ">
                           <InputGroup.Checkbox
                             checked={selectedFiles.includes(file)}
-                            onChange={() => handleCheckboxClick(file)} 
+                            onChange={() => handleCheckboxClick(file)}
                             // className="me-2"
                           />
                           <div
@@ -390,10 +394,35 @@ const FileUploader = ({ handleClose }) => {
                                   Files Gallery
                                 </Button>
                               </div>
-                              <span>
-                                <span className="nav-avatar rounded-circle align-self-center px-1  border-0 me-2">
-                                  UH
-                                </span>
+                              <span className="centerIt">
+                                {thisUser?.picture ? (
+                                  <div
+                                    style={{
+                                      width: "30px",
+                                      height: "30px",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <img
+                                      src={thisUser.picture}
+                                      alt=""
+                                      className="rounded-circle w-100 h-100"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div
+                                    className=" rounded-circle  centerIt justify-content-center "
+                                    style={{
+                                      backgroundColor: thisUser?.profileColor,
+                                      width: "32px",
+                                      height: "32px",
+                                      color: "white",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {thisUser?.fullName[0]?.toUpperCase()}
+                                  </div>
+                                )}
                                 17 Oct, 2023
                               </span>
                               <div></div>
@@ -422,6 +451,7 @@ const FileUploader = ({ handleClose }) => {
         closeUploading={() => setUploading(false)}
         openPreviewFromPopup={openPreviewFromPopup}
       />
+      <DeleteModal handleDeleteFile={handleDeleteSelected} fileName="files" />             
     </>
   );
 };

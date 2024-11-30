@@ -22,7 +22,7 @@ import {
 } from "react-icons/fi";
 import { HiOutlineChevronDown, HiOutlinePaperClip } from "react-icons/hi";
 import { PiAt, PiMicrosoftExcelLogoLight } from "react-icons/pi";
-import { RxAvatar, RxMagnifyingGlass } from "react-icons/rx";
+import { RxAvatar, RxCross2, RxMagnifyingGlass } from "react-icons/rx";
 import { SlHome } from "react-icons/sl";
 import "froala-editor/js/plugins/image.min.js";
 import "froala-editor/js/plugins/video.min.js";
@@ -67,6 +67,8 @@ const OffcanvasComponent = ({ show, handleClose }) => {
     selectedTask,
     repliesArray,
     setRepliesArray,
+    theme,
+    thisUser,
   } = useStateContext();
   const uniqueId = uuidv4();
   // const [mentionInput, setMentionInput] = useState("");
@@ -652,6 +654,53 @@ const OffcanvasComponent = ({ show, handleClose }) => {
     });
     return uploadedFileUrl;
   };
+  const elements = document.querySelectorAll(".fr-active.myStyle");
+
+  // Remove the 'myStyle' class from each matching element
+  elements.forEach((element) => {
+    element.classList.remove("myStyle");
+  });
+  const profileIcon = () => {
+    return thisUser?.picture ? (
+      <div
+        style={{ minWidth: "30px", height: "30px", cursor: "pointer" }}
+        //  onClick={handleShow}
+      >
+        <img
+          src={thisUser.picture}
+          alt=""
+          className="rounded-circle w-100 h-100"
+        />
+      </div>
+    ) : (
+      <div
+        //  onClick={handleShow}
+        className=" rounded-circle  centerIt justify-content-center "
+        style={{
+          backgroundColor: thisUser?.profileColor,
+          width: "32px",
+          height: "32px",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        {thisUser?.fullName[0]?.toUpperCase()}
+      </div>
+    );
+  };
+  useEffect(() => {
+    const emojiPicker = document.querySelector("em-emoji-picker");
+
+    // Check if the component and shadow DOM are accessible
+    if (emojiPicker && emojiPicker.shadowRoot) {
+      const section = emojiPicker.shadowRoot.querySelector("section#root");
+
+      // Modify the background color
+      if (section) {
+        section.style.backgroundColor = "var(--dropdown-bgColor) !important"; // Your desired color
+      }
+    }
+  }, []);
   return (
     <Offcanvas
       show={show}
@@ -661,7 +710,24 @@ const OffcanvasComponent = ({ show, handleClose }) => {
       placement="end"
       className="w-50 newTeam_ofcanvas"
     >
-      <Offcanvas.Header closeButton></Offcanvas.Header>
+      <Offcanvas.Header>
+        {" "}
+        <button
+          type="button"
+          class="btn-close rounded-1 bgHover centerIt justify-content-center p-0 "
+          aria-label="Close"
+          onClick={handleClose}
+          style={{
+            width: "35px",
+            height: "35px",
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+          }}
+        >
+          <RxCross2 className="fs-3 text-color" />
+        </button>
+      </Offcanvas.Header>
       <Offcanvas.Body className="custom-scrollbar">
         <div className="d-flex justify-content-between mb-4">
           <h5 className="mt-1 me-2">Item 1</h5>
@@ -714,7 +780,7 @@ const OffcanvasComponent = ({ show, handleClose }) => {
 
         {pageView === 1 ? (
           <div>
-            <div>
+            <div className={`${theme !== "light_theme" && "offcanvasFroala"}`}>
               <FroalaEditor
                 ref={froalaRef}
                 config={{
@@ -857,19 +923,16 @@ const OffcanvasComponent = ({ show, handleClose }) => {
                 key={comment._id}
               >
                 <div className="d-flex justify-content-between pt-3 px-3">
-                  <span>
-                    <span className="nav-avatar rounded-circle align-self-center px-1  border-0 me-2">
-                      UH
-                    </span>
-                    Usman
-                  </span>
+                  <span className="centerIt">{profileIcon()} Usman</span>
                   <span className="d-flex align-items-center">
                     <AiOutlineClockCircle className="me-1" />{" "}
                     {timeElapsed[comment._id]}
-                    <Dropdown className="align-self-center">
+                    <Dropdown
+                      className="align-self-center"
+                                          >
                       <Dropdown.Toggle
-                        className="ms-1 px-2 py-2 workspace-dropdown-button"
-                        style={{ fontSize: "14px" }}
+                        className="ms-1 px-2 py-2 workspace-dropdown-button action_btN"
+                       
                       >
                         <BsThreeDots />
                       </Dropdown.Toggle>
@@ -950,9 +1013,7 @@ const OffcanvasComponent = ({ show, handleClose }) => {
                         onMouseLeave={() => setReplyActionBtn("")}
                       >
                         <span className="d-flex position-relative">
-                          <span className="nav-avatar rounded-circle align-self-start px-1 py-1  border-0 me-2">
-                            UH
-                          </span>
+                          {profileIcon()}
                           <div className="rounded-4 w-100 py-2 me-2 px-3 d-flex align-items-center flex-column reply ">
                             <p
                               className="m-0 fs_14 text-start w-100"
@@ -1049,9 +1110,7 @@ const OffcanvasComponent = ({ show, handleClose }) => {
                 })}
                 <div className="p-3">
                   <div className="d-flex position-relative">
-                    <span className="nav-avatar rounded-circle align-self-start px-1 py-1  border-0 me-2">
-                      UH
-                    </span>
+                    {profileIcon()}
 
                     <div className="d-flex flex-column w-100 rounded border">
                       <input
@@ -1098,7 +1157,10 @@ const OffcanvasComponent = ({ show, handleClose }) => {
 
                         <Popover
                           content={
-                            <GifPicker onGifSelected={handleGifSelected} setOpenGif={setOpenGif} />
+                            <GifPicker
+                              onGifSelected={handleGifSelected}
+                              setOpenGif={setOpenGif}
+                            />
                           }
                           open={openGif}
                           onOpenChange={(open) => setOpenGif(open)}
@@ -1114,11 +1176,33 @@ const OffcanvasComponent = ({ show, handleClose }) => {
                         </Popover>
                         <Popover
                           content={
-                            <Picker
-                              data={data}
-                              theme={"light"}
-                              onEmojiSelect={(emoji) => handleEmojiClick(emoji)}
-                            />
+                            <div className="emojiPicker">
+                              <style>
+                                {`
+                               .emoji-mart {
+                                --border-radius: 24px; /* Rounded corners */
+                                --category-icon-size: 24px; /* Size of category icons */
+                                --color-border-over: rgba(0, 0, 0, 0.1); /* Border color on hover */
+                                --color-border: rgba(0, 0, 0, 0.05); /* Default border color */
+                                --font-family: 'Comic Sans MS', 'Chalkboard SE', cursive; /* Font family */
+                                --font-size: 20px; /* Font size */
+                                --rgb-accent: 255, 105, 180; /* Accent color */
+                                --rgb-background: 262, 240, 283; /* Background RGB */
+                                --rgb-color: 102, 51, 153; /* Text color RGB */
+                                --rgb-input: 255, 235, 235; /* Input background RGB */
+                                --background-rgb: 85, 170, 255; /* Background color */
+                               --shadow: 5px 5px 15px -8px rebeccapurple; /* Shadow effect */
+                                   }
+                                       `}
+                              </style>
+                              <Picker
+                                data={data}
+                                theme={"light"}
+                                onEmojiSelect={(emoji) =>
+                                  handleEmojiClick(emoji)
+                                }
+                              />
+                            </div>
                           }
                           open={open}
                           onOpenChange={(open) => setOpen(open)}

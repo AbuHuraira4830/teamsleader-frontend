@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import { Modal } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
-import { LuClock3 } from "react-icons/lu";
+import { LuClock3, LuPlus } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
 // import { PiIslandLight } from "react-icons/pi";
 import { GiPalmTree } from "react-icons/gi";
@@ -12,26 +12,32 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { data } from "autoprefixer";
 import TimeTracker from "./TimeTracker.jsx";
 import { Collapse, Modal } from "antd";
-// import { createStyles, useTheme } from "antd-style";
-import { Accordion } from "react-bootstrap";
+import { createStyles, useTheme } from "antd-style";
+import { Accordion, Button } from "react-bootstrap";
 import Calendars from "./Calendars.jsx";
 import EmployeeTimeOffs from "./EmployeeTimeoffs.jsx";
-
+import UpdateHolidayRequest from "./UpdateHolidayRequest.jsx";
 const AccountScheduleModal = ({
   closeModal,
   scheduleModal,
   setScheduleModal,
 }) => {
-  const { days, theme, userHolidays, thisUser, holidayHistory } =
-    useStateContext();
-  const [myHolidayRequests, setMyHolidayRequests] = useState([]);
+  const {
+    days,
+    theme,
+    userHolidays,
+    thisUser,
+    holidayHistory,
+    myHolidayRequests,
+    setMyHolidayRequests,
+  } = useStateContext();
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [ranges, setRanges] = useState([
     // [new DateObject().set({ day: 1 }), new DateObject().set({ day: 3 })],
     // [new DateObject().set({ day: 6 }), new DateObject().set({ day: 12 })],
     // [new DateObject().set({ day: 23 }), new DateObject().set({ day: 27 })],
   ]);
-
+  const [visible, setVisible] = useState(false);
   const items = [
     {
       key: "1",
@@ -86,7 +92,7 @@ const AccountScheduleModal = ({
       <div className="centerIt ">
         <p className="fs-3 fw-bold">Schedule your holidays</p>
       </div>
-      <Calendars setMyHolidayRequests={setMyHolidayRequests} />
+      {/* <Calendars setMyHolidayRequests={setMyHolidayRequests} /> */}
       <div>
         <TimeTracker />
       </div>
@@ -104,7 +110,7 @@ const AccountScheduleModal = ({
         </div>
         <div className="centerIt">
           <p style={{ fontWeight: "600" }}>Work hours per week: </p> &nbsp;
-          {totalWorkingHours} hrs 
+          {totalWorkingHours} hrs
         </div>
       </div>
       <div
@@ -132,24 +138,35 @@ const AccountScheduleModal = ({
         style={{ marginTop: "32px" }}
       >
         <div className="w-100">
-          <div className="centerIt ">
-            <GiPalmTree className="me-2" />
+          <div className="centerIt justify-between pr-[82px]">
+            <div className="centerIt ">
+              <GiPalmTree className="me-2" />
 
-            <p style={{ fontWeight: "600" }}>Time off {selectedYear}</p>
-            <button
-              className="rounded-1 bgHover centerIt justify-content-center ms-2"
-              style={{ width: "24px", height: "24px" }}
-              onClick={() => setSelectedYear(selectedYear - 1)}
+              <p style={{ fontWeight: "600" }}>Time off {selectedYear}</p>
+              <button
+                className="rounded-1 bgHover centerIt justify-content-center ms-2"
+                style={{ width: "24px", height: "24px" }}
+                onClick={() => setSelectedYear(selectedYear - 1)}
+              >
+                <FaAngleLeft style={{ fontSize: "12px" }} />
+              </button>
+              <button
+                className="rounded-1 bgHover centerIt justify-content-center"
+                style={{ width: "24px", height: "24px" }}
+                onClick={() => setSelectedYear(selectedYear + 1)}
+              >
+                <FaAngleRight style={{ fontSize: "12px" }} />
+              </button>
+            </div>
+            <Button
+              onClick={()=>setVisible(true)}
+              type="button"
+              className=" px-2 py-1.5   workspace_addBtn border-0 rounded-1  centerIt "
+              style={{ backgroundColor: "#025231", fontSize: "14px" }}
             >
-              <FaAngleLeft style={{ fontSize: "12px" }} />
-            </button>
-            <button
-              className="rounded-1 bgHover centerIt justify-content-center"
-              style={{ width: "24px", height: "24px" }}
-              onClick={() => setSelectedYear(selectedYear + 1)}
-            >
-              <FaAngleRight style={{ fontSize: "12px" }} />
-            </button>
+              <LuPlus className="me-1" />
+              Holiday request
+            </Button>
           </div>
 
           <div style={{ width: "900px" }}>
@@ -193,6 +210,12 @@ const AccountScheduleModal = ({
           </div>
         </div>
       </div>
+      <UpdateHolidayRequest
+        row={""}
+        visible={visible}
+        onClose={() => setVisible(false)}
+        isEdit={false}
+      />
     </div>
   );
 };

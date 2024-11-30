@@ -15,7 +15,7 @@ import { CircularProgress } from "@mui/material";
 
 const Signup1 = ({ setActiveView, userEmail }) => {
   const [formDataList, setFormDataList] = useState([]);
-  const { setSignupData } = useStateContext();
+  const { setSignupData,  } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const {

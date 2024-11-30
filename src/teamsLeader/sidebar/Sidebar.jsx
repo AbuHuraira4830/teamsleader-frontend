@@ -66,6 +66,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [actionMenu, setActionMenu] = useState(false);
   const [workSpaceActionMenu, setWorkspaceActionMenu] = useState(false);
+  const [addItem, setAddItem] = useState(false);
   const HandleMouseEnter = () => {
     setButtonVisible(true);
   };
@@ -357,7 +358,11 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
         </span>
         <div className={` ${isSidebarVisible ? "" : "d-none"}`}>
           <Stack gap={1} className="ps-3 pe-5 pt-3 pb-3 sidebar_topBtn  ">
-            <Link to="/ " className="text-decoration-none">
+            <Link
+              to={`/workspace/${selectedWorkspace?._id}/team/${selectedTeam?._id}`}
+              onClick={() => setComponentToShow("newTeam")}
+              className="text-decoration-none"
+            >
               <Button
                 className={`w-100 text-start ${
                   activeButton === 1 ? "selected_bg" : "transparent_bg"
@@ -467,6 +472,8 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       onBlur={(e) => revokeworkspaceEditing(e)}
                       className=" py-0 shadow-none workspace_searchInput dynamicBG rounded-0  w-100 text-start "
                     />
+                  ) : selectedWorkspace?.name.length > 10 ? (
+                    selectedWorkspace?.name.slice(0, 10) + " ..."
                   ) : (
                     selectedWorkspace?.name
                   )}
@@ -479,9 +486,9 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
 
             <Popover
               content={
-                <div className="px-1 py-2">
+                <div className="px-2 py-2">
                   <p
-                    className="centerIt cursor_pointer bgHover mb-2 px-2 rounded-1"
+                    className="centerIt cursor_pointer bgHover mb-2 px-2 py-1 rounded-1"
                     onClick={() => {
                       renameWorkspace(),
                         setWorkspaceRenameInput(selectedWorkspace?.name);
@@ -490,7 +497,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                     <TbEdit className="fs-6 me-2" /> Rename
                   </p>
                   <p
-                    className="centerIt cursor_pointer bgHover m-0 px-2 rounded-1"
+                    className="centerIt cursor_pointer bgHover m-0 px-2 py-1 rounded-1"
                     onClick={deleteWorkspace}
                   >
                     <FiTrash className="fs-6 me-2" /> Delete
@@ -514,7 +521,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
               <Form.Control
                 type="text"
                 placeholder="Search"
-                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"
+                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"           
                 onFocus={HandleInputFocus}
                 onMouseEnter={HandleMouseEnter}
                 onMouseLeave={HandleMouseLeave}
@@ -533,17 +540,50 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                 </Button>
               )}
             </div>
-            <Dropdown className="add_team_dropdown">
-              <OverlayTrigger
+
+            <Popover
+              content={
+                <div className="px-2 py-2">
+                  <p
+                    className="centerIt cursor_pointer bgHover mb-2 px-2 py-1 rounded-1"
+                    onClick={handleShow}
+                  >
+                    <FaUsers className="me-1" />
+                    Create Team
+                  </p>
+                  <p
+                    className="centerIt cursor_pointer bgHover mb-2 px-2 py-1 rounded-1"
+                    onClick={showDocModal}
+                  >
+                    <FiFileText className="me-1" />
+                    New Doc
+                  </p>
+                </div>
+              }
+              open={addItem}
+              onOpenChange={(newOpen) => setAddItem(newOpen)}
+              trigger="click"
+              placement="bottom"
+            >
+              {/* <OverlayTrigger
                 overlay={<Tooltip>Add item to work space</Tooltip>}
+              > */}
+              <Button
+                className="p-2 workspace_menuBtn bgHover workspace_addBtn"
+                style={{ backgroundColor: "#025231" }}
               >
-                <Dropdown.Toggle
-                  className="p-2 workspace_menuBtn bgHover workspace_addBtn"
-                  style={{ backgroundColor: "#025231" }}
-                >
-                  <FiPlus />
-                </Dropdown.Toggle>
-              </OverlayTrigger>
+                <FiPlus />
+              </Button>
+              {/* </OverlayTrigger> */}
+            </Popover>
+            {/* <Dropdown className="add_team_dropdown">
+              <Dropdown.Toggle
+                className="p-2 workspace_menuBtn bgHover workspace_addBtn"
+                style={{ backgroundColor: "#025231" }}
+              >
+                <FiPlus />
+              </Dropdown.Toggle>
+
               <Dropdown.Menu>
                 <Dropdown.Item onClick={handleShow} href="#/action-1">
                   Create Team
@@ -553,7 +593,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                   New Doc
                 </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
 
             <DocAddingModal
               show={docModal}
@@ -565,7 +605,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
             <Modal
               className="team_modal"
               show={show}
-              onHide={handleClose}           
+              onHide={handleClose}
               animation={true}
             >
               <form onSubmit={newTeamHandler}>
@@ -573,7 +613,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                   <h1 className="text-[22px] font-[800]">Create Team</h1>
                 </Modal.Header>
                 <Modal.Body className="px-0 pb-0">
-                  <div className="mt-4">
+                  <span>
                     <p className="fs_14 p-0 mb-2">Team name</p>
                     <Form.Control
                       type="text"
@@ -583,8 +623,8 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                       className=" py-2  mb-3 shadow-none workspace_searchInput transparent_bg"
                       required={true}
                     />
-                  </div>
-                  <div className=" mt-4">           
+                  </span>
+                  <div className=" mt-4">
                     <p className="fs_14 p-0">Privacy</p>
 
                     <div className="mt-2 pb-4   d-flex ">
@@ -597,7 +637,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                         name="privacy"
                         // checked={true}
                         defaultChecked
-                        onChange={() => setPrivacyValue("private")}
+                        onChange={() => setPrivacyValue("public")}
                       />
                       <div className="centerIt">
                         <Form.Check
@@ -611,7 +651,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                             </span>
                           }
                           name="privacy"
-                          onChange={() => setPrivacyValue("public")}
+                          onChange={() => setPrivacyValue("private")}
                         />
                       </div>
                     </div>

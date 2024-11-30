@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   const handleEmailSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     setIsLoading(true);
     const formData = new FormData(e.target);
     const data = {};

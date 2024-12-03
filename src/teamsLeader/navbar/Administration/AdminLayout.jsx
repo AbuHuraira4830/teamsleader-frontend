@@ -21,20 +21,28 @@ const AdminLayout = () => {
 
   return (
     <div className="app-container flex">
+      {/* Sidebar */}
       <div
-        className={`h-auto main-content ${isSidebarVisible ? "" : "expanded"}`}
+        className={`admin-sidebar  ${
+          isSidebarVisible ? "" : "collapsed-sidebar"
+        }`}
       >
-        <div className="flex h-screen ml-[2rem] w-[89%]">
-          <div className="w-64 flex-shrink-0 bg-white shadow-md fixed h-screen">
-            <AdminSidebar />
-          </div>
-          <div className="flex-grow p-6 ml-64 h-screen overflow-auto ">
-            <Outlet />
-          </div>
+        <AdminSidebar />
+      </div>
+
+      {/* Main Content */}
+      <div
+        className={`admin-main-content flex-grow ${
+          isSidebarVisible ? "" : "expanded"
+        }`}
+      >
+        <div className="p-6 h-full overflow-auto">
+          <Outlet />
         </div>
       </div>
     </div>
   );
 };
+
 
 export default AdminLayout;

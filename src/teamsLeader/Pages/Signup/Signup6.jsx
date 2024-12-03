@@ -13,7 +13,7 @@ const Signup6 = ({ setActiveView }) => {
   const [data, setData] = useState();
   const [option, setOption] = useState(null);
   const navigate = useNavigate();
-  const { signupData, setSignupData, colors } = useStateContext();
+  const { signupData, setSignupData } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const options = [
@@ -32,49 +32,40 @@ const Signup6 = ({ setActiveView }) => {
 
   const handleRoleClick = (item) => {
     const radio = document.getElementById(item);
+
     if (radio) {
       setSignupData((prevData) => ({
         ...prevData,
         hearFrom: item,
+        package: "trial", // Set package as 'trial' during signup
+        packageStartDate: new Date(),
       }));
       radio.click();
     }
   };
   const handleSignup = async () => {
     setIsLoading(true);
-    console.log(signupData);
-    postAPI("/api/user/signup", signupData)
-      .then((res) => {
+
+    // Ensure package is set to 'trial' if not already
+    const updatedSignupData = {
+      ...signupData,
+      package: signupData.package || "trial", // fallback to 'trial' if not set
+      packageStartDate: new Date(),
+    };
+
+    console.log(updatedSignupData); // Log to confirm the data structure
+
+    postAPI("/api/user/signup", updatedSignupData)
+      .then((response) => {
         setIsLoading(false);
-        navigate("/home-customization");
-        localStorage.setItem("token", res.data.token);
+        navigate("/invite-team");
+        localStorage.setItem("token", response.data.token);
       })
       .catch((err) => {
         setIsLoading(false);
       });
   };
 
-  const login = async () => {
-    const data = {
-      emailAddress: signupData.email,
-      password: signupData.password,
-    };
-    try {
-      const response = await postAPI("/api/user/login", data);
-
-      // if (response.status === 200)
-      // setIsLoading(false);
-      // Perform any additional actions on successful login
-      localStorage.setItem("token", response.data.token.token);
-      // navigate("/");
-    } catch (error) {
-      console.error("Error during login:", error);
-      // setIsLoading(false);
-      // setShowError(true);
-      // setErrorMessage(error.response?.data?.message);
-      // console.log(errorMessage);
-    }
-  };
   return (
     <div className="signup_form w-100">
       <Header />
@@ -85,7 +76,7 @@ const Signup6 = ({ setActiveView }) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            One last question, how did you hear about us.
+            One last question, how did you hear about us?
           </p>
         </div>
 

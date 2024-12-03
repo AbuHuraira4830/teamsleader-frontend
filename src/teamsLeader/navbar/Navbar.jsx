@@ -255,7 +255,7 @@ console.log("UserNav",user)
           >
             <Button
               className="p-0 workspace_menuBtn bgHover align-middle me-1"
-              onClick={showModal}
+              // onClick={showModal}
             >
               <AiOutlineUserAdd />
             </Button>
@@ -574,7 +574,7 @@ console.log("UserNav",user)
           />
         )}
         <ProfileModal />
-        <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} />
+        {/* <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} /> */}
         {/* <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} /> */}
       </div>
     </>

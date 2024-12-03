@@ -38,6 +38,7 @@ const Home = () => {
     setComponentToShow,
     isDocumentChange,
     setShowDocSidebar,
+    thisUser
   } = useStateContext();
   // console.log({ selectedWorkspace, selectedTeam });
   const { workspaceID, teamID } = useParams();
@@ -73,8 +74,9 @@ const Home = () => {
   useEffect(() => {
     getAPI("/api/user/get-user-from-token")
       .then((response) => {
+        console.log("Response home", response)
         if (response.status === 200) {
-          setUser(response.data._doc);
+          setUser(response.data._id);
           getAPI("/api/workspace/list")
             .then((response) => {
               if (!workspaceID) {
@@ -131,52 +133,51 @@ const Home = () => {
     selectedTeam?.role === "employee"
       ? "navbar-blue"
       : selectedTeam?.role === "client"
-      ? "navbar-red"
-      : selectedTeam?.role === "admin"
-      ? "navbar-gray"
-      : "";
-      const { docId } = useParams();
-      const handleGetDocumentDetials = () => {
-        getAPI(`/api/doc/${docId}`)
-          .then((response) => {
-            if (response.status === 200) {
-              setSelectedTeam(null);
-              setComponentToShow("docCreator");
-              setSelectedDocument(response?.data?.doc);
-              setShowDocSidebar(false);
-            } else {
-              console.log(response.data.message);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-      useEffect(() => {
-        docId && handleGetDocumentDetials();
-      }, [docId, isDocumentChange]);
+        ? "navbar-red"
+        : selectedTeam?.role === "admin"
+          ? "navbar-gray"
+          : "";
+  const { docId } = useParams();
+  const handleGetDocumentDetials = () => {
+    getAPI(`/api/doc/${docId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setSelectedTeam(null);
+          setComponentToShow("docCreator");
+          setSelectedDocument(response?.data?.doc);
+          setShowDocSidebar(false);
+        } else {
+          console.log(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    docId && handleGetDocumentDetials();
+  }, [docId, isDocumentChange]);
 
-      return (
-        <>
-       
-        user && (
-          <div>
-            <div className="app-container flex">
-              <div
-                className={`main-content ${isEmailVerified ? "" : "top88"} ${
-                  isSidebarVisible ? "" : "expanded"
-                } h-screen mb-8 overflow-auto`}
-              >
-                <div className="respon" style={{ height }}>
-                  <NewTeam />
-                </div>
-              </div>
-            </div>
-          </div>
-        )
+  return (
+    <>
+ { user && (
+      <div>
+        <div className="">
+          {/* <div
+            className={`main-content ${thisUser?.isEmailVerified ? "" : "top88"} ${isSidebarVisible ? "" : "expanded"
+              } h-screen mb-8 overflow-auto`}
+          > */}
+            {/* <div className="respon" style={{ height }}> */}
+              <NewTeam />
+            {/* </div> */}
+          {/* </div> */}
+        </div>
+      </div>
+      )}
      
-        </>
-      );
+
+    </>
+  );
 };
 
 export default Home;

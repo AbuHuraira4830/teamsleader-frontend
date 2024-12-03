@@ -148,6 +148,12 @@ li {
 /* .app-container {
   background-color: var(--navbar-background-color);
 } */
+.dashboard-container {
+  display: flex;
+  flex-direction: row; /* Sidebar and main content side by side */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
 .flex {
   display: flex;
 }
@@ -163,28 +169,14 @@ li {
   background-color: var(--navbar-background-color);
   color: #000000;
 }
-.main-content {
-  /* float: right; */
-  /* transition: width 0.3s ease; */
-  position: absolute;
-  width: 79.4rem;
-  margin-left: 16.6rem;
-  top: 48px;
-  /* min-height: 92vh; */
-  height: 392vh;
-  overflow-y: auto;
-  border-top-left-radius: 8px;
-  color: var(--text-color) !important;
-  background-color: var(--sidebar-background-color);
-}
+
+
 .respon {
   height: 96vh;
   overflow-y: auto;
 }
 @media (max-width: 2560px) and (min-width: 1541px) {
-  .main-content {
-    width: 143.4rem;
-  }
+
   .respon {
     height: 95.5vh;
   }
@@ -196,9 +188,7 @@ li {
 }
 
 @media (max-width: 1440px) and (min-width: 1025px) {
-  .main-content {
-    width: 73.4rem;
-  }
+ 
   .respon {
     height: 95.5vh;
   }
@@ -207,9 +197,7 @@ li {
   }
 }
 @media (max-width: 1024px) and (min-width: 769px) {
-  .main-content {
-    width: 47.4rem;
-  }
+
   .respon {
     height: 92vh;
   }
@@ -219,9 +207,8 @@ li {
   }
 }
 @media (max-width: 768px) and (min-width: 426px) {
-  .main-content {
-    width: 47.4rem;
-  }
+ 
+  
   .respon {
     height: 125.2vh;
   }
@@ -230,17 +217,10 @@ li {
     margin-left: 2rem !important;
   }
 }
-@media (max-width: 425px) and (min-width: 376px) {
-  .main-content {
-    width: 40rem;
-  }
-}
-/* 
+
 
 @media (max-width: 425px) and (min-width: 376px) {
-  .main-content {
-    width: 79.4rem;
-  }
+
   .respon {
     height: 350vh !important;    
   }
@@ -262,16 +242,80 @@ li {
 .top88 {
   top: 88px !important;
 }
+/* Sidebar Styling */
 .sidebar {
   transition: width 0.3s ease;
-  width: 16rem;
+  width: 20%; /* Sidebar takes 20% of the width */
+  min-width: 250px; /* Minimum width for smaller devices */
+  max-width: 300px; /* Maximum width */
   position: fixed;
   border-top-right-radius: 8px;
-  top: 48px;
+  top: 48px; /* Fixed below the navbar */
   left: 0;
-  height: calc(100% - 50px);
+  height: calc(100% - 48px); /* Adjust height to account for navbar */
   background-color: var(--sidebar-background-color);
+  overflow-y: auto; /* Scrollable content if needed */
+  /* z-index: 1000; */
+
 }
+.sidebar.collapse_sidebar {
+  width: 0; /* Sidebar collapses to 0 width */
+  min-width: 0; /* Remove min-width */
+  overflow: hidden; /* Hide content when collapsed */
+}
+
+/* Main Content Styling */
+.main-content {
+  flex: 1;
+  margin-left: calc(20% + 16px); /* Sidebar width + margin */
+  padding: 20px;
+  position: relative;
+  padding-top: 64px; /* Padding for navbar height */
+  overflow-x: auto; /* Horizontal scrolling for wide content */
+  overflow-y: scroll; /* Always show vertical scrollbar */
+  border-top-left-radius: 8px;
+  background-color: var(--sidebar-background-color);
+  transition: margin-left 0.3s ease; /* Smooth transition for layout adjustments */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+
+
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 15%; /* Adjust sidebar width for medium screens */
+  }
+
+  .main-content {
+    margin-left: calc(15% + 16px); /* Adjust margin accordingly */
+    padding-top: 64px; /* Maintain padding for navbar */
+  }
+}
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Sidebar occupies full width */
+    position: relative; /* Stack sidebar on top for small screens */
+    height: auto; /* Adjust height for stacked layout */
+    border-radius: 0; /* Remove rounded corners */
+    top: 0; /* Reset top to avoid pushing content */
+    padding-top: 48px; /* Add padding to account for the navbar */
+  }
+
+  .main-content {
+    margin-left: 16px; /* Add the gap between sidebar and content */
+    padding: 15px;
+    padding-top: 64px; /* Ensure spacing for the navbar */
+    height: calc(100vh - 48px); /* Fill the rest of the viewport */
+  }
+}
+
+
+
 /* @media (max-width: 770px) {
   .sidebar button {
     font-size: 12px !important;
@@ -300,7 +344,7 @@ li {
 .sidebar_topBtn button:hover {
   background-color: var(--gray-hover-color) !important;
 }
-.sidebar_toggleBtn button {
+/* .sidebar_toggleBtn button {
   border-radius: 0px 8px;
   margin-left: 3px;
   background-color: var(--toggle-btnBg) !important;
@@ -309,19 +353,19 @@ li {
   padding: 8px 7px;
   font-size: 12px;
   box-shadow: none;
-}
+} */
 :where(.css-dev-only-do-not-override-3rel02).ant-popover
   .ant-popover-arrow:before {
   background: var(--dropdown-bgColor);
 }
-.sidebar_toggleBtn button:focus-visible {
+/* .sidebar_toggleBtn button:focus-visible {
   background-color: var(--gray-hover-color) !important;
   color: var(--text-color);
 }
 .sidebar_toggleBtn button:hover {
   background-color: var(--gray-hover-color) !important;
   color: var(--text-color);
-}
+} */
 .collapse_sidebar {
   width: 2.5%;
 }
@@ -1071,4 +1115,55 @@ em-emoji-picker {
   height: 100%;
   margin-top: 10px;
   padding-left: 11px;
+}
+
+
+/* ===================== */
+/* Sidebar Toggle Button */
+.sidebar_toggleBtn {
+  position: fixed;
+  top: 48px;
+  left: 241px;
+  z-index: 100 !important;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+}
+
+/* When the sidebar is collapsed */
+.sidebar.collapse_sidebar + .sidebar_toggleBtn {
+  left: 16px; /* Move it closer to the edge of the viewport */
+}
+
+/* Button styles */
+.sidebar_toggleBtn button {
+  border-radius: 0px 8px 8px 0px;
+  background-color: var(--toggle-btnBg);
+  color: var(--text-color);
+  border: none;
+  padding: 7px 8px;
+  font-size: 14px;
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover and focus effects */
+.sidebar_toggleBtn button:focus-visible,
+.sidebar_toggleBtn button:hover {
+  background-color: var(--gray-hover-color); /* Hover/focus background color */
+  color: var(--text-color); /* Keep text/icon color consistent */
+}
+.sidebar.collapsed + .sidebar_toggleBtn {
+  left: 0; /* Move it to the edge of the collapsed sidebar */
+}
+.collapse_sidebar {
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease; /* Smooth collapse/expand */
+}
+.main-content.expanded {
+  margin-left: 0; /* Full width when sidebar is collapsed */
 }

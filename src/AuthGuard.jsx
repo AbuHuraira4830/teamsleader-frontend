@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import axios from "axios";
 import { getAPI } from "./helpers/api";
-
+import Loader from "./Loader";
 const AuthGuard = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,8 +48,9 @@ const AuthGuard = ({ children }) => {
   }, [navigate, location.pathname]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
+  
 
   if (!isAuthenticated && location.pathname !== "/login") {
     return <Navigate to="/login" />;

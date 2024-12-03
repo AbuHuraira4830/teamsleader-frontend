@@ -41,7 +41,7 @@ export default function ColorToggleButton() {
 
   return (
     <div>
-      <div className="flex inviteAdminToggleWrapper">
+      <div className="flex inviteAdminToggleWrapper justify-center">
         <ToggleButtonGroup
           color="primary"
           value={alignment}

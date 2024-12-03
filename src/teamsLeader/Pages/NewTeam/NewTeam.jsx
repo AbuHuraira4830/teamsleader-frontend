@@ -843,7 +843,7 @@ const handleAddGallery = () => {
 
   return (
     // <div className="px-4 pt-3 newTeam " style={{ height: "100vh" }}>
-    <div className="px-4 pt-3 newTeam mb-[5rem] w-[88%] overflow-auto" style={{ height: "auto" }}>
+      <div className="px-4 pt-3 newTeam mb-[5rem]  " > 
       <div className="flex mb-2 items-center justify-between">
         <h3>Usman</h3>
         {/* <Button className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle">

@@ -1,10 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import Collection from "@ckeditor/ckeditor5-utils/src/collection";
+import Model from "@ckeditor/ckeditor5-ui/src/model";
+import { renderToStaticMarkup } from "react-dom/server";
+
+// Import icons from react-icons
+import {
+  BsTextParagraph,
+  BsTypeH1,
+  BsTypeH2,
+  BsTypeH3,
+  BsListUl,
+  BsCheckSquare,
+  BsTable,
+  BsImage,
+  BsCameraVideo,
+} from "react-icons/bs";
+import { PiTextTBold } from "react-icons/pi";
+import {
+  createDropdown,
+  addListToDropdown,
+} from "@ckeditor/ckeditor5-ui/src/dropdown/utils";
 import {
   MyCustomUploadAdapterPlugin,
-  AddDropdown,
+  // AddDropdown,
   baloonDropdown1,
   ActionDropdown,
+  CustomTableDropdown,
+  FontSizeControl,
+  InsertTableButton,
+  InsertHeading2Button,
+  InsertUnorderedListButton,
+  // InsertImageButton,
 } from "./CustomPlugins";
 import ClassicEditor, { parseEditorData } from "./ckeditorConfig";
 import DocSidebar from "./DocSidebar";
@@ -21,6 +48,7 @@ import { uploadImagesAndCalculateRealTimePercentage } from "../../chats/script";
 import { Button, notification } from "antd";
 import DocInfoContainer from "./DocInfoContainer";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
+import InsertDropdown from "./plugins/InsertDropdown";
 
 const ckEditor = ({ doc }) => {
   const {
@@ -34,8 +62,13 @@ const ckEditor = ({ doc }) => {
     setIsToggleFontSize,
   } = useStateContext();
   const [shareModal, setShareModal] = useState(false);
+  // const [editorData, setEditorData] = useState(
+  //   '<video controls><source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4">Your browser does not support the video tag</video>'
+  // );
   const [editorData, setEditorData] = useState(
-    doc.data ? doc.data : "<h1><strong>My New Doc</strong></h1>"
+    doc.data
+      ? doc.data
+      : `<img src="https://i.ibb.co/ypt4V0C/DALL-E-2024-11-25-15-33-25-A-modern-and-sleek-logo-design-for-Idea-Hub-Tech-The-design-should-featur.png" alt="Default Image" />`
   );
   const [headings, setHeadings] = useState([]);
   const [showHeadings, setShowHeadings] = useState(true);
@@ -123,6 +156,71 @@ const ckEditor = ({ doc }) => {
       return view;
     });
   }
+  // function StyleButton(editor) {
+  //   editor.ui.componentFactory.add("styleButton", (locale) => {
+  //     // Create the main container view for the toolbar layout
+  //     const toolbarView = new View(locale);
+
+  //     // Set up the HTML structure inside the toolbar view
+  //     toolbarView.setTemplate({
+  //       tag: "div",
+  //       attributes: {
+  //         class: ["custom-style-toolbar"],
+  //         style: {
+  //           display: "flex",
+  //           alignItems: "center",
+  //           gap: "5px", // Space between buttons and input
+  //         },
+  //       },
+  //       children: [
+  //         {
+  //           tag: "button",
+  //           attributes: {
+  //             type: "button",
+  //             title: "Decrease",
+  //             style: {
+  //               width: "30px",
+  //               height: "30px",
+  //               fontSize: "16px",
+  //               textAlign: "center",
+  //             },
+  //           },
+  //           children: [{ text: "-" }],
+  //         },
+  //         {
+  //           tag: "input",
+  //           attributes: {
+  //             type: "text",
+  //             value: "4",
+  //             style: {
+  //               width: "30px",
+  //               height: "30px",
+  //               textAlign: "center",
+  //               fontSize: "16px",
+  //             },
+  //           },
+  //         },
+  //         {
+  //           tag: "button",
+  //           attributes: {
+  //             type: "button",
+  //             title: "Increase",
+  //             style: {
+  //               width: "30px",
+  //               height: "30px",
+  //               fontSize: "16px",
+  //               textAlign: "center",
+  //             },
+  //           },
+  //           children: [{ text: "+" }],
+  //         },
+  //       ],
+  //     });
+
+  //     // Return the configured toolbarView as the toolbar item
+  //     return toolbarView;
+  //   });
+  // }
 
   const onClose = () => {
     setShowDocSidebar(false);
@@ -191,8 +289,10 @@ const ckEditor = ({ doc }) => {
     setEditorData(data);
     updateDoc(data);
   };
+  // Flag to check if the editor is ready
+  let isEditorReady = false;
 
-  const applyStyle = () => {
+  const applyStyle = (value) => {
     const ckContent = document.querySelector(".ck-editor__editable");
     const ckEditorMain = document.querySelector(".ck-editor__main");
 
@@ -363,44 +463,44 @@ const ckEditor = ({ doc }) => {
   };
   const [draggedElement, setDraggedElement] = useState(null);
   const [initialY, setInitialY] = useState(0);
-  console.log({
-    draggedElement,
-    initialY,
-    editorData,
-    arrayData: parseEditorData(editorData),
-  });
+  // console.log({
+  //   draggedElement,
+  //   initialY,
+  //   editorData,
+  //   arrayData: parseEditorData(editorData),
+  // });
   // Handlers for drag events
-  const handleDragStart = (event, element) => {
-    setDraggedElement(element);
-    setInitialY(event.clientY);
+  // const handleDragStart = (event, element) => {
+  //   setDraggedElement(element);
+  //   setInitialY(event.clientY);
 
-    // Adding visual feedback during drag
-    event.dataTransfer.setData("text/plain", element.id);
-    element.classList.add("dragging");
-  };
+  //   // Adding visual feedback during drag
+  //   event.dataTransfer.setData("text/plain", element.id);
+  //   element.classList.add("dragging");
+  // };
 
-  const handleDrag = (event) => {
-    event.preventDefault();
-    if (!draggedElement) return;
+  // const handleDrag = (event) => {
+  //   event.preventDefault();
+  //   if (!draggedElement) return;
 
-    // Calculate delta and update Y
-    const deltaY = event.clientY - initialY;
-    setInitialY(event.clientY);
+  //   // Calculate delta and update Y
+  //   const deltaY = event.clientY - initialY;
+  //   setInitialY(event.clientY);
 
-    // Move the dragged element visually
-    draggedElement.style.transform = `translateY(${deltaY}px)`;
-  };
+  //   // Move the dragged element visually
+  //   draggedElement.style.transform = `translateY(${deltaY}px)`;
+  // };
 
-  const handleDragEnd = (event) => {
-    if (draggedElement) {
-      draggedElement.style.transform = ""; // Reset transform
-      draggedElement.classList.remove("dragging"); // Remove feedback
-    }
+  // const handleDragEnd = (event) => {
+  //   if (draggedElement) {
+  //     draggedElement.style.transform = ""; // Reset transform
+  //     draggedElement.classList.remove("dragging"); // Remove feedback
+  //   }
 
-    // Reset dragged element and position
-    setDraggedElement(null);
-    setInitialY(0);
-  };
+  //   // Reset dragged element and position
+  //   setDraggedElement(null);
+  //   setInitialY(0);
+  // };
   // useEffect(() => {
   //   const dropArea = dropAreaRef.current;
   //   let draggedElement = null;
@@ -506,9 +606,230 @@ const ckEditor = ({ doc }) => {
       }
     };
   };
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0]; // Get the selected file
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       // Insert the image into the editor when it's loaded
+  //       if (editorRef.current) {
+  //         const editorInstance = editorRef.current.editor;
+  //         if (editorInstance) {
+  //           editorInstance.insertHtml(
+  //             `<img src="${reader.result}" alt="Uploaded Image" />`
+  //           );
+  //         }
+  //       }
+  //     };
+  //     reader.readAsDataURL(file); // Convert the file to a base64 URL
+  //   }
+  // };
+
+  // // Function to trigger the file input click
+  // const triggerFileInput = () => {
+  //   document.getElementById("imageUploadInput").click();
+  // };
+  function AddDropdown(editor) {
+    editor.ui.componentFactory.add("addDropdown", (locale) => {
+      const dropdownView = createDropdown(locale);
+
+      dropdownView.buttonView.set({
+        label: "+ Add",
+        tooltip: true,
+        withText: true,
+      });
+
+      const buttonOptions = [
+        {
+          label: "\u00A0\u00A0Normal Text",
+          command: () => editor.execute("paragraph"),
+          icon: <BsTextParagraph style={{ fontSize: "10px" }} />,
+          placeholderText: "Type normal text here...",
+        },
+        {
+          label: "\u00A0\u00A0Large Title",
+          command: () => editor.execute("heading", { options: { level: 1 } }),
+          icon: <BsTypeH1 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type large title here...",
+        },
+        {
+          label: "\u00A0\u00A0Medium Title",
+          command: () => editor.execute("heading", { options: { level: 2 } }),
+          icon: <BsTypeH2 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type medium title here...",
+        },
+        {
+          label: "\u00A0\u00A0Small Title",
+          command: () => editor.execute("heading", { options: { level: 3 } }),
+          icon: <BsTypeH3 style={{ fontSize: "10px" }} />,
+          placeholderText: "Type small title here...",
+        },
+        {
+          label: "\u00A0\u00A0Bulleted List",
+          command: () => editor.execute("bulletedList"),
+          icon: <BsListUl style={{ fontSize: "10px" }} />,
+          placeholderText: "Add bullet points...",
+        },
+        {
+          label: "\u00A0\u00A0Checklist",
+          command: () => editor.execute("todoList"),
+          icon: <BsCheckSquare style={{ fontSize: "10px" }} />,
+          placeholderText: "Add checklist items...",
+        },
+        {
+          label: "\u00A0\u00A0Table",
+          command: () => editor.execute("insertTable"),
+          icon: <BsTable style={{ fontSize: "10px" }} />,
+        },
+        {
+          label: "\u00A0\u00A0Image",
+          command: "imageUpload",
+          icon: <BsImage style={{ fontSize: "10px" }} />,
+        },
+        {
+          label: "\u00A0\u00A0Video",
+          command: "mediaEmbed",
+          icon: <BsCameraVideo style={{ fontSize: "10px" }} />,
+        },
+      ];
+
+      const items = new Collection();
+
+      buttonOptions.forEach((option) => {
+        items.add({
+          type: "button",
+          model: new Model({
+            withText: true,
+            label: option.label,
+            icon: renderToStaticMarkup(option.icon),
+            command: option.command,
+            placeholderText: option.placeholderText || "",
+          }),
+        });
+      });
+
+      addListToDropdown(dropdownView, items);
+
+      dropdownView.on("execute", (eventInfo) => {
+        const { command } = eventInfo.source;
+        // Handle dynamic commands
+        if (typeof command === "function") {
+          command();
+        } else if (command === "imageUpload") {
+          handleImageUpload(editor);
+        } else if (command === "mediaEmbed") {
+          // handleVideoEmbed(editor);
+          handleVideoUpload(editor);
+        }
+      });
+
+      return dropdownView;
+    });
+  }
+  const handleImageUpload = async (editor) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        try {
+          // Convert image file to Base64
+          const toBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+            });
+          };
+
+          const base64Image = await toBase64(file);
+          console.log("Base64 image:", base64Image);
+
+          // Save the Base64 string in a variable
+          const base64ImageVariable = base64Image;
+
+          // Get the current editor data
+          let currentEditorData = editor.getData();
+
+          // Append the image to the editor's data
+          const imageTag = `<img src="${base64ImageVariable}" alt="Uploaded Image" />`;
+          const updatedEditorData = currentEditorData + imageTag;
+
+          // Update the editor's data
+          editor.setData(updatedEditorData);
+
+          console.log("Updated Editor Data:", updatedEditorData);
+        } catch (error) {
+          console.error("Error processing the image:", error);
+        }
+      }
+    });
+
+    input.click();
+  };
+
+  const handleVideoUpload = async (editor) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "video/*"; // Accept video files only
+
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        try {
+          // Convert video file to Base64
+          const toBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+            });
+          };
+
+          const base64Video = await toBase64(file);
+          console.log("Base64 video:", base64Video);
+
+          // Save the Base64 string in a variable
+          const base64VideoVariable = base64Video;
+
+          // Get the current editor data
+          let currentEditorData = editor.getData();
+
+          // Append the video to the editor's data
+          const videoTag = `
+            <video controls style="max-width: 100%;">
+              <source src="${base64VideoVariable}" type="${file.type}">
+              Your browser does not support the video tag.
+            </video>`;
+          const updatedEditorData = currentEditorData + videoTag;
+
+          // Update the editor's data
+          editor.setData(updatedEditorData);
+
+          console.log("Updated Editor Data:", updatedEditorData);
+        } catch (error) {
+          console.error("Error processing the video:", error);
+        }
+      }
+    });
+
+    input.click();
+  };
 
   return (
     <div className="docCreator h-full flex flex-col">
+      {/* <button onClick={triggerFileInput}>Upload Image</button>
+      <input
+        type="file"
+        id="imageUploadInput"
+        style={{ display: "none" }} // Hide the input
+        accept="image/*" // Accept only images
+        onChange={handleImageUpload} // Handle file selection
+      /> */}
       <style jsx>
         {`
           .ck-editor__top {
@@ -572,72 +893,215 @@ const ckEditor = ({ doc }) => {
             background-color: #f0f0f0; // Highlight the drop area
             border-color: #66afe9; // Change border color on hover
           }
+          .drag-handle {
+            font-size: 18px;
+            cursor: grab;
+            margin-right: 10px;
+          }
+
+          .drag-tooltip {
+            background-color: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            position: absolute;
+            visibility: hidden;
+            top: -20px; /* Position the tooltip above the icon */
+            left: 0;
+            white-space: nowrap;
+          }
+          .ck-content table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+          }
+
+          .ck-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+          }
+
+          .ck-content table,
+          .ck-content th,
+          .ck-content td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+          }
+
+          .ck-content th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+          }
+
+          .ck-content tr:hover {
+            background-color: #f0f0f0;
+          }
+          .font-size-control {
+            display: flex;
+            align-items: center;
+          }
+
+          .minus-button,
+          .plus-button {
+            cursor: pointer;
+            padding: 5px;
+            font-size: 14px;
+          }
+
+          .font-size-input {
+            width: 40px;
+            text-align: center;
+            font-size: 14px;
+          }
+          .custom-style-toolbar button {
+            background-color: #f0f0f0; /* Button background */
+            border: 1px solid #ccc; /* Border style */
+            border-radius: 3px; /* Rounded corners */
+            cursor: pointer;
+          }
+
+          .custom-style-toolbar input {
+            border: 1px solid #ccc;
+            border-radius: 3px;
+          }
+          .custom-style-toolbar .ck.ck-input {
+            min-width: 50px !important; /* Ensures the width is applied specifically here */
+          }
+          .custom-style-toolbar :is(.ck.ck-button, a.ck.ck-button) {
+            justify-content: center !important; /* Center-aligns button content within custom-style-toolbar */
+          }
+          span[placeholder="true"] {
+            color: red !important; /* Placeholder color */
+            font-style: italic; /* Optional: gives it a placeholder look */
+          }
         `}
       </style>
-      <div ref={dropAreaRef}>
-        <CKEditor
-          ref={editorRef}
-          editor={ClassicEditor}
-          config={{
-            toolbar: {
-              container: "#toolbar-container",
-            },
-            extraPlugins: [
-              MyCustomUploadAdapterPlugin,
-              StyleButton,
-              AddDropdown,
-              baloonDropdown1,
-              ActionDropdown,
-              ShareButton,
-            ],
-            mediaEmbed: {
-              previewsInData: true,
-            },
-            documentOutline: {
-              container: document.querySelector(".document-outline-container"),
-            },
-          }}
-          data={editorData}
-          onReady={(editor) => {
-            editorRef.current = editor;
-            updateHoverEffect(editor);
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            handleEditorChange(data);
-          }}
-        />
 
-        {hoveredElement && (
-          <Tooltip title="Drag to reorder">
-            <div
-              draggable="true"
-              onDragStart={(e) => handleDragStart(e, hoveredElement)}
-              onDrag={(e) => handleDrag(e)}
-              onDragEnd={(e) => handleDragEnd(e)}
-              style={{
-                position: "absolute",
-                left: `200px`,
-                top: `${
-                  hoveredElement.getBoundingClientRect().top +
-                  window.scrollY -
-                  43
-                }px`,
-                display: "flex",
-                alignItems: "center",
-                color: "black",
-                cursor: "grab",
-              }}
-            >
-              <PiDotsSixVerticalBold
-                className="font-bold text-xl"
-                fontSize="large"
-                style={{ cursor: "grab" }}
-              />
-            </div>
-          </Tooltip>
-        )}
-      </div>
+      <CKEditor
+        ref={editorRef}
+        editor={ClassicEditor}
+        config={{
+          toolbar: {
+            container: "#toolbar-container",
+          },
+          extraPlugins: [
+            MyCustomUploadAdapterPlugin,
+            StyleButton,
+            AddDropdown,
+            InsertTableButton,
+            InsertDropdown,
+            InsertHeading2Button,
+            InsertUnorderedListButton,
+            // InsertImageButton,
+            baloonDropdown1,
+            ActionDropdown,
+            ShareButton,
+            CustomTableDropdown,
+            FontSizeControl,
+          ],
+          mediaEmbed: {
+            previewsInData: true,
+          },
+          documentOutline: {
+            container: document.querySelector(".document-outline-container"),
+          },
+        }}
+        data={editorData}
+        onReady={(editor) => {
+          // console.log(
+          //   "Loaded plugins:",
+          //   Array.from(editor.plugins).map((p) => p.constructor.pluginName)
+          // );
+          editorRef.current = editor;
+          // Select the editable content in the CKEditor
+          const editorElements =
+            editor.ui.view.editable.element.querySelectorAll("p, img, div");
+
+          // Iterate over each editable element
+          editorElements.forEach((element) => {
+            // Create the drag handle icon if it doesn't already exist
+            if (!element.querySelector(".drag-handle")) {
+              const dragHandle = document.createElement("span");
+              dragHandle.innerHTML = "&#x2630;"; // Unicode for drag icon (hamburger icon)
+              dragHandle.classList.add("drag-handle");
+
+              // Add styles to the drag handle for visibility
+              dragHandle.style.cursor = "grab";
+              dragHandle.style.marginRight = "10px";
+              dragHandle.style.display = "inline-block";
+              dragHandle.style.fontSize = "18px";
+              dragHandle.style.color = "#333";
+              dragHandle.style.position = "relative"; // Needed for tooltip positioning
+
+              // Create a tooltip element that shows on hover
+              const tooltip = document.createElement("div");
+              tooltip.innerHTML = "Drag to reorder"; // Text to display
+              tooltip.classList.add("drag-tooltip");
+              tooltip.style.position = "absolute";
+              tooltip.style.top = "-20px"; // Position above the handle
+              tooltip.style.left = "0px";
+              tooltip.style.backgroundColor = "#333";
+              tooltip.style.color = "#fff";
+              tooltip.style.padding = "4px 8px";
+              tooltip.style.borderRadius = "4px";
+              tooltip.style.fontSize = "12px";
+              tooltip.style.visibility = "hidden"; // Initially hidden
+
+              // Show the tooltip on hover
+              dragHandle.addEventListener("mouseenter", () => {
+                tooltip.style.visibility = "visible"; // Show the tooltip on hover
+              });
+
+              dragHandle.addEventListener("mouseleave", () => {
+                tooltip.style.visibility = "hidden"; // Hide the tooltip when not hovering
+              });
+
+              // Insert the drag handle and tooltip into the element
+              element.insertBefore(dragHandle, element.firstChild);
+              dragHandle.appendChild(tooltip); // Append tooltip to the drag handle
+
+              // Add drag and drop functionality if needed (optional)
+            }
+          });
+
+          updateHoverEffect(editor); // Existing hover effects, if any
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          handleEditorChange(data);
+        }}
+      />
+
+      {hoveredElement && (
+        <Tooltip title="Drag to reorder">
+          <div
+            // draggable="true"
+            // onDragStart={(e) => handleDragStart(e, hoveredElement)}
+            // onDrag={(e) => handleDrag(e)}
+            // onDragEnd={(e) => handleDragEnd(e)}
+            style={{
+              position: "absolute",
+              left: `200px`,
+              top: `${
+                hoveredElement.getBoundingClientRect().top + window.scrollY - 43
+              }px`,
+              display: "flex",
+              alignItems: "center",
+              color: "black",
+              cursor: "grab",
+            }}
+          >
+            <PiDotsSixVerticalBold
+              className="font-bold text-xl"
+              fontSize="large"
+              style={{ cursor: "grab" }}
+            />
+          </div>
+        </Tooltip>
+      )}
       {selectedDocument?.headers?.tableOfContent && (
         <Tooltip
           title={showHeadings ? "Hide Doc's Outline" : "Show Doc's Outline"}

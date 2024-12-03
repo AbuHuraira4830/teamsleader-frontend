@@ -291,3 +291,44 @@ h3 i {
   padding: inherit;
   margin: inherit;
 }
+
+/* for dropdown  */
+
+/* .ck-dropdown .ck-dropdown__panel {
+  } */
+.ck-dropdown__panel .ck-list .ck.ck-list__item {
+  background-color: white !important;
+  padding: 2px !important;
+  color: #323338 !important;
+  font-size: 16px !important;
+}
+
+.ck-dropdown__panel {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
+  top: 150% !important;
+  /* height: 490px !important; */
+  overflow: hidden !important;
+  /* width: 300px !important; */
+}
+.ck.ck-dropdown > .ck-dropdown__panel > .ck-list {
+  border-radius: 10px !important;
+  padding: 2px !important;
+}
+.ck-rounded-corners
+  :is(
+    .ck.ck-dropdown
+      > .ck-dropdown__panel
+      > .ck-list
+      .ck-list__item:first-child
+      > .ck-button
+  ),
+.ck.ck-dropdown
+  > .ck-dropdown__panel
+  > .ck-list
+  .ck-list__item:first-child
+  > .ck-button.ck-rounded-corners {
+  border: 0;
+}
+.ck-dropdown__panel .ck-list {
+  max-height: 600px !important; /* Adjust this to control the scrollable height */
+}

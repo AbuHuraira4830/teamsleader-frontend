@@ -62,6 +62,9 @@ const ckEditor = ({ doc }) => {
     setIsToggleFontSize,
   } = useStateContext();
   const [shareModal, setShareModal] = useState(false);
+  // const [editorData, setEditorData] = useState(
+  //   '<video controls><source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4">Your browser does not support the video tag</video>'
+  // );
   const [editorData, setEditorData] = useState(
     doc.data
       ? doc.data
@@ -715,7 +718,8 @@ const ckEditor = ({ doc }) => {
         } else if (command === "imageUpload") {
           handleImageUpload(editor);
         } else if (command === "mediaEmbed") {
-          handleVideoEmbed(editor);
+          // handleVideoEmbed(editor);
+          handleVideoUpload(editor);
         }
       });
 
@@ -760,6 +764,55 @@ const ckEditor = ({ doc }) => {
           console.log("Updated Editor Data:", updatedEditorData);
         } catch (error) {
           console.error("Error processing the image:", error);
+        }
+      }
+    });
+
+    input.click();
+  };
+
+  const handleVideoUpload = async (editor) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "video/*"; // Accept video files only
+
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        try {
+          // Convert video file to Base64
+          const toBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+            });
+          };
+
+          const base64Video = await toBase64(file);
+          console.log("Base64 video:", base64Video);
+
+          // Save the Base64 string in a variable
+          const base64VideoVariable = base64Video;
+
+          // Get the current editor data
+          let currentEditorData = editor.getData();
+
+          // Append the video to the editor's data
+          const videoTag = `
+            <video controls style="max-width: 100%;">
+              <source src="${base64VideoVariable}" type="${file.type}">
+              Your browser does not support the video tag.
+            </video>`;
+          const updatedEditorData = currentEditorData + videoTag;
+
+          // Update the editor's data
+          editor.setData(updatedEditorData);
+
+          console.log("Updated Editor Data:", updatedEditorData);
+        } catch (error) {
+          console.error("Error processing the video:", error);
         }
       }
     });

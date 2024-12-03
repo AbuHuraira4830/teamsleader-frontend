@@ -329,17 +329,7 @@ flex: 1 1 0%;
   font-size: 12px;
   text-transform: uppercase;
 }
-.plannerConnectSocial_btnWrapper{
-  padding: 16px;
-  border-top: 1px solid rgb(222, 225, 225);
-  border-bottom-color: rgb(222, 225, 225);
-  border-left-color: rgb(222, 225, 225);
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-color: #364141;
 
-}
 .plannerConnectSocial_btn{
   border: 1px dashed rgb(146, 154, 155);
   border-radius: 6px;
@@ -460,7 +450,7 @@ margin-left: auto;margin-right: auto;
   font-weight: 600;
 }
 .linkedAccounts_overflow{
-  height: calc(100vh - 266px);
+  /* height: calc(100vh - 266px); */
   overflow: scroll;
 }
 .instaPreview_open{
@@ -877,4 +867,290 @@ margin-left: 6px;
   pointer-events: none;
   font-size: 0.75rem;
   color: #6c757d;
+}
+.scheduleDate_wrapper{
+  /* padding: 16px; */
+  background-color: rgb(255, 255, 255);
+  color: rgb(54, 65, 65);
+  display: flex;
+  height: 60px;
+  align-items: flex-start;
+}
+.scheduleDate_label{
+  margin: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: rgb(39, 51, 51);
+  font-size: 13px;
+  line-height: 21.3333px;
+  font-weight: 600;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.scheduleDate_container{
+  /* width: 160px; */
+  border: 1px solid #6e797a;
+  border-radius: 6px;
+
+
+}
+.scheduleCalendar_icon{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(54, 65, 65);
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  left: 8px;
+}
+.schedulePost_calendarInput{
+  color: #364141;
+  border: 1px solid #6e797a ;
+  background-color: #fff;
+  padding: 8px 8px 8px 40px;
+}
+.wrapperCalendar_post{
+  position: relative;
+  z-index: 999 !important;
+}
+.scheduleCalendarSeparator{
+  border-top: 1px solid #d1d5db;
+  margin-top: 1rem;
+  width: 100%;
+  margin-bottom: 0.7rem;
+  padding-top: 0.7rem;
+}
+.stickyPostButton_border{
+  padding: 16px;
+  border-top: 1px solid rgb(222, 225, 225);
+  /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 0px 7px rgba(0, 0, 0, 0.1); 
+}
+
+
+
+.linkedAccounts_overflow {
+  max-height: 400px; /* Adjust the max height as needed */
+  overflow-y: auto;
+}
+
+.plannerConnectSocial_btnWrapper {
+  position: sticky;
+  bottom: 0;
+  background-color: white; /* Match the dropdown background color */
+  padding: 10px; /* Adjust as needed */
+  border-top: 1px solid #ddd; /* Optional: add a top border for separation */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add shadow if needed */
+}
+
+/* Add this to your CSS file */
+.grid {
+  display: grid;
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.gap-4 {
+  gap: 1rem;
+}
+.text-center {
+  text-align: center;
+}
+.shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.text-3xl {
+  font-size: 1.875rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+.profileConnection_card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(222, 225, 225);
+  /* padding: 16px; */
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
+  /* max-width: 32%; */
+  box-shadow: rgba(39, 51, 51, 0.24) 0px 8px 16px;
+}
+.profileConnection_card:hover{
+  box-shadow: rgba(39, 51, 51, 0.24) 0px 2px 4px;
+}
+.profileConnection_card .top-border{
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-sizing: border-box;
+  background-color: rgb(33, 123, 238);
+  height: 8px;
+  width: 100%;
+}
+.profileConnection_cardInner{
+  padding-top: 32px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+}
+/* .profileConnection_icon{
+  height: 42px;
+  width: 42px;
+} */
+.profileConnection_cardText{
+  padding: 16px;
+  border-top: 1px solid rgb(222, 225, 225);
+  border-right-color: rgb(222, 225, 225);
+  border-bottom-color: rgb(222, 225, 225);
+  border-left-color: rgb(222, 225, 225);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.profileConnection_cardIconText{
+  margin: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: 600;
+}
+.profileConnection_button{
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid rgb(54, 65, 65);
+  border-radius: 6px;
+  background: transparent;
+  color: rgb(54, 65, 65);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 16px;
+  white-space: nowrap;
+  font-weight: 700;
+  transition: all 0.15s linear 0s;
+  margin: 32px 0px 0px;
+  padding: 8px;
+  font-size: 13px;
+}
+.profileConnection_button:hover{
+  color: rgb(255, 255, 255);
+  /* background: rgb(54, 65, 65); */
+  background: #00854d;
+  text-decoration: none;
+  box-shadow: none;
+  border: 1px solid #00854d;
+}
+.youtube_previewWrapper{
+  /* overflow: hidden; */
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  will-change: max-height;
+  position: relative;
+  max-height: 236px;
+  min-height: 0px;
+}
+.youtubeInlineMessagePreview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.youtube_preview{
+  background-color: #fff;
+  color: #364141;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 3px;
+  font-size: 14px;
+  border: 1px solid #dfe0e4;
+}
+.youtube_previewBody{
+  position: relative;
+  font-size: 14px;
+  line-height: 20px;
+}
+/* .youtube_previewBody::after{
+  display: table;
+  clear: both;
+  content: "";
+} */
+.youtubeVideo_wrapper{
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.youtubePreview_footer{
+  padding: 8px 16px;
+  display: flex;
+}
+.youtubePreview_avatar{
+  min-width: 34px;
+  font-size: 14px;
+  color: #0052cc;
+  line-height: 20px;
+}
+.youtubePreview_avatarImage{
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+.youtubePreview_content{
+  margin-left: 8px;
+  max-width: 320px;
+  word-break: break-word;
+}
+.youtubePreview_title{
+  color: #273333;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 17px;
+  margin-top: 2px;
+}
+.youtubePreview_description{
+  font-size: 13px;
+  line-height: 17px;
+  margin-top: 2px;
+}
+.youtubePreview_name{
+  color: #5f5f5f;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 2px;
+}
+.youtube_previewImagePlanner{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  position: relative;
+  /* padding-bottom: 56.2%; */
+  background-color: #000;
+}
+.youtube_previewImagePlanner img{
+  position: absolute;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.youtube_previewImagePlanner video{
+  height: 236px;
+}
+.planner_offCanvasWidth{
+  width: 40% !important;
 }

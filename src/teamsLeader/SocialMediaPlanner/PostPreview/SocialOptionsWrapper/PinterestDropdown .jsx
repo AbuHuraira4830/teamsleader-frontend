@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const PinterestDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [pinTitle, setPinTitle] = useState("");
   const [destinationURL, setDestinationURL] = useState("");
 

@@ -9,7 +9,7 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import Header from "../Login/registrationHeader";
 
 const Signup5 = ({ setActiveView }) => {
-  const { managingOption,setSignupData } = useStateContext();
+  const { managingOption, setSignupData } = useStateContext();
   const [option, setOption] = useState(null);
   const options = [
     {
@@ -307,7 +307,6 @@ const Signup5 = ({ setActiveView }) => {
     },
   ];
   const handleRoleClick = (item) => {
-
     setOption(item);
     const radio = document.getElementById(item);
     if (radio) {
@@ -329,7 +328,7 @@ const Signup5 = ({ setActiveView }) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            Select you would like to focus on first?
+            Select you would like to focus on first.
           </p>
           <p className="email_label mb-4 text-center">
             Help us tailor the best experience for you.
@@ -339,7 +338,8 @@ const Signup5 = ({ setActiveView }) => {
         <div className="flex justify-content-center pt-3 gray_text flex-wrap">
           {options.map(
             (category, index) =>
-              managingOption === category.title &&
+              (managingOption === category.title ||
+                "Legal" === category.title) &&  
               category.name.map((item) => (
                 <span
                   key={index}

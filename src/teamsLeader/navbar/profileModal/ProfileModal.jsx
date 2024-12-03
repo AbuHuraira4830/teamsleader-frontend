@@ -46,17 +46,11 @@ const ProfileModal = () => {
       name: "Business info",
       icon: <TiBusinessCard className="me-2" style={{ fontSize: "17px" }} />,
     },
-
-    ...(thisUser?.role === "Admin"
-      ? [
-          {
-            name: "Work & holidays",
-            icon: (
-              <LuCalendarDays className="me-2" style={{ fontSize: "17px" }} />
-            ),
-          },
-        ]
-      : []),
+    {
+      name: "Work & holidays",
+      icon: <LuCalendarDays className="me-2" style={{ fontSize: "17px" }} />,
+    },
+    // ...(thisUser?.role === "Admin" ? [] : []),
     {
       name: "Working status",
       icon: (
@@ -108,7 +102,7 @@ const ProfileModal = () => {
       show={profileModal}
       onHide={closeModal}
       centered
-      enforceFocus={false}             
+      enforceFocus={false}
       autoFocus={false}
       fullscreen={fullscreen}
       dialogClassName="profileModal"
@@ -137,8 +131,9 @@ const ProfileModal = () => {
         <div className=" d-flex w-100">
           <div className="ProfileSidebar " style={{ width: "280px" }}>
             <div className="" style={{ padding: "24px", width: "280px" }}>
-              {sidebarOptions.map((option) => (
+              {sidebarOptions.map((option, index) => (
                 <Button
+                  key={index}
                   className={`workspace-dropdown-button workspace-dropdownBtn centerIt justify-content-start fw-normal fs_14 w-100   me-2 px-2 ${
                     (selectedOption === option.name ||
                       (option.name === "Personal info" &&

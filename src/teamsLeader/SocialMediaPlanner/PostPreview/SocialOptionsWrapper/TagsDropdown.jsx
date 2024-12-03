@@ -6,7 +6,7 @@ import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const TagsDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [availableLabels, setAvailableLabels] = useState([
     "video",
     "announcement",

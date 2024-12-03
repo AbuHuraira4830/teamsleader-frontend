@@ -99,6 +99,11 @@ h3 {
   --docs-blue-lines: ;
   --placeholder-color: #676879;
   --light-gray: #f5f6f8;
+
+  --rgb-input: 255, 255, 255;
+  --rgb-color: 50, 51, 56;
+  --rgb-background: 255, 255, 255;
+  --rgb-accent: 0, 133, 7;
 }
 .dark_theme {
   --dropdown-bgColor: #30324e;
@@ -117,6 +122,11 @@ h3 {
   --secondary-color: #9699a6;
   --placeholder-color: #c3c6d4;
   --light-gray: #33354b;
+
+  --rgb-input: 24, 27, 52;
+  --rgb-color: 213, 216, 223;
+  --rgb-background: 48, 50, 78;
+  --rgb-accent: 0, 133, 7;
 }
 .night_theme {
   --dropdown-bgColor: #2c2c2c;
@@ -135,12 +145,22 @@ h3 {
   --secondary-color: #9699a6;
   --placeholder-color: #aaaaaa;
   --light-gray: #272729;
+
+  --rgb-input: 17, 17, 17;
+  --rgb-color: 238, 238, 238;
+  --rgb-background: 44, 44, 44;
+  --rgb-accent: 0, 133, 7;
 }
 
 /* .app-container {
   background-color: var(--navbar-background-color);
 } */
-
+.dashboard-container {
+  display: flex;
+  flex-direction: row; /* Sidebar and main content side by side */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
 .flex {
   display: flex;
 }
@@ -156,28 +176,14 @@ h3 {
   background-color: var(--navbar-background-color);
   color: #000000;
 }
-.main-content {
-  /* float: right; */
-  /* transition: width 0.3s ease; */
-  position: absolute;
-  width: 79.4rem;
-  margin-left: 16.6rem;
-  top: 48px;
-  /* min-height: 92vh; */
-  height: 392vh;
-  overflow-y: auto;
-  border-top-left-radius: 8px;
-  color: var(--text-color) !important;
-  background-color: var(--sidebar-background-color);
-}
+
+
 .respon {
   height: 96vh;
   overflow-y: auto;
 }
 @media (max-width: 2560px) and (min-width: 1541px) {
-  .main-content {
-    width: 143.4rem;
-  }
+
   .respon {
     height: 95.5vh;
   }
@@ -189,9 +195,7 @@ h3 {
 }
 
 @media (max-width: 1440px) and (min-width: 1025px) {
-  .main-content {
-    width: 73.4rem;
-  }
+ 
   .respon {
     height: 95.5vh;
   }
@@ -200,9 +204,7 @@ h3 {
   }
 }
 @media (max-width: 1024px) and (min-width: 769px) {
-  .main-content {
-    width: 47.4rem;
-  }
+
   .respon {
     height: 92vh;
   }
@@ -212,9 +214,8 @@ h3 {
   }
 }
 @media (max-width: 768px) and (min-width: 426px) {
-  .main-content {
-    width: 47.4rem;
-  }
+ 
+  
   .respon {
     height: 125.2vh;
   }
@@ -223,17 +224,10 @@ h3 {
     margin-left: 2rem !important;
   }
 }
-@media (max-width: 425px) and (min-width: 376px) {
-  .main-content {
-    width: 40rem;
-  }
-}
-/* 
+
 
 @media (max-width: 425px) and (min-width: 376px) {
-  .main-content {
-    width: 79.4rem;
-  }
+
   .respon {
     height: 350vh !important;    
   }
@@ -251,20 +245,84 @@ h3 {
   margin-left: 3rem;
   width: 93.1rem;
 }
+/* ----------------------------Sidebar----------- */
 .top88 {
   top: 88px !important;
 }
-/* ----------------------------Sidebar----------- */
+/* Sidebar Styling */
 .sidebar {
   transition: width 0.3s ease;
-  width: 16rem;
+  width: 20%; /* Sidebar takes 20% of the width */
+  min-width: 250px; /* Minimum width for smaller devices */
+  max-width: 300px; /* Maximum width */
   position: fixed;
   border-top-right-radius: 8px;
-  top: 48px;
+  top: 48px; /* Fixed below the navbar */
   left: 0;
-  height: calc(100% - 50px);
+  height: calc(100% - 48px); /* Adjust height to account for navbar */
   background-color: var(--sidebar-background-color);
+  overflow-y: auto; /* Scrollable content if needed */
+  /* z-index: 1000; */
+
 }
+.sidebar.collapse_sidebar {
+  width: 0; /* Sidebar collapses to 0 width */
+  min-width: 0; /* Remove min-width */
+  overflow: hidden; /* Hide content when collapsed */
+}
+
+/* Main Content Styling */
+.main-content {
+  flex: 1;
+  margin-left: calc(20% + 16px); /* Sidebar width + margin */
+  padding: 20px;
+  position: relative;
+  padding-top: 64px; /* Padding for navbar height */
+  overflow-x: auto; /* Horizontal scrolling for wide content */
+  overflow-y: scroll; /* Always show vertical scrollbar */
+  border-top-left-radius: 8px;
+  background-color: var(--sidebar-background-color);
+  transition: margin-left 0.3s ease; /* Smooth transition for layout adjustments */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+
+
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 15%; /* Adjust sidebar width for medium screens */
+  }
+
+  .main-content {
+    margin-left: calc(15% + 16px); /* Adjust margin accordingly */
+    padding-top: 64px; /* Maintain padding for navbar */
+  }
+}
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Sidebar occupies full width */
+    position: relative; /* Stack sidebar on top for small screens */
+    height: auto; /* Adjust height for stacked layout */
+    border-radius: 0; /* Remove rounded corners */
+    top: 0; /* Reset top to avoid pushing content */
+    padding-top: 48px; /* Add padding to account for the navbar */
+  }
+
+  .main-content {
+    margin-left: 16px; /* Add the gap between sidebar and content */
+    padding: 15px;
+    padding-top: 64px; /* Ensure spacing for the navbar */
+    height: calc(100vh - 48px); /* Fill the rest of the viewport */
+  }
+}
+
+
+
 /* @media (max-width: 770px) {
   .sidebar button {
     font-size: 12px !important;
@@ -293,7 +351,7 @@ h3 {
 .sidebar_topBtn button:hover {
   background-color: var(--gray-hover-color) !important;
 }
-.sidebar_toggleBtn button {
+/* .sidebar_toggleBtn button {
   border-radius: 0px 8px;
   margin-left: 3px;
   background-color: var(--toggle-btnBg) !important;
@@ -302,16 +360,19 @@ h3 {
   padding: 8px 7px;
   font-size: 12px;
   box-shadow: none;
+} */
+:where(.css-dev-only-do-not-override-3rel02).ant-popover
+  .ant-popover-arrow:before {
+  background: var(--dropdown-bgColor);
 }
-
-.sidebar_toggleBtn button:focus-visible {
+/* .sidebar_toggleBtn button:focus-visible {
   background-color: var(--gray-hover-color) !important;
   color: var(--text-color);
 }
 .sidebar_toggleBtn button:hover {
   background-color: var(--gray-hover-color) !important;
   color: var(--text-color);
-}
+} */
 .collapse_sidebar {
   width: 2.5%;
 }
@@ -412,8 +473,9 @@ input::placeholder {
   color: var(--placeholder-color) !important;
   /* font-size: 14px; */
 }
+
 .workspace_searchInput:focus {
-  outline: 1px solid var(--primary-green) !important;
+  border: 1px solid var(--primary-green) !important;
   color: var(--text-color);
 }
 .table-title {
@@ -705,6 +767,13 @@ input::placeholder {
 .postFroala .fr-wrapper .fr-video {
   display: none !important;
 }
+/* ================================================= */
+
+
+.custom-modal-position  {
+  transform: translateY(-20%) !important; /* Adjust this value to move the modal up */
+}
+
 .ant-popover-inner-content {
   border-radius: 6px;
 }
@@ -815,11 +884,30 @@ input::placeholder {
 .ScheduleModal {
   z-index: 9999 !important;
 }
-
+.rmdp-ep-arrow[direction="bottom"],
+.rmdp-ep-arrow[direction="top"] {
+  border: 0 !important;
+  margin: 0 !important;
+}
+.rmdp-ep-arrow:after {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.timeTrackerCalender .range-container.rmdp-wrapper,
 .range-container.rmdp-wrapper {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.rmdp-ep-arrow {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.holidayRequest .range-container.rmdp-wrapper,
+.timeSheetModal .range-container.rmdp-wrapper {
   background-color: transparent; /* or any other color you prefer */
 }
 
+.timeSheetModal .rmdp-container input,
+.timeTrackerCalender .rmdp-container input {
+  background-color: transparent;
+}
 .range-container.rmdp-wrapper .rmdp-day {
   color: var(--text-color); /* or any other text color you prefer */
 }
@@ -902,8 +990,11 @@ input::placeholder {
   padding: 0px 5px;
   box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
-.addHolidayDatepicker .rmdp-container {
+.rmdp-container {
   width: 100%;
+}
+.addHolidayDatepicker input {
+  background-color: var(--sidebar-background-color) !important;
 }
 .addHolidayDatepicker input {
   border-color: var(--border-color) !important;
@@ -925,14 +1016,161 @@ input::placeholder {
 .EmployeeModalBackdrop {
   z-index: 1055 !important;
 }
+.addHolidaySection
+  :where(.css-dev-only-do-not-override-3rel02).ant-checkbox-wrapper:not(
+    .ant-checkbox-wrapper-disabled
+  ):hover
+  .ant-checkbox-inner,
+:where(.css-dev-only-do-not-override-3rel02).ant-checkbox:not(
+    .ant-checkbox-disabled
+  ):hover
+  .ant-checkbox-inner {
+  border-color: var(--primary-green) !important;
+}
+.addHolidaySection .ant-checkbox-inner {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.EmployeeModalDialog .modal-content {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
 .EmployeeModalDialog {
   z-index: 9999 !important;
   width: 480px !important ;
 }
 .holiday-spinner {
-  border: 3.5px solid #0000005c !important;
+  border: 3.5px solid var(--secondary-color) !important;
   border-right-color: transparent !important;
 }
+
 .members-list .ant-checkbox-group {
   flex-direction: column !important;
+}
+
+.deleteModal .modal-content {
+  background-color: var(--light-gray) !important;
+  color: var(--text-color) !important;
+}
+.input-group-text {
+  background-color: var(--gray-hover-color) !important;
+  border: none !important;
+}
+.sticky.padding-small.align-l {
+  background-color: transparent !important;
+}
+
+em-emoji-picker {
+  /*--border-radius: 24px;  Rounded corners */
+  /*--category-icon-size: 24px; /* Size of category icons */
+  /* --color-border-over: rgba(0, 0, 0, 0.1); /* Border color on hover */
+  /*--color-border: rgba(0, 0, 0, 0.05); /* Default border color */
+  /*--font-family: "Comic Sans MS", "Chalkboard SE", cursive;  Font family */
+  /* --font-size: 20px; Font size */
+  /*--em-color-border: var(--sidebar-background-color) !important;
+  --background-rgb: 48, 50, 78, 1; /* Background color */
+  /* --shadow: 5px 5px 15px -8px rebeccapurple; */
+
+  /*--rgb-input: 24, 27, 52; /* Input background RGB c*/
+  /*--rgb-color: 255, 255, 255; /* Text color RGB */
+  /*--rgb-background: 48, 50, 78, 1; /* Background RGB */
+  /*--rgb-accent: 0, 133, 7; /* Accent color */
+}
+
+:where(.css-dev-only-do-not-override-3rel02).ant-select-single.ant-select-open
+  .ant-select-selection-item {
+  color: var(--text-color) !important;
+}
+.holidaySelect .ant-select-dropdown {
+  background-color: var(--gray-hover-color) !important;
+}
+.textareaReason::placeholder {
+  color: var(--placeholder-color) !important;
+}
+.holidaySelect .ant-select-selector:focus {
+  border-color: var(--primary-green) !important;
+}
+.holidaySelect .ant-select-selector:hover {
+  border-color: var(--primary-green) !important;
+}
+.holidaySelect .ant-select-selector {
+  background-color: var(--sidebar-background-color) !important;
+  border-color: var(--border-color) !important;
+  height: 32px !important;
+}
+.no-scroll {
+  overflow: hidden !important;
+}
+.holidayRequestModal .ant-space {
+  z-index: 0;
+  position: relative;
+}
+.holidayRequestModal .ant-space-item {
+  width: 100%;
+}
+.holidayRequestModal .rmdp-container {
+  width: 100%;
+}
+.holidayRequestModal .rmdp-input:focus {
+  border-color: var(--primary-green) !important;
+  box-shadow: none;
+}
+.holidayRequestModal .rmdp-input {
+  background-color: var(--sidebar-background-color) !important;
+  border-color: var(--border-color) !important;
+  width: 100%;
+  font-size: 14px;
+  height: 100%;
+  margin-top: 10px;
+  padding-left: 11px;
+}
+
+
+/* ===================== */
+/* Sidebar Toggle Button */
+.sidebar_toggleBtn {
+  position: fixed;
+  top: 48px;
+  left: 241px;
+  z-index: 100 !important;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+}
+
+/* When the sidebar is collapsed */
+.sidebar.collapse_sidebar + .sidebar_toggleBtn {
+  left: 16px; /* Move it closer to the edge of the viewport */
+}
+
+/* Button styles */
+.sidebar_toggleBtn button {
+  border-radius: 0px 8px 8px 0px;
+  background-color: var(--toggle-btnBg);
+  color: var(--text-color);
+  border: none;
+  padding: 7px 8px;
+  font-size: 14px;
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover and focus effects */
+.sidebar_toggleBtn button:focus-visible,
+.sidebar_toggleBtn button:hover {
+  background-color: var(--gray-hover-color); /* Hover/focus background color */
+  color: var(--text-color); /* Keep text/icon color consistent */
+}
+.sidebar.collapsed + .sidebar_toggleBtn {
+  left: 0; /* Move it to the edge of the collapsed sidebar */
+}
+.collapse_sidebar {
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease; /* Smooth collapse/expand */
+}
+.main-content.expanded {
+  margin-left: 0; /* Full width when sidebar is collapsed */
 }

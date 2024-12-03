@@ -67,7 +67,7 @@ const Signup3 = ({setActiveView}) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            How many people are on your team?
+            How many people are on your team.
           </p>
         </div>
 

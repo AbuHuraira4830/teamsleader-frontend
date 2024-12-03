@@ -15,14 +15,12 @@ import { BsArrowUp } from "react-icons/bs";
 import { ImFilesEmpty } from "react-icons/im";
 import { PiTextTBold } from "react-icons/pi";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { getAPI, postAPI } from "../helpers/apis";
-import {
-  holidayInput,
-  userProfile,
-} from "../teamsLeader/navbar/profileModal/ManageHolidays";
-import axios from "axios";
+import { getAPI, postAPI } from ".././helpers/api";
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
+  const [workspaceID, setWorkspaceID] = useState(null);
+  const [teamID, setTeamID] = useState(null);
+  const [user, setUser] = useState(null);
   let userId = 0; // Initial ID
 
   const createData = (name, email, title, teams, role) => {
@@ -82,6 +80,10 @@ export const ContextProvider = ({ children }) => {
 
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [invoiceNumber, setInvoiceNumber] = useState(1);
+  const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(""); // State to store the email
+
 
   const [teamsTableRow, setTeamsTableRow] = useState(initialRows);
   const [structuredCommunication, setStructuredCommunication] = useState(false);
@@ -102,6 +104,26 @@ export const ContextProvider = ({ children }) => {
 
   const [selectedColorInvoice, setSelectedColorInvoice] =
     useState("rgb(22, 113, 195)");
+
+    useEffect(() => {
+      getAPI("/api/user/get-user-from-token")
+        .then((response) => {
+          console.log("Get User Toke Resp COntext",response);
+          if (response.status === 200) {
+            setUserEmail(response.data.emailAddress);
+           
+              
+          }
+        })
+        .catch((e) => {
+          if (e.response.status === 401) {
+            setUser(null);
+            return navigate("/login");
+          }
+          console.log(e.response.data.message);
+        });
+    }, []);
+    
 
   const updateTeamUserInformation = (updatedUserInfo) => {
     setTeamsTableRow((currentRows) =>
@@ -415,7 +437,6 @@ export const ContextProvider = ({ children }) => {
       id: uuidv4(),
       name: "People",
     },
-
     {
       id: uuidv4(),
       name: "Password",
@@ -680,6 +701,17 @@ export const ContextProvider = ({ children }) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(modalShow?.file);
   const [commentsArray, setCommentsArray] = useState([]);
   const [repliesArray, setRepliesArray] = useState([]);
+  // useEffect(() => {
+  //   fetch("http://localhost:8888/api/events")
+  //   fetch("/api/events")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setModalDataCalendar(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to fetch events:", error);
+  //     });
+  // }, [modalDataCalendar]);
   const [selectedOption, setSelectedOption] = useState("Personal info");
   const [users, setUsers] = useState();
   const [members, setMembers] = useState(null);
@@ -873,7 +905,9 @@ export const ContextProvider = ({ children }) => {
   const [selectedPasswordRow, setSelectedPasswordRow] = useState(null);
   const [passwordTableID, setPasswordTableID] = useState(null);
 
-  const [signupData, setSignupData] = useState({});
+  const [signupData, setSignupData] = useState({
+    profileColor: colors[Math.floor(Math.random() * colors.length)],
+  });
   const [postContent, setPostContent] = useState("");
   const [imgSrc, setImgSrc] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
@@ -903,10 +937,20 @@ export const ContextProvider = ({ children }) => {
   const [holidayHistory, setHolidayHistory] = useState(
     thisUser?.holidayHistory || []
   );
-
+  const [deletemodal, setDeleteModal] = useState(false);
+  const [updateRequestModal, setUpdateRequestModal] = useState({});
+  const [myHolidayRequests, setMyHolidayRequests] = useState([]);
   return (
     <StateContext.Provider
       value={{
+        myHolidayRequests,
+        setMyHolidayRequests,
+        updateRequestModal,
+        setUpdateRequestModal,
+        deletemodal,
+        setDeleteModal,
+        userEmail,
+        setUserEmail,
         selectedEmployee,
         setSelectedEmployee,
         employeeSummary,
@@ -1093,12 +1137,24 @@ export const ContextProvider = ({ children }) => {
         validationErrors,
         tableTeamName,
         setTableTeamName,
+        workspaceID,
+        setWorkspaceID,
+        setTeamID,
+        teamID,
+        user,
+        setUser,
+        userEmail,
+        setUserEmail,
         isDocumentChange,
         setIsDocumentChange,
         isToggleFontFamily,
         setIsToggleFontFamily,
         isToggleFontSize,
         setIsToggleFontSize,
+        isPlanModalOpen,
+        setIsPlanModalOpen,
+        isPaymentModalOpen,
+        setIsPaymentModalOpen
       }}
     >
       {children}

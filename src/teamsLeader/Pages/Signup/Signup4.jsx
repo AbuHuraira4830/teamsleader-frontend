@@ -54,7 +54,7 @@ const Signup4 = ({setActiveView}) => {
             className="mb-0 text-center"
             style={{ fontSize: "30px", marginTop: "24px" }}
           >
-            Select you would like to manage first?
+            Select you would like to manage first.
           </p>
           <p className="email_label mb-4 text-center">
             You can add more in the future.

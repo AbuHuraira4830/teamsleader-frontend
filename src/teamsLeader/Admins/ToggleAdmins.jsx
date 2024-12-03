@@ -7,13 +7,9 @@ import { PiUsersFourLight } from "react-icons/pi";
 import { SiMicrosoftteams } from "react-icons/si";
 
 import AdminInvite from "./NewRole/AdminInvite";
-import ClientList from "./ClientList";
 import TeamsList from "./TeamsList";
-import EmployeeList from "./EmployeeList";
-import { ButtonGroup, Dropdown } from "react-bootstrap";
-import { FaAngleDown } from "react-icons/fa";
-import { GoPlus } from "react-icons/go";
-import { RiAdminLine } from "react-icons/ri";
+import EmployeeInvite from "./EmployeeInvite";
+import ClientInvite from "./ClientInvite";
 
 import "./adminsInvite.css";
 
@@ -31,10 +27,10 @@ export default function ColorToggleButton() {
       selectedComponent = <AdminInvite />;
       break;
     case "employees":
-      selectedComponent = <EmployeeList />;
+      selectedComponent = <EmployeeInvite />;
       break;
     case "clients":
-      selectedComponent = <ClientList />;
+      selectedComponent = <ClientInvite />;
       break;
     case "teams":
       selectedComponent = <TeamsList />;
@@ -45,7 +41,7 @@ export default function ColorToggleButton() {
 
   return (
     <div>
-      <div className="flex inviteAdminToggleWrapper">
+      <div className="flex inviteAdminToggleWrapper justify-center">
         <ToggleButtonGroup
           color="primary"
           value={alignment}

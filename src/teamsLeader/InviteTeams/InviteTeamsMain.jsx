@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "../sidebar/Sidebar";
-import Navbar from "../navbar/Navbar";
-import RadioGroup from "../navbar/RadioGroup";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/froala_editor.pkgd.min.js";
-import "froala-editor/js/plugins.pkgd.min.js";
+import React, { useEffect } from "react";
+// import { useStateContext } from "./StateContext"; // Adjust the import according to your project structure
+import InviteTeamsInner from "./InviteTeamsInner"; // Adjust the import according to your project structure
 import { useStateContext } from "../../contexts/ContextProvider";
-import InviteTeamsInner from "./InviteTeamsInner";
 
 const InviteTeamsMain = () => {
   const { theme, setTheme, isSidebarVisible, setIsSidebarVisible } =
     useStateContext();
+
   useEffect(() => {
     document.body.className = theme;
     var pathname = window.location.pathname;
@@ -29,29 +24,13 @@ const InviteTeamsMain = () => {
   };
 
   return (
-    <>
-      <div className="Navbar p-0 w-100 py-1" style={{ zIndex: 999 }}>
-        <Navbar setTheme={setTheme} />
-      </div>
-
-      <div className="app-container flex  ">
-        <div
-          className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
-        >
-          <Sidebar
-            toggleNavbar={toggleNavbar}
-            isSidebarVisible={isSidebarVisible}
-          />
-        </div>
-        <div
-          className={`main-content  ${
-            isSidebarVisible ? "" : "expanded"
-          } h-screen mb-8 overflow-auto`}
-        >
-          <InviteTeamsInner />
-        </div>
-      </div>
-    </>
+    <div
+      className={`main-content ${
+        isSidebarVisible ? "" : "expanded"
+      } h-screen mb-8 overflow-auto`}
+    >
+      <InviteTeamsInner />
+    </div>
   );
 };
 

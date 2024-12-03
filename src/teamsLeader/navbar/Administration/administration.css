@@ -1,0 +1,210 @@
+.admininstration_navbar{
+    height: 48px;
+    width: 100%;
+    margin-bottom: .75rem;
+}
+.admininstration_container{
+    width: 100%;
+position: relative;
+}
+.admin_layout{
+    display: flex;
+    flex-direction: column;
+}
+.admininstration_sidebar{
+background-color: #fff;
+width: 272px;
+height: 100%;
+border-top-right-radius: 12px;
+position: relative;
+z-index: 9999;
+
+
+}
+
+
+.admin-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+  }
+  .admin-sidebar-wrapper {
+    background-color: #fff;
+    width: 272px;
+    height: 100%;
+    border-top-right-radius: 12px;
+  }
+  .admin-content {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #f8fafc; 
+  }
+  
+  .admin-navbar {
+    height: 48px;
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .admin-sidebar {
+    background-color: #fff;
+    width: 272px;
+    height: calc(100vh - 48px); /* Full height minus navbar */
+    border-top-right-radius: 12px;
+    flex-shrink: 0;
+  }
+  
+  /* .admin-content {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    padding-top: 0 !important;
+    padding-right: 0  !important;
+  } */
+  
+  .admin-content .overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: #fff; /* Adjusting background for the content area */
+    padding: 1rem;
+    border-top-left-radius: 8px;
+  }
+  
+  .admin-content .overview > div {
+    flex: 1 1 300px; /* Adjusting flex to ensure proper sizing */
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+  }
+  
+  .admin-content .overview h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .bg-active {
+    background-color: #c6e9d5;
+    background-color: red;
+  }
+  /* ======================================= */
+  /* .bg-active {
+    background-color: #c6e9d5;
+  } */
+  
+  .admin-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .admin-sidebar-wrapper {
+    background-color: #fff;
+    width: 272px;
+    height: 100%;
+    border-top-right-radius: 12px;
+    border-right: 1px solid #e6e9ef;
+  }
+  
+  .admin-content {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: #f8fafc;
+  }
+  
+  .hover\:bg-gray-100:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .transition-colors {
+    transition: background-color 0.2s ease;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  
+  .custom_cardCanvas_width{
+    width: 45% !important;
+  }
+
+
+
+  /* Sidebar */
+.admin-sidebar {
+  width: 16rem; /* Sidebar default width */
+  transition: width 0.3s ease; /* Smooth transition for collapse/expand */
+  background-color: #ffffff; /* Sidebar background */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  height: 100vh; /* Full height */
+  position: fixed; /* Stay fixed */
+  overflow-y: auto; 
+}
+
+.admin-sidebar.collapsed-sidebar {
+  width: 4rem; /* Sidebar width when collapsed */
+  overflow: hidden; /* Hide extra content */
+}
+
+/* Main Content */
+.admin-main-content {
+  margin-left: 16rem; /* Align content with expanded sidebar */
+  transition: margin-left 0.3s ease; /* Smooth transition for layout */
+  padding: 1rem; /* Default padding */
+  background-color: #f9fafb; /* Light background */
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.admin-main-content.expanded {
+  margin-left: 4rem; /* Adjust when sidebar is collapsed */
+}
+
+/* Adjust padding inside the main content */
+.admin-main-content > .p-6 {
+  padding: 1.5rem;
+}
+/* General Scrollbar Customization */
+.admin-main-content::-webkit-scrollbar {
+  width: 8px !important; /* Width of the vertical scrollbar */
+  height: 8px !important; /* Height of the horizontal scrollbar */
+}
+
+.admin-main-content::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Background color of the scrollbar track */
+  border-radius: 8px; /* Round the edges of the track */
+}
+
+.admin-main-content::-webkit-scrollbar-thumb {
+  background: #86c341; /* Green color for the scrollbar handle */
+  border-radius: 8px; /* Rounded corners for the handle */
+  border: 2px solid #f0f0f0; /* Space between handle and track */
+}
+
+.admin-main-content::-webkit-scrollbar-thumb:hover {
+  background: #6ea02e; /* Darker green color on hover */
+}
+
+/* For Firefox */
+.admin-main-content {
+  scrollbar-width: thin; /* Use a thin scrollbar */
+  scrollbar-color: #86c341 #f0f0f0; /* Scrollbar handle and track color */
+}
+
+/* Optional Scrollbar Styling for Other Elements */
+.admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}

@@ -4,7 +4,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Form } from "react-bootstrap";
 
 const TikTokDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   // State for each TikTok option
   const [allowComments, setAllowComments] = useState(true);

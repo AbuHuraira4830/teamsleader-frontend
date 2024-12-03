@@ -7,9 +7,11 @@ import { GoPlus } from "react-icons/go";
 import { RiAdminLine } from "react-icons/ri";
 import { PiUsersThree } from "react-icons/pi";
 import { PiUsersFourLight } from "react-icons/pi";
+import { FaUserPlus, FaUserTie } from "react-icons/fa";
+
 import InviteEmployee from "./InviteEmployee";
 import InviteClient from "./InviteClient";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const teamMembers = [
   {
@@ -54,17 +56,42 @@ const teamMembers = [
 ];
 
 const InviteTeamsInner = () => {
-  const [selectedOption, setSelectedOption] = useState("Owner");
+  const navigate = useNavigate();
+  const { workspaceID, teamID } = useParams();
+
+  const [selectedOption, setSelectedOption] = useState("");
+  // const handleOptionSelect = (option) => {
+  //   setSelectedOption(option);
+  //   const path = option === "Employee" ? "add-employee" : "add-client";
+  //   navigate(`/workspace/:workspaceID/team/:teamID/teams-invites/${path}`);
+  // };
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
   };
 
   const renderSelectedComponent = () => {
+    const role = selectedOption.toLowerCase();
+
     switch (selectedOption) {
       case "Employee":
-        return <InviteEmployee />;
+        // return <InviteEmployee role={role} />;
+        // const path = option === "Employee" ? "add-employee" : "add-client";
+        navigate(
+          `/workspace/${workspaceID}/team/${teamID}/teams-invites/add-employee`
+        );
+        break;
       case "Client":
-        return <InviteClient />;
+        navigate(
+          `/workspace/${workspaceID}/team/${teamID}/teams-invites/add-client`
+        );
+        break;
+      case "Admin":
+        navigate(
+          `/workspace/${workspaceID}/team/${teamID}/teams-invites/add-admin`
+        );
+        break;
+
+      // return <InviteClient role={role} />;
       default:
         return (
           <>
@@ -109,6 +136,17 @@ const InviteTeamsInner = () => {
                         <div className="fs_1 flex items-center">
                           <PiUsersFourLight className="folderIcon" />
                           Client
+                        </div>
+                      </div>
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="admin"
+                      onClick={() => handleOptionSelect("Admin")}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="fs_1 flex items-center">
+                          <FaUserTie className="pl-[0.7rem] pr-[0.7rem] text-[2rem]" />
+                          Admin
                         </div>
                       </div>
                     </Dropdown.Item>

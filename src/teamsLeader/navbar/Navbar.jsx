@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { PiGearSix, PiPuzzlePiece } from "react-icons/pi";
 import { LiaUserLockSolid } from "react-icons/lia";
+import "./teamsPaymentPlan.css";
 
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { BiQuestionMark, BiSun } from "react-icons/bi";
@@ -21,35 +22,111 @@ import { IoExitOutline, IoPersonOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Alert } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAPI, postAPI } from "../../helpers/apis";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import InviteAdminModal from "../Admins/InviteAdminModal";
+import PlanModal from "./PlanModal";
+import PaymentModal from "./PaymentModal/PaymentModal";
+import EnterpriseModal from "./EnterpriseModal/EnterpriseModal";
+import axios from "axios";
 import ProfileModal from "./profileModal/ProfileModal";
 import UpdateFeedModal from "../updateFeed/UpdateFeedModal";
+import InviteAdminModal from "../Admins/InviteAdminModal";
+
 
 const Navbar = ({ user }) => {
+console.log("UserNav",user)
+
   const navigate = useNavigate();
+  const { workspaceID, teamID } = useParams();
+
   const {
     setTheme,
     isEmailVerified,
     setIsEmailVerified,
+    setIsPlanModalOpen,
+    isPlanModalOpen,
+    isPaymentModalOpen,
+    setIsPaymentModalOpen,
     thisUser,
     profileModal,
     setProfileModal,
     setComponentToShow,
   } = useStateContext();
   const [show, setShow] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
+  // const [isModalVisible, setModalVisible] = useState(false);
+  // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false);
+  const [currentPlan,setCurrentPlan] = useState();
+  const [selectedPlan, setSelectedPlan] = useState();
+  
 
   const [feedModal, setFeedModal] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+ 
 
   const showModal = () => {
     setModalVisible(true);
   };
+
+  useEffect(() => {
+    const fetchPlan = async() =>{
+      try{
+        const userResponse = await axios.get("/api/user/get-user-from-token");
+        setCurrentPlan(userResponse.data.currentPlan);
+
+      }catch (error) {
+        console.error("Error fetching Plan", error);
+      }
+
+    }
+    fetchPlan();
+  },[])
+
+
+
+  const handleOpenModal = () => {
+    setIsPlanModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsPlanModalOpen(false);
+    setIsPaymentModalOpen(false);
+    setIsEnterpriseModalOpen(false);
+  };
+
+  const handleContinue = (plan) => {
+    setSelectedPlan(plan);
+    if (plan === "Enterprise") {
+      setIsPlanModalOpen(false);
+      setIsEnterpriseModalOpen(true);
+    } else {
+      setIsPlanModalOpen(false);
+      setIsPaymentModalOpen(true);
+    }
+  };
+
+  const handleBackClickPayment = () => {
+    setIsPaymentModalOpen(false);
+    setIsPlanModalOpen(true);
+  };
+  const handleBackClickEnterprise = () => {
+    setIsEnterpriseModalOpen(false);
+    setIsPlanModalOpen(true);
+  };
+
+  // const handleClose = () => {
+  //   setIsPlanModalOpen(false);
+  //   setIsPaymentModalOpen(false);
+  // };
+  const handleClose = () => {
+    setShow(false);
+    setIsPaymentModalOpen(false);
+  };
+  const handleShow = () => setShow(true);
+
 
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
@@ -58,6 +135,9 @@ const Navbar = ({ user }) => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  // const showModal = () => {
+  //   setModalVisible(true);
+  // };
   const handleModalClose = () => {
     setModalVisible(false);
   };
@@ -102,22 +182,12 @@ const Navbar = ({ user }) => {
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
-  const handleTheme = (theme) => {
-    postAPI("/api/theme/update", { theme })
-      .then((response) => {
-        setTheme(response.data.theme.theme);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const closeFeedModal = () => {
-    setFeedModal(false);
-  };
-  console.log();
+
+
+
   return (
     <>
-      {isEmailVerified ? null : (
+      {thisUser?.isEmailVerified ? null : (
         <Alert
           className="email-verify-message"
           message={
@@ -158,34 +228,38 @@ const Navbar = ({ user }) => {
             alt=""
             className="align-self-center leaf_icon me-2"
           />
-          <button className="p-0 flex items-center px-2 nav_planBtn align-middle bg-transparent align-self-center ms-3">
+          <button
+            className="p-0 flex items-center px-2 nav_planBtn align-middle bg-transparent align-self-center ms-3"
+            onClick={handleOpenModal}
+          >
             <BsStars /> See plans
           </button>
         </span>
 
-        <span className="centerIt ms-auto ">
+        <span className="flex ms-auto ">
           <Button
             className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
-            onClick={() => setComponentToShow("passwordTable")}
+            onClick={() => navigate("/password-managment")}
           >
             <LiaUserLockSolid />
           </Button>
           <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <AiOutlineBell />
           </Button>
-          <Button
-            className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
-            onClick={() => setFeedModal(true)}
-          >
+          <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <FiInbox />
           </Button>
 
-          <Button
-            className="p-0 workspace_menuBtn bgHover align-middle me-1"
-            onClick={showModal}
+          <Link
+            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
           >
-            <AiOutlineUserAdd />
-          </Button>
+            <Button
+              className="p-0 workspace_menuBtn bgHover align-middle me-1"
+              // onClick={showModal}
+            >
+              <AiOutlineUserAdd />
+            </Button>
+          </Link>
           <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center ">
             <PiPuzzlePiece />
           </Button>
@@ -205,7 +279,11 @@ const Navbar = ({ user }) => {
               style={{ width: "30px", height: "30px", cursor: "pointer" }}
               onClick={handleShow}
             >
-              <img src={thisUser.picture} alt="" className="rounded-circle w-100 h-100" />
+              <img
+                src={thisUser.picture}
+                alt=""
+                className="rounded-circle w-100 h-100"
+              />
             </div>
           ) : (
             <div
@@ -297,6 +375,7 @@ const Navbar = ({ user }) => {
                         style={{
                           height: "34px",
                         }}
+                        onClick={() => navigate("/administration/dashboard")}
                       >
                         <span className="centerIt">
                           <PiGearSix className="me-2 fs-6 align-middle" />
@@ -467,9 +546,36 @@ const Navbar = ({ user }) => {
             <Dropdown.Menu className="w-auto"></Dropdown.Menu>
           </Dropdown>
         </span>
+        {/* <PlanModal isOpen={isModalOpen} onClose={handleCloseModal} /> */}
+        {isPlanModalOpen && (
+          <PlanModal
+            isOpen={isPlanModalOpen}
+            onClose={handleCloseModal}
+            onContinue={handleContinue}
+            // selectedPlan={selectedPlan}
+            // setSelectedPlan={setSelectedPlan}
+            currentPlan = {currentPlan}
+          />
+        )}
+        {isPaymentModalOpen && (
+          <PaymentModal
+            isOpen={isPaymentModalOpen}
+            onClose={handleCloseModal}
+            selectedPlan={selectedPlan}
+            handleBackClickPayment={handleBackClickPayment}
+          />
+        )}
+        {isEnterpriseModalOpen && (
+          <EnterpriseModal
+            isOpen={isEnterpriseModalOpen}
+            onClose={handleCloseModal}
+            selectedPlan={selectedPlan}
+            handleBackClickEnterprise={handleBackClickEnterprise}
+          />
+        )}
         <ProfileModal />
-        <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} />
-        <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} />
+        {/* <InviteAdminModal visible={isModalVisible} onClose={handleModalClose} /> */}
+        {/* <UpdateFeedModal feedModal={feedModal} closeModal={closeFeedModal} /> */}
       </div>
     </>
   );

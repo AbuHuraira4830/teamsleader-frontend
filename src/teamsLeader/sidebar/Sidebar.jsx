@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { SlHome } from "react-icons/sl";
 import { BsFillChatDotsFill, BsThreeDots } from "react-icons/bs";
 import { FaRegCalendarCheck, FaUsers } from "react-icons/fa";
-import { AiOutlineBug, AiOutlineLeft } from "react-icons/ai";
+import { AiOutlineBug, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { BiChevronDown, BiSolidFileExport, BiLockAlt } from "react-icons/bi";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { PiClockCounterClockwiseFill, PiFunnel } from "react-icons/pi";
@@ -349,13 +349,25 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
     // setTeamEditingInput("");
   };
   return (
-    <div className="sidebar_widthDiv ">
+    <div >
       <div className=" w-100 m-0 ">
-        <span className="top-0 end-0 sidebar_toggleBtn position-absolute">
+        {/* <span className="top-0 end-0 sidebar_toggleBtn position-absolute">
           <Button className=" " onClick={() => toggleNavbar()}>
-            <AiOutlineLeft className="" />
-          </Button>
-        </span>
+          {isSidebarVisible ? (
+            <AiOutlineLeft className="icon" /> // Icon to close sidebar
+          ) : (
+            <AiOutlineRight className="icon" /> // Icon to open sidebar
+          )}          </Button>
+        </span> */}
+           {/* <div className="sidebar_toggleBtn">
+        <button onClick={toggleNavbar} className="toggle-btn">
+          {isSidebarVisible ? (
+            <AiOutlineLeft className="icon" /> // Icon to close sidebar
+          ) : (
+            <AiOutlineRight className="icon" /> // Icon to open sidebar
+          )}
+        </button>
+      </div> */}
         <div className={` ${isSidebarVisible ? "" : "d-none"}`}>
           <Stack gap={1} className="ps-3 pe-5 pt-3 pb-3 sidebar_topBtn  ">
             <Link

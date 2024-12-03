@@ -62,7 +62,6 @@ const AppWrapper = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
         <Route
           path="/*"
           element={
@@ -80,6 +79,8 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
+      {/* <Route index element={<Navigate to="/workspace/undefined" replace />} /> */}
+
         <Route path="/workspace/:workspaceID/team/:teamID" element={<Home />} />
         <Route path="/workspace/:workspaceID" element={<Home />} />
         {/* <Route path="/workspace/:workspaceID" element={<Home />} /> */}

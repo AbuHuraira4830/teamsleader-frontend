@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import Navbar from "./teamsLeader/navbar/Navbar";
 import { useStateContext } from "./contexts/ContextProvider";
+import { AiOutlineBug, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+
 import Sidebar from "./teamsLeader/sidebar/Sidebar";
 import { getAPI } from "./helpers/apis";
 import axios from "axios"; // If you're using axios
@@ -13,6 +15,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import TrialExpireModal from "./modals/TrialExpireModal";
+import Loader from "./Loader";
+
 
 const MainLayout = () => {
   const { theme, isSidebarVisible, setIsSidebarVisible, selectedTeam } =
@@ -24,6 +28,8 @@ const MainLayout = () => {
   const location = useLocation();
   const [showExpiredModal, setShowExpiredModal] = useState(false); // Control showing the modal
   const [expiredPlan, setExpiredPlan] = useState(null); // Store the type of expired plan
+  const { workspaceID } = useParams();
+
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
@@ -79,8 +85,53 @@ const MainLayout = () => {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    const fetchWorkspacesAndRedirect = async () => {
+      try {
+        const response = await axios.get("/api/user/get-user-from-token");
+        if (response.status === 200) {
+          setIsAuthenticated(true);
+  
+          // Fetch user workspaces
+          const workspacesResponse = await axios.get("/api/workspace/list");
+          const workspaces = workspacesResponse.data.workspaces;
+  
+          if (workspaces.length > 0) {
+            const firstWorkspace = workspaces[0];
+            const firstTeam = firstWorkspace.teams.length > 0 ? firstWorkspace.teams[0] : null;
+  
+            // Navigate to the first workspace and team (if available)
+            if (!workspaceID || workspaceID === "undefined") {
+              if (firstTeam) {
+                navigate(`/workspace/${firstWorkspace._id}/team/${firstTeam._id}`, { replace: true });
+              } else {
+                navigate(`/workspace/${firstWorkspace._id}`, { replace: true });
+              }
+            }
+          } else {
+            console.error("No workspaces available for this user.");
+          }
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setIsAuthenticated(false);
+          navigate("/login");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    if (location.pathname === "/" || location.pathname === "/workspace/undefined") {
+      fetchWorkspacesAndRedirect();
+    } else {
+      setLoading(false);
+    }
+  }, [navigate, location.pathname, workspaceID]);
+  
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!isAuthenticated && location.pathname !== "/login") {
@@ -100,33 +151,37 @@ const MainLayout = () => {
       ? "navbar-gray"
       : "";
 
-  const { workspaceID } = useParams();
-
-  return (
-    <div className={`app-container flex h-screen ${theme}`}>
-      <div
-        className={`Navbar py-1 w-100 ${navbarClass}`}
-        style={{ zIndex: 999 }}
-      >
-        <Navbar />
-      </div>
-      <div className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}>
-        <Sidebar
-          toggleNavbar={toggleNavbar}
-          workspaceID={workspaceID}
-          isSidebarVisible={isSidebarVisible}
-        />
-      </div>
-      <div
-        className={`flex-grow flex ${
-          isSidebarVisible ? "" : "expanded"
-        } overflow-hidden`}
-      >
-        <Outlet />
-      </div>
-      {/* {showExpiredModal && <TrialExpireModal expiredPlan={expiredPlan} />} */}
-    </div>
-  );
-};
+      return (
+        <div className={` ${theme}`}>
+          <div className="Navbar py-1 w-100" style={{ zIndex: 999 }}>
+            <Navbar />
+          </div>
+          <div className="dashboard-container">
+            {/* Sidebar */}
+            <div className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}>
+              <Sidebar />
+            </div>
+    
+            {/* Toggle Button */}
+            <div className="sidebar_toggleBtn">
+              <button onClick={toggleNavbar} className="toggle-btn">
+                {isSidebarVisible ? (
+                  <AiOutlineLeft className="icon" /> // Icon to collapse sidebar
+                ) : (
+                  <AiOutlineRight className="icon" /> // Icon to expand sidebar
+                )}
+              </button>
+            </div>
+    
+            {/* Main Content */}
+            <div
+              className={`main-content ${isSidebarVisible ? "" : "expanded"}`}
+            >
+              <Outlet />
+            </div>
+          </div>
+        </div>
+      );
+    };
 
 export default MainLayout;

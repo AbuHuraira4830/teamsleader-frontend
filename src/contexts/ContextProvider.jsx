@@ -1151,6 +1151,10 @@ export const ContextProvider = ({ children }) => {
         setIsToggleFontFamily,
         isToggleFontSize,
         setIsToggleFontSize,
+        isPlanModalOpen,
+        setIsPlanModalOpen,
+        isPaymentModalOpen,
+        setIsPaymentModalOpen
       }}
     >
       {children}

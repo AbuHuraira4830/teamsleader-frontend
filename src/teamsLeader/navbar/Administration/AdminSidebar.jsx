@@ -21,7 +21,7 @@ const AdminSidebar = () => {
   };
 
   return (
-    <div className="h-full p-4 text-gray-700 bg-white shadow-md ">
+    <div className=" p-4  text-gray-700 bg-white   ">
       <h2 className="mb-4 text-2xl font-bold">Administration</h2>
       <ul className="space-y-4">
         <li>

@@ -16,6 +16,10 @@ import { ImFilesEmpty } from "react-icons/im";
 import { PiTextTBold } from "react-icons/pi";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { getAPI, postAPI } from ".././helpers/api";
+import {
+  holidayInput,
+  userProfile,
+} from "../teamsLeader/navbar/profileModal/ManageHolidays";
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [workspaceID, setWorkspaceID] = useState(null);
@@ -84,7 +88,6 @@ export const ContextProvider = ({ children }) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(""); // State to store the email
 
-
   const [teamsTableRow, setTeamsTableRow] = useState(initialRows);
   const [structuredCommunication, setStructuredCommunication] = useState(false);
   const [communicationNumber, setCommunicationNumber] = useState("");
@@ -105,25 +108,22 @@ export const ContextProvider = ({ children }) => {
   const [selectedColorInvoice, setSelectedColorInvoice] =
     useState("rgb(22, 113, 195)");
 
-    useEffect(() => {
-      getAPI("/api/user/get-user-from-token")
-        .then((response) => {
-          console.log("Get User Toke Resp COntext",response);
-          if (response.status === 200) {
-            setUserEmail(response.data.emailAddress);
-           
-              
-          }
-        })
-        .catch((e) => {
-          if (e.response.status === 401) {
-            setUser(null);
-            return navigate("/login");
-          }
-          console.log(e.response.data.message);
-        });
-    }, []);
-    
+  useEffect(() => {
+    getAPI("/api/user/get-user-from-token")
+      .then((response) => {
+        console.log("Get User Toke Resp COntext", response);
+        if (response.status === 200) {
+          setUserEmail(response.data.emailAddress);
+        }
+      })
+      .catch((e) => {
+        if (e.response.status === 401) {
+          setUser(null);
+          return navigate("/login");
+        }
+        console.log(e.response.data.message);
+      });
+  }, []);
 
   const updateTeamUserInformation = (updatedUserInfo) => {
     setTeamsTableRow((currentRows) =>
@@ -713,7 +713,7 @@ export const ContextProvider = ({ children }) => {
   //     });
   // }, [modalDataCalendar]);
   const [selectedOption, setSelectedOption] = useState("Personal info");
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const [members, setMembers] = useState(null);
   const [employeeSummary, setEmployeeSummary] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState("");
@@ -748,14 +748,16 @@ export const ContextProvider = ({ children }) => {
     try {
       const response = await getAPI("/api/workspace/team-members");
       setMembers(response.data);
-
+      console.log(response.data);
       const adminEmails = response.data.admins.map((admin) => admin.email);
       const employeeEmails = response.data.employees.map(
         (employee) => employee.email
       );
-      const emails = [...adminEmails, ...employeeEmails];
 
+      const emails = [...adminEmails, ...employeeEmails];
       const userHolidays = await membersHolidaysList(emails);
+      console.log(userHolidays);
+
       handleUsers(response.data, userHolidays);
     } catch (error) {
       console.error("Failed to fetch team members:", error);
@@ -792,6 +794,7 @@ export const ContextProvider = ({ children }) => {
   };
 
   const handleUsers = async (data, holidays) => {
+    console.log(data, holidays);
     const getUserHolidays = (email) => {
       const userHolidayData = holidays.find(
         (holiday) => holiday.emailAddress === email
@@ -837,6 +840,7 @@ export const ContextProvider = ({ children }) => {
     );
 
     // Once all the promises are resolved, update the state
+    console.log([...admins, ...employees]);
     setUsers([...admins, ...employees]);
   };
 
@@ -865,7 +869,6 @@ export const ContextProvider = ({ children }) => {
     "#2e1b67",
     "#383c8d",
     "#1f3866",
-
     "#42607c",
     "#70717f",
     "#4e505e",
@@ -940,9 +943,15 @@ export const ContextProvider = ({ children }) => {
   const [deletemodal, setDeleteModal] = useState(false);
   const [updateRequestModal, setUpdateRequestModal] = useState({});
   const [myHolidayRequests, setMyHolidayRequests] = useState([]);
+  const [selectedmember, setSelectedMember] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
   return (
     <StateContext.Provider
       value={{
+        loginEmail,
+        setLoginEmail,
+        selectedmember,
+        setSelectedMember,
         myHolidayRequests,
         setMyHolidayRequests,
         updateRequestModal,
@@ -1154,7 +1163,7 @@ export const ContextProvider = ({ children }) => {
         isPlanModalOpen,
         setIsPlanModalOpen,
         isPaymentModalOpen,
-        setIsPaymentModalOpen
+        setIsPaymentModalOpen,
       }}
     >
       {children}

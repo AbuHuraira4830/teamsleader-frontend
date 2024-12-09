@@ -11,6 +11,7 @@ import InviteTeam from "./InviteTeam";
 import HomeCustomization from "./HomeCustomization";
 import { getAPI } from "./api"; // Adjust the import according to your project structure
 import MainLayout from "./MainLayout"; // Adjust the import according to your project structure
+import ForgetPassword from "./teamsLeader/Pages/forgetPassword/ForgetPassword";
 
 const AppWrapper = () => {
   return (
@@ -97,6 +98,7 @@ const App = () => {
         <Route path="/manage-teams/*" element={<TeamsMain />} />
         <Route path="/invoices" element={<InvoicesMain />} />
         <Route path="/invoices/create" element={<CreateInvoiceWrapper />} />
+        {/* <Route path="/forget-password" element={<ForgetPassword />} /> */}
         <Route
           path="/workspace/:workspaceID/team/:teamID/teams-invites"
           element={<InviteTeamsMain />}

@@ -57,17 +57,25 @@ import AuthGuard from "./AuthGuard.jsx";
 import Proposals from "./teamsLeader/Pages/proposals/Proposals.jsx";
 // import Login from "./teamsLeader/Pages/Login/Login";
 import TestCkEditor from "../src/teamsLeader/proposals/components/DropableComponents/TestCkEditor.jsx";
+import ForgetPassword from "./teamsLeader/Pages/forgetPassword/ForgetPassword.jsx";
+import ChangePassword from "./teamsLeader/Pages/forgetPassword/ChangePassword.jsx";
 const AppWrapper = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route
+          path="/reset-password/:resetToken"
+          element={<ChangePassword />}
+        />
         <Route
           path="/*"
           element={
             <AuthGuard>
               <App />
-           </AuthGuard> 
+            </AuthGuard>
           }
         />
       </Routes>
@@ -79,8 +87,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-      {/* <Route index element={<Navigate to="/workspace/undefined" replace />} /> */}
-
+        {/* <Route index element={<Navigate to="/workspace/undefined" replace />} /> */}
         <Route path="/workspace/:workspaceID/team/:teamID" element={<Home />} />
         <Route path="/workspace/:workspaceID" element={<Home />} />
         {/* <Route path="/workspace/:workspaceID" element={<Home />} /> */}
@@ -90,6 +97,7 @@ const App = () => {
         /> */}
         <Route path="/verify-email/:id" element={<EmailVerification />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/invite-team" element={<InviteTeam />} />
         <Route path="/home-customization" element={<HomeCustomization />} />
@@ -115,6 +123,7 @@ const App = () => {
         <Route path="/invoices/create" element={<CreateInvoiceWrapper />} />
         <Route path="/teams-invites" element={<InviteTeamsMain />} />
         <Route path="/new-post" element={<PostEditorWrapper />} />
+        <Route path="/test-ckeditor" element={<TestCkEditor />} />
         <Route path="/test-ckeditor" element={<TestCkEditor />} />
         <Route
           path="/workspace/:workspaceID/team/:teamID/teams-invites"
@@ -142,6 +151,7 @@ const App = () => {
           <Route path="billing" element={<Billing />} />
           <Route path="users" element={<AdminControls />} />
           <Route path="permissions" element={<PermissionControl />} />
+
           {/* Add other administration routes here */}
         </Route>
       </Route>

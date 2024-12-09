@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
@@ -38,7 +36,7 @@ const Home = () => {
     setComponentToShow,
     isDocumentChange,
     setShowDocSidebar,
-    thisUser
+    thisUser,
   } = useStateContext();
   // console.log({ selectedWorkspace, selectedTeam });
   const { workspaceID, teamID } = useParams();
@@ -74,9 +72,9 @@ const Home = () => {
   useEffect(() => {
     getAPI("/api/user/get-user-from-token")
       .then((response) => {
-        console.log("Response home", response)
         if (response.status === 200) {
-          setUser(response.data._id);
+          console.log(response.data);
+          setUser(response.data._doc);
           getAPI("/api/workspace/list")
             .then((response) => {
               if (!workspaceID) {
@@ -133,10 +131,10 @@ const Home = () => {
     selectedTeam?.role === "employee"
       ? "navbar-blue"
       : selectedTeam?.role === "client"
-        ? "navbar-red"
-        : selectedTeam?.role === "admin"
-          ? "navbar-gray"
-          : "";
+      ? "navbar-red"
+      : selectedTeam?.role === "admin"
+      ? "navbar-gray"
+      : "";
   const { docId } = useParams();
   const handleGetDocumentDetials = () => {
     getAPI(`/api/doc/${docId}`)
@@ -160,22 +158,20 @@ const Home = () => {
 
   return (
     <>
- { user && (
-      <div>
-        <div className="">
-          {/* <div
+      {user && (
+        <div>
+          <div className="">
+            {/* <div
             className={`main-content ${thisUser?.isEmailVerified ? "" : "top88"} ${isSidebarVisible ? "" : "expanded"
               } h-screen mb-8 overflow-auto`}
           > */}
             {/* <div className="respon" style={{ height }}> */}
-              <NewTeam />
+            <NewTeam />
             {/* </div> */}
-          {/* </div> */}
+            {/* </div> */}
+          </div>
         </div>
-      </div>
       )}
-     
-
     </>
   );
 };

@@ -192,7 +192,7 @@ z-index: 9999;
 /* For Firefox */
 .admin-main-content {
   scrollbar-width: thin; /* Use a thin scrollbar */
-  scrollbar-color: #86c341 #f0f0f0; /* Scrollbar handle and track color */
+  /* scrollbar-color: #86c341 #f0f0f0; */
 }
 
 /* Optional Scrollbar Styling for Other Elements */

@@ -239,7 +239,7 @@ console.log("UserNav",user)
         <span className="flex ms-auto ">
           <Button
             className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
-            onClick={() => navigate("/password-managment")}
+            // onClick={() => navigate("/password-managment")}
           >
             <LiaUserLockSolid />
           </Button>

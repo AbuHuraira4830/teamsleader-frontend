@@ -7,6 +7,8 @@ export const UsersContext = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [clients, setClients] = useState([]);
+  const [currentTeamName, setCurrentTeamName] = useState();
+  
 
   useEffect(() => {
     // Fetch data from API
@@ -84,6 +86,8 @@ export const UsersContext = ({ children }) => {
         deleteAdmin,
         setClients,
         clients,
+        currentTeamName,
+        setCurrentTeamName
       }}
     >
       {children}

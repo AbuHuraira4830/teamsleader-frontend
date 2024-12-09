@@ -158,19 +158,12 @@ const Home = () => {
 
   return (
     <>
-      {user && (
-        <div>
-          <div className="">
-            {/* <div
-            className={`main-content ${thisUser?.isEmailVerified ? "" : "top88"} ${isSidebarVisible ? "" : "expanded"
-              } h-screen mb-8 overflow-auto`}
-          > */}
-            {/* <div className="respon" style={{ height }}> */}
-            <NewTeam />
-            {/* </div> */}
-            {/* </div> */}
-          </div>
+ { user && (
+      <div>
+        <div className="">
+              <NewTeam />
         </div>
+      </div>
       )}
     </>
   );

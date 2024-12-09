@@ -37,8 +37,7 @@ import Workspace from "../Pages/NewTeam/Components/WorkspaceComponent";
 import { CircularProgress } from "@mui/material";
 import AddTeamModal from "./AddTeamModal"; // Import the AddTeamModal component
 import DocAddingModal from "./DocAddingModal";
-// import { BiSolidFileExport } from "react-icons/md";
-// import "../../assets/css/sidebar.css";
+
 
 const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
   const {
@@ -395,7 +394,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
               My work
             </Button> */}
 
-            <Link to="/proposals" className="text-decoration-none">
+            {/* <Link to="/proposals" className="text-decoration-none">
               <Button
                 className={`w-100 text-start ${
                   activeButton === 3 ? "selected_bg" : "transparent_bg"
@@ -407,8 +406,8 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                   Proposals
                 </span>
               </Button>
-            </Link>
-            <Link to="/invoices" className="text-decoration-none">
+            </Link> */}
+            {/* <Link to="/invoices" className="text-decoration-none">
               <Button
                 className={`w-100 text-start ${
                   activeButton === 4 ? "selected_bg" : "transparent_bg"
@@ -420,7 +419,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
                   Invoices
                 </span>
               </Button>
-            </Link>
+            </Link> */}
             {/* <Link to="/password-managment " className="text-decoration-none">
               <Button
                 className={`w-100 text-start ${

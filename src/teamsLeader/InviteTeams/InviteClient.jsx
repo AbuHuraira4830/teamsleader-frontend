@@ -28,7 +28,7 @@ const InviteClient = ({ role }) => {
   const navigate = useNavigate();
 
   const { workspaceID, teamID } = useParams();
-  const { clients } = userContext();
+  const { clients,currentTeamName } = userContext();
 
   // const { workspaceID, teamID } = useStateContext();
 
@@ -421,9 +421,9 @@ const InviteClient = ({ role }) => {
           <Typography variant="subtitle1" paragraph={true}>
             <p className=" text-sm">
               <b>What happens next?</b> Everyone above will be immediately added
-              to the <b>Mike Team 1</b> and have full access to everything in
-              the <b>Mike Team 1</b>. They’ll receive an email with instructions
-              to join the <b>Mike Team 1</b>.
+              to the <b>{currentTeamName}</b> and have full access to everything in
+              the <b>{currentTeamName}</b>. They’ll receive an email with instructions
+              to join the <b>{currentTeamName}</b>.
             </p>
           </Typography>
         </Box>

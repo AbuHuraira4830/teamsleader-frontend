@@ -195,6 +195,12 @@ const Login = () => {
               Login to another account
             </a>
           )}
+          {/* <div>
+            <span>Can't log in? </span>
+            <a className="login_link" href="#">
+              Visit our help center
+            </a>
+          </div> */}
         </div>
       </div>
     </div>

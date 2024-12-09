@@ -23,13 +23,13 @@ const InviteAdminMain = () => {
   };
 
   return (
-    <div
-      className={`main-content ${
-        isSidebarVisible ? "" : "expanded"
-      } h-screen mb-8 overflow-auto`}
-    >
+    // <div
+    //   className={`main-content ${
+    //     isSidebarVisible ? "" : "expanded"
+    //   } h-screen mb-8 overflow-auto`}
+    // >
       <InviteAdmin role="admin" />
-    </div>
+    // </div>
   );
 };
 

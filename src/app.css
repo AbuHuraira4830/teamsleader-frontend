@@ -69,6 +69,13 @@ ul,
 li {
   font-family: inherit !important;
 }
+h1,
+h2,
+h3 {
+  font-size: 2em !important; /* Set your desired font size */
+  font-weight: bold !important; /* Set your desired font weight */
+}
+
 .ck-dropdown__panel .ck-list {
   max-height: 400px; /* Adjust this to control the scrollable height */
   overflow-y: auto; /* Enables vertical scrolling */
@@ -598,10 +605,10 @@ input::placeholder {
   cursor: pointer;
 }
 
-.fr-toolbar .fr-command.fr-btn {
-  /* width: 25px; */
-  /* height: 25px;  */
-}
+/* .fr-toolbar .fr-command.fr-btn {
+  width: 25px;
+  height: 25px; 
+} */
 .fr-toolbar .fr-command.fr-btn svg.fr-svg {
   height: 18px;
   /* margin-top: 0px; */
@@ -842,8 +849,8 @@ input::placeholder {
   height: 30px !important;
   border-color: var(--border-color);
 }
-.holidayDatepicker .rmdp-wrapper {
-}
+/* .holidayDatepicker .rmdp-wrapper {
+} */
 
 .timeSheetModal {
   z-index: 9999 !important;

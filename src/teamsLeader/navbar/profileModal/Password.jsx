@@ -43,6 +43,18 @@ const Password = () => {
     setSuccessModal(false);
     setErrorModal(false);
   };
+
+  const sendMail = async () => {
+    try {
+      const res = postAPI("/api/user/forgot-password", {
+        emailAddress: thisUser.emailAddress,
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   return (
     <div className="w-100 fs_14" style={{ padding: "24px" }}>
       <p className="" style={{ fontSize: "32px", fontWeight: "500" }}>
@@ -57,7 +69,11 @@ const Password = () => {
         style={{ width: "340px", height: "40px" }}
       />
       <p className="mt-1">Forgot your password?</p>
-      <p className="" style={{ color: "#1f76c2" }}>
+      <p
+        className="cursor_pointer"
+        style={{ color: "#1f76c2" }}
+        onClick={sendMail}
+      >
         Reset password via email
       </p>
       <p className="mb-0" style={{ marginTop: "35px" }}>

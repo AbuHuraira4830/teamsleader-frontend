@@ -177,13 +177,11 @@ h3 {
   color: #000000;
 }
 
-
 .respon {
   height: 96vh;
   overflow-y: auto;
 }
 @media (max-width: 2560px) and (min-width: 1541px) {
-
   .respon {
     height: 95.5vh;
   }
@@ -195,7 +193,6 @@ h3 {
 }
 
 @media (max-width: 1440px) and (min-width: 1025px) {
- 
   .respon {
     height: 95.5vh;
   }
@@ -204,7 +201,6 @@ h3 {
   }
 }
 @media (max-width: 1024px) and (min-width: 769px) {
-
   .respon {
     height: 92vh;
   }
@@ -214,8 +210,6 @@ h3 {
   }
 }
 @media (max-width: 768px) and (min-width: 426px) {
- 
-  
   .respon {
     height: 125.2vh;
   }
@@ -225,19 +219,17 @@ h3 {
   }
 }
 
-
 @media (max-width: 425px) and (min-width: 376px) {
-
   .respon {
-    height: 350vh !important;    
+    height: 350vh !important;
   }
 }
 @media (max-width: 375px) and (min-width: 300px) {
- 
   .respon {
     height: 390vh !important;
   }
-} */
+}
+*/
 
 /* .main_widthDiv {
 }
@@ -263,7 +255,6 @@ h3 {
   background-color: var(--sidebar-background-color);
   overflow-y: auto; /* Scrollable content if needed */
   /* z-index: 1000; */
-
 }
 .sidebar.collapse_sidebar {
   width: 0; /* Sidebar collapses to 0 width */
@@ -274,21 +265,18 @@ h3 {
 /* Main Content Styling */
 .main-content {
   flex: 1;
-  margin-left: calc(20% + 16px); /* Sidebar width + margin */
+  margin-left: calc(20% + 5px); /* Sidebar width + margin */
   padding: 20px;
   position: relative;
   padding-top: 64px; /* Padding for navbar height */
   overflow-x: auto; /* Horizontal scrolling for wide content */
-  overflow-y: scroll; /* Always show vertical scrollbar */
+  overflow-y: auto; /* Always show vertical scrollbar */
   border-top-left-radius: 8px;
   background-color: var(--sidebar-background-color);
   transition: margin-left 0.3s ease; /* Smooth transition for layout adjustments */
   height: 100vh; /* Full viewport height */
   box-sizing: border-box; /* Include padding in height calculation */
 }
-
-
-
 
 /* Media Queries for Responsive Adjustments */
 @media (max-width: 1024px) {
@@ -320,8 +308,6 @@ h3 {
     height: calc(100vh - 48px); /* Fill the rest of the viewport */
   }
 }
-
-
 
 /* @media (max-width: 770px) {
   .sidebar button {
@@ -769,9 +755,10 @@ input::placeholder {
 }
 /* ================================================= */
 
-
-.custom-modal-position  {
-  transform: translateY(-20%) !important; /* Adjust this value to move the modal up */
+.custom-modal-position {
+  transform: translateY(
+    -20%
+  ) !important; /* Adjust this value to move the modal up */
 }
 
 .ant-popover-inner-content {
@@ -1124,13 +1111,12 @@ em-emoji-picker {
   padding-left: 11px;
 }
 
-
 /* ===================== */
 /* Sidebar Toggle Button */
 .sidebar_toggleBtn {
   position: fixed;
   top: 48px;
-  left: 241px;
+  left: 285px;
   z-index: 100 !important;
   transform: translateX(-50%);
   transition: left 0.3s ease;
@@ -1173,4 +1159,11 @@ em-emoji-picker {
 }
 .main-content.expanded {
   margin-left: 0; /* Full width when sidebar is collapsed */
+}
+
+.selectorEdit {
+  display: none;
+}
+.selectorInput:hover .selectorEdit {
+  display: block;
 }

@@ -9,8 +9,10 @@ import { postAPI } from "../../../helpers/apis";
 import Header from "./registrationHeader";
 import { CircularProgress } from "@mui/material";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useStateContext } from "../../../contexts/ContextProvider";
 
 const Login = () => {
+  const { setLoginEmail, loginEmail } = useStateContext();
   const navigate = useNavigate();
   const [nextClicked, setNextClicked] = useState(true);
   const [showError, setShowError] = useState(null);
@@ -24,7 +26,7 @@ const Login = () => {
   };
 
   const handleEmailSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setIsLoading(true);
     const formData = new FormData(e.target);
     const data = {};
@@ -58,7 +60,8 @@ const Login = () => {
       console.log(errorMessage);
     }
   };
-  const handleChange = () => {
+  const handleChange = (e) => {
+    setLoginEmail(e.target.value);
     setErrorMessage(null);
   };
   return (
@@ -95,7 +98,8 @@ const Login = () => {
                   <input
                     name="emailAddress"
                     type="email"
-                    onChange={handleChange}
+                    value={loginEmail}
+                    onChange={(e) => handleChange(e)}
                     className="login_input"
                     placeholder="Enter your email"
                   />
@@ -115,42 +119,44 @@ const Login = () => {
             <div>
               <span className="flex align-items-center mt-3 pt-1">
                 <span className="email_label me-3">Password</span>
-                <span className="width360 position-relative">
-                  <input
-                    name="password"
-                    type={showPassword ? "text" : "password"} // Toggle between text and password
-                    className="login_input"
-                    placeholder="Enter your password"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="position-absolute"
-                    style={{
-                      right: "10px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? (
-                      <AiOutlineEyeInvisible />
-                    ) : (
-                      <AiOutlineEye />
-                    )}
+                <div>
+                  <span className="width360 position-relative">
+                    <input
+                      name="password"
+                      type={showPassword ? "text" : "password"} // Toggle between text and password
+                      className="login_input"
+                      placeholder="Enter your password"
+                      onChange={() => setErrorMessage(null)}
+                    />
+                    <span
+                      className="position-absolute"
+                      style={{
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </span>
                   </span>
-                </span>
+                  {(errorMessage === "*Password Is Empty" ||
+                    errorMessage === "*Incorrect Password") && (
+                    <p className="m-0 text-start fs_14 text-danger">
+                      {errorMessage}
+                    </p>
+                  )}
+                </div>
               </span>
-              {(errorMessage === "*Password Is Empty" ||
-                errorMessage === "*Incorrect Password") && (
-                <p className="m-0 text-start fs_14 text-danger">
-                  {errorMessage}
-                </p>
-              )}
             </div>
             <a
-              className="login_link pb-1"
-              href="#"
+              className="login_link pb-1 cursor_pointer"
+              onClick={() => navigate("/forget-password")}
               style={{ alignSelf: "baseline", margin: "18px 0 4px 112px" }}
             >
               Forgot your password?

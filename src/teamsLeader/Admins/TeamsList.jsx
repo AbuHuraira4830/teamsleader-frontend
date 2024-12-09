@@ -11,8 +11,20 @@ import Tooltip from "@mui/material/Tooltip";
 import { Modal, Table, Button, Checkbox } from "antd";
 import axios from "axios";
 import { RxMagnifyingGlass } from "react-icons/rx";
-
-const TeamsList = () => {
+import { useStateContext } from "../../contexts/ContextProvider";
+import { postAPI } from "../../helpers/apis";
+import { TimeSheetTable } from "./ProjectTimeSheet";
+import { v4 as uuidv4 } from "uuid";
+import ProjectSelector from "./ProjectSelector";
+const TeamsList = ({ handleChange }) => {
+  const {
+    selectedWorkspace,
+    members,
+    selectedTeam,
+    setSelectedTeam,
+    thisUser,
+    setSelectedMember,
+  } = useStateContext();
   const [teams, setTeams] = useState([]); // Initialize as an empty array
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [teamToRemoveId, setTeamToRemoveId] = useState(null);
@@ -87,9 +99,9 @@ const TeamsList = () => {
     setSelectedClientKeys(newSelectedClientKeys);
   };
 
-  const filteredTeams = teams.filter((team) => {
-    const teamNameMatches = team.name
-      .toLowerCase()
+  const filteredTeams = teams?.filter((team) => {
+    const teamNameMatches = team?.name
+      ?.toLowerCase()
       .includes(searchQuery.toLowerCase());
 
     const employeeEmailMatches = team.employees.some((employee) =>
@@ -103,11 +115,25 @@ const TeamsList = () => {
     return teamNameMatches || employeeEmailMatches || clientEmailMatches;
   });
 
+  const handleNameClick = (source, data) => {
+    console.log("source", source, data);
+    handleChange("a", source);
+    setSelectedMember(data);
+  };
+
   const employeeColumns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (text, record) => (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNameClick("timeSheet", record)}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Role",
@@ -124,6 +150,12 @@ const TeamsList = () => {
       dataIndex: "teamName",
       key: "teamName",
     },
+    {
+      title: "Project Work Time",
+      dataIndex: "projectTime",
+      key: "projectTime",
+      render: (text) => text || "0 hours 6 mins ",
+    },
   ];
 
   const clientColumns = [
@@ -131,6 +163,14 @@ const TeamsList = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (text, record) => (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNameClick("timeSheet", record)}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Email",
@@ -142,8 +182,98 @@ const TeamsList = () => {
       dataIndex: "teamName",
       key: "teamName",
     },
+    {
+      title: "Project Work Time",
+      dataIndex: "projectTime",
+      key: "projectTime",
+      render: (text) => text || "0 hours 0 mins ",
+    },
   ];
 
+  const membersessions = selectedTeam?.projectSessions
+    ? selectedTeam?.projectSessions[selectedTeam?.currentProjectId]?.data
+    : [];
+
+  const now = new Date();
+  const options = { day: "numeric", month: "short", year: "numeric" };
+  const date = now.toLocaleDateString("en-US", options);
+  const timeOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const time = now.toLocaleTimeString("en-US", timeOptions).replace(":", " : ");
+
+  const handleReset = async () => {
+    const notification = `${thisUser.fullName} has reset the project on ${date} at ${time}`;
+
+    try {
+      const res = await postAPI("/api/admin/create-new-project", {
+        teamId: selectedTeam._id,
+        projectId: uuidv4(),
+        notification,
+      });
+      console.log(res.data.team);
+      setSelectedTeam(res.data.team);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const convertToMinutes = (timeString) => {
+    const timeParts = timeString.match(/(\d+)\s*hrs\s*(\d+)\s*mins/);
+    if (timeParts) {
+      const hours = parseInt(timeParts[1]);
+      const minutes = parseInt(timeParts[2]);
+      return hours * 60 + minutes;
+    }
+    return 0;
+  };
+
+  const convertToHrsMins = (minutes) => {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hrs} hrs ${mins} mins`;
+  };
+
+  const calculateTotalTime = (sessions) => {
+    if (!sessions) return "0 hrs 0 mins";
+    let totalMinutes = 0;
+    sessions?.forEach((session) => {
+      totalMinutes += convertToMinutes(session.totalTime);
+    });
+    return convertToHrsMins(totalMinutes); // Convert total minutes back to hours and minutes
+  };
+
+  const totalTimeWorked = calculateTotalTime(membersessions);
+
+  function getProjectWorkTimeByEmail(email) {
+    // Filter sessions by the provided email
+    const userSessions = membersessions?.filter(
+      (session) => session.email === email
+    );
+
+    // Initialize total time in minutes
+    let totalMinutes = 0;
+
+    // Loop through each session and parse the total time
+    userSessions.forEach((session) => {
+      const [hours, mins] = session.totalTime
+        .match(/(\d+)\s*hrs?\s*(\d+)?\s*mins?/)
+        .slice(1, 3)
+        .map((num) => parseInt(num || 0, 10)); // Default mins to 0 if undefined
+      totalMinutes += hours * 60 + mins;
+    });
+
+    // Convert total minutes to hours and minutes
+    const totalHours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    // Return the result as a formatted string
+    return `${totalHours} hrs ${remainingMinutes} mins`;
+  }
+
+  console.log(selectedTeam?.projectSessions);
   return (
     <div className="my-10">
       <div
@@ -163,7 +293,7 @@ const TeamsList = () => {
         <RxMagnifyingGlass className="text-base text-[#c3c6d4] mx-2" />
       </div>
 
-      {filteredTeams.map((team) => (
+      {filteredTeams?.map((team) => (
         <Accordion
           key={team.id}
           expanded={expandedTeam === team.id}
@@ -192,7 +322,7 @@ const TeamsList = () => {
             <div>
               {team.employees.length > 0 && (
                 <>
-                  <div className="d-flex justify-between pb-4">
+                  <div className=" pb-4">
                     <div className="flex">
                       <span className="title_border me-2"></span>
                       <p
@@ -202,9 +332,28 @@ const TeamsList = () => {
                         List of employees
                       </p>
                     </div>
+                    <div className="mt-3 mb-2 centerIt">
+                      <p className="me-2">Selected project:</p>{" "}
+                      <ProjectSelector date={date} time={time} />
+                    </div>
+                    <div className=" centerIt">
+                      <p>
+                        Total project work time:{" "}
+                        <strong>{totalTimeWorked}</strong>{" "}
+                      </p>{" "}
+                      <button
+                        onClick={handleReset}
+                        className="ms-2 px-2 hover:bg-red-500 rounded-[4px] h-[30px] hover:text-white border-1 border-red-500"
+                      >
+                        Reset
+                      </button>
+                    </div>
                   </div>
                   <Table
-                    dataSource={team.employees}
+                    dataSource={team?.employees?.map((employee) => ({
+                      ...employee,
+                      projectTime: getProjectWorkTimeByEmail(employee.email),
+                    }))}
                     columns={employeeColumns}
                     pagination={false}
                     rowKey="email"
@@ -235,7 +384,10 @@ const TeamsList = () => {
                     </div>
                   </div>
                   <Table
-                    dataSource={team.clients}
+                    dataSource={team?.clients?.map((client) => ({
+                      ...client,
+                      projectTime: getProjectWorkTimeByEmail(client.email),
+                    }))}
                     columns={clientColumns}
                     pagination={false}
                     rowKey="email"
@@ -257,6 +409,26 @@ const TeamsList = () => {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
+            <div className="mt-4 pb-2">
+              <p className="fw-bold">Project updates</p>
+              <div className="Border p-3 rounded-2 mt-1 w-[80%] pb-5 max-h-[300px] overflow-y-auto">
+                {selectedTeam?.projectUpdates?.map((item) => (
+                  <p>{item}</p>
+                ))}
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="flex">
+                <span className="title_border me-2"></span>
+                <p
+                  className="mb-0"
+                  style={{ fontSize: "18px", fontWeight: 600 }}
+                >
+                  Project time sheet
+                </p>
+              </div>
+              <TimeSheetTable sessions={membersessions} />
+            </div>
           </AccordionDetails>
         </Accordion>
       ))}

@@ -34,27 +34,14 @@ const InvoicesMain = () => {
   };
 
   return (
-    // <Router>
     <>
-      <div className="Navbar p-0 w-100 py-1" style={{ zIndex: 999 }}>
-        <Navbar setTheme={setTheme} />
-      </div>
-
-      <div className="app-container flex  ">
-        <div
-          className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
-        >
-          <Sidebar
-            toggleNavbar={toggleNavbar}
-            isSidebarVisible={isSidebarVisible}
-          />
-        </div>
-        <div className={`main-content  ${isSidebarVisible ? "" : "expanded"} `}>
+      <div className=" flex  justify-center">
+       
+        {/* <div className={`main-content  ${isSidebarVisible ? "" : "expanded"} `}> */}
           <NewInvoice />
-        </div>
+        {/* </div> */}
       </div>
     </>
-    // </Router>
   );
 };
 

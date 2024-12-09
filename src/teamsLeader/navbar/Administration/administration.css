@@ -168,43 +168,4 @@ z-index: 9999;
 .admin-main-content > .p-6 {
   padding: 1.5rem;
 }
-/* General Scrollbar Customization */
-.admin-main-content::-webkit-scrollbar {
-  width: 8px !important; /* Width of the vertical scrollbar */
-  height: 8px !important; /* Height of the horizontal scrollbar */
-}
 
-.admin-main-content::-webkit-scrollbar-track {
-  background: #f0f0f0; /* Background color of the scrollbar track */
-  border-radius: 8px; /* Round the edges of the track */
-}
-
-.admin-main-content::-webkit-scrollbar-thumb {
-  background: #86c341; /* Green color for the scrollbar handle */
-  border-radius: 8px; /* Rounded corners for the handle */
-  border: 2px solid #f0f0f0; /* Space between handle and track */
-}
-
-.admin-main-content::-webkit-scrollbar-thumb:hover {
-  background: #6ea02e; /* Darker green color on hover */
-}
-
-/* For Firefox */
-.admin-main-content {
-  scrollbar-width: thin; /* Use a thin scrollbar */
-  scrollbar-color: #86c341 #f0f0f0; /* Scrollbar handle and track color */
-}
-
-/* Optional Scrollbar Styling for Other Elements */
-.admin-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.admin-sidebar::-webkit-scrollbar-thumb {
-  background: #d1d1d1;
-  border-radius: 6px;
-}
-
-.admin-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #b0b0b0;
-}

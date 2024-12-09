@@ -69,12 +69,12 @@ ul,
 li {
   font-family: inherit !important;
 }
-h1,
+/* h1,
 h2,
 h3 {
-  font-size: 2em !important; /* Set your desired font size */
-  font-weight: bold !important; /* Set your desired font weight */
-}
+  font-size: 2em !important; 
+  font-weight: bold !important; 
+} */
 
 .ck-dropdown__panel .ck-list {
   max-height: 400px; /* Adjust this to control the scrollable height */

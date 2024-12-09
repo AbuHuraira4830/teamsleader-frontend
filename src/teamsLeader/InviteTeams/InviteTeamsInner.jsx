@@ -14,6 +14,8 @@ import InviteClient from "./InviteClient";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAPI } from "../../helpers/api";
 import { useStateContext as userContext } from "../../contexts/UsersContext";
+import { Lock, LockOpen } from "@mui/icons-material";
+
 
 
 
@@ -141,34 +143,34 @@ const InviteTeamsInner = () => {
         </Paper>
   
         {/* Employees Section */}
-        <Paper elevation={3} sx={{ p: 2, mt: 4 }} style={{ overflowX: "auto", maxHeight: "400px" }}>
-          <Typography variant="h6">Employees</Typography>
-          <Divider sx={{ my: 2, backgroundColor: "#4CAF50", height: "1px" }} />
-          {members.employees.length > 0 ? (
-            members.employees.map((employee) => (
-              <TeamMemberEntry key={employee.email} member={employee} />
-            ))
-          ) : (
-            <Typography variant="body2" color="textSecondary" textAlign="center">
-              No employees added yet. Add some to get started!
-            </Typography>
-          )}
-        </Paper>
+<Paper elevation={3} sx={{ p: 2, mt: 4 }} style={{ overflowX: "auto", maxHeight: "400px" }}>
+  <Typography variant="h6">Employees</Typography>
+  <Divider sx={{ my: 2, backgroundColor: "#4CAF50", height: "1px" }} />
+  {members.employees.length > 0 ? (
+    members.employees.map((employee) => <TeamMemberEntry key={employee.email} member={employee} />)
+  ) : (
+    <Typography variant="body2" color="textSecondary" textAlign="center">
+      No employees added yet. Add some to get started!
+    </Typography>
+  )}
+</Paper>
+
+
   
         {/* Clients Section */}
-        <Paper elevation={3} sx={{ p: 2, mt: 4, mb: 8 }} style={{ overflowX: "auto", maxHeight: "400px" }}>
-          <Typography variant="h6">Clients</Typography>
-          <Divider sx={{ my: 2, backgroundColor: "#4CAF50", height: "1px" }} />
-          {members.clients.length > 0 ? (
-            members.clients.map((client) => (
-              <TeamMemberEntry key={client.email} member={client} />
-            ))
-          ) : (
-            <Typography variant="body2" color="textSecondary" textAlign="center">
-              No clients added yet. Add some to get started!
-            </Typography>
-          )}
-        </Paper>
+<Paper elevation={3} sx={{ p: 2, mt: 4, mb: 8 }} style={{ overflowX: "auto", maxHeight: "400px" }}>
+  <Typography variant="h6">Clients</Typography>
+  <Divider sx={{ my: 2, backgroundColor: "#4CAF50", height: "1px" }} />
+  {members.clients.length > 0 ? (
+    members.clients.map((client) => <TeamMemberEntry key={client.email} member={client} />)
+  ) : (
+    <Typography variant="body2" color="textSecondary" textAlign="center">
+      No clients added yet. Add some to get started!
+    </Typography>
+  )}
+</Paper>
+
+
       </>
     );
   };
@@ -199,19 +201,75 @@ const InviteTeamsInner = () => {
   );
 };
 
-const TeamMemberEntry = ({ member }) => (
-  <Box display="flex" alignItems="center" mb={2}>
-    <Avatar sx={{ bgcolor: "#4CAF50" }}>{member.name[0]?.toUpperCase()}</Avatar>
-    <Box ml={2}>
-      <Typography variant="subtitle1" fontWeight="bold">
-        {member.name}
-      </Typography>
-      <Typography variant="body2" color="textSecondary">
-        {member.role.charAt(0).toUpperCase() + member.role.slice(1)}
-      </Typography>
-      <Typography variant="body2">{member.email}</Typography>
+
+const TeamMemberEntry = ({ member, privacy }) => {
+  const roleStyles = {
+    Client: {
+      backgroundColor: "#fffacd", // Light yellow
+      color: "#6B4D4D", // Brownish text color
+    },
+    Employee: {
+      backgroundColor: "#7eb6ff", // Light blue
+      color: "#fff", // White text color
+    },
+  };
+
+  // Helper to capitalize the first letter of a string
+  const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
+  return (
+    <Box display="flex" alignItems="center" mb={2}>
+      {/* Avatar for member */}
+      <Avatar sx={{ bgcolor: "#4CAF50" }}>{member.name[0]?.toUpperCase()}</Avatar>
+
+      {/* Member details */}
+      <Box ml={2} position="relative">
+        <Typography variant="subtitle1" fontWeight="bold">
+          {member.name}
+          {/* Role Badge */}
+          {member.role && (
+            <span
+              style={{
+                ...roleStyles[capitalize(member.role)],
+                padding: "0.2rem 0.5rem",
+                borderRadius: "6px",
+                fontSize: "0.75rem",
+                marginLeft: "0.5rem",
+                textTransform: "capitalize",
+              }}
+            >
+              {capitalize(member.role)}
+            </span>
+          )}
+        </Typography>
+
+        {/* Privacy Status */}
+        <Box display="flex" alignItems="center" mt={0.5}>
+          {privacy === "private" ? (
+            <>
+              <Lock sx={{ fontSize: "1rem", marginRight: "0.5rem", color: "#f44336" }} />
+              <Typography variant="body2" color="textSecondary">
+                Private
+              </Typography>
+            </>
+          ) : (
+            <>
+              <LockOpen sx={{ fontSize: "1rem", marginRight: "0.5rem", color: "#4CAF50" }} />
+              <Typography variant="body2" color="textSecondary">
+                Public
+              </Typography>
+            </>
+          )}
+        </Box>
+
+        {/* Email */}
+        <Typography variant="body2">{member.email}</Typography>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
+
+
+
 
 export default InviteTeamsInner;

@@ -1115,8 +1115,10 @@ em-emoji-picker {
 /* Sidebar Toggle Button */
 .sidebar_toggleBtn {
   position: fixed;
-  top: 48px;
-  left: 285px;
+  /* top: 48px;
+  left: 285px; */
+  top: 8%;
+  left: 8.8%;
   z-index: 100 !important;
   transform: translateX(-50%);
   transition: left 0.3s ease;

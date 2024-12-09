@@ -29,14 +29,14 @@ const PostEditorWrapper = () => {
   return (
     <>
       <div className="app-container flex">
-        <div
+        {/* <div
           className={`main-content ${
             isSidebarVisible ? "" : "expanded"
           } h-auto mb-8 overflow-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100`}
-        >
+        > */}
           <PostEditor />
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };

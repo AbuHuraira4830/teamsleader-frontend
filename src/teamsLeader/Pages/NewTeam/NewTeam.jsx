@@ -863,12 +863,12 @@ const handleAddGallery = () => {
               <span className="text-sm mt-1 text-[#676879]"> Invite / 1</span>
             </button>
           </Link>
-          <Button
+          {/* <Button
             className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle"
             style={{ display: "flex" }}
           >
             <BsThreeDots className=" fs-5 " />
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className=" main_tableBtnDiv mb-3 d-flex">

@@ -34,9 +34,8 @@ import ProfileModal from "./profileModal/ProfileModal";
 import UpdateFeedModal from "../updateFeed/UpdateFeedModal";
 import InviteAdminModal from "../Admins/InviteAdminModal";
 
-
 const Navbar = ({ user }) => {
-console.log("UserNav",user)
+  console.log("UserNav", user);
 
   const navigate = useNavigate();
   const { workspaceID, teamID } = useParams();
@@ -58,34 +57,27 @@ console.log("UserNav",user)
   // const [isModalVisible, setModalVisible] = useState(false);
   // const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false);
-  const [currentPlan,setCurrentPlan] = useState();
+  const [currentPlan, setCurrentPlan] = useState();
   const [selectedPlan, setSelectedPlan] = useState();
-  
 
   const [feedModal, setFeedModal] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-
- 
 
   const showModal = () => {
     setModalVisible(true);
   };
 
   useEffect(() => {
-    const fetchPlan = async() =>{
-      try{
+    const fetchPlan = async () => {
+      try {
         const userResponse = await axios.get("/api/user/get-user-from-token");
         setCurrentPlan(userResponse.data.currentPlan);
-
-      }catch (error) {
+      } catch (error) {
         console.error("Error fetching Plan", error);
       }
-
-    }
+    };
     fetchPlan();
-  },[])
-
-
+  }, []);
 
   const handleOpenModal = () => {
     setIsPlanModalOpen(true);
@@ -126,7 +118,6 @@ console.log("UserNav",user)
     setIsPaymentModalOpen(false);
   };
   const handleShow = () => setShow(true);
-
 
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
@@ -182,8 +173,15 @@ console.log("UserNav",user)
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
-
-
+  const handleTheme = (theme) => {
+    postAPI("/api/theme/update", { theme })
+      .then((response) => {
+        setTheme(response.data.theme.theme);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -236,7 +234,7 @@ console.log("UserNav",user)
           </button>
         </span>
 
-        <span className="flex ms-auto ">
+        <span className="centerIt ms-auto ">
           <Button
             className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
             // onClick={() => navigate("/password-managment")}
@@ -251,10 +249,11 @@ console.log("UserNav",user)
           </Button>
 
           <Link
-            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
+            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`} 
+            className="centerIt"
           >
             <Button
-              className="p-0 workspace_menuBtn bgHover align-middle me-1"
+              className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1 "
               // onClick={showModal}
             >
               <AiOutlineUserAdd />
@@ -554,7 +553,7 @@ console.log("UserNav",user)
             onContinue={handleContinue}
             // selectedPlan={selectedPlan}
             // setSelectedPlan={setSelectedPlan}
-            currentPlan = {currentPlan}
+            currentPlan={currentPlan}
           />
         )}
         {isPaymentModalOpen && (

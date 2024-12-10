@@ -97,6 +97,7 @@ import { FaRegUser } from "react-icons/fa";
 import SocialButtons from "../../SocialMediaPlanner/PlannerHeader/SocialButtons";
 import PlannerWrapper from "../../SocialMediaPlanner/PlannerWrapper";
 import Main from "./Components/Kanban Components/Main";
+import ProjectTimer from "./ProjectTimer";
 
 // import DatePicker from "react-multi-date-picker";
 
@@ -370,8 +371,7 @@ export const NewTeam = () => {
       key: "Social Planner",
       id: Math.random().toString(),
     },
- 
-  
+
     // {
     //   icon: <MdCheckBoxOutlineBlank className="me-2 mt-1 fs-6 align-middle" />,
     //   option: "Blank View",
@@ -447,18 +447,18 @@ export const NewTeam = () => {
     // setSelectedDropdownOption(updatedTableData);
   };
 
-const handleAddGallery = () => {
-  postAPI(`/api/gallery/store`, {
-    name: "File Gallery",
-    teamID: selectedTeam?._id,
-  })
-    .then((res) => {
-      setTeamTasks(res.data.team);
+  const handleAddGallery = () => {
+    postAPI(`/api/gallery/store`, {
+      name: "File Gallery",
+      teamID: selectedTeam?._id,
     })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+      .then((res) => {
+        setTeamTasks(res.data.team);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleDropdownSelect = (item) => {
     const data = { name: item.option, active: item.option, key: item.option };
@@ -843,14 +843,20 @@ const handleAddGallery = () => {
 
   return (
     // <div className="px-4 pt-3 newTeam " style={{ height: "100vh" }}>
-      <div className="px-4 pt-3 newTeam mb-[5rem]  " > 
+    <div className="px-4 pt-3 newTeam mb-[5rem]  ">
       <div className="flex mb-2 items-center justify-between">
-        <h3>Usman</h3>
+        <h3
+          style={{ color: "var(--text-color)" }}
+          className="text-[24px] font-semibold"
+        >
+          {selectedTeam?.name}
+        </h3>
         {/* <Button className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle">
             <BiChevronDown />
           </Button> */}
         {/* ==================Invite Employee/Client============= */}
-        <div className="flex">
+        <div className="centerIt">
+          <ProjectTimer />
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/teams-invites`}
             className=" no-underline	"

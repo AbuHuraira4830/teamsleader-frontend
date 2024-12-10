@@ -246,7 +246,7 @@ const WorkAndHoliday = ({ setSelectedOption }) => {
                   Select weekly working hours
                 </p>
                 <div className="ps-3">
-                  {users.map((user, index) => (
+                  {users?.map((user, index) => (
                     <div key={index} className="centerIt pb-2">
                       <div style={{ width: "175px" }}>
                         {userProfile(user.name, user?.picture)}

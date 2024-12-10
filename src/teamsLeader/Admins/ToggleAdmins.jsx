@@ -12,6 +12,7 @@ import EmployeeInvite from "./EmployeeInvite";
 import ClientInvite from "./ClientInvite";
 
 import "./adminsInvite.css";
+import { ProjectTimeSheet } from "./ProjectTimeSheet";
 
 export default function ColorToggleButton() {
   const [alignment, setAlignment] = React.useState("admin");
@@ -33,7 +34,10 @@ export default function ColorToggleButton() {
       selectedComponent = <ClientInvite />;
       break;
     case "teams":
-      selectedComponent = <TeamsList />;
+      selectedComponent = <TeamsList handleChange={handleChange} />;
+      break;
+    case "timeSheet":
+      selectedComponent = <ProjectTimeSheet />;
       break;
     default:
       selectedComponent = <AdminInvite />;

@@ -110,7 +110,7 @@ const defaultHolidays = [
   { color: "#1890ff", value: 0, type: "Vacation days" },
   { color: "#722ed1", value: 0, type: "Sick days" },
 ];
-const ManageHolidays = ({ setSelectedOption }) => {
+const ManageHolidays = ({ setSelectedOption }) => { 
   const { users, setEmployeeSummary } = useStateContext();
 
   const toCamelCase = (str) => {
@@ -121,8 +121,9 @@ const ManageHolidays = ({ setSelectedOption }) => {
       )
       .replace(/\s+/g, "");
   };
+  console.log(users);
   const holidaysToDisplay =
-    users[0]?.holidays?.length > 0 ? users[0].holidays : defaultHolidays;
+    users[0]?.holidays?.length > 0 ? users[0].holidays : defaultHolidays;  
 
   const holidayColumns = holidaysToDisplay.map((holiday) => ({
     title: holiday.type,

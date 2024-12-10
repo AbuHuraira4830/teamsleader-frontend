@@ -204,7 +204,7 @@ h3 {
     width: 100% !important;
   }
   .main-content {
-    width: 89.6% ;
+    width: 89.6%;
   }
 }
 
@@ -216,7 +216,7 @@ h3 {
     height: 95.5vh;
   }
   .expanded {
-    width: 159.8rem !important; 
+    width: 159.8rem !important;
     height: 95.5vh !important;
   }
 }
@@ -1129,4 +1129,11 @@ em-emoji-picker {
 }
 .selectorInput:hover .selectorEdit {
   display: block;
+}
+
+#card-tab {
+  background-color: var(--dropdown-bgColor) !important;
+}
+.p-Input {
+  background-color: var(--dropdown-bgColor) !important;
 }

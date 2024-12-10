@@ -365,12 +365,12 @@ export const NewTeam = () => {
       key: "Kanban",
       id: Math.random().toString(),
     },
-    {
-      icon: <BiCalendar className="me-2 mt-1 fs-6 align-middle" />,
-      option: "Social Planner",
-      key: "Social Planner",
-      id: Math.random().toString(),
-    },
+    // {
+    //   icon: <BiCalendar className="me-2 mt-1 fs-6 align-middle" />,
+    //   option: "Social Planner",
+    //   key: "Social Planner",
+    //   id: Math.random().toString(),
+    // },
 
     // {
     //   icon: <MdCheckBoxOutlineBlank className="me-2 mt-1 fs-6 align-middle" />,

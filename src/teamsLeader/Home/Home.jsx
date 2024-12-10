@@ -74,7 +74,7 @@ const Home = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
-          setUser(response.data._doc);
+          setUser(response.data._id);
           getAPI("/api/workspace/list")
             .then((response) => {
               if (!workspaceID) {

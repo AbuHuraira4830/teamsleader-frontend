@@ -1137,3 +1137,25 @@ em-emoji-picker {
 .p-Input {
   background-color: var(--dropdown-bgColor) !important;
 }
+
+.inviteSection .MuiOutlinedInput-root {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color) !important;
+}
+
+.inviteSection
+  .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-sizeMedium.MuiInputLabel-outlined.MuiFormLabel-colorSuccess.Mui-required.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-sizeMedium.MuiInputLabel-outlined.css-1lwa3th-MuiFormLabel-root-MuiInputLabel-root {
+  color: var(--text-color) !important;
+}
+
+.inviteSection
+  .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-sizeMedium.MuiInputLabel-outlined.MuiFormLabel-colorSuccess.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-sizeMedium.MuiInputLabel-outlined.css-1lwa3th-MuiFormLabel-root-MuiInputLabel-root {
+  color: var(--text-color) !important;
+}
+.emailPreview .MuiPaper-root {
+  background-color: var(--sidebar-background-color);
+  color: var(--text-color);
+}
+.MuiIconButton-root .MuiSvgIcon-root {
+  color: var(--text-color); 
+}

@@ -284,7 +284,7 @@ export const ContextProvider = ({ children }) => {
     { text: "Label 3", backgroundColor: "#49A7D1", id: uuidv4() },
   ]);
   const uniqueId = uuidv4();
-  const [theme, setTheme] = useState("light_theme");
+  const [theme, setTheme] = useState();
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [fileView, setFileView] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");

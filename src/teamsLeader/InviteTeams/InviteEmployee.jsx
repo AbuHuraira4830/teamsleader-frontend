@@ -223,7 +223,7 @@ const InviteEmployee = ({ role }) => {
   console.log("selectedWorkspace Teams Test", selectedWorkspace);
   return (
     <>
-      <Box p={4}>
+      <Box p={4} className="inviteSection">
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <div className="flex  ">
             <span className="title_border me-2"></span>

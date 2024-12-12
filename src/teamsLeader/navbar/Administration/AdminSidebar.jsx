@@ -17,11 +17,11 @@ const AdminSidebar = () => {
   const location = useLocation();
 
   const isActive = (path) => {
-    return location.pathname === path ? "bg-[#c6e9d5]" : "";
+    return location.pathname === path ? "bg-[#c6e9d5] text-gray-700" : "";
   };
 
   return (
-    <div className=" p-4  text-gray-700 bg-white   ">
+    <div className=" p-4      bg-[var(--sidebar-background-color)] color-[var(--text-color)]">  
       <h2 className="mb-4 text-2xl font-bold">Administration</h2>
       <ul className="space-y-4">
         <li>

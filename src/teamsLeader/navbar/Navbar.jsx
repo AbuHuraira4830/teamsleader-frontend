@@ -42,6 +42,7 @@ const Navbar = ({ user }) => {
 
   const {
     setTheme,
+    theme,
     isEmailVerified,
     setIsEmailVerified,
     setIsPlanModalOpen,
@@ -176,13 +177,14 @@ const Navbar = ({ user }) => {
   const handleTheme = (theme) => {
     postAPI("/api/theme/update", { theme })
       .then((response) => {
+        console.log(response.data);
         setTheme(response.data.theme.theme);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  console.log({theme});
   return (
     <>
       {thisUser?.isEmailVerified ? null : (
@@ -249,7 +251,7 @@ const Navbar = ({ user }) => {
           </Button>
 
           <Link
-            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`} 
+            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
             className="centerIt"
           >
             <Button

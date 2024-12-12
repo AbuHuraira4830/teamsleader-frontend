@@ -98,6 +98,7 @@ const Home = () => {
     getAPI("/api/theme/fetch")
       .then((response) => {
         setTheme(response.data.theme.theme);
+        console.log("aaaaaaaaaa", response.data.theme.theme);
       })
       .catch((err) => {
         console.log(err);
@@ -158,12 +159,12 @@ const Home = () => {
 
   return (
     <>
- { user && (
-      <div>
-        <div className="">
-              <NewTeam />
+      {user && (
+        <div>
+          <div className="">
+            <NewTeam />
+          </div>
         </div>
-      </div>
       )}
     </>
   );

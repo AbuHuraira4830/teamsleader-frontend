@@ -114,9 +114,9 @@ const FromToSection = () => {
             >
               <div className="w-full cursor-pointer">
                 <div className="w-full py-6 px-10 text-center text-[#262626] font-normal flex items-center  justify-center  border-transparent border-dashed custom_borderStyle  rounded-lg transition-all hover:border-[#262626]">
-                  <div className="flex items-center justify-center ">
+                  <div className="flex items-center justify-center 	">
                     <AiOutlinePlus className="mr-2" />
-                    <span className="normal-case text-sm">
+                    <span className="normal-case text-sm text-nowrap	">
                       Add client information
                     </span>
                   </div>

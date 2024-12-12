@@ -157,53 +157,38 @@ const InviteClient = ({ role }) => {
     try {
       for (const person of allPersons) {
         console.log(person);
+        // {workspaceID}/${teamID}
 
-        const response = await fetch(
-          `http://localhost:8888/api/team/invite/${workspaceID}/${teamID}`,
+        const response = await postAPI(
+          `/api/team/invite/${workspaceID}/${teamID}`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: localStorage.getItem("token"),
-            },
-            body: JSON.stringify({
-              persons: [
-                {
-                  name: person.fullName,
-                  email: person.email,
-                  title: person.title,
-                  notes: person.personalNote,
-                  role: person.role, // Include role here
-                },
-              ],
-            }),
+            persons: [
+              {
+                name: person.fullName,
+                email: person.email,
+                title: person.title,
+                notes: person.personalNote,
+                role: person.role,
+              },
+            ],
           }
         );
 
-        const result = await response.json();
-        if (response.ok) {
-          // Handle success for each person
-          console.log("Invitation sent:", result);
+        // const result = await response.json();
+        if (response.status === 200) {
+          console.log("Invitation sent:", response.data);
           setSnackbar({
             open: true,
             message: `Invitation sent successfully to ${person.fullName}!`,
             severity: "success",
           });
-          // Maybe close the dialog or show a success message
         } else {
-          // Handle error for each person
-          console.error(
-            "Failed to send invitation to",
-            person.fullName,
-            ":",
-            result
-          );
+          console.error("Failed to send invitation:", response.data.message);
           setSnackbar({
             open: true,
             message: `Failed to send invitation to ${person.fullName}. Please try again.`,
             severity: "error",
           });
-          // Show an error message
         }
       }
     } catch (error) {

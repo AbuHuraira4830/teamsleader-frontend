@@ -7,7 +7,7 @@ import VatDetails from "./VATDetails";
 import NotesComments from "../CreateInvoice/FooterSection/NotesComments";
 
 const InvoiceItems = ({ textColor }) => {
-  const { selectedColorInvoice, invoiceItems, setInvoiceItems, clientDetails } =
+  const { selectedColorInvoice, invoiceItems, setInvoiceItems, clientDetails, currency } =
     useStateContext();
 
   const [selectedItemDetails, setSelectedItemDetails] = useState(null);
@@ -129,7 +129,7 @@ const InvoiceItems = ({ textColor }) => {
                             </div>
                           )}
                         </td>
-                        <td className="w-1/5 whitespace-nowrap text-left">{`€ ${item.itemPrice}`}</td>
+                        <td className="w-1/5 whitespace-nowrap text-left">{`${currency.symbol} ${ item.itemPrice}`}</td>
                         <td className="w-1/5 whitespace-nowrap text-center">{`${item.vatRate} %`}</td>
                         <td className="w-[10%] whitespace-nowrap text-center truncate-wrap">
                           {item.itemQuantity}
@@ -141,7 +141,7 @@ const InvoiceItems = ({ textColor }) => {
                           {item.itemDiscount ? `${item.itemDiscount}%` : "-"}
                         </td>
                         {/* <td className="w-1/5 whitespace-nowrap">{`${item.itemDiscount}`}</td> */}
-                        <td className="w-[10%] whitespace-nowrap text-right">{`€ ${(
+                        <td className="w-[10%] whitespace-nowrap text-right">{`${currency.symbol} ${(
                           item.itemPrice * item.itemQuantity
                         ).toFixed(2)}`}</td>
                       </tr>

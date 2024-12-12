@@ -66,12 +66,26 @@ const InvoiceSettings = () => {
     communicationNumber,
     setCommunicationNumber,
     generateStructuredCommunicationNumber,
+    handleChange,
+    setCurrency,
+    currency,
   } = useStateContext();
 
-  const [currency, setCurrency] = useState("EUR");
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
+  // const [currency, setCurrency] = useState({ code: "EUR", symbol: "€" });
+  // const handleChange = (event) => {
+  //   const selectedCurrency = event.target.value;
+  //   const currencySymbols = {
+  //     EUR: "€",
+  //     USD: "$",
+  //     AUD: "$",
+  //     CAD: "$",
+  //     CHF: "CHF",
+  //     CNY: "¥",
+  //     DKK: "kr",
+  //   };
+
+  //   setCurrency({ code: selectedCurrency, symbol: currencySymbols[selectedCurrency] });
+  // };
 
   const handleStructuredCommunicationToggle = (event) => {
     const isSwitchedOn = event.target.checked;
@@ -144,27 +158,22 @@ const InvoiceSettings = () => {
 
       {/* Currency Selection */}
       <div className="mb-10 ">
-        <FormControl variant="outlined" color="success" fullWidth>
+      <FormControl variant="outlined" color="success" fullWidth>
           <InputLabel id="currency-select-label">Currency</InputLabel>
           <Select
             labelId="currency-select-label"
             id="currency-select"
-            value={currency}
+            value={currency.code}
             onChange={handleChange}
             label="Currency"
-            positon="bottom"
-            color="success"
           >
-            <MenuItem value="EUR" className="text-primary-700">
-              Euro (€)
-            </MenuItem>
+            <MenuItem value="EUR">Euro (€)</MenuItem>
             <MenuItem value="USD">United States Dollar ($)</MenuItem>
             <MenuItem value="AUD">Australian Dollar ($)</MenuItem>
             <MenuItem value="CAD">Canadian Dollar ($)</MenuItem>
             <MenuItem value="CHF">Swiss Franc (CHF)</MenuItem>
             <MenuItem value="CNY">Chinese Renminbi (¥)</MenuItem>
             <MenuItem value="DKK">Danish Krone (kr)</MenuItem>
-            {/* Add other currencies as needed */}
           </Select>
         </FormControl>
       </div>

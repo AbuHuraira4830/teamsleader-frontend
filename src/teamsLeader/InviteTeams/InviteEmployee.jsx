@@ -139,9 +139,7 @@ const InviteEmployee = ({ role }) => {
 
     // Check if the current number of employees exceeds the plan's limit
     const currentEmployeesCount = employees.length;
-    console.log("EmployeeLength", currentEmployeesCount);
     const employeeLimit = employeeLimits[userPlan?.package];
-    console.log("userPlan?.package", userPlan?.package);
 
     // If employee limit is exceeded, show the upgrade modal
     if (currentEmployeesCount >= employeeLimit) {

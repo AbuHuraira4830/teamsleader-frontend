@@ -35,27 +35,11 @@ const CreateInvoiceWrapper = () => {
   };
 
   return (
-    // <Router>
     <>
-      {/* <div className="Navbar p-0 w-100 py-1" style={{ zIndex: 999 }}>
-        <Navbar setTheme={setTheme} />
-      </div> */}
-
-      <div className=" flex  ">
-        {/* <div
-          className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
-        >
-          <Sidebar
-            toggleNavbar={toggleNavbar}
-            isSidebarVisible={isSidebarVisible}
-          />
-        </div> */}
-        {/* <div className={`main-content  ${isSidebarVisible ? "" : "expanded"} `}> */}
+      <div className=" flex  ">       
           <CreateInvoice />
-        {/* </div> */}
       </div>
     </>
-    // </Router>
   );
 };
 

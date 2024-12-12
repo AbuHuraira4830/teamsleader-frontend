@@ -35,7 +35,7 @@ export default function ToggleBillingOptions() {
 
   return (
     <div>
-      <div className="flex inviteAdminToggleWrapper">
+      <div className="flex inviteAdminToggleWrapper justify-center">
         <ToggleButtonGroup
           color="primary"
           value={alignment}

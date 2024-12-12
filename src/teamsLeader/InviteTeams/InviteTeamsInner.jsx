@@ -16,15 +16,9 @@ import { getAPI } from "../../helpers/api";
 import { useStateContext as userContext } from "../../contexts/UsersContext";
 import { Lock, LockOpen } from "@mui/icons-material";
 
-
-
-
-
 const InviteTeamsInner = () => {
   const navigate = useNavigate();
   const { workspaceID, teamID } = useParams();
-
-  console.log("teamID",teamID)
   const [team, setTeam] = useState(null);
   const [members, setMembers] = useState({ employees: [], clients: [], admins: [] });
   const [selectedOption, setSelectedOption] = useState("");
@@ -147,7 +141,8 @@ const InviteTeamsInner = () => {
   <Typography variant="h6">Employees</Typography>
   <Divider sx={{ my: 2, backgroundColor: "#4CAF50", height: "1px" }} />
   {members.employees.length > 0 ? (
-    members.employees.map((employee) => <TeamMemberEntry key={employee.email} member={employee} />)
+    members.employees.map((employee) => <TeamMemberEntry key={employee.email} member={employee} privacy={team.privacy} />
+  )
   ) : (
     <Typography variant="body2" color="textSecondary" textAlign="center">
       No employees added yet. Add some to get started!
@@ -188,7 +183,6 @@ const InviteTeamsInner = () => {
     navigate(`/workspace/${workspaceID}/team/${teamID}/teams-invites/${path}`);
   };
 
- 
 
   return (
     <Box p={4} className="inviteTeamInner">

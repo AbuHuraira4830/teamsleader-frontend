@@ -183,7 +183,7 @@ const AddInvoiceForm = ({ handleClose, handleSaveClientDetails }) => {
                 <FormControl
                   color="success"
                   style={{
-                    width: "370px",
+                    width: "300px",
                     height: "34px",
                     fontSize: "0.8rem",
                   }}
@@ -215,7 +215,7 @@ const AddInvoiceForm = ({ handleClose, handleSaveClientDetails }) => {
                       placeholder="Enter your VAT number"
                       value={vatNo}
                       style={{
-                        width: "370px",
+                        width: "300px",
                         height: "34px",
                         fontSize: "0.8rem",
                       }}
@@ -230,8 +230,8 @@ const AddInvoiceForm = ({ handleClose, handleSaveClientDetails }) => {
 
               <Col
                 lg={6}
-                className="mt-4 clientInfo_select"
-                style={{ width: 370, fontSize: "0.8rem", height: "30px" }}
+                className="mt-4 clientInfo_select "
+                style={{ width: 300, fontSize: "0.8rem", height: "30px" }}
               >
                 <Autocomplete
                   value={selectedCountry}
@@ -258,7 +258,7 @@ const AddInvoiceForm = ({ handleClose, handleSaveClientDetails }) => {
                       }}
                     />
                   )}
-                  style={{ width: 370 }} // Adjust width as needed
+                  style={{ width: 300 }} // Adjust width as needed
                 />
               </Col>
 

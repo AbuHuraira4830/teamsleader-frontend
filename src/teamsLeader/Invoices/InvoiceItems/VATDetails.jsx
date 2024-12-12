@@ -3,16 +3,16 @@ import { useStateContext } from "../../../contexts/ContextProvider";
 import { BiPencil } from "react-icons/bi";
 
 const VatDetails = () => {
-  const { invoiceItems, downPayment, downPaymentAmount, setDownPaymentAmount } =
+  const { invoiceItems, downPayment, downPaymentAmount, setDownPaymentAmount, currency } =
     useStateContext();
   const [isEditingDownPayment, setIsEditingDownPayment] = useState(false);
   const [editDownPaymentValue, setEditDownPaymentValue] = useState("");
   const downPaymentValue = parseFloat(
-    downPaymentAmount.replace("€", "").trim()
+    downPaymentAmount.replace(currency.symbol, "").trim()
   );
 
   const handleEditDownPaymentClick = () => {
-    setEditDownPaymentValue(downPaymentAmount.replace("€", "").trim()); // Remove currency symbol for editing
+    setEditDownPaymentValue(downPaymentAmount.replace(currency.symbol , "").trim()); // Remove currency symbol for editing
     setIsEditingDownPayment(true);
   };
 
@@ -22,7 +22,7 @@ const VatDetails = () => {
 
   const handleDownPaymentBlur = () => {
     const numericValue = parseFloat(editDownPaymentValue) || 0;
-    setDownPaymentAmount(`€ ${numericValue.toFixed(2)}`);
+    setDownPaymentAmount(`${currency.symbol} ${numericValue.toFixed(2)}`);
     setIsEditingDownPayment(false);
   };
 
@@ -79,7 +79,7 @@ const VatDetails = () => {
     totals.totalVAT = totals.totalVAT.toFixed(2);
     totals.amountDue = totals.amountDue.toFixed(2);
     items.forEach((item) => {
-      item.amountDue = `€ ${totals.amountDue}`;
+      item.amountDue = `${currency.symbol} ${totals.amountDue}`;
     });
     return totals;
   };
@@ -103,7 +103,7 @@ const VatDetails = () => {
           <p>Subtotal excluding VAT</p>
         </span>
         <span class="!w-24  text_customBlack text-opacity-60 whitespace-nowrap ">
-          € {vatTotals.subtotalExcludingVAT}
+          {currency.symbol} {vatTotals.subtotalExcludingVAT}
         </span>
       </div>
       {/* Dynamically generated VAT rate rows */}
@@ -119,7 +119,7 @@ const VatDetails = () => {
             VAT {vatDetail.vatRate}%
           </span>
           <span className="w-24 text_customBlack text-opacity-60">
-            € {vatDetail.vatAmount}
+          {currency.symbol}  {vatDetail.vatAmount}
           </span>
         </div>
       ))}
@@ -132,7 +132,7 @@ const VatDetails = () => {
           Total VAT
         </span>
         <span className="w-24 text_customBlack text-opacity-60">
-          € {vatTotals.totalVAT}
+        {currency.symbol}  {vatTotals.totalVAT}
         </span>
       </div>
       {downPayment && (
@@ -156,7 +156,7 @@ const VatDetails = () => {
               />
             ) : (
               <span onClick={handleEditDownPaymentClick}>
-                {downPaymentAmount}
+              {currency.symbol}  {downPaymentAmount}
                 <BiPencil className="inline cursor-pointer absolute right-[-20%] top-[11%]" />
               </span>
             )}
@@ -171,7 +171,7 @@ const VatDetails = () => {
           Amount due
         </span>
         <span className="w-24 text_customBlack text-opacity-60">
-          € {vatTotals.amountDue}
+        {currency.symbol}  {vatTotals.amountDue}
         </span>
       </div>
 

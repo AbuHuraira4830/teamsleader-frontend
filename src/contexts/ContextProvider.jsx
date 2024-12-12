@@ -93,7 +93,7 @@ export const ContextProvider = ({ children }) => {
   const [communicationNumber, setCommunicationNumber] = useState("");
   const [createInvoice, setShowCreateInvoice] = useState(true);
   const [downPayment, setDownPayment] = useState(false);
-  const [downPaymentAmount, setDownPaymentAmount] = useState("€ 0.00");
+  const [downPaymentAmount, setDownPaymentAmount] = useState(" 0.00");
 
   const [showEventModal, setShowEventModal] = useState(false);
   const [showTeamsPage, setShowTeamsPage] = useState(false);
@@ -926,6 +926,21 @@ export const ContextProvider = ({ children }) => {
   const [isDocumentChange, setIsDocumentChange] = useState(false);
   const [isToggleFontFamily, setIsToggleFontFamily] = useState(false);
   const [isToggleFontSize, setIsToggleFontSize] = useState(false);
+  const [currency, setCurrency] = useState({ code: "EUR", symbol: "€" });
+  const handleChange = (event) => {
+    const selectedCurrency = event.target.value;
+    const currencySymbols = {
+      EUR: "€",
+      USD: "$",
+      AUD: "$",
+      CAD: "$",
+      CHF: "CHF",
+      CNY: "¥",
+      DKK: "kr",
+    };
+
+    setCurrency({ code: selectedCurrency, symbol: currencySymbols[selectedCurrency] });
+  };
   useEffect(() => {
     if (selectedDocument?._id) {
       // Update the states based on the backend response
@@ -1164,6 +1179,9 @@ export const ContextProvider = ({ children }) => {
         setIsPlanModalOpen,
         isPaymentModalOpen,
         setIsPaymentModalOpen,
+        handleChange,
+        setCurrency,
+        currency
       }}
     >
       {children}

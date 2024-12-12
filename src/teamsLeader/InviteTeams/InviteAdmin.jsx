@@ -177,52 +177,33 @@ const InviteAdmin = ({ role }) => {
     ];
 
     try {
-      // Combine the first person with the dynamic persons
-
-      // Iterate over each person
       for (const person of allPersons) {
-        console.log(person);
-
-        const response = await fetch(
-          `http://localhost:8888/api/team/invite/${workspaceID}/${teamID}`,
+      
+        const response = await postAPI(
+          `/api/team/invite/${workspaceID}/${teamID}`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: localStorage.getItem("token"),
-            },
-            body: JSON.stringify({
-              persons: [
-                {
-                  name: person.fullName,
-                  email: person.email,
-                  title: person.title,
-                  notes: person.personalNote,
-                  role: person.role, // Include role here
-                  accessRights: person.accessRights, // Include accessRights here
-                },
-              ],
-            }),
+            persons: [
+              {
+                name: person.fullName,
+                email: person.email,
+                title: person.title,
+                notes: person.personalNote,
+                role: person.role,
+              },
+            ],
           }
         );
 
-        const result = await response.json();
-        if (response.ok) {
-          // Handle success for each person
-          console.log("Invitation sent:", result);
+        // const result = await response.json();
+        if (response.status === 200) {
+          console.log("Invitation sent:", response.data);
           setSnackbar({
             open: true,
             message: `Invitation sent successfully to ${person.fullName}!`,
             severity: "success",
           });
         } else {
-          // Handle error for each person
-          console.error(
-            "Failed to send invitation to",
-            person.fullName,
-            ":",
-            result
-          );
+          console.error("Failed to send invitation:", response.data.message);
           setSnackbar({
             open: true,
             message: `Failed to send invitation to ${person.fullName}. Please try again.`,
@@ -230,7 +211,7 @@ const InviteAdmin = ({ role }) => {
           });
         }
       }
-    } catch (error) {
+    }catch (error) {
       console.error("Network error:", error);
       // Handle network error
       setSnackbar({
@@ -360,42 +341,53 @@ const InviteAdmin = ({ role }) => {
           ))}
 
           {/* Add Another Person Button */}
-          <Box mt={2} display="flex" alignItems="center">
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleAddPerson}
-            >
-              Add another person
-            </Button>
+          <Box mt={2} display="flex" alignItems="center" >
+          <Button
+    variant="contained"
+    color="success"
+    onClick={handleAddPerson}
+    sx={{ padding: "6px 16px", fontSize: "0.875rem", whiteSpace: "nowrap" }}
+  >
+    Add Another Person
+  </Button>
             <Typography variant="body2" ml={2} mr={2}>
               or
             </Typography>
             {/* Select Option */}
             <>
-              <Select
-                variant="outlined"
-                value={selectedCompany} // Add your state for the selected value here
-                onChange={handleCompanyChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Select person from company" }}
-                style={{ minWidth: 150 }}
-                size="small"
-              >
-                <MenuItem value="" disabled>
-                  Pick a person
-                </MenuItem>
-                <MenuItem value="Company 1">Company 1</MenuItem>
-                <MenuItem value="Company 2">Company 2</MenuItem>
-                <MenuItem value="Company 3">Company 3</MenuItem>
-                {/* Add more options as needed */}
-              </Select>
-              <Typography ml={2}>Allow Access to:</Typography>
+            <Select
+    variant="outlined"
+    value={selectedCompany}
+    onChange={handleCompanyChange}
+    displayEmpty
+    inputProps={{ "aria-label": "Select person from company" }}
+    size="small"
+    sx={{
+      minWidth: 150,
+      fontSize: "0.875rem",
+      "& .MuiSelect-select": {
+        padding: "8px",
+      },
+    }}
+  >
+    <MenuItem value="" disabled>
+      Pick a Person
+    </MenuItem>
+    <MenuItem value="Company 1">Company 1</MenuItem>
+    <MenuItem value="Company 2">Company 2</MenuItem>
+    <MenuItem value="Company 3">Company 3</MenuItem>
+  </Select>
+              <Typography ml={2} mr={1} sx={{ fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+    Allow Access to:
+  </Typography>
               <Box display="flex">
                 {["teams", "invoices", "proposals"].map((key) => (
-                  <Box key={key} ml={1} display="flex" alignItems="center">
-                    <Typography>
-                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                  <Box key={key} ml={1} display="flex" alignItems="center"
+                  sx={{ flex: "1 1 auto", minWidth: "90px" }}
+
+                  >
+        <Typography sx={{ fontSize: "0.875rem", whiteSpace: "nowrap" }}>
+        {key.charAt(0).toUpperCase() + key.slice(1)}
                     </Typography>
                     <Switch
                       checked={accessRights[key]}

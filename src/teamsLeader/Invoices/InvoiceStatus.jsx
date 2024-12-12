@@ -24,17 +24,17 @@ export default function InvoiceStatus() {
         >
           <ToggleButton value="Not Sent" className=" justify-center ">
             <div className="flex items-center">
-              <span className="text-xs capitalize	">Not Sent</span>
+              <span className="text-xs capitalize	text-nowrap	">Not Sent</span>
             </div>
           </ToggleButton>
           <ToggleButton value="Unpaid" className=" justify-center ">
             <div className="flex items-center 	px-3">
-              <span className="text-xs capitalize">Sent But Not Paid</span>
+              <span className="text-xs capitalize text-nowrap	">Sent But Not Paid</span>
             </div>
           </ToggleButton>
           <ToggleButton value="Paid" className=" justify-center ">
             <div className="flex items-center px-3">
-              <span className="text-xs capitalize	">Paid</span>
+              <span className="text-xs capitalize	text-nowrap	">Paid</span>
             </div>
           </ToggleButton>
         </ToggleButtonGroup>

@@ -18,6 +18,7 @@ const InvoiceDetailsSection = () => {
   useEffect(() => {
     setInvoiceNumber((prevNumber) => prevNumber + 1);
   }, []);
+  
 
   return (
     <>

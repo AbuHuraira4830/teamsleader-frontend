@@ -29,6 +29,34 @@ const MainLayout = () => {
   const [expiredPlan, setExpiredPlan] = useState(null); // Store the type of expired plan
   const { workspaceID } = useParams();
 
+  const [height, setHeight] = useState(getHeight());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setHeight(getHeight());
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  function getHeight() {
+    const width = window.innerWidth;
+    if (width < 375) {
+      return "390vh";
+    } else if (width < 426) {
+      return "350vh";
+    } else if (width > 426) {
+      return "";
+    } else {
+      return "";
+    }
+  }
+
   useEffect(() => {
     const checkUserAuthentication = async () => {
       try {
@@ -156,7 +184,7 @@ const MainLayout = () => {
       : "";
 
   return (
-    <div className={` ${theme}`}>
+    <div className={`position-relative ${theme}`}>
       <div className="Navbar py-1 w-100" style={{ zIndex: 999 }}>
         <Navbar />
       </div>
@@ -169,19 +197,22 @@ const MainLayout = () => {
         </div>
 
         {/* Toggle Button */}
-        <div className="sidebar_toggleBtn">
-          <button onClick={toggleNavbar} className="toggle-btn">
-            {isSidebarVisible ? (
-              <AiOutlineLeft className="icon" /> // Icon to collapse sidebar
-            ) : (
-              <AiOutlineRight className="icon" /> // Icon to expand sidebar
-            )}
-          </button>
-        </div>
 
         {/* Main Content */}
         <div className={`main-content ${isSidebarVisible ? "" : "expanded"}`}>
-          <Outlet />
+          <div className="respon">
+            {!isSidebarVisible && (
+              <div
+                className="sidebar_toggleBtn position-absolute"
+                style={{ top: "0", left: "16px" }}  
+              >
+                <button onClick={toggleNavbar} className="toggle-btn">
+                  <AiOutlineRight className="icon" />
+                </button>
+              </div>
+            )}
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

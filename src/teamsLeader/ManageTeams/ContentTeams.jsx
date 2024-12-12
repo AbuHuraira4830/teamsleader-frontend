@@ -47,9 +47,9 @@ const ContentTeams = () => {
               <RxMagnifyingGlass className="text-base text-[#676879] absolute right-[1rem]" />
             </div>
             <div className="flex">
-              <button className=" teamInvite_btn bgHover align-middle me-1">
-                <HiOutlineUserPlus className="text-base mx-2 text-[#676879] " />
-                <span className="text-sm mt-1 text-[#676879]"> Invite</span>
+              <button className=" teamInvite_btn bgHover align-middle me-1 text-color"> 
+                <HiOutlineUserPlus className="text-base mx-2  " />
+                <span className="text-sm mt-1 "> Invite</span>
               </button>
             </div>
           </div>

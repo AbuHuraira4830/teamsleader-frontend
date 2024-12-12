@@ -1,570 +1,570 @@
-.plansmodal_container{
-    width: calc(100% - 32px) !important;
-    height: calc(100% - 16px) !important; 
-  }
-  .plansRadioActive{
-    cursor: pointer;
-  }
-  .plansRadioActive:checked{
-    border: 1px solid #00854d !important;
-    border-width: 0.3em !important;
-  }
-  .teamPlans_wrapperContainer{
-    grid-gap: 20px;
-    display: grid;
-    grid-template-columns: repeat(3,minmax(0,1fr));
-  }
-  .teamPlans_wrapper{
-    background-color: #fff;
-    border: 1px solid #c3c6d4;
-    border-radius: 4px;
-    position: relative;
-    /* height: 100%; */
-    cursor: pointer;
-    color: #323338;
-    width: 100%;
-    height: 94%;
-  }
-  .teamPlans_topbar{
-    background-color: #00854d;
-    border-radius: 3px 3px 0 0;
-    height: 4px;
-    position: absolute;
-    transition: height .2s ease;
-    width: 100%;
-  }
-  .teamPlans_rowWrapper{
-    display: grid;
-    grid-template-rows: 50px 155px 40px min-content min-content;
-    padding: 12px 10% 20px;
-  }
-  .teamPlans_rowWrapperHeader{
-    align-items: center;
-    display: flex;
-    gap: 8px;
-  }
-  .teamPlans_rowWrapperHeaderInner{
-    align-items: baseline;
-    display: flex;
-    gap: 8px;
-  }
-  .teamPlans_rowWrapperHeaderText{
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .teamsPlans_pricing{
-    display: grid;
-    grid-template-areas: "s1 . ." "s2 s3 ." "s4 . ." "s5 . .";
-    justify-content: flex-start;
-    padding-bottom: 16px;
-  }
-  .teamsPlans_pricingValue{
-    align-items: center;
-    display: flex;
-    font-size: 48px;
-    font-weight: 600;
-    grid-area: s2;
-  }
-  .teamsPlans_pricingSeat{
-    align-items: center;
-    display: flex;
-    font-weight: 400;
-    grid-area: s3;
-    /* width: 50px; */
-  }
-  .teamsPlans_pricingTax{
-    align-items: center;
-    display: flex;
-    font-weight: 600;
-    grid-area: s3;
-    grid-column-start: s6;
-  
-  }
-  .teamsPlans_pricingTotal{
-    color: #323338;
-    display: flex;
-    font-size: 16px;
-    font-weight: 600;
-    grid-area: s4;
-    grid-column: 1/3;
-    padding-top: 8px;
-    text-align: start;
-  }
-  .teamsPlans_pricingBill{
-    display: flex;
-    font-size: 14px;
-    grid-area: s5;
-    grid-column: 1/3;
-  }
-  .teamsPlans_divider{
-   height: 2px;
-   width: 100%;
-   margin: 8px 0; 
-   background-color: #d0d4e4;
-  }
-  .teamsPlans_typeWrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin: 0 -8px;
-    overflow-y: hidden;
-    padding: 4% 8px 0;
-  }
-  .teamsPlans_typeInner{
-    text-align: start;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    font: 700 16px/22px Figtree,Roboto,Noto Sans Hebrew,Noto Kufi Arabic,Noto Sans JP,sans-serif;
-  }
-  .teamsPlans_listWrapper{
+.plansmodal_container {
+  width: calc(100% - 32px) !important;
+  height: calc(100% - 16px) !important;
+  background-color: var(--sidebar-background-color);
+  box-shadow: 0px 0px 12px var(--box-shadow);
+}
+.plansRadioActive {
+  cursor: pointer;
+}
+.plansRadioActive:checked {
+  border: 1px solid #00854d !important;
+  border-width: 0.3em !important;
+}
+.teamPlans_wrapperContainer {
+  grid-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.teamPlans_wrapper {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  position: relative;
+  /* height: 100%; */
+  cursor: pointer;
+  background-color: var(--dropdown-bgColor);
+  color: var(--text-color);
+  width: 100%;
+  height: 94%;
+}
+.teamPlans_topbar {
+  background-color: #00854d;
+  border-radius: 3px 3px 0 0;
+  height: 4px;
+  position: absolute;
+  transition: height 0.2s ease;
+  width: 100%;
+}
+.teamPlans_rowWrapper {
+  display: grid;
+  grid-template-rows: 50px 155px 40px min-content min-content;
+  padding: 12px 10% 20px;
+}
+.teamPlans_rowWrapperHeader {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+.teamPlans_rowWrapperHeaderInner {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+}
+.teamPlans_rowWrapperHeaderText {
+  font-size: 18px;
+  font-weight: 600;
+}
+.teamsPlans_pricing {
+  display: grid;
+  grid-template-areas: "s1 . ." "s2 s3 ." "s4 . ." "s5 . .";
+  justify-content: flex-start;
+  padding-bottom: 16px;
+}
+.teamsPlans_pricingValue {
+  align-items: center;
+  display: flex;
+  font-size: 48px;
+  font-weight: 600;
+  grid-area: s2;
+}
+.teamsPlans_pricingSeat {
+  align-items: center;
+  display: flex;
+  font-weight: 400;
+  grid-area: s3;
+  /* width: 50px; */
+}
+.teamsPlans_pricingTax {
+  align-items: center;
+  display: flex;
+  font-weight: 600;
+  grid-area: s3;
+  grid-column-start: s6;
+}
+.teamsPlans_pricingTotal {
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  grid-area: s4;
+  grid-column: 1/3;
+  padding-top: 8px;
+  text-align: start;
+}
+.teamsPlans_pricingBill {
+  display: flex;
+  font-size: 14px;
+  grid-area: s5;
+  grid-column: 1/3;
+}
+.teamsPlans_divider {
+  height: 2px;
+  width: 100%;
+  margin: 8px 0;
+  background-color: #d0d4e4;
+}
+.teamsPlans_typeWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0 -8px;
+  overflow-y: hidden;
+  padding: 4% 8px 0;
+}
+.teamsPlans_typeInner {
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font: 700 16px/22px Figtree, Roboto, Noto Sans Hebrew, Noto Kufi Arabic,
+    Noto Sans JP, sans-serif;
+}
+.planModal-bottom {
+  background-color: var(--sidebar-background-color);
+}
+.teamsPlans_listWrapper {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   cursor: help;
   gap: 8px;
-  font: 400 16px/22px Figtree,Roboto,Noto Sans Hebrew,Noto Kufi Arabic,Noto Sans JP,sans-serif;
+  font: 400 16px/22px Figtree, Roboto, Noto Sans Hebrew, Noto Kufi Arabic,
+    Noto Sans JP, sans-serif;
   text-align: start;
-  
-  }
-  .teamsPlans_enterprise{
-    display: grid;
-    grid-template-rows: 70px min-content min-content;
-    margin-top: 1.4rem;
-    /* margin-bottom: 1.5rem; */
-  }
-  .teamsPlans_enterprise h2{
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    font-size: 14px;
-    font-weight: 300;
-    height: 100%;
-    line-height: inherit;
-    overflow: hidden;
-    text-align: start;
-    text-overflow: ellipsis;
-  }
-  .teamsPlans_enterpriseText{
-    font-size: 16px;
-    font-weight: 700;
-    padding-right: 5px;
-  }
-  .teamsPlans_activePlan{
-    border-color: #00854d !important;
-    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
-  
-  }
-  .payments_headerWrap{
-    height: 64px;
-    width: 100%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    position: absolute;
-    z-index: 1;
-  }
-  .payment_backBtn{
-    font-size: 20px;
-    cursor: pointer;
-    color: #323338;
-    background-color: transparent;
-    padding: 4px 8px;
-    height: 32px;
-    line-height: 24px;
-  }
-  .plansPayment_formWrap{
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    align-items: center;
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-  }
-  .paymentInfo_formContainer{
+}
+.teamsPlans_enterprise {
+  display: grid;
+  grid-template-rows: 70px min-content min-content;
+  margin-top: 1.4rem;
+  /* margin-bottom: 1.5rem; */
+}
+.teamsPlans_enterprise h2 {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  font-size: 14px;
+  font-weight: 300;
+  height: 100%;
+  line-height: inherit;
+  overflow: hidden;
+  text-align: start;
+  text-overflow: ellipsis;
+}
+.teamsPlans_enterpriseText {
+  font-size: 16px;
+  font-weight: 700;
+  padding-right: 5px;
+}
+.teamsPlans_activePlan {
+  border-color: #00854d !important;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+}
+.payments_headerWrap {
+  background-color: var(--sidebar-background-color);
+  height: 64px;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: absolute;
+  z-index: 1;
+}
+.payment_backBtn {
+  font-size: 20px;
+  cursor: pointer;
+  color: #323338;
+  background-color: transparent;
+  padding: 4px 8px;
+  height: 32px;
+  line-height: 24px;
+}
+.plansPayment_formWrap {
+  height: fit-content;
+  background-color: var(--sidebar-background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+.paymentInfo_formContainer {
   margin-right: 80px;
   width: 516px;
-  }
-  .paymentInfo_formTitle{
-    margin: 32px 0;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 28px;
-    letter-spacing: -0.2px;
-    text-align: left;
-    text-wrap: nowrap;
-  }
-  .paymentMethod_pickerWrap{
-    width: 100%;
-  }
-  .paymentMethod_pickerInner{
-    display: flex;
-    flex-direction: column;
-  }
-  .creditCardOption_wrap{
-    display: inline-flex;
-    margin-bottom: 12px;
-    cursor: pointer;
-  }
-   .plansRadio_buttonWrap{
-    display: flex;
+}
+.paymentInfo_formTitle {
+  margin: 32px 0;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+  text-align: left;
+  text-wrap: nowrap;
+}
+.paymentMethod_pickerWrap {
+  width: 100%;
+}
+.paymentMethod_pickerInner {
+  display: flex;
+  flex-direction: column;
+}
+.creditCardOption_wrap {
+  display: inline-flex;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.plansRadio_buttonWrap {
+  display: flex;
   align-items: center;
   cursor: pointer;
-  }
-  .plansRadio_buttonContainer{
-    display: grid;
-    grid-template-columns: 1.5em auto;
-    grid-gap: 0.5em;
-    cursor: pointer;
-  }
-  .planscard_icon{
-    margin-right: 8px;
-  }
-  .creditCardOption_container{
-    display: flex;
-    flex-direction: column;
-  }
-  .paypal_optionWrap{
-    display: inline-flex;
-    margin-bottom: 12px;
-    cursor: pointer;
-  }
-  .plansCustomer_infoForm{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 560px;
-    position: relative;
-  }
-  .plansCustomer_infoForm_row{
-    flex: 1;
-    /* -webkit-user-select: none; */
-    user-select: none;
-    position: relative;
-    /* display: inline-block; */
-    width: 100%;
-    transition: all .5s ease-in-out;
-    opacity: 1;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 4px;
-  }
-  .plansHosted_field{
-    position: relative;
-    flex: 1;
-    height: 82px;
-  }
-  .plansHosted_field_label{
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 14px;
-    display: flex;
-    padding-bottom: 6px;
-    align-items: center;
-  }
-  .plansHosted_fieldInputWrap{
-    border-radius: 4px;
-    width: 100%;
-    height: 40px;
-    border: 1px solid #c3c6d4;
-    font-size: 14px;
-    font-weight: 400;
-    
-    padding-left: 8px;
-  }
-  .invalidInputMessage{
-    color: #d83a52;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    line-height: 12px;
-    font-size: 12px;
-    padding-top: 4px;
-  }
-  .ordersummary_moneyBack{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  .ordersummary_trustImageWrap{
-    /* height: 140px; */
-    /* width: 200px; */
-    font-size: 14px;
-    position: relative;
-  }
-  .ordersummary_trustImage{
-    /* height: 100%; */
-    height: 2.7rem;
-  }
-  .ordersummary_container{
-    font-size: 16px;
-    min-width: 475px;
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-  
-  }
-  .ordersummary_priceContainer{
-    /* margin-top: 72px; */
-    padding: 0 16px;
-    min-width: 445px;
-    
-  }
-  .ordersummary_priceInner{
-    width: 100%;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    margin-top: 72px;
-  }
-  .ordersummary_priceTotal_wrapper{
-    min-height: 0;
-    overflow: auto;
-  }
-  .ordersummary_price_row{
-    display: flex;
-    margin-bottom: 24px;
-  }
-  .ordersummary_priceType{
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
-  }
-  .ordersummary_priceType .primary,
-  .ordersummary_priceValue .primary
-  {
-    display: flex;
-    align-items: flex-start;
-    line-height: 24px;
-  }
-  .ordersummary_priceType .secondary,
-  .ordersummary_priceValue .secondary{
-    margin-top: 4px;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 22px;
-    color: #676879;
-  }
-  .ordersummary_priceValue{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
-    margin-left: auto;
-  }
-  .ordersummary_priceTotal_wrapper .amount_saved{
-    color: #00854d;
-    font-weight: bold;
-  }
-  .period_discount{
-    color: #00854d;
-  
-  }
-  .pricing_orderSummary_total{
-    display: flex;
-    border-top: 1px solid;
-    border-color: #c3c6d4;
-    padding-top: 24px;
-    margin-bottom: 24px;
-    font-weight: 500;
-    font-size: 20px;
-  }
-  .pricing_orderSummary_total .priceType,
-  .pricing_orderSummary_renew{
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
-  }
-  .pricing_orderSummary_total .priceValue{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    flex-shrink: 0;
-    margin-left: auto;
-  }
-  .pricing_orderSummary_total .priceType .primary,
-  .pricing_orderSummary_total .priceValue .primary
-  {
-    display: flex;
-    align-items: flex-start;
-    line-height: 24px;
-  }
-  .pricing_orderSummary_renew{
-    color: #676879;
-    font-size: 14px;
-    display: flex;
-    margin-bottom: 24px;
-  }
-  .ordersummary_footer{
-    margin-top: 48px;
-    margin-bottom: 48px;
-  }
-  .ordersummary_footerBtnContainer{
-    display: flex;
-    overflow: auto;
-    justify-content: space-between;
-  }
-  .ordersummary_footerBtnInner{
-    margin-left: auto;
-    display: inline-block;
-    position: relative;
-  }
-  .paypalBtn_pricingPlan{
-    opacity: 0;
-  }
-  .plan_featuresBtnWrap{
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 24px;
-    font-weight: 500;
-    gap: 8px;
-    color: #323338;
-    background-color: transparent;
-    padding: 8px 16px;
-    height: 40px;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    white-space: nowrap;
-    display: inline-flex;
-    justify-content: center;
-    user-select: none;
-    min-width: auto;
 }
-.planfeatures_grid{
-    align-items: center;
-    display: grid;
-    grid-template-columns: 1.2fr repeat(max(0,3),1fr); 
+.plansRadio_buttonContainer {
+  display: grid;
+  grid-template-columns: 1.5em auto;
+  grid-gap: 0.5em;
+  cursor: pointer;
 }
-.planfeatures_gridBottom{
-    border-bottom: 1px solid #c3c6d4;
+.planscard_icon {
+  margin-right: 8px;
+}
+.creditCardOption_container {
+  display: flex;
+  flex-direction: column;
+}
+.paypal_optionWrap {
+  display: inline-flex;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.plansCustomer_infoForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+}
+.plansCustomer_infoForm_row {
+  flex: 1;
+  /* -webkit-user-select: none; */
+  user-select: none;
+  position: relative;
+  /* display: inline-block; */
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.plansHosted_field {
+  position: relative;
+  flex: 1;
+  height: 82px;
+}
+.plansHosted_field_label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  display: flex;
+  padding-bottom: 6px;
+  align-items: center;
+}
+.plansHosted_fieldInputWrap {
+  border-radius: 4px;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #c3c6d4;
+  font-size: 14px;
+  font-weight: 400;
 
+  padding-left: 8px;
 }
-.planfeatures_gridHeader{
-    display: flex;
-    font-size: 24px;
-    padding: 16px 0;
-    text-align: left;
+.invalidInputMessage {
+  color: #d83a52;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  line-height: 12px;
+  font-size: 12px;
+  padding-top: 4px;
 }
-.planfeatures_gridHeader2{
-    align-items: center;
-    display: flex;
-    font-weight: 500;
-    height: 100%;
-    justify-content: center;
-    border-radius: 4px 4px 0 0;
+.ordersummary_moneyBack {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
-.selectedPlanFeature{
-    background-color: #c6e9d5;
+.ordersummary_trustImageWrap {
+  /* height: 140px; */
+  /* width: 200px; */
+  font-size: 14px;
+  position: relative;
 }
-.planfeatures_gridHeaderWrap{
-    align-items: center;
-    display: flex;
-    font-size: 16px;
-    justify-content: space-between;
-    margin-right: 16px;
-    padding: 16px 0;
-    text-align: left;
+.ordersummary_trustImage {
+  /* height: 100%; */
+  height: 2.7rem;
 }
-.planfeatures_gridHeader3{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    padding: 18px;
+.ordersummary_container {
+  font-size: 16px;
+  min-width: 475px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
 }
-.checkmark_plansPricing, .planfeatures_no{
-    border-radius: 12px;
-    font-weight: 500;
-    padding: 3px;
-
+.ordersummary_priceContainer {
+  /* margin-top: 72px; */
+  padding: 0 16px;
+  min-width: 445px;
 }
-.checkmark_plansPricing{
-    background-color: #00854d;
-color: #fff;
+.ordersummary_priceInner {
+  width: 100%;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 72px;
 }
-.enterpriseContact_salesWrap{
-    background-color: #fff;
-    height: fit-content;
-    border-radius: 20px;
-    overflow: auto;
-    margin: 40px auto;
-    height: 750px;
-    width: 600px;
-   
+.ordersummary_priceTotal_wrapper {
+  min-height: 0;
+  overflow: auto;
 }
-.enterpriseContact_salesContainer{
-    height: 750px;
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    color: #323338;
-    background-color: #fff;
-    border-radius: 20px;
-    overflow: auto;
+.ordersummary_price_row {
+  display: flex;
+  margin-bottom: 24px;
 }
-.enterpriseContact_salesHeader{
-    flex-shrink: 0;
-    position: relative;
-    padding: 40px 60px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 100;
+.ordersummary_priceType {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
 }
-.enterpriseContact_salesHeader .first_title{
-    font-size: 26px;
-    line-height: 30px;
-    font-weight: 700;
+.ordersummary_priceType .primary,
+.ordersummary_priceValue .primary {
+  display: flex;
+  align-items: flex-start;
+  line-height: 24px;
 }
-.enterpriseContact_salesHeader .first_title{
-    margin-top: 16px;
-    font-size: 18px;
-    line-height: 26px;
-    text-align: center;
+.ordersummary_priceType .secondary,
+.ordersummary_priceValue .secondary {
+  margin-top: 4px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #676879;
 }
-.enterpriseContact_sales_formWrap{
-    padding-bottom: 24px;
+.ordersummary_priceValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin-left: auto;
 }
-.enterpriseContact_sales_form_sqaure{
-    margin: 0px 48px;
+.ordersummary_priceTotal_wrapper .amount_saved {
+  color: #00854d;
+  font-weight: bold;
 }
-.enterpriseContact_sales{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f6f7fb;
+.period_discount {
+  color: #00854d;
 }
-.plansHosted_field .react-tel-input{
-    margin: 0px !important;
+.pricing_orderSummary_total {
+  display: flex;
+  border-top: 1px solid;
+  border-color: #c3c6d4;
+  padding-top: 24px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  font-size: 20px;
 }
-.plansHosted_field .react-tel-input .form-control{
-    width: 100% !important;
-    height: 40px !important;
+.pricing_orderSummary_total .priceType,
+.pricing_orderSummary_renew {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
 }
-.consulting_textarea{
-    width: 100%;
-    height: 80px !important;
-    resize: none;
-    border: 1px solid #c3c6d4;
-    border-radius: 4px;
-    text-indent: 10px;
-    color: #323338;
-    background-color: #fff;
-    outline: none;
-    font-size: 12px;
-    padding: 2px 0 3px 6px;
+.pricing_orderSummary_total .priceValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.pricing_orderSummary_total .priceType .primary,
+.pricing_orderSummary_total .priceValue .primary {
+  display: flex;
+  align-items: flex-start;
+  line-height: 24px;
+}
+.pricing_orderSummary_renew {
+  color: #676879;
+  font-size: 14px;
+  display: flex;
+  margin-bottom: 24px;
+}
+.ordersummary_footer {
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+.ordersummary_footerBtnContainer {
+  display: flex;
+  overflow: auto;
+  justify-content: space-between;
+}
+.ordersummary_footerBtnInner {
+  margin-left: auto;
+  display: inline-block;
+  position: relative;
+}
+.paypalBtn_pricingPlan {
+  opacity: 0;
+}
+.plan_featuresBtnWrap {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 500;
+  gap: 8px;
+  color: var(--text-color);
+  background-color: transparent;
+  padding: 8px 16px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  user-select: none;
+  min-width: auto;
+}
+.planfeatures_grid {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1.2fr repeat(max(0, 3), 1fr);
+}
+.planfeatures_gridBottom {
+  border-bottom: 1px solid #c3c6d4;
+}
+.planfeatures_gridHeader {
+  display: flex;
+  font-size: 24px;
+  padding: 16px 0;
+  text-align: left;
+}
+.planfeatures_gridHeader2 {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  height: 100%;
+  justify-content: center;
+  border-radius: 4px 4px 0 0;
+}
+.selectedPlanFeature {
+  background-color: #c6e9d5;
+  color: rgb(90, 90, 90) !important;
+}
+.planfeatures_gridHeaderWrap {
+  align-items: center;
+  display: flex;
+  font-size: 16px;
+  justify-content: space-between;
+  margin-right: 16px;
+  padding: 16px 0;
+  text-align: left;
+}
+.planfeatures_gridHeader3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  padding: 18px;
+}
+.checkmark_plansPricing,
+.planfeatures_no {
+  border-radius: 12px;
+  font-weight: 500;
+  padding: 3px;
+}
+.checkmark_plansPricing {
+  background-color: #00854d;
+  color: #fff;
+}
+.enterpriseContact_salesWrap {
+  background-color: #fff;
+  height: fit-content;
+  border-radius: 20px;
+  overflow: auto;
+  margin: 40px auto;
+  height: 750px;
+  width: 600px;
+}
+.enterpriseContact_salesContainer {
+  height: 750px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  color: #323338;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: auto;
+}
+.enterpriseContact_salesHeader {
+  flex-shrink: 0;
+  position: relative;
+  padding: 40px 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+}
+.enterpriseContact_salesHeader .first_title {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 700;
+}
+.enterpriseContact_salesHeader .first_title {
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+}
+.enterpriseContact_sales_formWrap {
+  padding-bottom: 24px;
+}
+.enterpriseContact_sales_form_sqaure {
+  margin: 0px 48px;
+}
+.enterpriseContact_sales {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f7fb;
+}
+.plansHosted_field .react-tel-input {
+  margin: 0px !important;
+}
+.plansHosted_field .react-tel-input .form-control {
+  width: 100% !important;
+  height: 40px !important;
+}
+.consulting_textarea {
+  width: 100%;
+  height: 80px !important;
+  resize: none;
+  border: 1px solid #c3c6d4;
+  border-radius: 4px;
+  text-indent: 10px;
+  color: #323338;
+  background-color: #fff;
+  outline: none;
+  font-size: 12px;
+  padding: 2px 0 3px 6px;
 }

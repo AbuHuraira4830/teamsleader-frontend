@@ -11,8 +11,6 @@ import MuiAlert from "@mui/material/Alert";
 import { postAPI } from "../../../../helpers/apis";
 import { useStateContext } from "../../../../contexts/ContextProvider";
 // import { useNavigate } from "react-router-dom";
-
-
 export default function CheckoutForm({
   formValues,
   formErrors,

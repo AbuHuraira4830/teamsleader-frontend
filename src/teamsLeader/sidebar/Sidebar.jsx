@@ -30,7 +30,6 @@ import { CiLock } from "react-icons/ci";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { set } from "date-fns";
 
-
 import { getAPI, postAPI } from "../../helpers/apis";
 import { Popover } from "antd";
 import Workspace from "../Pages/NewTeam/Components/WorkspaceComponent";
@@ -38,10 +37,10 @@ import { CircularProgress } from "@mui/material";
 import AddTeamModal from "./AddTeamModal"; // Import the AddTeamModal component
 import DocAddingModal from "./DocAddingModal";
 
-
-const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
+const Sidebar = ({ workspaceID, teamID }) => {
   const {
     isSidebarVisible,
+    setIsSidebarVisible,
     setTeamTasks,
     teamTasks,
     selectedWorkspace,
@@ -59,7 +58,6 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
     setNewTeam,
   } = useStateContext();
   const navigate = useNavigate();
-
 
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -347,9 +345,20 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
     });
     // setTeamEditingInput("");
   };
+  const toggleNavbar = () => {
+    setIsSidebarVisible(false);
+  };
   return (
-    <div >
-      <div className=" w-100 m-0 ">
+    <div>
+      <div className=" w-100 m-0 position-relative">
+        <div
+          className="top-0  sidebar_toggleBtn position-absolute"
+          style={{ width: "fit-content", right: "-14px" }}
+        >
+          <button onClick={toggleNavbar} className="toggle-btn">
+            <AiOutlineLeft className="icon" />
+          </button>
+        </div>
         {/* <span className="top-0 end-0 sidebar_toggleBtn position-absolute">
           <Button className=" " onClick={() => toggleNavbar()}>
           {isSidebarVisible ? (
@@ -358,7 +367,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
             <AiOutlineRight className="icon" /> // Icon to open sidebar
           )}          </Button>
         </span> */}
-           {/* <div className="sidebar_toggleBtn">
+        {/* <div className="sidebar_toggleBtn">
         <button onClick={toggleNavbar} className="toggle-btn">
           {isSidebarVisible ? (
             <AiOutlineLeft className="icon" /> // Icon to close sidebar
@@ -532,7 +541,7 @@ const Sidebar = ({ toggleNavbar, workspaceID, teamID }) => {
               <Form.Control
                 type="text"
                 placeholder="Search"
-                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"           
+                className="px-4 py-1 shadow-none workspace_searchInput Border  transparent_bg"
                 onFocus={HandleInputFocus}
                 onMouseEnter={HandleMouseEnter}
                 onMouseLeave={HandleMouseLeave}

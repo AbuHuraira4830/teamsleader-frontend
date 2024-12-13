@@ -159,7 +159,7 @@ h3 {
   display: flex;
   flex-direction: row; /* Sidebar and main content side by side */
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  /* height: 100vh; Full viewport height */
 }
 .flex {
   display: flex;
@@ -181,17 +181,17 @@ h3 {
   /* float: right; */
   transition: 0.3s ease;
   position: absolute;
-  width: 79.4rem;
+  /* width: 79.4rem; */
   margin-left: 16.6rem;
   top: 48px;
-  /* min-height: 92vh; */
-  height: 392vh;
+  height: 100vh;
+  width: -webkit-fill-available;
   overflow-y: auto;
   border-top-left-radius: 8px;
   color: var(--text-color) !important;
   background-color: var(--sidebar-background-color);
 }
-.respon {
+/* .respon {
   height: 96vh;
   overflow-y: auto;
 }
@@ -243,26 +243,23 @@ h3 {
     width: 62rem !important;
   }
 }
-@media (max-width: 768px) and (min-width: 426px) {
-  .main-content {
-    width: 47.4rem;
-  }
-  .respon {
-    height: 125.2vh;
-  }
-  .expanded {
-    width: 62rem !important;
-  }
-}
 @media (max-width: 425px) and (min-width: 376px) {
   .main-content {
     width: 40rem;
-  }
-}
+    }
+    } */
 /* 
 
 
 /* ----------------------------Sidebar----------- */
+@media (max-width: 800px) {
+  .main-content {
+    margin-left: 12.6rem;
+  }
+  .sidebar {
+    width: 12rem !important;
+  }
+}
 .sidebar {
   transition: width 0.3s ease;
   width: 16rem;
@@ -1157,5 +1154,21 @@ em-emoji-picker {
   color: var(--text-color);
 }
 .MuiIconButton-root .MuiSvgIcon-root {
-  color: var(--text-color); 
+  color: var(--text-color);
+}
+
+.admin-main-content .css-1086bdv-MuiPaper-root-MuiAccordion-root {
+  background-color: var(--sidebar-background-color) !important;
+  color: var(--text-color);
+  box-shadow: 0px 0px 12px var(--box-shadow);
+  /* box-shadow: ; */
+}
+.DeleteButton {
+  color: var(--text-color) !important;
+}
+:where(.css-dev-only-do-not-override-1x0dypw).ant-checkbox .ant-checkbox-inner {
+  background-color: transparent;
+}
+.ant-empty-description {
+  color: var(--text-color) !important;
 }

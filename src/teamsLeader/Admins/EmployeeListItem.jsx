@@ -233,6 +233,7 @@ const EmployeeListItem = () => {
             onClick={() => showDeleteConfirm(selectedRowKeys[0])}
             disabled={selectedRowKeys.length === 0}
             icon={<FaTrash />}
+            className={selectedRowKeys.length < 1 ? "DeleteButton" : ""}  
           >
             Delete
           </Button>

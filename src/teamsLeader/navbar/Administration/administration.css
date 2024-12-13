@@ -199,6 +199,6 @@
   color: var(--text-color);
 }
 
-.admin-main-content .MuiPaper-root{
+.admin-main-content .css-1086bdv-MuiPaper-root-MuiAccordion-root{
   background-color: var(--sidebar-background-color) !important;
 }

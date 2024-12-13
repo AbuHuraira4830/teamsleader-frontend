@@ -79,14 +79,14 @@ const ProjectSelector = ({ date, time }) => {
           value={inputValue}
           onBlur={handleChange}
           onChange={(e) => setInputValue(e.target.value)}
-          className="workspace_searchInput outline-none rounded-1 Border p-1 "
+          className="workspace_searchInput outline-none rounded-1 Border p-1 bg-[var(--dropdown-bgColor)]"
         />
         <span
-          className="rounded-2 w-[24px] h-[24px] bgHover p-1 absolute right-8 cursor-pointer selectorEdit"
+          className="rounded-2 w-[24px] h-[24px] bgHover p-1 absolute right-8 cursor-pointer selectorEdit ]"
           style={{top: "2.5px" }}
           onClick={handleEditClick}
-        >
-          <FiEdit style={{ color: "#575757" }} />
+        >     
+          <FiEdit  />
         </span>
         <Popover
           content={
@@ -117,7 +117,7 @@ const ProjectSelector = ({ date, time }) => {
             style={{  top: "2.5px" }}
             onClick={handleEditClick}
           >
-            <IoIosArrowDown style={{ color: "#575757" }} />
+            <IoIosArrowDown  />
           </span>
         </Popover>
       </div>

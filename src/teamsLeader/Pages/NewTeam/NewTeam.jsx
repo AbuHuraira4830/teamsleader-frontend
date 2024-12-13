@@ -134,6 +134,7 @@ export const NewTeam = () => {
     // workspaceID,
     // teamID,
     user,
+    thisUser,
   } = useStateContext();
   const { workspaceID, teamID } = useParams();
 
@@ -844,8 +845,11 @@ export const NewTeam = () => {
   return (
     // <div className="px-4 pt-3 newTeam " style={{ height: "100vh" }}>
     // <div className="px-4 pt-3 newTeam mb-[5rem]  ">
-    <div className="px-4 pt-3 newTeam mb-[5rem] w-[88%] overflow-auto" style={{ height: "auto" }}>
-    <div className="flex mb-2 items-center justify-between">
+    <div
+      className="px-4 pt-3 newTeam mb-[5rem]  overflow-auto"
+      style={{ height: "auto" }}
+    >
+      <div className="flex mb-2 items-center justify-between">
         <h3
           style={{ color: "var(--text-color)" }}
           className="text-[24px] font-semibold"

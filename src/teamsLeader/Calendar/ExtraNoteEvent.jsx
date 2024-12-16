@@ -34,6 +34,7 @@ const ExtraNoteEvent = ({ text, setText }) => {
             variant="outlined"
             color="neutral"
             onClick={addEmoji("👍")}
+            className="bgHover"
           >
             👍
           </IconButton>
@@ -41,6 +42,7 @@ const ExtraNoteEvent = ({ text, setText }) => {
             variant="outlined"
             color="neutral"
             onClick={addEmoji("💯")}
+            className="bgHover"
           >
             💯
           </IconButton>
@@ -48,6 +50,7 @@ const ExtraNoteEvent = ({ text, setText }) => {
             variant="outlined"
             color="neutral"
             onClick={addEmoji("😍")}
+            className="bgHover "
           >
             😍
           </IconButton>
@@ -62,7 +65,11 @@ const ExtraNoteEvent = ({ text, setText }) => {
         </Box>
       }
       endDecorator={
-        <Typography level="body-xs" sx={{ ml: "auto" }}>
+        <Typography
+          color={"var(--text-color)"}
+          level="body-xs"
+          sx={{ ml: "auto" }}
+        >
           {text.length} character(s)
         </Typography>
       }

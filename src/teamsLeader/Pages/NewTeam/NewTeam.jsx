@@ -1028,18 +1028,20 @@ export const NewTeam = () => {
           </Dropdown>
         </span>
       </div>
-      {activeTab !== "Calendar" && activeTab !== "Social Planner" && (
-        <>
-          <div className="d-flex items-center newTeam_nav mb-5">
-            <Button
-              onClick={addTodoList}
-              type="button"
-              className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
-              style={{ backgroundColor: "#025231", fontSize: "14px" }}
-            >
-              New Item
-            </Button>
-            {/* <ButtonGroup className=" me-4">
+      {activeTab !== "Calendar" &&
+        activeTab !== "Social Planner" &&
+        activeTab !== "Kanban" && (
+          <>
+            <div className="d-flex items-center newTeam_nav mb-5">
+              <Button
+                onClick={addTodoList}
+                type="button"
+                className=" px-2 py-1   workspace_addBtn border-0 rounded-1   "
+                style={{ backgroundColor: "#025231", fontSize: "14px" }}
+              >
+                New Item
+              </Button>
+              {/* <ButtonGroup className=" me-4">
               <Button className=" py-0    workspace_addBtn  border-0 rounded-1   ">
                 Add Table
               </Button>
@@ -1093,7 +1095,7 @@ export const NewTeam = () => {
               </Dropdown>
             </ButtonGroup> */}
 
-            {/* <Button
+              {/* <Button
               className=" fs-6 workspace-dropdown-button workspace-dropdownBtn align-middle  text-start py-1 me-2 px-2"
               style={{ display: "flex" }}
             >
@@ -1158,9 +1160,9 @@ export const NewTeam = () => {
             >
               <BsThreeDots className=" fs-5 " />
             </Button> */}
-          </div>
-        </>
-      )}
+            </div>
+          </>
+        )}
 
       <OffcanvasComponent show={showCanvas} handleClose={closeCanvas} />
 

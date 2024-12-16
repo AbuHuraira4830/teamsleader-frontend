@@ -186,6 +186,8 @@ h3 {
   top: 48px;
   height: 100vh;
   width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
   overflow-y: auto;
   border-top-left-radius: 8px;
   color: var(--text-color) !important;
@@ -1171,4 +1173,8 @@ em-emoji-picker {
 }
 .ant-empty-description {
   color: var(--text-color) !important;
+}
+
+.calendar_table_cell {
+  color: var(--text-color);
 }

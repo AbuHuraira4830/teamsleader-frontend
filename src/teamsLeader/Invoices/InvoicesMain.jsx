@@ -35,12 +35,7 @@ const InvoicesMain = () => {
 
   return (
     <>
-      <div className=" flex  justify-center">
-       
-        {/* <div className={`main-content  ${isSidebarVisible ? "" : "expanded"} `}> */}
-          <NewInvoice />
-        {/* </div> */}
-      </div>
+                 <NewInvoice />
     </>
   );
 };

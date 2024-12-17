@@ -416,7 +416,7 @@ const Sidebar = ({ workspaceID, teamID }) => {
                 </span>
               </Button>
             </Link> */}
-            {/* <Link to="/invoices" className="text-decoration-none">
+            <Link to="/invoices" className="text-decoration-none">
               <Button
                 className={`w-100 text-start ${
                   activeButton === 4 ? "selected_bg" : "transparent_bg"
@@ -428,7 +428,7 @@ const Sidebar = ({ workspaceID, teamID }) => {
                   Invoices
                 </span>
               </Button>
-            </Link> */}
+            </Link>
             {/* <Link to="/password-managment " className="text-decoration-none">
               <Button
                 className={`w-100 text-start ${

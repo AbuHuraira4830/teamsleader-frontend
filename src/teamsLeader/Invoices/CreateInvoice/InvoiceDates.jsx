@@ -5,10 +5,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const InvoiceDates = () => {
-  const { selectedColorInvoice } = useStateContext();
+  const { selectedColorInvoice, issuedDate, setIssuedDate, dueDate, setDueDate} = useStateContext();
 
-  const [issuedDate, setIssuedDate] = useState(new Date());
-  const [dueDate, setDueDate] = useState(new Date());
+  // const [issuedDate, setIssuedDate] = useState(new Date());
+  // const [dueDate, setDueDate] = useState(new Date());
 
   const issuedCalendarRef = useRef();
   const dueDateCalendarRef = useRef();
@@ -60,8 +60,11 @@ const InvoiceDates = () => {
               className="font-semibold"
               style={{ color: selectedColorInvoice }}
             >
-              28 Feb 2024
-            </span>
+ {issuedDate.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}            </span>
           </div>
           <div className="flex flex-col items-end py-1 border-b border-transparent gap-2 leading-tight">
             <span className="first-letter:capitalize">due date</span>
@@ -69,7 +72,11 @@ const InvoiceDates = () => {
               className="font-semibold"
               style={{ color: selectedColorInvoice }}
             >
-              28 Mar 2024
+                   {dueDate.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}
             </span>
           </div>
         </div>

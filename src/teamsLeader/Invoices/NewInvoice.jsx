@@ -76,6 +76,7 @@ import RevenueWrapper from "./RevenueWrapper";
 import QuoteTable from "./QuoteTable";
 import { PiUsersThreeLight } from "react-icons/pi";
 import { AiOutlineDelete } from "react-icons/ai";
+import "../../assets/css/newTeam.css";
 export const NewInvoice = () => {
   const {
     labels,
@@ -766,7 +767,7 @@ export const NewInvoice = () => {
   };
 
   return (
-    <div className="px-4 pt-3 newTeam " style={{ height: "auto" }}>
+    <div className="px-4 pt-3 newTeam mb-[5rem] w-[88%] overflow-auto" style={{ height: "auto" }}>
       <div className="flex mb-2 items-center justify-between">
         <h3>Usman</h3>
         {/* <Button className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle">
@@ -783,15 +784,15 @@ export const NewInvoice = () => {
               onClick={showModal}
             >
               <FaRegUser className="text-base mx-2  " />
-              <span className="text-sm mt-1 "> Invite / 1</span>
+              <span className="text-sm mt-1 "> Invite </span>
             </button>
           </Link>
-          <Button
+          {/* <Button
             className="ms-1 px-1 fs-4 workspace_menuBtn bgHover align-middle"
             style={{ display: "flex" }}
           >
             <BsThreeDots className=" fs-5 " />
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className=" main_tableBtnDiv  flex items-center mb-3">

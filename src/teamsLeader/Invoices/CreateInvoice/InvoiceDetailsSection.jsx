@@ -14,10 +14,12 @@ const InvoiceDetailsSection = () => {
     setInvoiceNumber,
     invoiceNumber,
     formattedInvoiceNumber,
+    manualInvoiceNumber,
+    setManualInvoiceNumber,
   } = useStateContext();
-  useEffect(() => {
-    setInvoiceNumber((prevNumber) => prevNumber + 1);
-  }, []);
+  // useEffect(() => {
+  //   setInvoiceNumber((prevNumber) => prevNumber + 1);
+  // }, []);
   
 
   return (
@@ -26,7 +28,7 @@ const InvoiceDetailsSection = () => {
         {/* Invoice Left Column */}
         <div
           id="invoice"
-          className="transition-all invoice-container flex flex-1 flex-col shadow-lg bg-white mb-10 group relative overflow-hidden "
+          className=" transition-all invoice-container flex flex-1 flex-col shadow-lg bg-white mb-10 group relative overflow-hidden "
           // style={{ height: "11.69in", width: "8.27in" }}
         >
           <div className="px-10 pt-10 pb-3 ">
@@ -43,14 +45,13 @@ const InvoiceDetailsSection = () => {
                           Invoice
                         </span>
                         <input
-                          className=" bg-white placeholder-primary-400 border-none !py-0 !h-auto text-sm font-bold outline-none inline-block
-                          focus:border-primary-500 p-0 w-full pr-4 pl-1  focus:ring-primary-900
-                          text-main focus:ring-2 focus:ring-opacity-25 rounded-lg
-                            "
-                          type="text"
-                          defaultValue={formattedInvoiceNumber}
-                          style={{ color: selectedColorInvoice }}
-                        />
+              className="bg-white placeholder-primary-400 border-none !py-0 !h-auto text-sm font-bold outline-none inline-block
+                focus:border-primary-500 p-0 w-full pr-4 pl-1 focus:ring-primary-900 text-main focus:ring-2 focus:ring-opacity-25 rounded-lg"
+              type="text"
+              value={manualInvoiceNumber}
+              onChange={(e) => setManualInvoiceNumber(e.target.value)} // Sync state
+              style={{ color: selectedColorInvoice }}
+            />
                         <div>
                           <BiPencil
                             className="ml-1"

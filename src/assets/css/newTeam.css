@@ -36,7 +36,6 @@ th {
   cursor: pointer;
 }
 .newTeam-table {
-  /*  */
   font-size: 13px;
   color: var(--text-color) !important;
   border-radius: 8px;
@@ -49,6 +48,10 @@ th {
 }
 .newTeam-table svg {
   font-size: 25px;
+}
+.newTeam-table .pencilInvoice svg{
+  font-size: 18px !important;
+
 }
 .newTeam-table th {
   font-weight: normal;
@@ -947,3 +950,5 @@ input::-webkit-inner-spin-button {
 .Persons > *:not(:first-child) {
   margin-left: -11px;
 }
+/* ===================================================================== */
+

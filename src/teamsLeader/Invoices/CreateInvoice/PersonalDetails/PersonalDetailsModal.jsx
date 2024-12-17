@@ -89,7 +89,7 @@ const PersonalDetailsModal = () => {
         >
           <div className="flex items-center justify-center transition-all">
             <AiOutlinePlus className="text-[#262626] mr-2" />
-            <span className="normal-case text-[#262626] text-sm">
+            <span className="normal-case text-[#262626] text-sm text-nowrap">
               Personal Details
             </span>
           </div>

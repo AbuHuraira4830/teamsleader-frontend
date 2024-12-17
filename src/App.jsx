@@ -91,6 +91,8 @@ const App = () => {
         {/* <Route index element={<Navigate to="/workspace/undefined" replace />} /> */}
         <Route path="/workspace/:workspaceID/team/:teamID" element={<Home />} />
         <Route path="/workspace/:workspaceID" element={<Home />} />
+        <Route path="/docs/:docId" element={<Home />} />
+
         {/* <Route path="/workspace/:workspaceID" element={<Home />} /> */}
         {/* <Route
           path="/workspace/:workspaceID/team/:teamID"

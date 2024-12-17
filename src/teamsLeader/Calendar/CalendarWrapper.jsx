@@ -81,7 +81,7 @@ const CalendarWrapper = () => {
 
   return (
     <>
-      <div className="h-[90vh] flex flex-col w-[98%] relative">
+      <div className="h-[90vh] flex flex-col w-[98%] relative bg-[var(--sidebar-background-color)] color-[var(--text-color)]">
         <CalendarHeader
           handlePreviousMonth={handlePreviousMonth}
           handleNextMonth={handleNextMonth}

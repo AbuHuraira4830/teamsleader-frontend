@@ -269,7 +269,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
         scroll={true}
         backdrop={false}
         placement="end"
-        className="w-50 newTeam_ofcanvas"
+        className="w-50 newTeam_ofcanvas "
       >
         <Offcanvas.Header className="flex justify-end  mr-5">
           <button className="custom_closeCanvasBtn " onClick={handleClose}>
@@ -277,10 +277,10 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
           </button>
         </Offcanvas.Header>
 
-        <Offcanvas.Body className="custom-scrollbar">
+        <Offcanvas.Body className="custom-scrollbar ">
           {/* Add Event */}
 
-          <div className="calendar_modal">
+          <div className="calendar_modal ">
             <div className="border-0 px-0 pb-0">
               <div className=" row input-container mx-auto">
                 <div className="col-12 mt-3">
@@ -301,7 +301,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
                     <div className="flex items-center mb-4">
                       <div className="mt-4 col-4	">
                         <div className="calendar_cell_wrapper">
-                          <div className="calendar_column_title">
+                          <div className="calendar_column_title ">
                             <div className="mr-[8px]">
                               <SlPeople />
                             </div>
@@ -359,7 +359,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
                           >
                             <Typography
                               sx={{ p: 2 }}
-                              className="addPersonModal"
+                              className="addPersonModal bg-[var(--dropdown-bgColor)] "
                             >
                               <AddNewPerson
                                 onPopoverOpen={isPopoverOpen}
@@ -565,7 +565,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="mt-2 col-7">
+                      <div className="mt-2 col-7 Notes">
                         {/* <Status onStatusSelection={handleStatusSelection} /> */}
                         <ExtraNoteEvent text={text} setText={setText} />
                       </div>

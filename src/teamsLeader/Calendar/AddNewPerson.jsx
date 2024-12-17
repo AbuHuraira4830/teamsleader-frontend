@@ -91,7 +91,7 @@ const AddNewPerson = ({
           <div
             key={index}
             onClick={() => handleAddPerson(person)}
-            className={`flex justify-content-between mt-2 px-3 py-2 cursor-pointer hover:bg-[#dcdfec] transition-all duration-300`}
+            className={`flex justify-content-between mt-2 px-3 py-2 cursor-pointer bgHover transition-all duration-300`}
           >
             <span>
               {person.hasCustomAvatar && (
@@ -118,7 +118,7 @@ const AddNewPerson = ({
               email: "",
             })
           }
-          className="flex justify-content-between mt-2 px-3 py-2 text-[.8rem] cursor-pointer hover:bg-[#dcdfec] transition-all duration-300"
+          className="flex justify-content-between mt-2 px-3 py-2 text-[.8rem] cursor-pointer bgHover transition-all duration-300"
         >
           <span className="flex items-center">
             <RxAvatar className="text-[1rem] me-3 ml-1 mb-[.1rem]" />

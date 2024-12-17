@@ -21,6 +21,7 @@
   left: 2%;
   right: 2%;
   bottom: 2%;
+  color: #323338;
 }
 .calendar_table_cell.other_rows:not(.event-added):hover::after {
   content: "+ Add";
@@ -38,6 +39,7 @@
   left: 4%;
   right: 4%;
   bottom: 4%;
+  color: #323338;
 }
 
 .input-container {
@@ -47,6 +49,7 @@
 
 /* Style for the input box */
 .editable-input {
+  background-color: var(--dropdown-bgColor);
   border: 1px solid transparent;
   font-weight: bold;
   padding: 0.4rem 0.5rem;
@@ -56,13 +59,16 @@
 
 /* Style for the dashed border on hover */
 .editable-input:hover {
-  border: 1px dashed #c3c6d4;
+  border: 1px dashed var(--border-color);
 }
 
 /* Style for the solid border on focus */
 .editable-input:focus {
-  border: 1px solid #c3c6d4;
+  border: 1px solid var(--border-color);
   outline: none;
+}
+.calendar_modal {
+  color: var(--text-color);
 }
 .calendar_modal .modal-header .btn-close {
   position: absolute;
@@ -85,6 +91,7 @@
   display: flex;
   align-items: center;
   max-width: 140px;
+  color: var(--text-color);
 }
 .calendar_column_title {
   cursor: text;
@@ -102,7 +109,7 @@
   padding: 0.5rem 0;
   width: 100%;
   border: none;
-  background-color: #f5f6f8;
+  background-color: var(--dropdown-bgColor);
   position: relative;
   color: #323338;
   transition: all 0.3s ease;
@@ -177,13 +184,14 @@
   left: 2%;
 }
 .person_cell_component:hover {
-  background-color: #e6e9ef;
+  background-color: var(--gray-hover-color);
   cursor: pointer;
 }
 /* ====================================Add Person Cell====================================== */
 .add_person_wrapper {
   /* position: relative; */
   z-index: 999;
+  color: var(--text-color);
 }
 
 .css-17ffvgn-MuiTypography-root {
@@ -196,6 +204,8 @@
 }
 
 .css-3bmhjh-MuiPaper-root-MuiPopover-paper {
+  background-color: var(--dropdown-bgColor) !important;
+  color: var(--text-color);
   /* top: 25.5% !important;
   left: 68% !important; */
 }
@@ -208,7 +218,6 @@
     /* Any other styles you want to apply globally to the Popover */
   }
 }
-
 
 .topCurvePerson {
   position: absolute;
@@ -225,15 +234,15 @@
 }
 .addPersonSearch input {
   width: 100%;
-  background-color: #ffffff;
   border: 1px solid;
-  border-color: #c3c6d4;
+  border-color: var(--border-color);
   border-radius: 4px;
   padding: 4px 16px;
-  color: #323338;
+  color: var(--text-color);
   font-size: 0.8rem;
   opacity: 1 !important;
   pointer-events: auto !important;
+  background-color: var(--sidebar-background-color);
 }
 
 .multiple_persons_box {
@@ -278,7 +287,7 @@
   border-color: rgba(0, 0, 0, 0.2) #ffffff;
 }
 /* ===================Date Range Picker================= */
-.calendar_dateRange .rdrDateRangePickerWrapper{
+.calendar_dateRange .rdrDateRangePickerWrapper {
   bottom: 183% !important;
   left: 28% !important;
 }
@@ -289,7 +298,6 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
   justify-content: center;
-
 }
 .rdrDefinedRangesWrapper {
   display: none;
@@ -365,75 +373,72 @@
 } */
 .calendarStatus_barWrapper {
   width: 29rem;
-  
+
   position: fixed;
   bottom: 0;
   z-index: 999;
   right: 23%;
-
 }
-.stausLabel_wrapper{
+.stausLabel_wrapper {
   display: flex !important;
   justify-content: center;
   align-items: center;
- 
+
   position: relative;
   z-index: 1 !important;
- 
-text-wrap:nowrap;
+
+  text-wrap: nowrap;
 }
-.slick-next{
+.slick-next {
   /* right: -4%; */
   right: -10px !important;
   top: 54% !important;
   background: none !important;
   z-index: 3 !important;
 }
-.slick-prev{
-/* left: -5%; */
-top: 55% !important;
-left: -10px !important;
-background: none !important;
+.slick-prev {
+  /* left: -5%; */
+  top: 55% !important;
+  left: -10px !important;
+  background: none !important;
 
-
-z-index: 3 !important;
-
+  z-index: 3 !important;
 }
 
-.slick-prev:before, .slick-next:before{
+.slick-prev:before,
+.slick-next:before {
   color: gray;
   font-size: 17px !important;
 }
 
-.slick-track{
+.slick-track {
   display: flex !important;
   justify-content: center;
   align-items: center;
 }
 
-.slick-list{
+.slick-list {
   width: 100% !important;
 }
-.calendar_modal .ant-modal-content{
+.calendar_modal .ant-modal-content {
   padding: 2rem !important;
 }
-.person_searchInput:focus{
+.person_searchInput:focus {
   border-color: #00854d !important;
   outline: none !important;
-
 }
-:where(.css-dev-only-do-not-override-gzal6t).ant-popover{
+:where(.css-dev-only-do-not-override-gzal6t).ant-popover {
   z-index: 99999 !important;
 }
 /* =-==================hex==================== */
 .hex {
   width: 24px; /* Adjust the width */
   height: 14px; /* Adjust the height */
-  background-color:#dcdfec;
-  border-color:#dcdfec;
-  background-color:#ebedf1;
-  border-color:#ebedf1;
- 
+  background-color: #dcdfec;
+  border-color: #dcdfec;
+  background-color: #ebedf1;
+  border-color: #ebedf1;
+
   position: relative;
   display: inline-block;
 }
@@ -461,7 +466,7 @@ z-index: 3 !important;
   border-right: 12px solid transparent; /* Adjust the border size */
 }
 /* ==============================Integration Banners==================================== */
-.integration_banner{
+.integration_banner {
   background-color: rgb(14, 113, 235);
   display: flex;
   flex-direction: column;
@@ -472,15 +477,16 @@ z-index: 3 !important;
   border-radius: 8px;
   width: 100%;
 }
-.integBannerContent,.integBannerContentContainer{
+.integBannerContent,
+.integBannerContentContainer {
   display: flex;
   height: 100%;
   width: 100%;
 }
-.integBannerContentContainer{
-flex-direction: column;
+.integBannerContentContainer {
+  flex-direction: column;
 }
-.integBannerLogo{
+.integBannerLogo {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -491,11 +497,11 @@ flex-direction: column;
   padding: 24px;
   border-radius: 8px;
 }
-.integBannerLogo img{
+.integBannerLogo img {
   height: 64px;
 }
-.integBannerContent h1{
-  -webkit-line-clamp:1;
+.integBannerContent h1 {
+  -webkit-line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -504,10 +510,9 @@ flex-direction: column;
   min-width: 0;
   padding: 0 4px;
   color: #d5d8df;
-  
 }
 .integBannerContent h4 {
-  -webkit-line-clamp:5;
+  -webkit-line-clamp: 5;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -518,12 +523,12 @@ flex-direction: column;
   border-radius: 4px;
   min-width: 0;
   padding: 0 4px;
-padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
-.integBannerContent h4 span{
+.integBannerContent h4 span {
   vertical-align: baseline;
 }
-.meetingCardWrapper{
+.meetingCardWrapper {
   width: 307px;
   margin-right: 0px;
   height: 100%;
@@ -532,56 +537,56 @@ padding-bottom: 1rem;
   border: 1px solid;
   border-radius: 8px;
   transition: box-shadow 0.1s ease, border-color 0.1s ease;
-border-color: #d0d4e4;
-cursor: pointer;
-color: #323338;
+  border-color: #d0d4e4;
+  cursor: pointer;
+  color: #323338;
 }
-.meetingCardWrapper:hover{
+.meetingCardWrapper:hover {
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
   border-color: #ffffff;
 }
-.meetingCardContainer{
+.meetingCardContainer {
   height: 100%;
 }
-.meeting_card_innerContainer{
+.meeting_card_innerContainer {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 210px;
 }
-.meeting_cardTopBar{
+.meeting_cardTopBar {
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.zoom_text{
-  color: rgba(50, 51, 56, 0.38 );
+.zoom_text {
+  color: rgba(50, 51, 56, 0.38);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.topBarArrow{
+.topBarArrow {
   display: flex;
   align-items: center;
   color: #00854d;
 }
-.meeting_card_content{
+.meeting_card_content {
   flex: 1 1 auto;
   font-weight: 200;
   font-size: 18px;
   padding-bottom: 24px;
 }
-.emptyModule{
+.emptyModule {
   height: 32px;
   display: flex;
   gap: 8px;
   align-items: center;
   flex-wrap: wrap;
 }
-.integ_cardButton{
+.integ_cardButton {
   display: inline-flex;
-  width: 100%; 
+  width: 100%;
   line-height: 22px;
   border: 1px solid;
   border-color: #c3c6d4;
@@ -594,13 +599,24 @@ color: #323338;
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: 70ms transform,100ms cubic-bezier(0.4, 0, 0.2, 1) min-width;
+  transition: 70ms transform, 100ms cubic-bezier(0.4, 0, 0.2, 1) min-width;
   min-width: auto;
-
 }
-.integ_cardButton:hover{
+.integ_cardButton:hover {
   background: #dcdfec;
 }
-.calendar_shadow{
-  box-shadow: 0 4px 17px 6px rgba(0,0,0,.1) !important;
+.calendar_shadow {
+  box-shadow: 0 4px 17px 6px rgba(0, 0, 0, 0.1) !important;
+}
+.Notes .MuiTextarea-variantOutlined {
+  background-color: var(--dropdown-bgColor);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+.MuiTextarea-startDecorator .MuiButton-root {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+.MuiTextarea-startDecorator .MuiIconButton-root {
+  border-color: var(--border-color) !important;
 }

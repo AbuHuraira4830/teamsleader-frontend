@@ -5,14 +5,14 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import Home from "./teamsLeader/Home/Home";
 import "./app.css";
-import "../node_modules/@syncfusion/ej2-base/styles/material.css";
-import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
-import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
-import "../node_modules/@syncfusion/ej2-react-calendars/styles/material.css";
+// import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+// import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+// import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+// import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+// import "../node_modules/@syncfusion/ej2-react-calendars/styles/material.css";
 import Login from "./teamsLeader/Pages/Login/Login";
 // import Signup from "./teamsLeader/Pages/Signup.jsx/SignUp";
 import InviteTeam from "./teamsLeader/Pages/InviteTeam/InviteTeam";
@@ -44,7 +44,8 @@ import { getAPI } from "./helpers/apis";
 import { useStateContext } from "./contexts/ContextProvider.jsx";
 import YoutubeCallback from "./teamsLeader/SocialMediaPlanner/PostPreview/ConnectProfile/YoutubeCallback.jsx";
 import LinkedinCallBack from "./teamsLeader/SocialMediaPlanner/PostPreview/ConnectProfile/LinkedinCallBack.jsx";
-import MainLayout from "./MainLayout"; // Adjust the import according to your project structure
+// const MainLayout = lazy(() => "./MainLayout");
+import MainLayout from "./MainLayout";
 import AdminLayout from "./teamsLeader/navbar/Administration/AdminLayout.jsx";
 import Billing from "./teamsLeader/navbar/Administration/Billing.jsx";
 import AdminControls from "./teamsLeader/navbar/Administration/AdminControls/AdminControls.jsx";

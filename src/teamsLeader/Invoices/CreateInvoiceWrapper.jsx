@@ -36,7 +36,7 @@ const CreateInvoiceWrapper = () => {
 
   return (
     <>
-    <div className="px-4 pt-3 newTeam mb-[5rem] w-[88%] overflow-auto" style={{ height: "auto" }}>
+    <div className="px-4 pt-3 newTeam mb-[5rem]  overflow-auto" style={{ height: "auto" }}>
     <CreateInvoice />
       </div>
     </>

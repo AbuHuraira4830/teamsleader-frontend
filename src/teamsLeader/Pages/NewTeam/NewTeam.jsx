@@ -867,7 +867,7 @@ export const NewTeam = () => {
               onClick={showModal}
             >
               <FaRegUser className="text-base mx-2  " />
-              <span className="text-sm mt-1 "> Invite / 1</span>
+              <span className="text-sm mt-1 "> Invite</span>
             </button>
           </Link>
           {/* <Button

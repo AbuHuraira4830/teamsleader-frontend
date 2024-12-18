@@ -25,6 +25,11 @@ export const ContextProvider = ({ children }) => {
   const [workspaceID, setWorkspaceID] = useState(null);
   const [teamID, setTeamID] = useState(null);
   const [user, setUser] = useState(null);
+  const [issuedDate, setIssuedDate] = useState(new Date());
+  const [dueDate, setDueDate] = useState(new Date());
+ 
+
+
   let userId = 0; // Initial ID
 
   const createData = (name, email, title, teams, role) => {
@@ -84,6 +89,9 @@ export const ContextProvider = ({ children }) => {
 
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [invoiceNumber, setInvoiceNumber] = useState(1);
+  const [manualInvoiceNumber, setManualInvoiceNumber] = useState(
+    `2024-${String(invoiceNumber).padStart(3, "0")}`
+  );
   const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(""); // State to store the email
@@ -343,13 +351,13 @@ export const ContextProvider = ({ children }) => {
       tempName: "Client Name",
       columnType: "clientName", // Add a type identifier
     },
-    {
-      id: uuidv4(),
-      name: "People",
-      editable: false,
-      tempName: "People",
-      columnType: "people", // Add a type identifier
-    },
+    // {
+    //   id: uuidv4(),
+    //   name: "People",
+    //   editable: false,
+    //   tempName: "People",
+    //   columnType: "people", 
+    // },
 
     {
       id: uuidv4(),
@@ -1168,7 +1176,6 @@ export const ContextProvider = ({ children }) => {
         user,
         setUser,
         userEmail,
-        setUserEmail,
         isDocumentChange,
         setIsDocumentChange,
         isToggleFontFamily,
@@ -1181,7 +1188,13 @@ export const ContextProvider = ({ children }) => {
         setIsPaymentModalOpen,
         handleChange,
         setCurrency,
-        currency
+        currency,
+        issuedDate,
+        setIssuedDate,
+        dueDate,
+        setDueDate,
+        manualInvoiceNumber,
+        setManualInvoiceNumber
       }}
     >
       {children}

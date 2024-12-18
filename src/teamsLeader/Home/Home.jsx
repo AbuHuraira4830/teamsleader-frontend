@@ -17,6 +17,7 @@ import PasswordTableWrapper from "../Pages/PasswordsTable/PasswordTable";
 import WelcomePage from "../Pages/welcomPage/WelcomePage";
 import ExtraNote from "../navbar/profileModal/ExtraNote";
 
+
 const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
@@ -160,9 +161,22 @@ const Home = () => {
     <>
  { user && (
       <div>
-        <div className="">
-              <NewTeam />
-        </div>
+              {componentToShow === "docCreator" ? (
+                allDocuments?.map(
+                  (doc) =>
+                    selectedDocument._id === doc._id && (
+                      <DocEditor doc={doc} key={doc._id} />
+                    )
+                )
+              ) : componentToShow === "newTeam" ? (
+                <NewTeam />
+              ) : componentToShow === "home" ? (
+                <WelcomePage />
+              ) : componentToShow === "passwordTable" ? (
+                <PasswordTable />
+              ) : (
+                ""
+              )}
       </div>
       )}
     </>

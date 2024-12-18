@@ -183,7 +183,7 @@ h3 {
   position: absolute;
   /* width: 79.4rem; */
   margin-left: 16.6rem;
-  top: 48px;
+  /* top: 48px; */
   height: 100vh;
   width: -webkit-fill-available;
   width: -moz-available;
@@ -267,7 +267,7 @@ h3 {
   width: 16rem;
   position: fixed;
   border-top-right-radius: 8px;
-  top: 48px;
+  /* top: 48px; */
   left: 0;
   height: calc(100% - 50px);
   background-color: var(--sidebar-background-color);

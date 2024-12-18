@@ -27,8 +27,6 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [issuedDate, setIssuedDate] = useState(new Date());
   const [dueDate, setDueDate] = useState(new Date());
- 
-
 
   let userId = 0; // Initial ID
 
@@ -356,7 +354,7 @@ export const ContextProvider = ({ children }) => {
     //   name: "People",
     //   editable: false,
     //   tempName: "People",
-    //   columnType: "people", 
+    //   columnType: "people",
     // },
 
     {
@@ -947,7 +945,10 @@ export const ContextProvider = ({ children }) => {
       DKK: "kr",
     };
 
-    setCurrency({ code: selectedCurrency, symbol: currencySymbols[selectedCurrency] });
+    setCurrency({
+      code: selectedCurrency,
+      symbol: currencySymbols[selectedCurrency],
+    });
   };
   useEffect(() => {
     if (selectedDocument?._id) {
@@ -1175,7 +1176,6 @@ export const ContextProvider = ({ children }) => {
         teamID,
         user,
         setUser,
-        userEmail,
         isDocumentChange,
         setIsDocumentChange,
         isToggleFontFamily,
@@ -1194,7 +1194,7 @@ export const ContextProvider = ({ children }) => {
         dueDate,
         setDueDate,
         manualInvoiceNumber,
-        setManualInvoiceNumber
+        setManualInvoiceNumber,
       }}
     >
       {children}

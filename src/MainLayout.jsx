@@ -18,8 +18,13 @@ import TrialExpireModal from "./modals/TrialExpireModal";
 import Loader from "./Loader";
 
 const MainLayout = () => {
-  const { theme, isSidebarVisible, setIsSidebarVisible, selectedTeam } =
-    useStateContext();
+  const {
+    theme,
+    isSidebarVisible,
+    setIsSidebarVisible,
+    selectedTeam,
+    thisUser,
+  } = useStateContext();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [trialExpired, setTrialExpired] = useState(false); // New state for trial status
@@ -188,7 +193,10 @@ const MainLayout = () => {
       <div className="Navbar py-1 w-100" style={{ zIndex: 999 }}>
         <Navbar />
       </div>
-      <div className="dashboard-container">
+      <div
+        className={`dashboard-container `}
+        style={{ marginTop: thisUser?.isEmailVerified ? "48px" : "88px" }}
+      >
         {/* Sidebar */}
         <div
           className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
@@ -204,7 +212,7 @@ const MainLayout = () => {
             {!isSidebarVisible && (
               <div
                 className="sidebar_toggleBtn position-absolute"
-                style={{ top: "0", left: "16px" }}  
+                style={{ top: "0", left: "16px" }}
               >
                 <button onClick={toggleNavbar} className="toggle-btn">
                   <AiOutlineRight className="icon" />

@@ -31,21 +31,21 @@ const CalendarHeader = ({ handleNextMonth, handlePreviousMonth, month }) => {
         </button>
         <button
           onClick={handlePreviousMonth}
-          className="hover:bg-[#dcdfec] hover:rounded-full mx-1 mt-[0.2rem] w-[28px] h-[28px] transition duration-300"
+          className="bgHover hover:rounded-full mx-1 mt-[0.2rem] w-[28px] h-[28px] transition duration-300"
         >
-          <span className="cursor-pointer text-gray-600 flex justify-center items-center">
+          <span className="cursor-pointer  color-[var(--text-color)] flex justify-center items-center">
             <MdChevronLeft className="text-xl" />
           </span>
         </button>
         <button
           onClick={handleNextMonth}
-          className="hover:bg-[#dcdfec] hover:rounded-full mx-1 mt-[0.2rem] w-[28px] h-[28px] transition duration-300"
+          className="bgHover hover:rounded-full mx-1 mt-[0.2rem] w-[28px] h-[28px] transition duration-300"
         >
-          <span className="cursor-pointer text-gray-600 flex justify-center items-center">
+          <span className="cursor-pointer color-[var(--text-color)] flex justify-center items-center">
             <MdChevronRight className="text-xl" />
           </span>
         </button>
-        <h2 className="ml-4 text-[1rem] text-[#6b7280] mt-[0.8rem] text-nowrap">
+        <h2 className="ml-4 text-[1rem]  mt-[0.8rem] text-nowrap">
           {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
         </h2>
       </header>

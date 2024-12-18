@@ -20,7 +20,7 @@ const AdminLayout = () => {
   }, [theme]);
 
   return (
-    <div className="app-container flex">
+    <div className="app-container flex bg-[var(--sidebar-background-color)]" >
       {/* Sidebar */}
       <div
         className={`admin-sidebar  ${
@@ -32,7 +32,7 @@ const AdminLayout = () => {
 
       {/* Main Content */}
       <div
-        className={`admin-main-content flex-grow ${
+        className={`admin-main-content flex-grow bg-[var(--sidebar-background-color)] ${
           isSidebarVisible ? "" : "expanded"
         }`}
       >

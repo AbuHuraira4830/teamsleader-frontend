@@ -284,7 +284,7 @@ const TeamsList = ({ handleChange }) => {
         <input
           type="text"
           placeholder="Search teams by name or email"
-          className="searchInput py-[0.4rem] px-2.5 flex-grow border-none"
+          className="searchInput py-[0.4rem] px-2.5 flex-grow border-none "    
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -298,6 +298,7 @@ const TeamsList = ({ handleChange }) => {
           key={team.id}
           expanded={expandedTeam === team.id}
           onChange={() => handleTeamExpand(team.id)}
+          className="bg-[var(--sidebar-background-color)]"
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -306,6 +307,7 @@ const TeamsList = ({ handleChange }) => {
               justifyContent: "space-between",
               flexDirection: "row-reverse", // Change the order of elements
             }}
+            className="bg-[var(--sidebar-background-color)]"
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <Typography>{team.name}</Typography>

@@ -18,28 +18,27 @@ body {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height:5px;
-
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: rgb(216, 216, 216);
-border-radius: 0px;
-
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
 .kanban__section__bottom {
-  overflow-y:scroll;
+  background-color: var(--gray-hover-color);
+  overflow-y: auto;
   overflow-x: hidden;
 }
 ::-webkit-scrollbar-corner {
   background-color: transparent; /* Set the corner background color to transparent */
 }
-.due-date-box:hover .icons-due-date{
-display: flex;
-border: 1px solid lightgray;
+.due-date-box:hover .icons-due-date {
+  display: flex;
+  border: 1px solid lightgray;
 }
 /* .kanban__section__bottom:hover {
 overflow-y:scroll;
@@ -53,17 +52,21 @@ overflow-y:scroll;
   margin-bottom: -0.71em;
 }
 
-.kanbanIcon svg{
+.kanbanIcon svg {
   color: white !important;
 }
-.kanbanIcon:hover svg {
+/* .kanbanIcon:hover svg {
   color: black !important;
+} */
+:where(.css-dev-only-do-not-override-1x0dypw).ant-picker-outlined:focus-within {
+  background-color: var(--sidebar-background-color);
 }
-
+:where(.css-dev-only-do-not-override-1x0dypw).ant-picker-outlined:hover {
+  background-color: var(--sidebar-background-color);
+}
 .kanbanTaskIcon:hover svg {
   color: rgb(0, 89, 255) !important;
 }
-
 
 .custom-datepicker {
   width: 100% !important;
@@ -71,8 +74,7 @@ overflow-y:scroll;
   /* Add any other styles you need */
 }
 
-
-.d-flex { 
+.d-flex {
   display: flex !important;
 }
 .justify-content-center {
@@ -86,9 +88,9 @@ overflow-y:scroll;
   opacity: 0;
   pointer-events: none;
    */
-   visibility: hidden !important;
-   height: 0;
-   width: 0;
+  visibility: hidden !important;
+  height: 0;
+  width: 0;
 }
 .custom-date-picker-container .MuiPaper-root {
   margin-top: -20px !important;

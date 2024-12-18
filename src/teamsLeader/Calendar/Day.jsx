@@ -141,7 +141,7 @@ const Day = ({ day, rowIdx }) => {
   return (
     <>
       <div
-        className={`border border-[#e4e7f0] flex flex-col bg-white calendar_table_cell ${
+        className={`Border flex flex-col bg-[var(--sidebar-background-color)] color-[var(--text-color)] calendar_table_cell ${
           rowIdx === 0 ? "first_row" : "other_rows"
         } ${
           modalDataCalendar.some((range) =>
@@ -158,15 +158,15 @@ const Day = ({ day, rowIdx }) => {
         ref={cellRef}
         onClick={handleDayClick}
       >
-        <header className="flex flex-col">
+        <header className="flex flex-col ">
           {rowIdx === 0 && (
-            <div className="text-sm text-center mt-1 text-[#6b7280] border-b border-[#e4e7f0] pb-1 w-full relative z-30	">
+            <div className="text-sm text-center mt-1  border-b border-[var(--border-color)]  pb-1 w-full relative z-30	">
               {day.format("ddd").toUpperCase()}
             </div>
           )}
           {isCurrentMonth && (
             <p
-              className={`  relative z-30 text-sm  my-1 text-right text-[#323338]  ${getCurrentDayClass()}`}
+              className={`  relative z-30 text-sm  my-1 text-right   ${getCurrentDayClass()}`}
             >
               {day.format("DD")}
               {/* Display up to the first two events */}
@@ -197,7 +197,7 @@ const Day = ({ day, rowIdx }) => {
               {moreEventsCount > 0 && (
                 <div
                   onClick={handleShowAllEventsClick}
-                  className="text-sm text-blue-600 cursor-pointer hover:underline"
+                  className="text-sm text-blue-600 cursor-pointer hover:underline text-gray-600"
                 >
                   +{moreEventsCount} more
                 </div>

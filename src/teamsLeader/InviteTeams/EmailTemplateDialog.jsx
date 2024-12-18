@@ -25,7 +25,13 @@ const EmailTemplateDialog = ({ setPreviewOpen, isPreviewOpen, emailData }) => {
   };
 
   return (
-    <Dialog open={isPreviewOpen} onClose={handleClosePreview} maxWidth="md">
+    <Dialog
+      open={isPreviewOpen}
+      onClose={handleClosePreview}
+      maxWidth="md"
+      className="emailPreview
+"
+    >
       <DialogActions>
         <IconButton onClick={handleClosePreview} aria-label="close">
           <CloseIcon />
@@ -37,8 +43,8 @@ const EmailTemplateDialog = ({ setPreviewOpen, isPreviewOpen, emailData }) => {
           style={{
             textAlign: "center",
             padding: "20px",
-            backgroundColor: "#ffffff",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            backgroundColor: "var(--dropdown-bgColor)",
+            boxShadow: "var(--box-shadow)",
             borderRadius: "4px",
             margin: "10px",
           }}
@@ -76,7 +82,7 @@ const EmailTemplateDialog = ({ setPreviewOpen, isPreviewOpen, emailData }) => {
           </div>
 
           {/* Email Body */}
-          <p style={{ color: "#555", fontSize: "16px", margin: "10px 0" }}>
+          <p style={{  fontSize: "16px", margin: "10px 0" }}>
             Usman Yousaf invited you to collaborate on "
             <strong>{emailData.title}</strong>" in{" "}
             <strong>teamsleader.com</strong>
@@ -119,7 +125,7 @@ const EmailTemplateDialog = ({ setPreviewOpen, isPreviewOpen, emailData }) => {
             style={{
               borderTop: "1px solid #ddd",
               paddingTop: "15px",
-              color: "#999",
+              // color: "#999",
               fontSize: "14px",
               marginTop: "20px",
             }}

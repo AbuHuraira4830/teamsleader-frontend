@@ -50,7 +50,7 @@ const Main = ({ toggleCanvas }) => {
     setOpenColumn,
     isDataGet,
     setIsDataGet,
-    checkedList
+    checkedList,
   } = useKanbanContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -432,8 +432,7 @@ const Main = ({ toggleCanvas }) => {
           Add New Section
         </button>
 
-        <Settings/>
-       
+        <Settings />
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-3 flex-wrap ">
@@ -448,7 +447,7 @@ const Main = ({ toggleCanvas }) => {
               <Droppable
                 key={column.id}
                 droppableId={column.id}
-                className="kanban__section"
+                className="kanban__section color-[var(--text-color)]"
               >
                 {(provided) => (
                   <div
@@ -472,7 +471,7 @@ const Main = ({ toggleCanvas }) => {
                       <span className="flex gap-2 items-center">
                         <Tooltip placement="top" title="New Task" arrow>
                           <span
-                            className="flex items-center justify-center w-[25px] h-[25px] hover:bg-white rounded cursor-pointer text-white kanbanIcon"
+                            className="flex items-center justify-center w-[25px] h-[25px] bgHover rounded cursor-pointer text-white kanbanIcon"
                             onClick={() => addNewTask(column.id)}
                           >
                             <AddCircleOutlineIcon
@@ -485,7 +484,7 @@ const Main = ({ toggleCanvas }) => {
                         </Tooltip>
                         <Tooltip placement="top" title="More" arrow>
                           <span
-                            className="flex items-center justify-center w-[25px] h-[25px] hover:bg-white rounded cursor-pointer text-white kanbanIcon"
+                            className="flex items-center justify-center w-[25px] h-[25px] bgHover rounded cursor-pointer text-white kanbanIcon"
                             aria-describedby={moreIconId}
                             onClick={(event) => handleClick(event, column.id)}
                           >
@@ -511,9 +510,12 @@ const Main = ({ toggleCanvas }) => {
                             },
                           }}
                         >
-                          <Typography className="p-1 w-40">
+                          <Typography
+                            className="p-1 w-40"
+                            style={{ color: "var(--text-color)" }}
+                          >
                             <div
-                              className="text-sm hover:bg-gray-100 w-full px-2 rounded py-2 cursor-pointer flex items-center gap-1 text-gray-500"
+                              className="text-sm bgHover w-full px-2 rounded py-2 cursor-pointer flex items-center gap-1 "
                               onClick={handleColorClick}
                               aria-describedby="color-popover"
                             >
@@ -521,7 +523,7 @@ const Main = ({ toggleCanvas }) => {
                               <span>Change Color</span>
                             </div>
                             <div
-                              className="text-sm hover:bg-gray-100 w-full px-2 rounded py-2 cursor-pointer flex items-center gap-1 text-gray-500"
+                              className="text-sm bgHover w-full px-2 rounded py-2 cursor-pointer flex items-center gap-1 "
                               onClick={deleteColumn}
                             >
                               <DeleteOutlineIcon fontSize="small" />
@@ -575,13 +577,13 @@ const Main = ({ toggleCanvas }) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               ref={provided.innerRef}
-                              className="bg-white mb-2 rounded border h-fit p-2 text-xs text-gray-500 flex flex-col gap-2"
+                              className="bg-[var(--dropdown-bgColor)] color-[var(--text-color)] mb-2 rounded   h-fit p-2 text-xs  flex flex-col gap-2"
                             >
                               <div className="h-10 flex items-center justify-between gap-4   font-semibold m-0">
                                 <input
                                   tpye="text"
                                   value={task.title}
-                                  className="hover:border border-black w-full rounded bg-transparent outline-none text-gray-500 "
+                                  className="hover:border border-[var(--border-color)]  w-full rounded bg-transparent outline-none  "
                                   onChange={(event) =>
                                     handleTaskTitleChange(
                                       event,
@@ -598,9 +600,9 @@ const Main = ({ toggleCanvas }) => {
                                     title="Start Conversation"
                                     arrow
                                   >
-                                    <span className="flex items-center justify-center w-[25px] h-[25px]  rounded cursor-pointer text-gray-500 kanbanTaskIcon">
+                                    <span className="flex items-center justify-center w-[25px] h-[25px]  rounded cursor-pointer  kanbanTaskIcon">
                                       <MapsUgcOutlinedIcon
-                                        className="text-gray-500"
+                                        className=""
                                         style={{
                                           height: "18px",
                                         }}
@@ -610,14 +612,14 @@ const Main = ({ toggleCanvas }) => {
                                   </Tooltip>
                                   <Tooltip placement="top" title="More" arrow>
                                     <span
-                                      className="flex items-center justify-center w-[25px] h-[25px] hover:bg-gray-300 rounded cursor-pointer text-gray-500"
+                                      className="flex items-center justify-center w-[25px] h-[25px] bgHover rounded cursor-pointer "
                                       aria-describedby={`task-more-icon-${task.id}`}
                                       onClick={(event) =>
                                         handleTaskClick(event, task.id)
                                       }
                                     >
                                       <MoreHorizIcon
-                                        className="text-gray-500"
+                                        className=""
                                         style={{ height: "18px" }}
                                       />
                                     </span>
@@ -641,11 +643,12 @@ const Main = ({ toggleCanvas }) => {
                                   >
                                     <Typography className="p-1 w-40">
                                       <div
-                                        className="text-sm hover:bg-gray-100 w-full px-2 rounded py-2 cursor-pointer flex items-center gap-2 text-gray-500"
+                                        className="text-sm bgHover w-full px-2 rounded py-2 cursor-pointer flex items-center gap-2 "
                                         onClick={() => {
                                           toggleCanvas();
                                           handleCloseTaskPopover();
                                         }}
+                                        style={{ color: "var(--text-color)" }}
                                       >
                                         <OpenInFullOutlinedIcon
                                           style={{ fontSize: "18px" }}
@@ -654,8 +657,9 @@ const Main = ({ toggleCanvas }) => {
                                         <span>Open Task</span>
                                       </div>
                                       <div
-                                        className="text-sm hover:bg-gray-100 w-full px-2 rounded py-2 cursor-pointer flex items-center gap-2 text-gray-500"
+                                        className="text-sm bgHover w-full px-2 rounded py-2 cursor-pointer flex items-center gap-2 "
                                         onClick={() => deleteTask()}
+                                        style={{ color: "var(--text-color)" }}
                                       >
                                         <DeleteOutlineIcon
                                           style={{ fontSize: "18px" }}
@@ -683,9 +687,9 @@ const Main = ({ toggleCanvas }) => {
                                       <span>Due Date </span>
                                     </div>
                                   </Tooltip>
-                                  <span className="rounded due-date-box bg-gray-100 flex-1 h-8  flex items-center">
+                                  <span className="rounded due-date-box  flex-1 h-8  flex items-center bg-[var(--sidebar-background-color)]">
                                     <DatePicker
-                                      className="bg-gray-100 h-7 hover:border hover:border-black rounded cursor-pointer mx-[3px] text-gray-500"
+                                      className="bg-[var(--sidebar-background-color)] color-[var(--text-color)] h-7 hover:border hover:border-black rounded cursor-pointer mx-[3px] "
                                       format="DD MMM YYYY"
                                       value={dayjs(task.dueDate)}
                                       onChange={(date, dateString) =>
@@ -695,6 +699,7 @@ const Main = ({ toggleCanvas }) => {
                                           task.id
                                         )
                                       }
+                                      style={{ color: "var(--text-color)" }}
                                     />
                                   </span>
                                 </div>
@@ -768,16 +773,14 @@ const Main = ({ toggleCanvas }) => {
                                 />
                               )}
 
-                              {checkedList.includes("Files") && 
-                              
-                              <TaskFieldsComponent
-                                column={column}
-                                task={task}
-                                fieldName="file"
-                                // handleFieldChange={handleTaskBudgetChange}
-                              />
-                              }
-
+                              {checkedList.includes("Files") && (
+                                <TaskFieldsComponent
+                                  column={column}
+                                  task={task}
+                                  fieldName="file"
+                                  // handleFieldChange={handleTaskBudgetChange}
+                                />
+                              )}
                             </div>
                           )}
                         </Draggable>

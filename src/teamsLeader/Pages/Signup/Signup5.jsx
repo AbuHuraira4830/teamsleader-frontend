@@ -33,11 +33,11 @@ const Signup5 = ({ setActiveView }) => {
       name: [
         "Budget management",
         "Requests and approvals",
-        "Task management",
+        // "Task management",
         "Goals and strategy",
         "Billing and invoicing",
         "CRM",
-        "Project management",
+        // "Project management",
         "Accounting",
         "Portfolio management",
         "Resource management",
@@ -94,7 +94,7 @@ const Signup5 = ({ setActiveView }) => {
     {
       title: "Product management",
       name: [
-        "Project management",
+        // "Project management",
 
         "Task management",
 
@@ -138,7 +138,7 @@ const Signup5 = ({ setActiveView }) => {
 
         "Employee experience",
 
-        "Project management",
+        // "Project management",
 
         "Business operations",
 
@@ -150,7 +150,7 @@ const Signup5 = ({ setActiveView }) => {
     {
       title: "Construction",
       name: [
-        "Project management",
+        // "Project management",
         "Portfolio management",
         "CRM",
         "Construction scheduling",
@@ -170,7 +170,7 @@ const Signup5 = ({ setActiveView }) => {
         "Quotes and invoices",
         "Leads capturing",
         "Marketing activities",
-        "Project management",
+        // "Project management",
         "Sales pipeline",
         "Task management",
         "Contact management",
@@ -184,7 +184,7 @@ const Signup5 = ({ setActiveView }) => {
         "Resource management",
         "Goals and strategy",
         "Portfolio management",
-        "Project management",
+        // "Project management",
         "Knowledge base",
         "CRM",
         "Tickets and Requests",
@@ -195,7 +195,7 @@ const Signup5 = ({ setActiveView }) => {
     {
       title: "PMO",
       name: [
-        "Project management",
+        // "Project management",
         "Goals and strategy",
         "Task management",
         "Requests and approvals",
@@ -220,7 +220,7 @@ const Signup5 = ({ setActiveView }) => {
         "Task management",
         "Grants management",
         "Requests and approvals",
-        "Project management",
+        // "Project management",
         "Portfolio management",
         "Goals and strategy",
         "Resource management",
@@ -237,7 +237,7 @@ const Signup5 = ({ setActiveView }) => {
         "Task management",
         "Marketing operations",
         "Media production",
-        "Project management",
+        // "Project management",
         "Resource management",
         "Campaign tracking",
         "Strategic planning",
@@ -253,7 +253,7 @@ const Signup5 = ({ setActiveView }) => {
       title: "Education",
       name: [
         "Curriculum and Syllabus management",
-        "Project management",
+        // "Project management",
         "Business operations",
         "Resource management",
         "Individual work",
@@ -283,7 +283,7 @@ const Signup5 = ({ setActiveView }) => {
         "Requests and approvals",
         "Goals and strategy",
         "Operations processes",
-        "Project management",
+        // "Project management",
         "Other",
       ],
     },
@@ -301,7 +301,7 @@ const Signup5 = ({ setActiveView }) => {
         "Requests and approvals",
         "Goals and strategy",
         "Operations processes",
-        "Project management",
+        // "Project management",
         "Other",
       ],
     },

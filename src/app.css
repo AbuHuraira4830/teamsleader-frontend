@@ -189,6 +189,8 @@ h3 {
   width: -moz-available;
   width: stretch;
   overflow-y: auto;
+  
+   /* overflow: hidden; */
   border-top-left-radius: 8px;
   color: var(--text-color) !important;
   background-color: var(--sidebar-background-color);

@@ -7,16 +7,30 @@ const AddLogo = () => {
   const [logo, setLogo] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogo(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("logo", file);
+  
+      try {
+        const response = await fetch("http://localhost:8888/upload-logo", {
+          method: "POST",
+          body: formData,
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setLogo(data.logoUrl); // Set saved logo URL
+        } else {
+          console.error("Failed to upload logo");
+        }
+      } catch (error) {
+        console.error("Error uploading logo:", error);
+      }
     }
   };
+  
 
   const handleAddLogoClick = () => {
     fileInputRef.current.click(); // Manually click the hidden file input

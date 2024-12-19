@@ -71,6 +71,12 @@ const AppWrapper = () => {
           path="/reset-password/:resetToken"
           element={<ChangePassword />}
         />
+                <Route path="/invite-team" element={<InviteTeam />} />
+                <Route path="/home-customization" element={<HomeCustomization />} />
+                <Route path="/home-customization2" element={<HomeCustomization2 />} />
+
+
+
         <Route
           path="/*"
           element={
@@ -102,9 +108,6 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/invite-team" element={<InviteTeam />} />
-        <Route path="/home-customization" element={<HomeCustomization />} />
-        <Route path="/home-customization2" element={<HomeCustomization2 />} />
         {/* <Route path="/password-managment" element={<PasswordTable />} /> */}
         <Route path="/popover" element={<PopoverStatus />} />
         <Route path="/testing" element={<Testing />} />

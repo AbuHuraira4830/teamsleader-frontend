@@ -24,7 +24,7 @@ const pusher = new Pusher("0910daad885705576961", {
   }, []);
 
   const sendMessage = (message) => {
-    fetch("http://localhost:8888/message", {
+    fetch("message", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

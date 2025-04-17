@@ -61,7 +61,7 @@ const FileUploader = forwardRef(({ handleClose }, ref) => {
         console.log({formDAtaFole:file})
       });
         try {
-      const response = await fetch("http://localhost:8888/api/upload", {
+      const response = await fetch("api/upload", {
         method: "POST",
         body: formData,
       });

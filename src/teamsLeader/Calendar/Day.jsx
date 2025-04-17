@@ -89,7 +89,7 @@ const Day = ({ day, rowIdx }) => {
       // include other fields that might need updating
     };
 
-    fetch(`http://localhost:8888/api/events/${id}`, {
+    fetch(`api/events/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

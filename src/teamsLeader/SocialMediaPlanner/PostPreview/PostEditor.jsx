@@ -48,7 +48,7 @@ const PostEditor = () => {
   const getAccessToken = async (authorizationCode) => {
     try {
       // Call the backend to exchange the authorization code for an access token
-      const response = await fetch(`http://localhost:8888/linkedin/callback?code=${authorizationCode}&state=RANDOM_STATE_345`, {
+      const response = await fetch(`linkedin/callback?code=${authorizationCode}&state=RANDOM_STATE_345`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

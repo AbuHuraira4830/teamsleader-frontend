@@ -95,7 +95,7 @@ export default function CheckoutForm({
 
             // Fetch the payment method details from backend
             const paymentMethodResponse = await fetch(
-                `http://localhost:8888/stripe/retrieve-card/${paymentIntent.payment_method}`
+                `stripe/retrieve-card/${paymentIntent.payment_method}`
                 // `https://miketeamsleaderbackend-a03d0e00169c.herokuapp.com/stripe/retrieve-card/${paymentIntent.payment_method}`
             );
             const paymentMethodData = await paymentMethodResponse.json();

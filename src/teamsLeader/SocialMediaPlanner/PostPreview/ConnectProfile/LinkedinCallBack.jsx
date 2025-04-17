@@ -13,7 +13,7 @@ const LinkedinCallback = () => {
     if (code) {
       // Exchange authorization code for access token
       axios
-        .post("http://localhost:8888/api/planner/linkedin/token", { code })
+        .post("api/planner/linkedin/token", { code })
         .then((response) => {
           const accessToken = response.data.access_token;
 

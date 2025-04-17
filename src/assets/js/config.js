@@ -126,7 +126,8 @@ export const colorsArray = [
   { id: 25, color: "#2E8B57" },
 ];
 
-const BASE_URL = "http://localhost:8888/api";
+// const BASE_URL = "http://localhost:8888/api";
+const BASE_URL = "https://teaamsleader-backend.onrender.com/api";
 
 export const sendRequest = async (
   url,

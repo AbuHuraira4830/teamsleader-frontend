@@ -238,7 +238,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
       });
     }
 
-    fetch("http://localhost:8888/api/events", {
+    fetch("api/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -53,7 +53,7 @@ const Login = () => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.error("Error during login:", error);
+      console.error("Error during login!:", error);
       // Handle error as needed
       setShowError(true);
       setErrorMessage(error.response?.data?.message);

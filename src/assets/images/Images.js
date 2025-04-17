@@ -12,7 +12,7 @@ import video_v2 from "../../assets/images/video_v2.png";
 import verification from "../../assets/images/verification.png";
 import TABLE_Dummy from "../../assets/images/table image.png";
 import man from "../../assets/images/man.jpg";
-import Paul from "./Paul.png";  
+import Paul from "../../assets/images/paul.png";  
 const IMAGES = {
   PAUL: Paul, 
   MAN: man,

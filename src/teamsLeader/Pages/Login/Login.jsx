@@ -37,7 +37,7 @@ const Login = () => {
     });
 
     try {
-      const response = await postAPI("https://teaamsleader-backend.onrender.com/api/user/login", data);
+      const response = await postAPI("api/user/login", data);
 
       if (response.status === 200) {
         setIsLoading(false);

@@ -15,7 +15,7 @@ import { Collapse, Modal } from "antd";
 import { createStyles, useTheme } from "antd-style";
 import { Accordion, Button } from "react-bootstrap";
 import Calendars from "./Calendars.jsx";
-import EmployeeTimeOffs from "./EmployeeTimeoffs.jsx";
+import EmployeeTimeOffs from "./EmployeeTimeOffs.jsx";
 import UpdateHolidayRequest from "./UpdateHolidayRequest.jsx";
 const AccountScheduleModal = ({
   closeModal,

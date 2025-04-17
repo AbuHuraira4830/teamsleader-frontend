@@ -17,7 +17,8 @@ import PopoverStatus from "./components/PopoverStatus";
 import TimelineCell from "./components/TimelineCell";
 import PeopleCell from "./components/PeopleCell";
 import TaskFieldsComponent from "./components/TaskFieldsComponent";
-import OffCanvas from "./components/Offcanvas";
+// import OffCanvas from "./components/Offcanvas";
+import OffCanvas from "./components/OffCanvas";
 import dayjs from "dayjs";
 // import OffCanvas from "./components/OffCanvas";
 const EditTaskModal = () => {

@@ -16,7 +16,7 @@ import "./app.css";
 import Login from "./teamsLeader/Pages/Login/Login";
 // import Signup from "./teamsLeader/Pages/Signup.jsx/SignUp";
 import InviteTeam from "./teamsLeader/Pages/InviteTeam/InviteTeam";
-import HomeCustomization from "./teamsLeader/Pages/homeCustmizingPage/homeCustomization";
+import HomeCustomization from "./teamsLeader/Pages/homeCustmizingPage/HomeCustomization";
 import HomeCustomization2 from "./teamsLeader/Pages/homeCustmizingPage/HomeCustomization2";
 import PasswordManger from "./passwordManager/PasswordManger";
 import PopoverStatus from "./teamsLeader/Pages/NewTeam/Components/Kanban Components/SubComp/PopoverStatus";

@@ -106,22 +106,105 @@ const HeaderSectionInvoice = () => {
 
     navigate(-1);
   };
-  const handleSaveAndDownloadPDF = async () => {
+  // const handleSaveAndDownloadPDF = async () => {
+  //   setIsDropdownOpen(!isDropdownOpen);
+  //   // alert(issuedDate);
+  //   // Assuming you gather all the invoice data into an object
+  //   const invoiceData = {
+  //     clientDetails,
+  //     personalDetails,
+  //     invoiceItems,
+  //     issuedDate,
+  //     dueDate,
+  //     // invoiceNumber: formattedInvoiceNumber,
+  //     invoiceNumber: manualInvoiceNumber || formattedInvoiceNumber, // Prioritize manual number
+
+  //     // ... any other relevant data
+  //   };
+
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:8888/create-pdf?action=download",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(invoiceData),
+  //       }
+  //     );
+  //     console.log("response", response);
+  //     if (response.ok) {
+  //       const blob = await response.blob();
+  //       const downloadUrl = window.URL.createObjectURL(blob);
+  //       const link = document.createElement("a");
+  //       link.href = downloadUrl;
+  //       // link.download = "invoice.pdf";
+  //       link.download = `invoice-${manualInvoiceNumber || formattedInvoiceNumber}.pdf`;
+
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       link.remove();
+  //       if (!manualInvoiceNumber) {
+  //         setInvoiceNumber((prevNumber) => prevNumber + 1);
+  //       }
+  //     } else {
+  //       console.error("Failed to generate PDF");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in generating PDF:", error);
+  //   }
+  // };
+
+  const handleSaveAndPrepareToSend = async () => {
     setIsDropdownOpen(!isDropdownOpen);
-    // alert(issuedDate);
-    // Assuming you gather all the invoice data into an object
+    toggleCanvasEmail();
+  
     const invoiceData = {
       clientDetails,
       personalDetails,
       invoiceItems,
       issuedDate,
       dueDate,
-      // invoiceNumber: formattedInvoiceNumber,
-      invoiceNumber: manualInvoiceNumber || formattedInvoiceNumber, // Prioritize manual number
-
-      // ... any other relevant data
+      invoiceNumber: formattedInvoiceNumber,
     };
+  
+    try {
+      const response = await fetch(
+        "http://localhost:8888/create-pdf?action=prepare",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(invoiceData),
+        }
+      );
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Received PDF URL:", data.pdfUrl);
+        setPdfUrl(data.pdfUrl); // Set the URL to retrieve the PDF from the database
+      } else {
+        console.error("Failed to generate PDF");
+      }
+    } catch (error) {
+      console.error("Error in generating PDF:", error);
+    }
+  };
+  
+  
 
+  const handleSaveAndDownloadPDF = async () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  
+    const invoiceData = {
+      clientDetails,
+      personalDetails,
+      invoiceItems,
+      issuedDate,
+      dueDate,
+      invoiceNumber: manualInvoiceNumber || formattedInvoiceNumber,
+    };
+  
     try {
       const response = await fetch(
         "http://localhost:8888/create-pdf?action=download",
@@ -133,21 +216,19 @@ const HeaderSectionInvoice = () => {
           body: JSON.stringify(invoiceData),
         }
       );
-      console.log("response", response);
+  
       if (response.ok) {
         const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = downloadUrl;
-        // link.download = "invoice.pdf";
-        link.download = `invoice-${manualInvoiceNumber || formattedInvoiceNumber}.pdf`;
-
+        link.download = `invoice-${
+          manualInvoiceNumber || formattedInvoiceNumber
+        }.pdf`;
         document.body.appendChild(link);
         link.click();
-        link.remove();
-        if (!manualInvoiceNumber) {
-          setInvoiceNumber((prevNumber) => prevNumber + 1);
-        }
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
       } else {
         console.error("Failed to generate PDF");
       }
@@ -155,46 +236,7 @@ const HeaderSectionInvoice = () => {
       console.error("Error in generating PDF:", error);
     }
   };
-
-  const handleSaveAndPrepareToSend = async () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    toggleCanvasEmail();
-
-    const invoiceData = {
-      clientDetails,
-      personalDetails,
-      invoiceItems,
-      issuedDate,
-      dueDate,
-      invoiceNumber: formattedInvoiceNumber,
-      // ... any other relevant data
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:8888/create-pdf?action=prepare",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(invoiceData),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("data", data);
-        if (data) {
-          setPdfUrl(data.pdfUrl); // Update the state with the received URL
-        }
-      } else {
-        console.error("Failed to generate PDF");
-      }
-    } catch (error) {
-      console.error("Error in generating PDF:", error);
-    }
-  };
+  
 
   return (
     <>

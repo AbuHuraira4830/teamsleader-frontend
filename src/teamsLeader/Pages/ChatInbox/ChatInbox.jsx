@@ -149,26 +149,26 @@ const ChatInbox = () => {
   return (
     // <Router>
     <>
-      <div className="Navbar p-0 w-full py-1" style={{ zIndex: 999 }}>
+      {/* <div className="Navbar p-0 w-full py-1" style={{ zIndex: 999 }}>
         <Navbar setTheme={setTheme} />
-      </div>
+      </div> */}
 
       <div className="">
-        <div
+        {/* <div
           className={`sidebar ${isSidebarVisible ? "" : "collapse_sidebar"}`}
         >
           <Sidebar
             toggleNavbar={toggleNavbar}
             isSidebarVisible={isSidebarVisible}
           />
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className={`ml-[16.5rem] mr-5  ${
             isSidebarVisible ? "" : "expanded"
           } `}
-        >
+        > */}
           <ChatModule getLoginUserChatDetail={getLoginUserChatDetail} />
-        </div>
+        {/* </div> */}
       </div>
     </>
     // </Router>

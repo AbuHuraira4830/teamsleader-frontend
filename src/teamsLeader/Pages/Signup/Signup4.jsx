@@ -32,16 +32,17 @@ const Signup4 = ({setActiveView}) => {
 
   const handleRoleClick = (item) => {
     setOption(item);
-    const radio = document.getElementById(item);
+    const radio = document.getElementById(item); // Use the item name directly as ID
     if (radio) {
       setSignupData((prevData) => ({
         ...prevData,
-        thingToManage: item,
+        firstFocus: item,
       }));
       radio.click();
     }
-    setManagingOption(item);
   };
+  
+  
 
   return (
     <div className="signup_form w-100">
@@ -62,24 +63,25 @@ const Signup4 = ({setActiveView}) => {
         </div>
 
         <div className="flex justify-content-center pt-3 gray_text flex-wrap">
-          {options.map((item, index) => (
-            <span
-              key={index}
-              className="mb-3 me-3 border  rounded-pill fs_14 cursor_pointer select_check"
-              onClick={() => handleRoleClick(item)}
-            >
-              <Form.Check
-                className="cursor_pointer text-nowrap"
-                type="radio"
-                aria-label="radio 1"
-                label={item}
-                name="role"
-                id={item}
-                style={{ padding: "8px 20px 8px 44px" }}
-              />
-            </span>
-          ))}
-        </div>
+  {options.map((item, index) => (
+    <span
+      key={index}
+      className="mb-3 me-3 border rounded-pill fs_14 cursor_pointer select_check"
+      onClick={() => handleRoleClick(item)}
+    >
+      <Form.Check
+        className="cursor_pointer text-nowrap"
+        type="radio"
+        aria-label="radio 1"
+        label={item}
+        name="role"
+        id={item} // Use the item directly as ID
+        style={{ padding: "8px 20px 8px 44px" }}
+      />
+    </span>
+  ))}
+</div>
+
         <div className="flex justify-content-evenly mt-4">
           <Button
             className="workspace-dropdown-button border align-items-center d-flex fw-normal    py-1  px-3 "

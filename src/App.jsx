@@ -111,7 +111,8 @@ const App = () => {
         {/* <Route path="/password-managment" element={<PasswordTable />} /> */}
         <Route path="/popover" element={<PopoverStatus />} />
         <Route path="/testing" element={<Testing />} />
-        <Route path="/inbox" element={<ChatInbox />} />
+        {/* <Route path="/inbox" element={<ChatInbox />} /> */}
+        <Route path="/workspace/:workspaceID/team/:teamID/inbox" element={<ChatInbox />} />
         <Route
           path="/inbox/:workspaceId/:user_Id/:chat_Id"
           element={<ChatInbox />}

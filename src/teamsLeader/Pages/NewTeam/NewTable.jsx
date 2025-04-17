@@ -870,6 +870,8 @@ const NewTable = ({
                           inputFormat="MM/dd/yyyy"
                           value={dayjs(row?.endDate)}
                           onChange={(value) => dueDateHandler(row, value)}
+                          className="todo-datepicker"
+
                         />
                       </LocalizationProvider>
                     </td>

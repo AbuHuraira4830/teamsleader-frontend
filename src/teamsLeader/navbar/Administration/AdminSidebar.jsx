@@ -24,7 +24,7 @@ const AdminSidebar = () => {
     <div className=" p-4      bg-[var(--sidebar-background-color)] color-[var(--text-color)]">  
       <h2 className="mb-4 text-2xl font-bold">Administration</h2>
       <ul className="space-y-4">
-        <li>
+        {/* <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/general`}
             className={`flex items-center space-x-2 rounded-lg px-3 py-2 ${isActive(
@@ -45,7 +45,7 @@ const AdminSidebar = () => {
             <FaTasks />
             <span>Customization</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
@@ -57,7 +57,7 @@ const AdminSidebar = () => {
             <span>Users</span>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/security`}
             className={`flex items-center space-x-2 rounded-lg px-3 py-2 ${isActive(
@@ -78,7 +78,7 @@ const AdminSidebar = () => {
             <FaLink />
             <span>Connections</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/billing`}
@@ -90,7 +90,7 @@ const AdminSidebar = () => {
             <span>Billing</span>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/usage-stats`}
             className={`flex items-center space-x-2 rounded-lg px-3 py-2 ${isActive(
@@ -111,8 +111,8 @@ const AdminSidebar = () => {
             <FaThList />
             <span>Tidy Up</span>
           </Link>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/content-directory`}
             className={`flex items-center space-x-2 rounded-lg px-3 py-2 ${isActive(
@@ -133,7 +133,7 @@ const AdminSidebar = () => {
             <FaLayerGroup />
             <span>Apps</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/permissions`}

@@ -195,6 +195,14 @@ h3 {
   color: var(--text-color) !important;
   background-color: var(--sidebar-background-color);
 }
+
+.todo-datepicker svg {
+  width: 18px !important;
+}
+.todo-datepicker input {
+  padding: 5px 0px 5px 10px !important;
+  font-size: 12px !important;
+}
 /* .respon {
   height: 96vh;
   overflow-y: auto;
@@ -1179,4 +1187,10 @@ em-emoji-picker {
 
 .calendar_table_cell {
   color: var(--text-color);
+}
+.froalaPlanOff .fr-box .fr-wrapper div:first-child {
+  display: none !important;
+}
+.fr-second-toolbar #fr-logo {
+  display: none !important;
 }

@@ -80,7 +80,7 @@ const OffCanvasEmail = ({ show, handleClose, pdfUrl }) => {
     setMentionSource("editor");
   };
   const handleDownloadPdf = () => {
-    fetch(`${pdfUrl}`)
+    fetch(pdfUrl)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -88,26 +88,21 @@ const OffCanvasEmail = ({ show, handleClose, pdfUrl }) => {
         return response.blob();
       })
       .then((blob) => {
-        // Create a new URL for the blob object
         const downloadUrl = window.URL.createObjectURL(blob);
-
-        // Create a link and set the URL and download attributes
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.download = "invoice.pdf";
-
-        // Append to the body, click it to trigger download and then remove it
+        link.download = "invoice.pdf"; // This forces the browser to download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        // To release the object URL, call revokeObjectURL (optional, for memory management)
         window.URL.revokeObjectURL(downloadUrl);
       })
       .catch((e) => {
         console.error("Error downloading PDF:", e);
       });
   };
+  
+  
   const handleSend = async () => {
     const emailData = {
       to: toEmails, // Assuming toEmails is an array of email addresses
@@ -151,6 +146,34 @@ const OffCanvasEmail = ({ show, handleClose, pdfUrl }) => {
       });
     }
   };
+  const handleDownloadPdfWithApi = async (pdfUrl) => {
+    console.log("Attempting to download from URL:", pdfUrl);
+    try {
+      const response = await fetch(pdfUrl, { method: "GET" });
+      if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+  
+        // Extract filename from URL
+        const filename = pdfUrl.split("/").pop() || "invoice.pdf";
+        link.download = filename;
+  
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
+      } else {
+        console.error("Failed to download PDF");
+      }
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
+  
+  
+  
 
   return (
     <div className={`relative ${show ? "block" : "hidden"}`}>
@@ -268,26 +291,26 @@ const OffCanvasEmail = ({ show, handleClose, pdfUrl }) => {
 
             {/* =====================PDF Generated File====================== */}
             {pdfUrl && (
-              <div className="flex justify-between items-center p-2 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <div className="flex items-center">
-                  <FaRegFilePdf className="h-5 w-5  text-[#C74343]" />
-                  <button
-                    onClick={handleDownloadPdf}
-                    className=" hover:underline focus:underline pl-2 text-[#aea3b8] text-xs"
-                    type="button"
-                  >
-                    INVOICE.pdf
-                  </button>
-                </div>
+  <div className="flex justify-between items-center p-2 bg-white border border-gray-300 rounded-lg shadow-sm">
+    <div className="flex items-center">
+      <FaRegFilePdf className="h-5 w-5  text-[#C74343]" />
+      <button
+        onClick={() => handleDownloadPdfWithApi(pdfUrl)}
+        className="hover:underline focus:underline pl-2 text-[#aea3b8] text-xs"
+        type="button"
+      >
+        INVOICE.pdf
+      </button>
+    </div>
 
-                <button
-                  // onClick={() => setPdfUrl("")}
-                  className="hover:bg-gray-100 p-1 rounded-full"
-                >
-                  <IoMdClose className="h-4 w-4 text-gray-500" />
-                </button>
-              </div>
-            )}
+    <button
+      className="hover:bg-gray-100 p-1 rounded-full"
+    >
+      <IoMdClose className="h-4 w-4 text-gray-500" />
+    </button>
+  </div>
+)}
+
 
             <div className="flex justify-end items-center pt-4">
               <button

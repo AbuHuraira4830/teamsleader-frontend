@@ -80,9 +80,7 @@ const Navbar = ({ user }) => {
     fetchPlan();
   }, []);
 
-  const handleOpenModal = () => {
-    setIsPlanModalOpen(true);
-  };
+ 
 
   const handleCloseModal = () => {
     setIsPlanModalOpen(false);
@@ -117,6 +115,10 @@ const Navbar = ({ user }) => {
   const handleClose = () => {
     setShow(false);
     setIsPaymentModalOpen(false);
+  };
+  const handleOpenModal = () => {
+    setIsPlanModalOpen(true);
+    handleClose();
   };
   const handleShow = () => setShow(true);
 
@@ -237,18 +239,23 @@ const Navbar = ({ user }) => {
         </span>
 
         <span className="centerIt ms-auto ">
-          <Button
+          {/* <Button
             className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
-            // onClick={() => navigate("/password-managment")}
+            onClick={() => navigate("/password-managment")}
           >
             <LiaUserLockSolid />
           </Button>
           <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <AiOutlineBell />
-          </Button>
-          <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
-            <FiInbox />
-          </Button>
+          </Button> */}
+          <Link
+     to={`/workspace/${workspaceID}/team/${teamID}/inbox`}
+
+          >
+            <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
+              <FiInbox />
+            </Button>
+          </Link>
 
           <Link
             to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
@@ -261,16 +268,16 @@ const Navbar = ({ user }) => {
               <AiOutlineUserAdd />
             </Button>
           </Link>
-          <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center ">
+          {/* <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center ">
             <PiPuzzlePiece />
-          </Button>
+          </Button> */}
           <div className="vr mx-1 nav_splitter align-self-center"></div>
-          <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
+          {/* <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <RxMagnifyingGlass />
           </Button>
           <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <BiQuestionMark />
-          </Button>
+          </Button> */}
           {/* <span className="nav-avatar flex align-self-center">
           <img src={IMAGES.LEAF} alt="" className="align-self-center" />
         </span> */}
@@ -338,7 +345,7 @@ const Navbar = ({ user }) => {
                           My profile
                         </span>
                       </Button>
-                      <Button
+                      {/* <Button
                         className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                         style={{
                           height: "34px",
@@ -348,8 +355,8 @@ const Navbar = ({ user }) => {
                           <BsCodeSlash className="me-2 fs-6 align-middle" />
                           Developers
                         </span>
-                      </Button>
-                      <Link to="/manage-teams" className="no-underline">
+                      </Button> */}
+                      {/* <Link to="/manage-teams" className="no-underline">
                         <Button
                           className="workspace-dropdown-button workspace-dropdownBtn d-flex  fw-normal align-self-center w-100 text-start py-1  px-2"
                           style={{
@@ -359,7 +366,7 @@ const Navbar = ({ user }) => {
                           <FiUsers className="me-2 fs-6 align-middle h-[1.2em]" />
                           <span>Teams</span>
                         </Button>
-                      </Link>
+                      </Link> */}
                       {/* <Button
                         className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                         style={{
@@ -371,18 +378,23 @@ const Navbar = ({ user }) => {
                           Teams
                         </span>
                       </Button> */}
-                      <Button
-                        className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
-                        style={{
-                          height: "34px",
-                        }}
-                        onClick={() => navigate("/administration/dashboard")}
-                      >
-                        <span className="centerIt">
-                          <PiGearSix className="me-2 fs-6 align-middle" />
-                          Administration
-                        </span>
-                      </Button>
+                     <Link
+            to={`/workspace/${workspaceID}/team/${teamID}/administration/users`}
+            className="centerIt"
+          >
+                        <Button
+                          className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
+                          style={{
+                            height: "34px",
+                          }}
+                          // onClick={() => navigate("/administration/dashboard")}
+                        >
+                          <span className="centerIt">
+                            <PiGearSix className="me-2 fs-6 align-middle" />
+                            Administration
+                          </span>
+                        </Button>
+                      </Link>
                       <Button
                         className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                         style={{
@@ -399,7 +411,7 @@ const Navbar = ({ user }) => {
                   </Col>
 
                   <Col xs={6} style={{ marginTop: "39px" }}>
-                    <Button
+                    {/* <Button
                       className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                       style={{
                         height: "34px",
@@ -409,8 +421,8 @@ const Navbar = ({ user }) => {
                         <BsArchive className="me-2 fs-6 align-middle" />
                         Archive
                       </span>
-                    </Button>
-                    <Button
+                    </Button> */}
+                    {/* <Button
                       className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                       style={{
                         height: "34px",
@@ -420,8 +432,8 @@ const Navbar = ({ user }) => {
                         <FiPlus className="me-2 fs-6 align-middle" />
                         Invite members
                       </span>
-                    </Button>
-                    <Button
+                    </Button> */}
+                    {/* <Button
                       className="workspace-dropdown-button workspace-dropdownBtn  fw-normal align-self-center w-100 text-start py-1  px-2"
                       style={{
                         height: "34px",
@@ -431,7 +443,7 @@ const Navbar = ({ user }) => {
                         <FiTrash className="me-2 fs-6 align-middle" />
                         Trash
                       </span>
-                    </Button>
+                    </Button> */}
 
                     <Dropdown
                       onMouseEnter={handleMouseEnter}
@@ -501,7 +513,7 @@ const Navbar = ({ user }) => {
                       type="button"
                       className="py-1 centerIt mt-2 px-5 ms-3 workspace_addBtn border-0"
                       style={{ backgroundColor: "#025231", height: "32px" }}
-                      onClick={handleClose}
+                      onClick={handleOpenModal}
                     >
                       <BsStars className=" fs-6 align-middle " />
                       Upgrade
@@ -535,9 +547,9 @@ const Navbar = ({ user }) => {
                       </span>
                     </div>
                   </div>
-                  <span className="align-self-end mb-2 centerIt ">
+                  {/* <span className="align-self-end mb-2 centerIt ">
                     More <FiChevronRight className=" fs-6 " />
-                  </span>
+                  </span> */}
                 </div>
               </Modal.Body>
             </Modal>

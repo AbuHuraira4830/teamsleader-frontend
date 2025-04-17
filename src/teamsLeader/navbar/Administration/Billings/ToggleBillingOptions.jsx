@@ -43,36 +43,36 @@ export default function ToggleBillingOptions() {
           onChange={handleChange}
           aria-label="Platform"
         >
-          <ToggleButton value="overview" className=" justify-center">
+          <ToggleButton value="overview" className="px-5 justify-center">
             <div className="flex items-center">
               {/* <IoAdd className="mr-1  mb-[0.1rem] text-xs" /> */}
               <span className="text-xs capitalize	">Overview</span>
             </div>
           </ToggleButton>
-          <ToggleButton value="employees" className=" justify-center">
+          {/* <ToggleButton value="employees" className=" justify-center">
             <div className="flex items-center">
-              {/* <PiUsersThree className="mr-1 text-xs mb-[0.1rem]" /> */}
+              <PiUsersThree className="mr-1 text-xs mb-[0.1rem]" />
               <span className="text-xs capitalize	">Settings</span>
             </div>
-          </ToggleButton>
-          <ToggleButton value="invoices" className=" justify-center">
+          </ToggleButton> */}
+          <ToggleButton value="invoices" className="px-5 justify-center">
             <div className="flex items-center">
               {/* <PiUsersFourLight className="mr-1 text-xs mb-[0.1rem]" /> */}
               <span className="text-xs capitalize	">Invoices</span>
             </div>
           </ToggleButton>
-          <ToggleButton value="teams" className=" justify-center">
+          {/* <ToggleButton value="teams" className=" justify-center">
             <div className="flex items-center">
-              {/* <SiMicrosoftteams className="mr-1 text-xs mb-[0.1rem]" /> */}
+              <SiMicrosoftteams className="mr-1 text-xs mb-[0.1rem]" />
               <span className="text-xs capitalize	">Payment Method</span>
             </div>
           </ToggleButton>
           <ToggleButton value="contacts" className=" justify-center">
             <div className="flex items-center">
-              {/* <SiMicrosoftteams className="mr-1 text-xs mb-[0.1rem]" /> */}
+              <SiMicrosoftteams className="mr-1 text-xs mb-[0.1rem]" />
               <span className="text-xs capitalize	">Billing Contacts</span>
             </div>
-          </ToggleButton>
+          </ToggleButton> */}
         </ToggleButtonGroup>
         <div></div>{" "}
       </div>

@@ -780,7 +780,7 @@ const OffcanvasComponent = ({ show, handleClose }) => {
 
         {pageView === 1 ? (
           <div>
-            <div className={`${theme !== "light_theme" && "offcanvasFroala"}`}>
+            <div className= {`froalaPlanOff ${theme !== "light_theme" && "offcanvasFroala"}`}>
               <FroalaEditor
                 ref={froalaRef}
                 config={{

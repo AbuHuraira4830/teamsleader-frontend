@@ -13,7 +13,7 @@ import { RxAvatar } from "react-icons/rx";
 
 import { Popover } from "antd";
 import LabelSelectionModal from "./Components/LabelSelectionModal";
-import AddColumnModal from "./Components/addColumnModal";
+import AddColumnModal from "./Components/AddColumnModal";
 import { getAPI, postAPI } from "../../../helpers/apis";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { Diversity2TwoTone } from "@mui/icons-material";

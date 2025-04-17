@@ -3,7 +3,7 @@ import { Table, Form, Button } from "react-bootstrap";
 import { FiPlus } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
 import { BiMessageRoundedAdd, BiChevronDown } from "react-icons/bi";
-import AddColumnModal from "../Pages/NewTeam/Components/addColumnModal";
+import AddColumnModal from "../Pages/NewTeam/Components/AddColumnModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { MdContentCopy } from "react-icons/md";

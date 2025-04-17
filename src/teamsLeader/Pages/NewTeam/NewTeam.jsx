@@ -46,7 +46,6 @@ import {
 } from "react-icons/hi";
 import { GoCheck, GoPencil } from "react-icons/go";
 import OffcanvasComponent from "./Components/Ofcanvas";
-// import AddColumnModal from "./Components/addColumnModal";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";

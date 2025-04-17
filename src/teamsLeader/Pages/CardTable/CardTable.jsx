@@ -14,7 +14,6 @@ import {
   BiChevronDown,
   BiSolidColorFill,
 } from "react-icons/bi";
-// import AddColumnModal from "./Components/addColumnModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useStateContext } from "../../../contexts/ContextProvider";
 import { MdContentCopy } from "react-icons/md";

@@ -19,7 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { Popover } from "antd";
 import LabelSelectionModal from "./Components/LabelSelectionModal";
-import AddColumnModal from "./Components/addColumnModal";
+import AddColumnModal from "./Components/AddColumnModal";
 // ... (existing imports)
 import { FaEye, FaEyeSlash, FaCopy } from "react-icons/fa";
 import { useStateContext } from "../../../contexts/ContextProvider";

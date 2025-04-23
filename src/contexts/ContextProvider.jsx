@@ -718,6 +718,19 @@ export const ContextProvider = ({ children }) => {
   //       console.error("Failed to fetch events:", error);
   //     });
   // }, [modalDataCalendar]);
+  
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await getAPI("/api/events");
+        setModalDataCalendar(response.data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+  
+    fetchEvents();
+  }, [modalDataCalendar]);
   const [selectedOption, setSelectedOption] = useState("Personal info");
   const [users, setUsers] = useState([]);
   const [members, setMembers] = useState(null);

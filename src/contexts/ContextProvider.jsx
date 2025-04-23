@@ -720,6 +720,8 @@ export const ContextProvider = ({ children }) => {
   // }, [modalDataCalendar]);
   
   useEffect(() => {
+    console.log("Fetching events...");
+  
     const fetchEvents = async () => {
       try {
         const response = await getAPI("/api/events");
@@ -730,7 +732,9 @@ export const ContextProvider = ({ children }) => {
     };
   
     fetchEvents();
-  }, [modalDataCalendar]);
+  }, []); // ✅ only runs once
+  
+  
   const [selectedOption, setSelectedOption] = useState("Personal info");
   const [users, setUsers] = useState([]);
   const [members, setMembers] = useState(null);

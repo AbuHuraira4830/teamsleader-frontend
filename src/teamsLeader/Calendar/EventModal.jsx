@@ -41,6 +41,8 @@ import { IoMdClose } from "react-icons/io";
 import ExtraNotePassword from "../../passwordManager/ExtraNotePassword";
 const { TextArea } = Input;
 import ExtraNoteEvent from "./ExtraNoteEvent";
+import { postAPI } from "../../helpers/api";
+
 
 const EventModal = ({ addNewStatusItem, statusItems }) => {
   const inputRef = useRef();
@@ -215,49 +217,37 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
     // setState(ranges.selection);
   };
   // =-=============================================
-  const handleCreateItem = () => {
-    // Gather information from the modal
+  const handleCreateItem = async () => {
     const modalData = {
-      inputText: inputValue, // Use the input value from state
+      inputText: inputValue,
       labelBackgroundColor: selectedStatus.bgColor,
       labelText: selectedStatus.labelText,
       startDate: state[0].startDate,
       endDate: state[0].endDate,
-      description: text, // Add the note text as the event description
+      description: text,
     };
-    // Check if the selectedStatus.labelText exists in statusItems
+  
+    // Add new status to list if it's not already present
     const existingStatus = statusItems.find(
       (item) => item.label === modalData.labelText
     );
-
+  
     if (!existingStatus) {
-      // If it does not exist, add it to the statusItems array in the parent
       addNewStatusItem({
         color: modalData.labelBackgroundColor,
         label: modalData.labelText,
       });
     }
-
-    fetch("api/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(modalData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Event stored temporarily:", data);
-        setModalInfo(modalData);
-        setShowEventModal(false);
-      })
-      .catch((error) => {
-        console.error("Error storing event:", error);
-      });
-
-    // setModalInfo(modalData);
-
-    // setShowEventModal(false);
+  
+    try {
+      const res = await postAPI("/api/events", modalData);
+      console.log("Event stored:", res.data);
+  
+      setModalInfo(modalData);
+      setShowEventModal(false);
+    } catch (error) {
+      console.error("Error storing event:", error);
+    }
   };
   return (
     <>

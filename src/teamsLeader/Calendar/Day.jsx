@@ -4,6 +4,8 @@ import Popover from "@mui/material/Popover";
 import { useStateContext } from "../../contexts/ContextProvider";
 import OffCanvasEvent from "./OffCanvasEvent";
 import AllEventsOffCanvas from "./AllEventsOffCanvas";
+import { postAPI, deleteAPI, putAPI } from "../../helpers/api";
+
 
 const Day = ({ day, rowIdx }) => {
   const {
@@ -83,59 +85,36 @@ const Day = ({ day, rowIdx }) => {
     setShowEventModal(true);
   };
 
-  const updateEvent = (id, newInputText) => {
+  const updateEvent = async (id, newInputText) => {
     const updatedEvent = {
       inputText: newInputText,
       // include other fields that might need updating
     };
-
-    fetch(`api/events/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedEvent),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Event updated:", data);
-        // setModalDataCalendar((currentEvents) =>
-        //   currentEvents.map((event) =>
-        //     event._id === id ? { ...event, inputText: newInputText } : event
-        //   )
-        // );
-      })
-      .catch((error) => {
-        console.error("Error updating event:", error);
-      });
+  
+    try {
+      const res = await putAPI(`/api/events/${id}`, updatedEvent);
+      console.log("Event updated:", res.data);
+  
+      // Optionally update local state:
+      // setModalDataCalendar((currentEvents) =>
+      //   currentEvents.map((event) =>
+      //     event._id === id ? { ...event, inputText: newInputText } : event
+      //   )
+      // );
+    } catch (error) {
+      console.error("Error updating event:", error);
+    }
   };
 
   // Function to delete an event
-  const deleteEvent = (id) => {
-    console.log("id sent", id);
-    // offCanvasOpenRef.current = true;
-
-    fetch(`http://localhost:8888/api/events/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        setShowOffCanvas(false);
-      })
-      .catch((error) => {
-        console.error("Error deleting event:", error);
-      });
+  const deleteEvent = async (id) => {
+    try {
+      console.log("id sent", id);
+      await deleteAPI(`/api/events/${id}`);
+      setShowOffCanvas(false);
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
   };
 
   return (

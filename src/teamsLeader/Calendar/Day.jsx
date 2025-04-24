@@ -4,7 +4,7 @@ import Popover from "@mui/material/Popover";
 import { useStateContext } from "../../contexts/ContextProvider";
 import OffCanvasEvent from "./OffCanvasEvent";
 import AllEventsOffCanvas from "./AllEventsOffCanvas";
-import { postAPI, deleteAPI, putAPI } from "../../helpers/api";
+import { getAPI, deleteAPI, putAPI } from "../../helpers/api";
 
 
 const Day = ({ day, rowIdx }) => {
@@ -14,6 +14,7 @@ const Day = ({ day, rowIdx }) => {
     modalDataCalendar,
     setModalDataCalendar,
     setModalInfo,
+    replaceModalInfo
   } = useStateContext();
   const cellRef = useRef(null); // Step 1: Create a ref
 
@@ -86,32 +87,30 @@ const Day = ({ day, rowIdx }) => {
   };
 
   const updateEvent = async (id, newInputText) => {
-    const updatedEvent = {
-      inputText: newInputText,
-      // include other fields that might need updating
-    };
-  
     try {
-      const res = await putAPI(`/api/events/${id}`, updatedEvent);
-      console.log("Event updated:", res.data);
+      await putAPI(`/api/events/${id}`, { inputText: newInputText });
   
-      // Optionally update local state:
-      // setModalDataCalendar((currentEvents) =>
-      //   currentEvents.map((event) =>
-      //     event._id === id ? { ...event, inputText: newInputText } : event
-      //   )
-      // );
+      const res = await getAPI("/api/events");
+  
+      // ✅ Replace the entire calendar event list
+      replaceModalInfo(res.data);
     } catch (error) {
       console.error("Error updating event:", error);
     }
   };
+  
 
   // Function to delete an event
   const deleteEvent = async (id) => {
     try {
       console.log("id sent", id);
       await deleteAPI(`/api/events/${id}`);
-      setShowOffCanvas(false);
+  
+      // ✅ Re-fetch and update calendar view
+      const res = await getAPI("/api/events");
+      replaceModalInfo(res.data); // or use refreshEvents()
+  
+      setShowOffCanvas(false); // close modal or side panel
     } catch (error) {
       console.error("Error deleting event:", error);
     }

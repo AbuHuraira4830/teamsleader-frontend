@@ -239,7 +239,7 @@ const Navbar = ({ user }) => {
         </span>
 
         <span className="centerIt ms-auto ">
-          {/* <Button
+          <Button
             className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1"
             onClick={() => navigate("/password-managment")}
           >
@@ -247,7 +247,7 @@ const Navbar = ({ user }) => {
           </Button>
           <Button className="p-0 workspace_menuBtn bgHover centerIt justify-content-center me-1">
             <AiOutlineBell />
-          </Button> */}
+          </Button>
           <Link
      to={`/workspace/${workspaceID}/team/${teamID}/inbox`}
 

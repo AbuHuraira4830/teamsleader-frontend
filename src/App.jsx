@@ -108,7 +108,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/password-managment" element={<PasswordTable />} /> */}
+        <Route path="/password-managment" element={<PasswordTable />} />
         <Route path="/popover" element={<PopoverStatus />} />
         <Route path="/testing" element={<Testing />} />
         {/* <Route path="/inbox" element={<ChatInbox />} /> */}

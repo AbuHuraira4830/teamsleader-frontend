@@ -328,6 +328,10 @@ export const ContextProvider = ({ children }) => {
     });
     setRows(updatedTableData);
   };
+  const replaceModalInfo = (data) => {
+    setModalDataCalendar(data); // Replaces the list instead of appending
+  };
+  
   const setModalInfo = (data) => {
     setModalDataCalendar((prevData) => [...prevData, data]);
   };
@@ -1071,6 +1075,7 @@ export const ContextProvider = ({ children }) => {
         setClickedCellInfo,
         modalDataCalendar,
         setModalInfo,
+        replaceModalInfo,
         setShowEventModal,
         showEventModal,
         monthIndex,

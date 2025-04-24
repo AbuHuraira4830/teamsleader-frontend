@@ -1,7 +1,9 @@
 import axios from "axios";
 
 // Use the backend base URL
-axios.defaults.baseURL = "https://teaamsleader-backend.onrender.com";
+axios.defaults.baseURL = "http://localhost:8888";
+
+// axios.defaults.baseURL = "https://teaamsleader-backend.onrender.com";
 
 // Optionally include token if you’re using it:
 // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token") || "";

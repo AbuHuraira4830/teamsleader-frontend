@@ -59,7 +59,7 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
 
   const [selectedPersons, setSelectedPersons] = useState([]);
 
-  const { showEventModal, setShowEventModal, setModalInfo, setClickedCell } =
+  const { showEventModal, setShowEventModal, setModalInfo, setClickedCell, setFilteredEvents , modalDataCalendar, searchTerm } =
     useStateContext();
   const [isHoveredPersoncCell, setIsHoveredPersonCell] = useState(false);
   const [zIndex, setZIndex] = useState(1);
@@ -225,9 +225,9 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
       startDate: state[0].startDate,
       endDate: state[0].endDate,
       description: text,
+      assignedPersons: [],
     };
   
-    // Add new status to list if it's not already present
     const existingStatus = statusItems.find(
       (item) => item.label === modalData.labelText
     );
@@ -241,14 +241,22 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
   
     try {
       const res = await postAPI("/api/events", modalData);
-      console.log("Event stored:", res.data);
+      const newEvent = res.data;
   
-      setModalInfo(modalData);
+      setModalInfo(newEvent); // ✅ Adds to main list
+  
+      // ✅ If user is not actively searching, also show this new event in the filtered view
+      if (!searchTerm || searchTerm.trim() === "") {
+        setFilteredEvents([]); // ✅ use modalDataCalendar instead
+      }
+      
+  
       setShowEventModal(false);
     } catch (error) {
       console.error("Error storing event:", error);
     }
   };
+  
   return (
     <>
       {/* ========================= */}

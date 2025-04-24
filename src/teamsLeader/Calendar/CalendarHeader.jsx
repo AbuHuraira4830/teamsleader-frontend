@@ -4,9 +4,28 @@ import { RxMagnifyingGlass } from "react-icons/rx";
 import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { getAPI } from "../../helpers/api";
 
 const CalendarHeader = ({ handleNextMonth, handlePreviousMonth, month }) => {
-  const { monthIndex, setMonthIndex } = useStateContext();
+  const { monthIndex, setMonthIndex, setFilteredEvents  } = useStateContext();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value.trim() === "") {
+      setFilteredEvents([]); // Clear filter
+      return;
+    }
+  
+    try {
+      const res = await getAPI(`/api/events/search?q=${value}`);
+      setFilteredEvents(res.data); // ✅ set globally
+    } catch (err) {
+      console.error("Search failed", err);
+    }
+  };
 
   const handleReset = () => {
     setMonthIndex(dayjs().month());
@@ -17,10 +36,13 @@ const CalendarHeader = ({ handleNextMonth, handlePreviousMonth, month }) => {
       <div className="flex position-relative align-items-center me-2 search_inputDiv">
         <RxMagnifyingGlass className="position-absolute ms-1 search_icon" />
         <Form.Control
-          type="text"
-          placeholder="Search"
-          className="px-4 py-1 shadow-none workspace_searchInput transparent_bg"
-        />
+  type="text"
+  placeholder="Search an event"
+  value={searchTerm}
+  onChange={handleSearch}
+  className="px-4 py-1 shadow-none workspace_searchInput transparent_bg"
+/>
+
       </div>
       <header className="flex items-center">
         <button

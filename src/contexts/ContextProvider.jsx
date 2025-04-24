@@ -320,6 +320,9 @@ export const ContextProvider = ({ children }) => {
   const [clickedCellInfo, setClickedCellInfo] = useState(null);
 
   const [selectAll, setSelectAll] = useState(false);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -1217,6 +1220,8 @@ export const ContextProvider = ({ children }) => {
         setDueDate,
         manualInvoiceNumber,
         setManualInvoiceNumber,
+        filteredEvents,      
+  setFilteredEvents, 
       }}
     >
       {children}

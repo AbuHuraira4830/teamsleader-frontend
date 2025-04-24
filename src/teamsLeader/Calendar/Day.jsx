@@ -14,7 +14,8 @@ const Day = ({ day, rowIdx }) => {
     modalDataCalendar,
     setModalDataCalendar,
     setModalInfo,
-    replaceModalInfo
+    replaceModalInfo,
+    filteredEvents
   } = useStateContext();
   const cellRef = useRef(null); // Step 1: Create a ref
 
@@ -27,12 +28,15 @@ const Day = ({ day, rowIdx }) => {
 
   const [showAllEventsOffCanvas, setShowAllEventsOffCanvas] = useState(false); // New state for showing all events OffCanvas
 
+  const activeEvents = filteredEvents.length > 0 ? filteredEvents : modalDataCalendar;
+
+
   const handleShowAllEventsClick = (e) => {
     e.stopPropagation();
     setShowAllEventsOffCanvas(true);
   };
 
-  const eventsForDay = modalDataCalendar.filter((range) =>
+  const eventsForDay = activeEvents.filter((range) =>
     dayjs(day).isBetween(
       dayjs(range.startDate),
       dayjs(range.endDate),
@@ -118,72 +122,52 @@ const Day = ({ day, rowIdx }) => {
 
   return (
     <>
-      <div
-        className={`Border flex flex-col bg-[var(--sidebar-background-color)] color-[var(--text-color)] calendar_table_cell ${
-          rowIdx === 0 ? "first_row" : "other_rows"
-        } ${
-          modalDataCalendar.some((range) =>
-            dayjs(day).isBetween(
-              dayjs(range.startDate),
-              dayjs(range.endDate),
-              null,
-              "[]"
-            )
-          )
-            ? "event-added"
-            : ""
-        }`}
-        ref={cellRef}
-        onClick={handleDayClick}
-      >
-        <header className="flex flex-col ">
-          {rowIdx === 0 && (
-            <div className="text-sm text-center mt-1  border-b border-[var(--border-color)]  pb-1 w-full relative z-30	">
-              {day.format("ddd").toUpperCase()}
-            </div>
-          )}
-          {isCurrentMonth && (
-            <p
-              className={`  relative z-30 text-sm  my-1 text-right   ${getCurrentDayClass()}`}
-            >
-              {day.format("DD")}
-              {/* Display up to the first two events */}
-              {modalDataCalendar
-                .filter((range) =>
-                  dayjs(day).isBetween(
-                    dayjs(range.startDate),
-                    dayjs(range.endDate),
-                    null,
-                    "[]"
-                  )
-                )
-                .slice(0, 2)
-                .map((range, index) => (
-                  <div
-                    key={index}
-                    onClick={handleEventClick(range)}
-                    className={`h-[24px] w-[101%] flex justify-center items-center mt-[.3rem] rounded`}
-                    style={{ background: `${range.labelBackgroundColor}` }}
-                  >
-                    {isCenterCell(range) && (
-                      <>
-                        <span className="text-white">{range.inputText}</span>
-                      </>
-                    )}
-                  </div>
-                ))}
-              {moreEventsCount > 0 && (
-                <div
-                  onClick={handleShowAllEventsClick}
-                  className="text-sm text-blue-600 cursor-pointer hover:underline text-gray-600"
-                >
-                  +{moreEventsCount} more
-                </div>
-              )}
-            </p>
-          )}
-        </header>
+    <div
+  className={`Border flex flex-col bg-[var(--sidebar-background-color)] color-[var(--text-color)] calendar_table_cell ${
+    rowIdx === 0 ? "first_row" : "other_rows"
+  } ${eventsForDay.length > 0 ? "event-added" : ""}`}
+  ref={cellRef}
+  onClick={handleDayClick}
+>
+  <header className="flex flex-col">
+    {rowIdx === 0 && (
+      <div className="text-sm text-center mt-1 border-b border-[var(--border-color)] pb-1 w-full relative z-30">
+        {day.format("ddd").toUpperCase()}
       </div>
+    )}
+
+    {isCurrentMonth && (
+      <p className={`relative z-30 text-sm my-1 text-right ${getCurrentDayClass()}`}>
+        {day.format("DD")}
+
+        {/* ✅ Display up to first two events */}
+        {eventsForDay.slice(0, 2).map((range, index) => (
+          <div
+            key={index}
+            onClick={handleEventClick(range)}
+            className="h-[24px] w-[101%] flex justify-center items-center mt-[.3rem] rounded"
+            style={{ background: range.labelBackgroundColor }}
+          >
+            {isCenterCell(range) && (
+              <span className="text-white">{range.inputText}</span>
+            )}
+          </div>
+        ))}
+
+        {/* ✅ Show "+x more" if needed */}
+        {eventsForDay.length > 2 && (
+          <div
+            onClick={handleShowAllEventsClick}
+            className="text-sm text-blue-600 cursor-pointer hover:underline text-gray-600"
+          >
+            +{eventsForDay.length - 2} more
+          </div>
+        )}
+      </p>
+    )}
+  </header>
+</div>
+
 
       {showOffCanvas && (
         // <OffCanvasEvent

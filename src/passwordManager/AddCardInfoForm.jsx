@@ -39,10 +39,9 @@ const AddCardInfoForm = ({
   }, [fullName, cardNumber, expiryDate, cvv]);
 
   const handleSaveCardInfo = () => {
-    // Example validation for card number: Check if it's a valid credit card number
-    const cardNumberRegex = /^\d{16}$/; // Assuming a 16-digit card number
+    // Validation logic (already correct)
+    const cardNumberRegex = /^\d{16}$/;
     if (!cardNumberRegex.test(cardNumber)) {
-      // Invalid card number
       setCardNumberError("*Invalid card number");
       setExpiryDateError("");
       setCvvError("");
@@ -50,30 +49,24 @@ const AddCardInfoForm = ({
     } else {
       setCardNumberError("");
     }
-
-    // Example validation for expiry date: Check if it's in the MM/YYYY format
-    const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; // MM/YY format
+  
+    const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
     if (!expiryDateRegex.test(expiryDate)) {
-      // Invalid expiry date format
       setCardNumberError("");
-      setExpiryDateError(
-        "*Invalid expiry date format. Please use MM/YY format (e.g., 04/29)."
-      );
+      setExpiryDateError("*Invalid expiry date format. Please use MM/YY format (e.g., 04/29).");
       setCvvError("");
       return;
     } else {
       setExpiryDateError("");
     }
-
-    // Additional expiry date validation, e.g., check if it's not expired
+  
     const currentDate = new Date();
     const [expiryMonth, expiryYear] = expiryDate
       .split("/")
       .map((part) => parseInt(part, 10));
     const expiryDateObj = new Date(2000 + expiryYear, expiryMonth - 1);
-
+  
     if (isNaN(expiryDateObj.getTime()) || expiryDateObj < currentDate) {
-      // Invalid expiry date
       setCardNumberError("");
       setExpiryDateError("*Your card is expired");
       setCvvError("");
@@ -81,11 +74,9 @@ const AddCardInfoForm = ({
     } else {
       setExpiryDateError("");
     }
-
-    // Example validation for CVV: Check if it's a 3-digit number
+  
     const cvvRegex = /^\d{3}$/;
     if (!cvvRegex.test(cvv)) {
-      // Invalid CVV
       setCardNumberError("");
       setExpiryDateError("");
       setCvvError("*Invalid CVV (3 digits cvv only)");
@@ -93,15 +84,13 @@ const AddCardInfoForm = ({
     } else {
       setCvvError("");
     }
-
-    // Handle form submission logic here
-    // onSaveCard({
-    //   templateName,
-    //   cardNumber,
-
-    // });
+  
+    // 🛠 Add workspace_uuid just like password save
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
     const data = {
       tableID: passwordTableID,
+      workspace_uuid, // ✅ Add workspace_uuid here
       name: fullName,
       card: cardNumber,
       date: expiryDate,
@@ -109,6 +98,7 @@ const AddCardInfoForm = ({
       ownerColor: thisUser.profileColor,
       ownerPicture: thisUser.picture,
     };
+  
     postAPI("/api/password-row/store", data)
       .then((res) => {
         console.log(res);
@@ -117,24 +107,24 @@ const AddCardInfoForm = ({
       .catch((err) => {
         console.log(err);
       });
-    // handleSaveNewCard({
-    //   id: uuidv4().replace(/[^\d]/g, ""),
-    //   selected: false,
-    //   fullName: fullName,
-    //   cardNumber: cardNumber,
-    //   cvvCode: cvv,
-    //   expDate: expiryDate,
-    // });
+  
     handleClose();
   };
+
+
+  
   const handleUpdatePassword = () => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
     const data = {
       tableID: passwordTableID,
+      workspace_uuid, // ✅ Add workspace_uuid here
       name: fullName,
       card: cardNumber,
       date: expiryDate,
       cvv: cvv,
     };
+  
     postAPI(`/api/password-row/update/${selectedPasswordRow._id}`, data)
       .then((res) => {
         setPasswordTables(res.data.tables);
@@ -143,8 +133,12 @@ const AddCardInfoForm = ({
       .catch((err) => {
         console.log(err);
       });
+  
     handleClose();
   };
+  
+
+  
   return (
     <>
       {/* ===================================================== */}

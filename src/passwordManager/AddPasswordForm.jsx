@@ -47,72 +47,68 @@ const AddPasswordForm = ({
       url?.trim() !== "";
     setIsSaveButtonEnabled(isButtonEnabled);
   }, [templateName, email, confirmedPassword, url]);
-  const handleSavePassword = () => {
-    // Password validation logic
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    const isPasswordValid = passwordRegex.test(password);
 
-    if (password.length <= 5) {
-      setLengthError("*Password length should be greater than five.");
-      setPasswordError("");
-      return; // Prevent further execution if the password length is less than or equal to 5
-    } else {
-      setLengthError("");
-    }
 
-    if (!isPasswordValid) {
-      setPasswordError(
-        "*Your Password must contain at least one uppercase, one lowercase letter, and a number."
-      );
-      return; // Prevent further execution if the password is invalid
-    }
-    if (password !== confirmedPassword) {
-      setMatchError("*Passwords do not match.");
-      return; // Prevent further execution if passwords do not match
-    } else {
-      setMatchError("");
-    }
-    if (url.trim() === "") {
-      setUrlError("*URL is required");
-      return;
-    } else {
-      setUrlError("");
-    }
 
-    // Handle form submission logic here
-    // onSavePassword({
-    //   templateName,
-    //   email,
-    // });
-    // handleSaveNewPassword({
-    //   id: uuidv4().replace(/[^\d]/g, ""),
-    //   selected: false,
-    //   task: templateName,
-    //   password: password,
-    //   url: { text: templateName, link: url },
-    //   // ... other properties
-    // });
-    const data = {
-      tableID: passwordTableID,
-      name: templateName,
-      email: email,
-      password: password,
-      url: url,
-      note: extraNote,
-      ownerColor: thisUser.profileColor,
-      ownerPicture: thisUser.picture,
-    };
-    postAPI("/api/password-row/store", data)
-      .then((res) => {
-        console.log(res);
-        setPasswordTables(res.data.tables);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // setPageView(0);
-    handleClose();
+ const handleSavePassword = () => {
+  // Password validation logic
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+  const isPasswordValid = passwordRegex.test(password);
+
+  if (password.length <= 5) {
+    setLengthError("*Password length should be greater than five.");
+    setPasswordError("");
+    return;
+  } else {
+    setLengthError("");
+  }
+
+  if (!isPasswordValid) {
+    setPasswordError(
+      "*Your Password must contain at least one uppercase, one lowercase letter, and a number."
+    );
+    return;
+  }
+  if (password !== confirmedPassword) {
+    setMatchError("*Passwords do not match.");
+    return;
+  } else {
+    setMatchError("");
+  }
+  if ((url || "").trim() === "") {
+    setUrlError("*URL is required");
+    return;
+  } else {
+    setUrlError("");
+  }
+  
+
+  const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+
+  const data = {
+    tableID: passwordTableID,
+    workspace_uuid, // ✅ ADD THIS
+    name: templateName,
+    email: email,
+    password: password,
+    url: url,
+    note: extraNote,
+    ownerColor: thisUser.profileColor,
+    ownerPicture: thisUser.picture,
   };
+
+  postAPI("/api/password-row/store", data)
+    .then((res) => {
+      console.log(res);
+      setPasswordTables(res.data.tables);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  handleClose();
+};
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setPasswordError(""); // Reset password error on input change
@@ -146,25 +142,31 @@ const AddPasswordForm = ({
   };
   const handleUpdatePassword = () => {
     console.log(selectedPasswordRow);
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
     const data = {
       tableID: passwordTableID,
+      workspace_uuid, // ✅ include this
       name: templateName,
       email: email,
       password: password,
       url: url,
       note: extraNote,
     };
+  
     postAPI(`/api/password-row/update/${selectedPasswordRow._id}`, data)
       .then((res) => {
-        console.log("res.data.tables");
+        console.log("Password row updated", res.data.tables);
         setPasswordTables(res.data.tables);
         setSelectedPasswordRow(null);
       })
       .catch((err) => {
         console.log(err);
       });
+  
     handleClose();
   };
+  
   return (
     <>
       <div>

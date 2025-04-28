@@ -62,6 +62,8 @@ const CalendarWrapper = () => {
   };
   const [currentMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal, setMonthIndex } = useStateContext();
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   const handlePreviousMonth = () => {
     setMonthIndex((prevIndex) => prevIndex - 1);
@@ -86,9 +88,11 @@ const CalendarWrapper = () => {
           handlePreviousMonth={handlePreviousMonth}
           handleNextMonth={handleNextMonth}
           month={currentMonth}
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
         />
         <div className="flex flex-1 ">
-          <Month month={currentMonth} />
+          <Month month={currentMonth} searchTerm={searchTerm}/>
         </div>
 
         <div className="flex justify-center items-center calendar_dateRange">

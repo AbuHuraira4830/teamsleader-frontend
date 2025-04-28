@@ -14,12 +14,15 @@ const PasswordTable = () => {
   const [iconRotation, setIconRotation] = useState(0);
 
   const handleAddPasswordsClick = (type) => {
-    // setPasswordComponentCount((prevCount) => prevCount + 1);
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
     const data = {
       name: type,
       color: "#00854d",
       type,
+      workspace_uuid, // ✅ ADD THIS
     };
+  
     postAPI(`/api/password-table/store`, data)
       .then((response) => {
         setPasswordTables(response.data.tables);
@@ -28,6 +31,7 @@ const PasswordTable = () => {
         console.log(err);
       });
   };
+  
   useEffect(() => {
     getAPI(`/api/password-table/list`)
       .then((res) => {

@@ -218,7 +218,12 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
   };
   // =-=============================================
   const handleCreateItem = async () => {
+    // Safe workspace_uuid fetch
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
+    
     const modalData = {
+      workspace_uuid, // ✅ safely assigned
       inputText: inputValue,
       labelBackgroundColor: selectedStatus.bgColor,
       labelText: selectedStatus.labelText,
@@ -243,19 +248,19 @@ const EventModal = ({ addNewStatusItem, statusItems }) => {
       const res = await postAPI("/api/events", modalData);
       const newEvent = res.data;
   
-      setModalInfo(newEvent); // ✅ Adds to main list
+      setModalInfo(newEvent);
   
-      // ✅ If user is not actively searching, also show this new event in the filtered view
       if (!searchTerm || searchTerm.trim() === "") {
-        setFilteredEvents([]); // ✅ use modalDataCalendar instead
+        setFilteredEvents([]);
       }
-      
   
       setShowEventModal(false);
     } catch (error) {
       console.error("Error storing event:", error);
     }
   };
+  
+  
   
   return (
     <>

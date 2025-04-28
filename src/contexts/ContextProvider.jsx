@@ -714,34 +714,42 @@ export const ContextProvider = ({ children }) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(modalShow?.file);
   const [commentsArray, setCommentsArray] = useState([]);
   const [repliesArray, setRepliesArray] = useState([]);
-  // useEffect(() => {
-  //   fetch("http://localhost:8888/api/events")
-  //   fetch("/api/events")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setModalDataCalendar(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to fetch events:", error);
-  //     });
-  // }, [modalDataCalendar]);
+ 
   
   useEffect(() => {
-    console.log("Fetching events...");
-  
     const fetchEvents = async () => {
       try {
-        const response = await getAPI("/api/events");
-        setModalDataCalendar(response.data);
+        const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+        const res = await getAPI(`/api/events?workspace_uuid=${workspace_uuid}`);
+        const safeArray = Array.isArray(res.data) ? res.data : [];
+        setModalDataCalendar(safeArray); // ✅ Save full event list once
       } catch (error) {
-        console.error("Failed to fetch events:", error);
+        console.error("Error fetching events:", error);
       }
     };
   
     fetchEvents();
-  }, []); // ✅ only runs once
+  }, []);
   
   
+  
+  
+  // useEffect(() => {
+  //   console.log("Fetching events...");
+  
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await getAPI("/api/events");
+  //       setModalDataCalendar(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch events:", error);
+  //     }
+  //   };
+  
+  //   fetchEvents();
+  // }, []);
+  
+
   const [selectedOption, setSelectedOption] = useState("Personal info");
   const [users, setUsers] = useState([]);
   const [members, setMembers] = useState(null);
@@ -765,14 +773,7 @@ export const ContextProvider = ({ children }) => {
         console.error("Failed to fetch user data:", error);
       });
 
-    // fetch("http://localhost:8888/api/events")
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setModalDataCalendar(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Failed to fetch events:", error);
-    //   });
+
   }, []);
   const fetchTeamMembersAndHolidays = async () => {
     try {

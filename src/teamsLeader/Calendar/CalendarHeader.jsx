@@ -6,26 +6,44 @@ import dayjs from "dayjs";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { getAPI } from "../../helpers/api";
 
-const CalendarHeader = ({ handleNextMonth, handlePreviousMonth, month }) => {
+const CalendarHeader = ({ handleNextMonth, handlePreviousMonth, month, searchTerm, setSearchTerm }) => {
   const { monthIndex, setMonthIndex, setFilteredEvents  } = useStateContext();
-  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = async (e) => {
     const value = e.target.value;
     setSearchTerm(value);
   
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+  
     if (value.trim() === "") {
-      setFilteredEvents([]); // Clear filter
+      setFilteredEvents([]); // ✅ clear search, no API call needed
       return;
     }
   
     try {
-      const res = await getAPI(`/api/events/search?q=${value}`);
-      setFilteredEvents(res.data); // ✅ set globally
+      const res = await getAPI(`/api/events/search?q=${value}&workspace_uuid=${workspace_uuid}`);
+      const safeArray = Array.isArray(res.data) ? res.data : [];
+  
+      const exactMatchEvents = safeArray.filter(event =>
+        event.inputText.toLowerCase().includes(value.trim().toLowerCase())
+      );
+  
+      setFilteredEvents(exactMatchEvents); // ✅ update search results
     } catch (err) {
       console.error("Search failed", err);
+      setFilteredEvents([]);
     }
   };
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   const handleReset = () => {
     setMonthIndex(dayjs().month());

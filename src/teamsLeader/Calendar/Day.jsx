@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import dayjs from "dayjs";
 import Popover from "@mui/material/Popover";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -7,7 +7,7 @@ import AllEventsOffCanvas from "./AllEventsOffCanvas";
 import { getAPI, deleteAPI, putAPI } from "../../helpers/api";
 
 
-const Day = ({ day, rowIdx }) => {
+const Day = ({ day, rowIdx, searchTerm }) => {
   const {
     setShowEventModal,
     monthIndex,
@@ -25,10 +25,35 @@ const Day = ({ day, rowIdx }) => {
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const [currentEvent, setCurrentEvent] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const isSearching = searchTerm.trim() !== "";
 
   const [showAllEventsOffCanvas, setShowAllEventsOffCanvas] = useState(false); // New state for showing all events OffCanvas
+  const activeEvents = useMemo(() => {
+    if (filteredEvents.length > 0) {
+      return filteredEvents;
+    }
+    return modalDataCalendar;
+  }, [filteredEvents, modalDataCalendar]);
+  
 
-  const activeEvents = filteredEvents.length > 0 ? filteredEvents : modalDataCalendar;
+console.log("Active Events Rendering:", activeEvents); // 👈 log
+
+
+
+
+// ✅ This finds events for a specific day
+const eventsForDay = activeEvents.filter((range) =>
+  dayjs(day).isBetween(
+    dayjs(range.startDate),
+    dayjs(range.endDate),
+    null,
+    "[]"
+  )
+);
+
+
+
+
 
 
   const handleShowAllEventsClick = (e) => {
@@ -36,14 +61,7 @@ const Day = ({ day, rowIdx }) => {
     setShowAllEventsOffCanvas(true);
   };
 
-  const eventsForDay = activeEvents.filter((range) =>
-    dayjs(day).isBetween(
-      dayjs(range.startDate),
-      dayjs(range.endDate),
-      null,
-      "[]"
-    )
-  );
+ 
   const moreEventsCount = eventsForDay.length - 2;
 
   const open = Boolean(anchorEl);
@@ -92,33 +110,35 @@ const Day = ({ day, rowIdx }) => {
 
   const updateEvent = async (id, newInputText) => {
     try {
-      await putAPI(`/api/events/${id}`, { inputText: newInputText });
-  
-      const res = await getAPI("/api/events");
-  
-      // ✅ Replace the entire calendar event list
-      replaceModalInfo(res.data);
+      const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
+    
+      await putAPI(`/api/events/${id}?workspace_uuid=${workspace_uuid}`, { inputText: newInputText });
+    
+      const res = await getAPI(`/api/events?workspace_uuid=${workspace_uuid}`);
+      const safeArray = Array.isArray(res.data) ? res.data : [];
+      replaceModalInfo(safeArray);
     } catch (error) {
       console.error("Error updating event:", error);
     }
   };
   
-
-  // Function to delete an event
   const deleteEvent = async (id) => {
     try {
-      console.log("id sent", id);
-      await deleteAPI(`/api/events/${id}`);
+      const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "temporary-workspace-uuid";
   
-      // ✅ Re-fetch and update calendar view
-      const res = await getAPI("/api/events");
-      replaceModalInfo(res.data); // or use refreshEvents()
+      await deleteAPI(`/api/events/${id}?workspace_uuid=${workspace_uuid}`);
   
-      setShowOffCanvas(false); // close modal or side panel
+      const res = await getAPI(`/api/events?workspace_uuid=${workspace_uuid}`);
+      const safeArray = Array.isArray(res.data) ? res.data : [];
+      replaceModalInfo(safeArray);
+  
+      setShowOffCanvas(false);
     } catch (error) {
       console.error("Error deleting event:", error);
     }
   };
+  
+  
 
   return (
     <>

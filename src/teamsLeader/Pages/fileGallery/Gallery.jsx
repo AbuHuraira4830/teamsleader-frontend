@@ -19,9 +19,16 @@ const Gallery = () => {
         });
   }, []);
   const handleAddGallery = () => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     postAPI(`/api/gallery/store`, {
       name: "File Gallery",
       teamID: selectedTeam?._id,
+      workspace_uuid,
+
     })
       .then((res) => {
         setTeamTasks(res.data.team);

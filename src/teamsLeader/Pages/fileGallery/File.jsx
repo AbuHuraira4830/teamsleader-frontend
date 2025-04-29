@@ -32,7 +32,6 @@ const File = ({ file, fileView, onDelete, uploadedFiles, index }) => {
     getAPI(`/api/download-single-file-s3?keys=${keys}`)
       .then((res) => {
         const downloadUrl = res.data?.downloadUrls;
-        console.log(res.data);
         fetch(downloadUrl)
           .then((response) => response.blob())
           .then((blob) => {

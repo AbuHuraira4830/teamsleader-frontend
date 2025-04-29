@@ -294,13 +294,19 @@ export const NewTeam = () => {
 
   const handleKeyPress = (event, id, newItemInput, firstTask) => {
     if (event.key === "Enter") {
+      const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
       let data = {
+        workspace_uuid,
         teamID: teamTasks._id,
         title: newItemInput,
         tableID: id,
         firstTaskID: firstTask,
-        ownerColor: thisUser.profileColor,
-        ownerPicture: thisUser.picture,
+        ownerColor: thisUser?.profileColor||'',
+        ownerPicture: thisUser?.picture||'',
       };
       postAPI("/api/tasks/store", data)
         .then((response) => {
@@ -448,9 +454,16 @@ export const NewTeam = () => {
   };
 
   const handleAddGallery = () => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     postAPI(`/api/gallery/store`, {
       name: "File Gallery",
       teamID: selectedTeam?._id,
+      workspace_uuid,
+
     })
       .then((res) => {
         setTeamTasks(res.data.team);
@@ -550,8 +563,13 @@ export const NewTeam = () => {
     // New column's sequence number is one more than the current maximum
     const newColumnSequence = currentMaxSequence + 1;
     console.log(newColumnSequence, newColumnSequence);
-
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     let data = {
+      workspace_uuid,
       name: columnName,
       teamID: teamTasks._id,
       workspaceID: selectedWorkspace._id,
@@ -825,7 +843,13 @@ export const NewTeam = () => {
       });
   }, []);
   const addTodoList = () => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     const data = {
+      workspace_uuid,
       name: "Group Title",
       color: "#00854d",
       teamID: teamTasks._id,

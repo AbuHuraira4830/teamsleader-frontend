@@ -172,7 +172,13 @@ const NewTable = ({
       });
   };
   const duplicateRow = (id) => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     postAPI(`/api/task/duplicate/${id}`, {
+      workspace_uuid,
       tableID: table._id,
       teamID: teamTasks._id,
     }) // Assuming teamTasks contains the team ID
@@ -187,7 +193,13 @@ const NewTable = ({
       });
   };
   const CreateTaskBelow = (id) => {
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     postAPI(`/api/task/create-task-below/${id}`, {
+      workspace_uuid,
       teamID: teamTasks._id,
       tableID: table._id,
     }) // Assuming teamTasks contains the team ID
@@ -339,7 +351,16 @@ const NewTable = ({
   };
   // console.log(teamTasks)
   const inviteMember = (email, task) => {
+    if (!email) {
+      return;
+    }
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     postAPI(`/api/invite-to-task`, {
+      workspace_uuid,
       email,
       userName: thisUser.fullName,
       profileColor: colors[Math.floor(Math.random() * colors.length)],

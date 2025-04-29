@@ -145,7 +145,13 @@ const Calendars = ({ setMyHolidayRequests }) => {
     if (selectedRange && timeOffName) {
       const startDate = dayjs(selectedRange[0]).format("YYYY-MM-DD");
       const endDate = dayjs(selectedRange[1]).format("YYYY-MM-DD");
+      const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
       const data = {
+        workspace_uuid,
         holidayName: timeOffName,
         holidayReason: reasonNote,
         status: { color: "#FFAE42", bgColor: "#FFFAA0", value: "Pending" },

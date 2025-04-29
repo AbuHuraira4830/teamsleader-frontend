@@ -93,12 +93,16 @@ const FileUploader = ({ handleClose }) => {
         key: key,
         refID: selectedTask,
       });
-
-      console.log(URL);
+    }
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
     }
     const data = {
       files: updatedFiles,
       refID: selectedTask,
+      workspace_uuid,
     };
     postAPI("/api/files/store", data)
       .then((res) => {

@@ -42,10 +42,19 @@ export default function LabelSelectionModal({
   };
 
   const handleNewLabel = () => {
-    // console.log("createdstatus");
-    // Adding a new label with an empty id
-    const data = { text: "", color: "#BCBDBE" };
-    setEditedLabels([...editedLabels, data]);
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
+    const updatedLabels = editedLabels.map((label) => {
+      if (!label.workspace_uuid) {
+        return { ...label, workspace_uuid };
+      }
+      return label;
+    })
+    const data = {workspace_uuid, text: "", color: "#BCBDBE" ,};
+    setEditedLabels([...updatedLabels, data]);
   };
 
   const applyChanges = () => {

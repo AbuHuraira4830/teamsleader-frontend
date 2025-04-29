@@ -168,7 +168,7 @@ const MemberInvitationPopup = ({
                           color: "white",
                         }}
                       >
-                        {user.name[0].toUpperCase()}
+                        {user.name ? user?.name[0].toUpperCase():""}
                       </div>
                     )}
                     <p className="px-2" style={{ fontSize: "12px" }}>

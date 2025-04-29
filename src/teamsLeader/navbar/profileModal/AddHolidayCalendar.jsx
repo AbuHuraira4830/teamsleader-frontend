@@ -91,7 +91,11 @@ const AddHolidayCalender = () => {
     if (timeOffName && selectedRange && checkedList.length !== 0) {
       const startDate = dayjs(selectedRange[0]).format("YYYY-MM-DD");
       const endDate = dayjs(selectedRange[1]).format("YYYY-MM-DD");
-
+      const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+      if (!workspace_uuid) {
+        console.error("Cannot create event without workspace UUID.");
+        return;
+      }  
       const now = new Date();
       const options = { day: "numeric", month: "short", year: "numeric" };
       const date = now.toLocaleDateString("en-US", options);
@@ -106,6 +110,7 @@ const AddHolidayCalender = () => {
       const newUpdate = `${thisUser.fullName} added ${timeOffName} for ${numberOfDays} days on ${date} at ${time}`;
 
       postAPI("/api/members/add-holiday", {
+        workspace_uuid,
         emailAddresses: checkedList,
         allUsers: users.map((user) => user.email),
         type: timeOffName,

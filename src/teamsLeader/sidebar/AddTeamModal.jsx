@@ -69,8 +69,13 @@ const AddTeamModal = ({ handleClose, show, setTeams, teams = [] }) => {
 
     setIsLoading(true);
     submitButton.current.disabled = true;
-
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     let data = {
+      workspace_uuid,
       name: teamInputValue,
       privacy: privacyValue,
       manage: teamManageValue,

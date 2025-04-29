@@ -107,12 +107,16 @@ const FileGallery = ({ gallery }) => {
         key: key,
         refID: gallery._id,
       });
-
-      console.log(URL);
+    }
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
     }
     const data = {
       files: updatedFiles,
       refID: gallery._id,
+      workspace_uuid,
     };
     postAPI("/api/files/store", data)
       .then((res) => {

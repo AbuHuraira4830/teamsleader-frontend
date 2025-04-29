@@ -397,8 +397,13 @@ const AddColumnModal = ({
 
     // New column's sequence number is one more than the current maximum
     const newColumnSequence = currentMaxSequence + 1;
-
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     let data = {
+      workspace_uuid,
       name: columnName,
       teamID: teamTasks._id,
       workspaceID: selectedWorkspace._id,

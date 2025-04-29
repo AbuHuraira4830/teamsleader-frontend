@@ -338,7 +338,13 @@ const OffcanvasComponent = ({ show, handleClose }) => {
   // };
 
   const handleUpdateButtonClick = () => {
-    const comment = { taskID: selectedTask, data: editorContent };
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
+
+    const comment = {workspace_uuid, taskID: selectedTask, data: editorContent };
     if (editorContent) {
       postAPI("/api/comment/store", comment)
         .then((res) => {
@@ -380,7 +386,13 @@ const OffcanvasComponent = ({ show, handleClose }) => {
 
   const handleReplyButtonClick = (id) => {
     const { replyText, replyGif, fileData } = replyInput;
+    const workspace_uuid = typeof objCurrentWorkspace !== 'undefined' ? objCurrentWorkspace.uuid : "id will be here";
+    if (!workspace_uuid) {
+      console.error("Cannot create event without workspace UUID.");
+      return;
+    }
     const data = {
+      workspace_uuid,
       taskID: selectedTask,
       commentID: id,
       replyText,
